@@ -1,0 +1,34 @@
+
+name: Vite Build
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Vite
+     
+    - name: Set up Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: '21'
+
+    - name: Install pnpm
+      run: npm install -g pnpm
+
+    - name: Install frontend dependencies with pnpm
+      
+      run: |
+        pnpm install
+
+    - name: Build frontend with pnpm
+      run: |
+        pnpm build
