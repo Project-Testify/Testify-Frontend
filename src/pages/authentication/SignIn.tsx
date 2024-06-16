@@ -47,9 +47,9 @@ export const SignInPage = () => {
       content: 'Login successful',
     });
 
-    setTimeout(() => {
+    // setTimeout(() => {
       navigate(PATH_DASHBOARD.default);
-    }, 5000);
+    // }, 5000);
   };
 
   const onFinishFailed = (errorInfo: any) => {
@@ -68,11 +68,11 @@ export const SignInPage = () => {
         >
           <Logo color="white" />
           <Title level={2} className="text-white">
-            Welcome back to Antd Admin
+            Welcome back to Testify
           </Title>
           <Text className="text-white" style={{ fontSize: 18 }}>
-            A dynamic and versatile multipurpose dashboard utilizing Ant Design,
-            React, TypeScript, and Vite.
+            Log in to start your journey with our secure and seamless online
+            exams.
           </Text>
         </Flex>
       </Col>

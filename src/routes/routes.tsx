@@ -36,7 +36,10 @@ import {
   WelcomePage,
   LearningDashboardPage,
   LogisticsDashboardPage,
+  
 } from '../pages';
+import { TestPage } from '../pages/testTemplate/TestPage';
+import { OrgAdminPage } from '../pages/dashboards/OrgAdmin.tsx';
 import {
   CorporateLayout,
   DashboardLayout,
@@ -79,6 +82,18 @@ const PageWrapper = ({ children }: PageProps) => {
 const router = createBrowserRouter([
   {
     path: '/',
+    element: <SignInPage />,
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        index: true,
+        path: '',
+        element: <HomePage />,
+      },
+    ],
+  },
+  {
+    path: '/home',
     element: <PageWrapper children={<GuestLayout />} />,
     errorElement: <ErrorPage />,
     children: [
@@ -98,6 +113,11 @@ const router = createBrowserRouter([
         index: true,
         path: 'default',
         element: <DefaultDashboardPage />,
+      },
+      {
+        index: true,
+        path: 'orgadmin',
+        element: <OrgAdminPage />,
       },
       {
         path: 'projects',
@@ -278,6 +298,18 @@ const router = createBrowserRouter([
         index: true,
         path: '',
         element: <AboutPage />,
+      },
+    ],
+  },
+  {
+    path: '/test',
+    element: <PageWrapper children={<DashboardLayout />} />,
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        index: true,
+        path: '',
+        element: <TestPage/>,
       },
     ],
   },

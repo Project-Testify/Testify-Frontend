@@ -3,6 +3,8 @@ function path(root: string, sublink: string) {
 }
 
 const ROOTS_LANDING = '/';
+const ROOTS_HOME = '/home';
+const ROOTS_TEST = '/test';
 const ROOTS_DASHBOARD = '/dashboards';
 const ROOTS_SITEMAP = '/sitemap';
 const ROOTS_LAYOUT = '/layouts';
@@ -30,6 +32,13 @@ export const PATH_LANDING = {
   pricing: '/pricing',
   about: '/about',
   contact: '/contact',
+};
+
+export const PATH_HOME = {
+  root: ROOTS_HOME
+};
+export const PATH_TEST = {
+  root: ROOTS_TEST
 };
 
 export const PATH_DASHBOARD = {

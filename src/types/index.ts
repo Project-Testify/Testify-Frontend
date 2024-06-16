@@ -39,7 +39,11 @@ import type { Pricing } from './pricing';
 import type { Session } from './session';
 import type { ActivityTimeline } from './timeline';
 
+import type { Exams } from './exams.ts';
+
+
 export type {
+  Exams,
   Projects,
   ProjectStatus,
   ProjectCategory,

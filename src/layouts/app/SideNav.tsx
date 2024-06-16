@@ -16,6 +16,7 @@ import {
 import { Logo } from '../../components';
 import { Link, useLocation } from 'react-router-dom';
 import {
+
   PATH_ABOUT,
   PATH_AUTH,
   PATH_CORPORATE,
@@ -28,6 +29,7 @@ import {
   PATH_USER_PROFILE,
 } from '../../constants';
 import { COLOR } from '../../App.tsx';
+import { PATH_HOME, PATH_TEST } from '../../constants/routes.ts';
 
 const { Sider } = Layout;
 
@@ -50,6 +52,11 @@ const getItem = (
 };
 
 const items: MenuProps['items'] = [
+  getItem(
+    <Link to={PATH_TEST.root}>Test</Link>,
+    'test',
+    <InfoCircleOutlined />
+  ),
   getItem('Dashboards', 'dashboards', <PieChartOutlined />, [
     getItem(<Link to={PATH_DASHBOARD.default}>Default</Link>, 'default', null),
     getItem(
@@ -240,7 +247,7 @@ const SideNav = ({ ...others }: SideNavProps) => {
       <Logo
         color="black"
         asLink
-        href={PATH_LANDING.root}
+        href={PATH_HOME.root}
         justify="center"
         gap="small"
         imgSize={{ h: 28, w: 28 }}
