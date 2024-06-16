@@ -2,12 +2,6 @@ import { createBrowserRouter, useLocation } from 'react-router-dom';
 import {
   AccountDeactivePage,
   BiddingDashboardPage,
-  CorporateAboutPage,
-  CorporateContactPage,
-  CorporateFaqPage,
-  CorporateLicensePage,
-  CorporatePricingPage,
-  CorporateTeamPage,
   DefaultDashboardPage,
   EcommerceDashboardPage,
   Error400Page,
@@ -17,13 +11,9 @@ import {
   Error503Page,
   ErrorPage,
   HomePage,
-  MarketingDashboardPage,
   PasswordResetPage,
-  ProjectsDashboardPage,
   SignInPage,
   SignUpPage,
-  SitemapPage,
-  SocialDashboardPage,
   UserProfileActionsPage,
   UserProfileActivityPage,
   UserProfileDetailsPage,
@@ -34,20 +24,17 @@ import {
   UserProfileSecurityPage,
   VerifyEmailPage,
   WelcomePage,
-  LearningDashboardPage,
-  LogisticsDashboardPage,
+  OrgAdminPage
   
 } from '../pages';
-import { TestPage } from '../pages/testTemplate/TestPage';
-import { OrgAdminPage } from '../pages/dashboards/OrgAdmin.tsx';
+// import { OrgAdminPage } from '../pages/dashboards/OrgAdmin.tsx';
 import {
-  CorporateLayout,
+  // CorporateLayout,
   DashboardLayout,
-  GuestLayout,
+  // GuestLayout,
   UserAccountLayout,
 } from '../layouts';
 import React, { ReactNode, useEffect } from 'react';
-import { AboutPage } from '../pages/About.tsx';
 
 // Custom scroll restoration function
 export const ScrollToTop: React.FC = () => {
@@ -92,107 +79,64 @@ const router = createBrowserRouter([
       },
     ],
   },
-  {
-    path: '/home',
-    element: <PageWrapper children={<GuestLayout />} />,
-    errorElement: <ErrorPage />,
-    children: [
-      {
-        index: true,
-        path: '',
-        element: <HomePage />,
-      },
-    ],
-  },
+  // {
+  //   path: '/home',
+  //   element: <PageWrapper children={<GuestLayout />} />,
+  //   errorElement: <ErrorPage />,
+  //   children: [
+  //     {
+  //       index: true,
+  //       path: '',
+  //       element: <HomePage />,
+  //     },
+  //   ],
+  // },
   {
     path: '/dashboards',
     element: <PageWrapper children={<DashboardLayout />} />,
     errorElement: <ErrorPage />,
     children: [
-      {
-        index: true,
-        path: 'default',
-        element: <DefaultDashboardPage />,
-      },
+      // {
+      //   index: true,
+      //   path: 'default',
+      //   element: <DefaultDashboardPage />,
+      // },
       {
         index: true,
         path: 'orgadmin',
         element: <OrgAdminPage />,
       },
-      {
-        path: 'projects',
-        element: <ProjectsDashboardPage />,
-      },
-      {
-        path: 'ecommerce',
-        element: <EcommerceDashboardPage />,
-      },
-      {
-        path: 'marketing',
-        element: <MarketingDashboardPage />,
-      },
-      {
-        path: 'social',
-        element: <SocialDashboardPage />,
-      },
-      {
-        path: 'bidding',
-        element: <BiddingDashboardPage />,
-      },
-      {
-        path: 'learning',
-        element: <LearningDashboardPage />,
-      },
-      {
-        path: 'logistics',
-        element: <LogisticsDashboardPage />,
-      },
+      // {
+      //   path: 'projects',
+      //   element: <ProjectsDashboardPage />,
+      // },
+      // {
+      //   path: 'ecommerce',
+      //   element: <EcommerceDashboardPage />,
+      // },
+      // {
+      //   path: 'marketing',
+      //   element: <MarketingDashboardPage />,
+      // },
+      // {
+      //   path: 'social',
+      //   element: <SocialDashboardPage />,
+      // },
+      // {
+      //   path: 'bidding',
+      //   element: <BiddingDashboardPage />,
+      // },
+      // {
+      //   path: 'learning',
+      //   element: <LearningDashboardPage />,
+      // },
+      // {
+      //   path: 'logistics',
+      //   element: <LogisticsDashboardPage />,
+      // },
     ],
   },
-  {
-    path: '/sitemap',
-    element: <PageWrapper children={<DashboardLayout />} />,
-    errorElement: <ErrorPage />,
-    children: [
-      {
-        index: true,
-        path: '',
-        element: <SitemapPage />,
-      },
-    ],
-  },
-  {
-    path: '/corporate',
-    element: <PageWrapper children={<CorporateLayout />} />,
-    errorElement: <ErrorPage />,
-    children: [
-      {
-        index: true,
-        path: 'about',
-        element: <CorporateAboutPage />,
-      },
-      {
-        path: 'team',
-        element: <CorporateTeamPage />,
-      },
-      {
-        path: 'faqs',
-        element: <CorporateFaqPage />,
-      },
-      {
-        path: 'contact',
-        element: <CorporateContactPage />,
-      },
-      {
-        path: 'pricing',
-        element: <CorporatePricingPage />,
-      },
-      {
-        path: 'license',
-        element: <CorporateLicensePage />,
-      },
-    ],
-  },
+ 
   {
     path: '/user-profile',
     element: <PageWrapper children={<UserAccountLayout />} />,
@@ -286,30 +230,6 @@ const router = createBrowserRouter([
       {
         path: '503',
         element: <Error503Page />,
-      },
-    ],
-  },
-  {
-    path: '/about',
-    element: <PageWrapper children={<DashboardLayout />} />,
-    errorElement: <ErrorPage />,
-    children: [
-      {
-        index: true,
-        path: '',
-        element: <AboutPage />,
-      },
-    ],
-  },
-  {
-    path: '/test',
-    element: <PageWrapper children={<DashboardLayout />} />,
-    errorElement: <ErrorPage />,
-    children: [
-      {
-        index: true,
-        path: '',
-        element: <TestPage/>,
       },
     ],
   },

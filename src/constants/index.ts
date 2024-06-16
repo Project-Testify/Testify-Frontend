@@ -25,17 +25,19 @@ import {
   PATH_SITEMAP,
   PATH_SOCIALS,
   PATH_ABOUT,
+  PATH_EXAM,
 } from './routes.ts';
 
 const DASHBOARD_ITEMS = [
-  { title: 'default', path: PATH_DASHBOARD.default },
-  { title: 'projects', path: PATH_DASHBOARD.projects },
-  { title: 'ecommerce', path: PATH_DASHBOARD.ecommerce },
-  { title: 'marketing', path: PATH_DASHBOARD.marketing },
-  { title: 'social', path: PATH_DASHBOARD.social },
-  { title: 'bidding', path: PATH_DASHBOARD.bidding },
-  { title: 'learning', path: PATH_DASHBOARD.learning },
-  { title: 'logistics', path: PATH_DASHBOARD.logistics },
+  // { title: 'default', path: PATH_DASHBOARD.default },
+  // { title: 'projects', path: PATH_DASHBOARD.projects },
+  // { title: 'ecommerce', path: PATH_DASHBOARD.ecommerce },
+  // { title: 'marketing', path: PATH_DASHBOARD.marketing },
+  // { title: 'social', path: PATH_DASHBOARD.social },
+  // { title: 'bidding', path: PATH_DASHBOARD.bidding },
+  // { title: 'learning', path: PATH_DASHBOARD.learning },
+  // { title: 'logistics', path: PATH_DASHBOARD.logistics },
+  { title: 'org admin', path: PATH_DASHBOARD.org_admin },
 ];
 
 const CORPORATE_ITEMS = [
@@ -107,4 +109,5 @@ export {
   AUTHENTICATION_ITEMS,
   ERROR_ITEMS,
   PATH_ABOUT,
+  PATH_EXAM,
 };

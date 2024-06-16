@@ -1,10 +1,11 @@
+import { or } from "firebase/firestore";
+
 function path(root: string, sublink: string) {
   return `${root}${sublink}`;
 }
 
 const ROOTS_LANDING = '/';
 const ROOTS_HOME = '/home';
-const ROOTS_TEST = '/test';
 const ROOTS_DASHBOARD = '/dashboards';
 const ROOTS_SITEMAP = '/sitemap';
 const ROOTS_LAYOUT = '/layouts';
@@ -37,20 +38,23 @@ export const PATH_LANDING = {
 export const PATH_HOME = {
   root: ROOTS_HOME
 };
-export const PATH_TEST = {
-  root: ROOTS_TEST
-};
 
 export const PATH_DASHBOARD = {
   root: ROOTS_DASHBOARD,
-  default: path(ROOTS_DASHBOARD, '/default'),
-  projects: path(ROOTS_DASHBOARD, '/projects'),
-  ecommerce: path(ROOTS_DASHBOARD, '/ecommerce'),
-  marketing: path(ROOTS_DASHBOARD, '/marketing'),
-  social: path(ROOTS_DASHBOARD, '/social'),
-  bidding: path(ROOTS_DASHBOARD, '/bidding'),
-  learning: path(ROOTS_DASHBOARD, '/learning'),
-  logistics: path(ROOTS_DASHBOARD, '/logistics'),
+  org_admin: path(ROOTS_DASHBOARD, '/orgadmin'),
+//   default: path(ROOTS_DASHBOARD, '/default'),
+//   projects: path(ROOTS_DASHBOARD, '/projects'),
+//   ecommerce: path(ROOTS_DASHBOARD, '/ecommerce'),
+//   marketing: path(ROOTS_DASHBOARD, '/marketing'),
+//   social: path(ROOTS_DASHBOARD, '/social'),
+//   bidding: path(ROOTS_DASHBOARD, '/bidding'),
+//   learning: path(ROOTS_DASHBOARD, '/learning'),
+//   logistics: path(ROOTS_DASHBOARD, '/logistics'),
+};
+
+export const PATH_EXAM = {
+  root: ROOTS_DASHBOARD,
+  exam: path(ROOTS_DASHBOARD, '/exam'),
 };
 
 export const PATH_SITEMAP = {
@@ -85,7 +89,7 @@ export const PATH_USER_PROFILE = {
   root: ROOTS_PROFILE,
   details: path(ROOTS_PROFILE, '/details'),
   preferences: path(ROOTS_PROFILE, '/preferences'),
-  personalInformation: path(ROOTS_PROFILE, '/personal-information'),
+  personalInformation: path(ROOTS_PROFILE, '/information'),
   security: path(ROOTS_PROFILE, '/security'),
   activity: path(ROOTS_PROFILE, '/activity'),
   action: path(ROOTS_PROFILE, '/actions'),

@@ -1,99 +1,100 @@
 import { Alert, Button, Col, Row, Segmented, Space } from 'antd';
 import {
   Card,
-  ClientsTable,
   Loader,
   PageHeader,
-  ProjectsCard,
-  ProjectsTable,
-  RevenueCard,
+  MarketingStatsCard,
+  LogisticsStatsCard,
+  ExamsTable,
+  LearningStatsCard,
+  ExamsCard as ExamCards,
 } from '../../components';
 
 import { ExamsCard } from '../../components/dashboard/shared/ExamsCard/ExamsCard';
 import { Column } from '@ant-design/charts';
-import { Exams, Projects } from '../../types';
+import { Exams } from '../../types';
 import { useState } from 'react';
 import {
-  CloudUploadOutlined,
   HomeOutlined,
   PieChartOutlined,
   PlusOutlined,
+  FileTextOutlined,
 } from '@ant-design/icons';
 import { DASHBOARD_ITEMS } from '../../constants';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { useFetchData } from '../../hooks';
-import { or } from 'firebase/firestore';
+// import { or } from 'firebase/firestore';
 
 const RevenueColumnChart = () => {
   const data = [
     {
-      name: 'Income',
+      name: 'Present',
       period: 'Mon',
       value: 18.9,
     },
     {
-      name: 'Income',
+      name: 'Present',
       period: 'Tue',
       value: 28.8,
     },
     {
-      name: 'Income',
+      name: 'Present',
       period: 'Wed',
       value: 39.3,
     },
     {
-      name: 'Income',
+      name: 'Present',
       period: 'Thur',
       value: 81.4,
     },
     {
-      name: 'Income',
+      name: 'Present',
       period: 'Fri',
       value: 47,
     },
     {
-      name: 'Income',
+      name: 'Present',
       period: 'Sat',
       value: 20.3,
     },
     {
-      name: 'Income',
+      name: 'Present',
       period: 'Sun',
       value: 24,
     },
     {
-      name: 'Spent',
+      name: 'Absent',
       period: 'Mon',
       value: 12.4,
     },
     {
-      name: 'Spent',
+      name: 'Absent',
       period: 'Tue',
       value: 23.2,
     },
     {
-      name: 'Spent',
+      name: 'Absent',
       period: 'Wed',
       value: 34.5,
     },
     {
-      name: 'Spent',
+      name: 'Absent',
       period: 'Thur',
       value: 99.7,
     },
     {
-      name: 'Spent',
+      name: 'Absent',
       period: 'Fri',
       value: 52.6,
     },
     {
-      name: 'Spent',
+      name: 'Absent',
       period: 'Sat',
       value: 35.5,
     },
     {
-      name: 'Spent',
+      name: 'Absent',
       period: 'Sun',
       value: 37.4,
     },
@@ -133,18 +134,18 @@ const RevenueColumnChart = () => {
   return <Column {...config} />;
 };
 
-const PROJECT_TABS = [
+const EXAM_TABS = [
   {
     key: 'all',
-    label: 'All projects',
+    label: 'All exams',
   },
   {
     key: 'inProgress',
     label: 'Active',
   },
   {
-    key: 'onHold',
-    label: 'On Hold',
+    key: 'upcoming',
+    label: 'Upcoming',
   },
 ];
 
@@ -154,37 +155,35 @@ export const OrgAdminPage = () => {
     error: examsDataError,
     loading: examsDataLoading,
   } = useFetchData('../mocks/ExamsMock.json');
-  
-  const {
-    data: projectsData,
-    error: projectsDataError,
-    loading: projectsDataLoading,
-  } = useFetchData('../mocks/Projects.json');
-  const {
-    data: clientsData,
-    error: clientsDataError,
-    loading: clientsDataLoading,
-  } = useFetchData('../mocks/Clients.json');
-  const [projectTabsKey, setProjectsTabKey] = useState<string>('all');
 
-  const PROJECT_TABS_CONTENT: Record<string, React.ReactNode> = {
-    all: <ProjectsTable key="all-projects-table" data={projectsData} />,
+  const {
+    data: examCardData,
+    error: examCardDataError,
+    loading: examCardDataLoading,
+  } = useFetchData('../mocks/Exams.json');
+
+
+
+  const [examTabsKey, setExamTabKey] = useState<string>('all');
+
+  const EXAM_TABS_CONTENT: Record<string, React.ReactNode> = {
+    all: <ExamsTable key="all-projects-table" data={examsData} />,
     inProgress: (
-      <ProjectsTable
+      <ExamsTable
         key="in-progress-projects-table"
-        data={projectsData.filter((_: Projects) => _.status === 'in progress')}
+        data={examsData.filter((_: Exams) => _.exam_status === 'Active')}
       />
     ),
-    onHold: (
-      <ProjectsTable
+    upcoming: (
+      <ExamsTable
         key="on-hold-projects-table"
-        data={projectsData.filter((_: Projects) => _.status === 'on hold')}
+        data={examsData.filter((_: Exams) => _.exam_status === 'Upcoming')}
       />
     ),
   };
 
   const onProjectsTabChange = (key: string) => {
-    setProjectsTabKey(key);
+    setExamTabKey(key);
   };
 
   const [OrgAdminName, setOrgAdminName] = useState('Org Admin Name');
@@ -195,7 +194,7 @@ export const OrgAdminPage = () => {
         <title>Testify</title>
       </Helmet>
       <PageHeader
-        title={"Welcome " + OrgAdminName}
+        title={'Welcome ' + OrgAdminName}
         breadcrumbs={[
           {
             title: (
@@ -210,19 +209,10 @@ export const OrgAdminPage = () => {
             title: (
               <>
                 <PieChartOutlined />
-                <span>dashboards</span>
+                <span>dashboard</span>
               </>
-            ),
-            menu: {
-              items: DASHBOARD_ITEMS.map((d) => ({
-                key: d.title,
-                title: <Link to={d.path}>{d.title}</Link>,
-              })),
-            },
-          },
-          {
-            title: 'projects',
-          },
+            )
+          }
         ]}
       />
       <Row
@@ -231,18 +221,34 @@ export const OrgAdminPage = () => {
           { xs: 8, sm: 16, md: 24, lg: 32 },
         ]}
       >
-        <Col xs={24} sm={12} lg={6}>
-          <RevenueCard title="Total revenue" value={1556.3} diff={280} />
+        <Col xs={24} sm={12} lg={8}>
+          <LearningStatsCard
+            title="Exams in Progress"
+            value={18}
+            icon={FileTextOutlined}
+            color="#6f7ae8"
+            progress={30}
+            style={{ height: '100%' }}
+          />
         </Col>
-        <Col xs={24} sm={12} lg={6}>
-          <RevenueCard title="Spent this week" value={1806.3} diff={180} />
+        <Col xs={24} sm={12} lg={8}>
+          <MarketingStatsCard
+            data={[274, 337, 81, 497]}
+            title="Exams Taken"
+            diff={12.5}
+            value={16826}
+            style={{ height: '100%' }}
+          />
         </Col>
-        <Col xs={24} sm={12} lg={6}>
-          <RevenueCard title="Worked this week" value="35:12" diff={-10.0} />
+        <Col xs={24} sm={12} lg={8}>
+          <LogisticsStatsCard
+            icon={FileTextOutlined}
+            value={234}
+            title="Exams Completed"
+            diff={12.5}
+          />
         </Col>
-        <Col xs={24} sm={12} lg={6}>
-          <RevenueCard title="Worked today" value="05:30:00" diff={-20.1} />
-        </Col>
+
         <Col span={24}>
           <Card
             title="Recently added Exams"
@@ -276,7 +282,7 @@ export const OrgAdminPage = () => {
         </Col>
         <Col xs={24} sm={12} xl={16}>
           <Card
-            title="Project stats"
+            title="Exam stats"
             extra={
               <Segmented
                 options={['Daily', 'Weekly', 'Monthly', 'Quarterly', 'Yearly']}
@@ -288,34 +294,26 @@ export const OrgAdminPage = () => {
         </Col>
         <Col xs={24} sm={12} xl={8}>
           <Card title="Top clients">
-            {clientsDataError ? (
-              <Alert
-                message="Error"
-                description={clientsDataError.toString()}
-                type="error"
-                showIcon
-              />
-            ) : clientsDataLoading ? (
-              <Loader />
-            ) : (
-              <ClientsTable data={clientsData.slice(0, 5)} />
-            )}
+            <ExamCards
+              data={examCardData}
+              loading={examCardDataLoading}
+              error={examCardDataError}
+            />
           </Card>
         </Col>
         <Col span={24}>
           <Card
-            title="Projects"
+            title="Exams"
             extra={
               <Space>
-                <Button icon={<CloudUploadOutlined />}>Import</Button>
-                <Button icon={<PlusOutlined />}>New project</Button>
+                <Button icon={<PlusOutlined />}>New Exam</Button>
               </Space>
             }
-            tabList={PROJECT_TABS}
-            activeTabKey={projectTabsKey}
+            tabList={EXAM_TABS}
+            activeTabKey={examTabsKey}
             onTabChange={onProjectsTabChange}
           >
-            {PROJECT_TABS_CONTENT[projectTabsKey]}
+            {EXAM_TABS_CONTENT[examTabsKey]}
           </Card>
         </Col>
       </Row>

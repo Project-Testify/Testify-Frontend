@@ -1,3 +1,4 @@
+export { OrgAdminPage } from './OrgAdmin.tsx';
 export { DefaultDashboardPage } from './Default.tsx';
 export { ProjectsDashboardPage } from './Projects.tsx';
 export { EcommerceDashboardPage } from './Ecommerce.tsx';
