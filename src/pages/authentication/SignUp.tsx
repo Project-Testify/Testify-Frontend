@@ -18,9 +18,10 @@ import {
 } from '@ant-design/icons';
 import { Logo } from '../../components';
 import { useMediaQuery } from 'react-responsive';
-import { PATH_AUTH, PATH_DASHBOARD } from '../../constants';
+import { PATH_AUTH} from '../../constants';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import { PATH_ORG_ADMIN } from '../../constants/routes';
 
 const { Title, Text, Link } = Typography;
 
@@ -50,9 +51,9 @@ export const SignUpPage = () => {
       content: 'Account signup successful',
     });
 
-    setTimeout(() => {
-      navigate(PATH_DASHBOARD.default);
-    }, 5000);
+    // setTimeout(() => {
+      navigate(PATH_ORG_ADMIN.dashboard);
+    // }, 5000);
   };
 
   const onFinishFailed = (errorInfo: any) => {
@@ -71,11 +72,11 @@ export const SignUpPage = () => {
         >
           <Logo color="white" />
           <Title level={2} className="text-white">
-            Welcome to Antd Admin
+            Welcome to Testify
           </Title>
           <Text className="text-white" style={{ fontSize: 18 }}>
-            A dynamic and versatile multipurpose dashboard utilizing Ant Design,
-            React, TypeScript, and Vite.
+            Lets start your journey with our secure and seamless online
+            exams.
           </Text>
         </Flex>
       </Col>

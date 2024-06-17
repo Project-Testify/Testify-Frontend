@@ -18,9 +18,10 @@ import {
 } from '@ant-design/icons';
 import { Logo } from '../../components';
 import { useMediaQuery } from 'react-responsive';
-import { PATH_AUTH, PATH_DASHBOARD } from '../../constants';
+import { PATH_AUTH} from '../../constants';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import { PATH_ORG_ADMIN } from '../../constants/routes';
 
 const { Title, Text, Link } = Typography;
 
@@ -48,7 +49,7 @@ export const SignInPage = () => {
     });
 
     // setTimeout(() => {
-      navigate(PATH_DASHBOARD.default);
+      navigate(PATH_ORG_ADMIN.dashboard);
     // }, 5000);
   };
 

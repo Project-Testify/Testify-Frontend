@@ -26,6 +26,7 @@ const ROOTS_INBOX = '/inbox';
 const ROOTS_CALENDAR = '/calendar';
 const ROOTS_ERRORS = '/errors';
 const ROOTS_ABOUT = '/about';
+const ROOTS_ORG_ADMIN = '/org-admin';
 
 export const PATH_LANDING = {
   root: ROOTS_LANDING,
@@ -239,4 +240,10 @@ export const PATH_SOCIALS = {
 
 export const PATH_ABOUT = {
   root: ROOTS_ABOUT,
+};
+
+export const PATH_ORG_ADMIN = {
+  root: ROOTS_ORG_ADMIN,
+  dashboard: path(ROOTS_ORG_ADMIN, '/dashboard'),
+  exam: path(ROOTS_ORG_ADMIN, '/exam'),
 };

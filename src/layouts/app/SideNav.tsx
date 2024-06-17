@@ -14,7 +14,7 @@ import {
   PATH_USER_PROFILE,
 } from '../../constants';
 import { COLOR } from '../../App.tsx';
-import { PATH_HOME } from '../../constants/routes.ts';
+import { PATH_HOME, PATH_ORG_ADMIN } from '../../constants/routes.ts';
 
 const { Sider } = Layout;
 
@@ -41,7 +41,7 @@ const getItem = (
 const orgAdminItems: MenuProps['items'] = [
  
   getItem(
-      <Link to={PATH_DASHBOARD.org_admin}>DashBoard</Link>,
+      <Link to={PATH_ORG_ADMIN.dashboard}>DashBoard</Link>,
       'projects',
       null
     ),
@@ -49,8 +49,8 @@ const orgAdminItems: MenuProps['items'] = [
   getItem('Exams', 'pages', null, [], 'group'),
 
   getItem('Exams', 'exams', <BankOutlined />, [
-    getItem(<Link to={PATH_EXAM.exam}>All Exams</Link>, 'all_exams', null),
-    getItem(<Link to={PATH_EXAM.exam + '/new'}>New Exams</Link>, 'new_exam', null),
+    getItem(<Link to={PATH_ORG_ADMIN.exam}>All Exams</Link>, 'all_exams', null),
+    getItem(<Link to={PATH_ORG_ADMIN.exam + '/new'}>New Exams</Link>, 'new_exam', null),
   ]),
 
   getItem('Account', 'pages', null, [], 'group'),
@@ -178,7 +178,7 @@ const SideNav = ({ ...others }: SideNavProps) => {
   const [current, setCurrent] = useState('');
 
   // set the state of the role as either tutor or orgadmin
-  const [isRole, setIsRole] = useState('orgadmin');
+  const [isRole, setIsRole] = useState('org-admin');
 
 
   const onClick: MenuProps['onClick'] = (e) => {
@@ -223,7 +223,7 @@ const SideNav = ({ ...others }: SideNavProps) => {
           },
         }}
       >
-        {isRole === 'orgadmin' && <Menu
+        {isRole === 'org-admin' && <Menu
           mode="inline"
           items={orgAdminItems}
           onClick={onClick}

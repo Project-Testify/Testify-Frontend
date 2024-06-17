@@ -1,39 +1,30 @@
 import { createBrowserRouter, useLocation } from 'react-router-dom';
 import {
-  AccountDeactivePage,
-  BiddingDashboardPage,
-  DefaultDashboardPage,
-  EcommerceDashboardPage,
-  Error400Page,
-  Error403Page,
-  Error404Page,
-  Error500Page,
-  Error503Page,
   ErrorPage,
   HomePage,
-  PasswordResetPage,
   SignInPage,
-  SignUpPage,
+  OrgAdminDashBoard as OrgAdminPage,
+  UserProfileDetailsPage,
   UserProfileActionsPage,
   UserProfileActivityPage,
-  UserProfileDetailsPage,
   UserProfileFeedbackPage,
   UserProfileHelpPage,
   UserProfileInformationPage,
   UserProfilePreferencesPage,
   UserProfileSecurityPage,
+  SignUpPage,
+  AccountDeactivePage,
+  PasswordResetPage,
   VerifyEmailPage,
   WelcomePage,
-  OrgAdminPage
   
 } from '../pages';
-// import { OrgAdminPage } from '../pages/dashboards/OrgAdmin.tsx';
+
 import {
-  // CorporateLayout,
   DashboardLayout,
-  // GuestLayout,
   UserAccountLayout,
 } from '../layouts';
+
 import React, { ReactNode, useEffect } from 'react';
 
 // Custom scroll restoration function
@@ -71,72 +62,61 @@ const router = createBrowserRouter([
     path: '/',
     element: <SignInPage />,
     errorElement: <ErrorPage />,
+  },
+
+  {
+    path: '/auth',
+    errorElement: <ErrorPage />,
     children: [
       {
-        index: true,
-        path: '',
-        element: <HomePage />,
+        path: 'signup',
+        element: <SignUpPage />,
+      },
+      {
+        path: 'signin',
+        element: <SignInPage />,
+      },
+      {
+        path: 'welcome',
+        element: <WelcomePage />,
+      },
+      {
+        path: 'verify-email',
+        element: <VerifyEmailPage />,
+      },
+      {
+        path: 'password-reset',
+        element: <PasswordResetPage />,
+      },
+      {
+        path: 'account-delete',
+        element: <AccountDeactivePage />,
       },
     ],
   },
-  // {
-  //   path: '/home',
-  //   element: <PageWrapper children={<GuestLayout />} />,
-  //   errorElement: <ErrorPage />,
-  //   children: [
-  //     {
-  //       index: true,
-  //       path: '',
-  //       element: <HomePage />,
-  //     },
-  //   ],
-  // },
   {
-    path: '/dashboards',
+    path: 'org-admin',
     element: <PageWrapper children={<DashboardLayout />} />,
     errorElement: <ErrorPage />,
     children: [
-      // {
-      //   index: true,
-      //   path: 'default',
-      //   element: <DefaultDashboardPage />,
-      // },
       {
         index: true,
-        path: 'orgadmin',
+        element: <OrgAdminPage />,
+        errorElement : <ErrorPage />  
+      },
+      {
+        path: 'dashboard',
+        element: <OrgAdminPage />,
+        errorElement : <ErrorPage />  
+      },
+      {
+        path: 'exams',
         element: <OrgAdminPage />,
       },
-      // {
-      //   path: 'projects',
-      //   element: <ProjectsDashboardPage />,
-      // },
-      // {
-      //   path: 'ecommerce',
-      //   element: <EcommerceDashboardPage />,
-      // },
-      // {
-      //   path: 'marketing',
-      //   element: <MarketingDashboardPage />,
-      // },
-      // {
-      //   path: 'social',
-      //   element: <SocialDashboardPage />,
-      // },
-      // {
-      //   path: 'bidding',
-      //   element: <BiddingDashboardPage />,
-      // },
-      // {
-      //   path: 'learning',
-      //   element: <LearningDashboardPage />,
-      // },
-      // {
-      //   path: 'logistics',
-      //   element: <LogisticsDashboardPage />,
-      // },
-    ],
+      
+    ]
   },
- 
+
   {
     path: '/user-profile',
     element: <PageWrapper children={<UserAccountLayout />} />,
@@ -177,62 +157,7 @@ const router = createBrowserRouter([
       },
     ],
   },
-  {
-    path: '/auth',
-    errorElement: <ErrorPage />,
-    children: [
-      {
-        path: 'signup',
-        element: <SignUpPage />,
-      },
-      {
-        path: 'signin',
-        element: <SignInPage />,
-      },
-      {
-        path: 'welcome',
-        element: <WelcomePage />,
-      },
-      {
-        path: 'verify-email',
-        element: <VerifyEmailPage />,
-      },
-      {
-        path: 'password-reset',
-        element: <PasswordResetPage />,
-      },
-      {
-        path: 'account-delete',
-        element: <AccountDeactivePage />,
-      },
-    ],
-  },
-  {
-    path: 'errors',
-    errorElement: <ErrorPage />,
-    children: [
-      {
-        path: '400',
-        element: <Error400Page />,
-      },
-      {
-        path: '403',
-        element: <Error403Page />,
-      },
-      {
-        path: '404',
-        element: <Error404Page />,
-      },
-      {
-        path: '500',
-        element: <Error500Page />,
-      },
-      {
-        path: '503',
-        element: <Error503Page />,
-      },
-    ],
-  },
+  
 ]);
 
 export default router;
