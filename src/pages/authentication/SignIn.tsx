@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   Button,
   Checkbox,
@@ -23,6 +24,8 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { PATH_ORG_ADMIN } from '../../constants/routes';
 
+import {login} from '../../api/services/auth';
+
 const { Title, Text, Link } = Typography;
 
 type FieldType = {
@@ -40,6 +43,33 @@ export const SignInPage = () => {
   const [loading, setLoading] = useState(false);
 
   const onFinish = (values: any) => {
+
+
+    login(values).then((res) => {
+      console.log(res);
+      if (res.status === 200) {
+        console.log('Success:', res.data);
+        setLoading(true);
+
+        message.open({
+          type: 'success',
+          content: 'Login successful',
+        });
+
+        // setTimeout(() => {
+          navigate(PATH_ORG_ADMIN.dashboard);
+        // }, 5000);
+      } else {
+        message.open({
+          type: 'error',
+          content: 'Login failed',
+        });
+      }
+    }
+    ).catch((error) => {
+      console.log('Failed:', error);
+    });
+
     console.log('Success:', values);
     setLoading(true);
 
@@ -94,12 +124,12 @@ export const SignInPage = () => {
             name="sign-up-form"
             layout="vertical"
             labelCol={{ span: 24 }}
-            wrapperCol={{ span: 24 }}
-            initialValues={{
-              email: 'demo@email.com',
-              password: 'demo123',
-              remember: true,
-            }}
+            wrapperCol={{ span: 24 }} 
+            // initialValues={{
+            //   email: 'demo@email.com',
+            //   password: 'demo123',
+            //   remember: true,
+            // }}
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
             autoComplete="off"
