@@ -79,7 +79,7 @@ export const SignInPage = () => {
     });
 
     // setTimeout(() => {
-      navigate(PATH_ORG_ADMIN.dashboard);
+      // navigate(PATH_ORG_ADMIN.dashboard);
     // }, 5000);
   };
 
