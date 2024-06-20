@@ -28,12 +28,14 @@ import {
   const { Title, Text, Link } = Typography;
   
   type FieldType = {
-    firstName?: string;
-    lastName?: string;
+    name?: string;
     email?: string;
+    mobile?: string;
     password?: string;
     cPassword?: string;
     terms?: boolean;
+
+    
   };
 
 
@@ -103,31 +105,21 @@ export const Organization = () => {
             requiredMark={false}
           >
             <Row gutter={[8, 0]}>
-              <Col xs={24} lg={12}>
+              <Col xs={24}>
                 <Form.Item<FieldType>
-                  label="First name"
-                  name="firstName"
+                  label="Organization Name"
+                  name="name"
                   rules={[
                     {
                       required: true,
-                      message: 'Please input your first name!',
+                      message: 'Please input your organization name!',
                     },
                   ]}
                 >
                   <Input />
                 </Form.Item>
               </Col>
-              <Col xs={24} lg={12}>
-                <Form.Item<FieldType>
-                  label="Last name"
-                  name="lastName"
-                  rules={[
-                    { required: true, message: 'Please input your last name!' },
-                  ]}
-                >
-                  <Input />
-                </Form.Item>
-              </Col>
+
               <Col xs={24}>
                 <Form.Item<FieldType>
                   label="Email"
@@ -139,6 +131,20 @@ export const Organization = () => {
                   <Input />
                 </Form.Item>
               </Col>
+
+
+              <Col xs={24}>
+                <Form.Item<FieldType>
+                  label="Mobile"
+                  name="mobile"
+                  rules={[
+                    { required: true, message: 'Please input your mobile number' },
+                  ]}
+                >
+                  <Input />
+                </Form.Item>
+              </Col>
+
               <Col xs={24}>
                 <Form.Item<FieldType>
                   label="Password"
