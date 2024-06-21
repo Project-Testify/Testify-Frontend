@@ -15,9 +15,7 @@ import {
     Typography,
   } from 'antd';
   import {
-    FacebookFilled,
     GoogleOutlined,
-    TwitterOutlined,
   } from '@ant-design/icons';
   import { useMediaQuery } from 'react-responsive';
   import { PATH_AUTH} from '../../../constants';
