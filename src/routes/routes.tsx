@@ -1,7 +1,7 @@
 import { createBrowserRouter, useLocation } from 'react-router-dom';
 import {
   ErrorPage,
-  HomePage,
+  // HomePage,
   SignInPage,
   OrgAdminDashBoard as OrgAdminPage,
   UserProfileDetailsPage,
@@ -11,7 +11,6 @@ import {
   UserProfileHelpPage,
   UserProfileInformationPage,
   UserProfilePreferencesPage,
-  UserProfileSecurityPage,
   SignUpPage,
   AccountDeactivePage,
   PasswordResetPage,
@@ -138,10 +137,6 @@ const router = createBrowserRouter([
       {
         path: 'information',
         element: <UserProfileInformationPage />,
-      },
-      {
-        path: 'security',
-        element: <UserProfileSecurityPage />,
       },
       {
         path: 'activity',

@@ -13,6 +13,8 @@ export { RefreshBtn } from './RefreshBtn/RefreshBtn.tsx';
 export { SitemapCard } from './SitemapCard/SitemapCard';
 export { SocialMediaCard } from './SocialMediaCard/SocialMediaCard';
 export { UserAvatar } from './UserAvatar/UserAvatar';
+
+export { TimelineCard } from './TimelineCard/TimelineCard';
 export * from './Nprogress';
 export * from './dashboard';
 export * from './Container';
