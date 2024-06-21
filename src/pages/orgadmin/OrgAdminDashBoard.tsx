@@ -3,8 +3,8 @@ import {
   Card,
   Loader,
   PageHeader,
-  MarketingStatsCard,
-  LogisticsStatsCard,
+  // MarketingStatsCard,
+  // LogisticsStatsCard,
   ExamsTable,
   LearningStatsCard,
   ExamsCard as ExamCards,
@@ -185,6 +185,7 @@ export const OrgAdminDashBoard = () => {
   };
 
   const [OrgAdminName, setOrgAdminName] = useState('Org Admin Name');
+  setOrgAdminName('Org Admin Name');
 
   return (
     <div>
@@ -229,7 +230,7 @@ export const OrgAdminDashBoard = () => {
             style={{ height: '100%' }}
           />
         </Col>
-        <Col xs={24} sm={12} lg={8}>
+        {/* <Col xs={24} sm={12} lg={8}>
           <MarketingStatsCard
             data={[274, 337, 81, 497]}
             title="Exams Taken"
@@ -245,7 +246,7 @@ export const OrgAdminDashBoard = () => {
             title="Exams Completed"
             diff={12.5}
           />
-        </Col>
+        </Col> */}
 
         <Col span={24}>
           <Card

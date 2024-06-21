@@ -1,4 +1,3 @@
-import { or } from "firebase/firestore";
 
 function path(root: string, sublink: string) {
   return `${root}${sublink}`;
@@ -43,7 +42,7 @@ export const PATH_HOME = {
 export const PATH_DASHBOARD = {
   root: ROOTS_DASHBOARD,
   org_admin: path(ROOTS_DASHBOARD, '/orgadmin'),
-//   default: path(ROOTS_DASHBOARD, '/default'),
+  default: path(ROOTS_DASHBOARD, '/default'),
 //   projects: path(ROOTS_DASHBOARD, '/projects'),
 //   ecommerce: path(ROOTS_DASHBOARD, '/ecommerce'),
 //   marketing: path(ROOTS_DASHBOARD, '/marketing'),
