@@ -1,5 +1,5 @@
 import { Alert, Button, CardProps, Flex, List, Typography } from 'antd';
-import { Exam } from '../../../../types';
+import { Exams } from '../../../../types';
 import { RightOutlined } from '@ant-design/icons';
 
 import './styles.css';
@@ -8,7 +8,7 @@ import { ReactNode } from 'react';
 import { useMediaQuery } from 'react-responsive';
 
 type Props = {
-  data?: Exam[];
+  data?: Exams[];
   loading?: boolean;
   error?: ReactNode;
 } & CardProps;
