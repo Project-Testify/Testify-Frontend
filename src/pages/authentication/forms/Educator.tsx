@@ -34,6 +34,7 @@ import {
     terms?: boolean;
   };
 
+  
 
 export const Educator = () => {
 
