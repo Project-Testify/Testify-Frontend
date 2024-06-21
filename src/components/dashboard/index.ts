@@ -8,5 +8,8 @@ export {
   StudyStatisticsCard,
   ProgressCard,
   ExamsCard,
+  ExamsTable,
+
 
 } from './learning';
+
