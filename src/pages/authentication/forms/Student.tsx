@@ -22,6 +22,8 @@ import {
   import { useNavigate } from 'react-router-dom';
   import { useState } from 'react';
   import { PATH_ORG_ADMIN } from '../../../constants/routes';
+
+  import { registerStudent } from '../../../api/services/auth';
   
   const { Title, Text, Link } = Typography;
   
@@ -42,18 +44,39 @@ export const Student = () => {
       const navigate = useNavigate();
       const [loading, setLoading] = useState(false);
     
-      const onFinish = (values: any) => {
+      // const onFinish = (values: any) => {
+      //   console.log('Success:', values);
+      //   setLoading(true);
+    
+      //   message.open({
+      //     type: 'success',
+      //     content: 'Account signup successful',
+      //   });
+    
+      //   setTimeout(() => {
+      //     navigate(PATH_ORG_ADMIN.dashboard);
+      //   }, 50000);
+      // };
+      const onFinish = async (values: any) => {
         console.log('Success:', values);
         setLoading(true);
     
-        message.open({
-          type: 'success',
-          content: 'Account signup successful',
-        });
+        try {
+          const { data } = await registerStudent({
+            email: values.email,
+            password: values.password,
+            firstName: values.firstName,
+            lastName: values.lastName,
+          });
     
-        // setTimeout(() => {
+          message.success('Account signup successful');
+          console.log(data);
           navigate(PATH_ORG_ADMIN.dashboard);
-        // }, 5000);
+        } catch (error) {
+          message.error('Account signup failed');
+        } finally {
+          setLoading(false);
+        }
       };
     
       const onFinishFailed = (errorInfo: any) => {
