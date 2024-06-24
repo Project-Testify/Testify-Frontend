@@ -178,7 +178,8 @@ const SideNav = ({ ...others }: SideNavProps) => {
   const [current, setCurrent] = useState('');
 
   // set the state of the role as either tutor or orgadmin
-  const [isRole, setIsRole] = useState('org-admin');
+  // const [isRole, setIsRole] = useState('org-admin');
+  const isRole = 'org-admin';
   // setIsRole('org-admin');
 
 
