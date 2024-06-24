@@ -185,7 +185,7 @@ export const OrgAdminDashBoard = () => {
   };
 
   const [OrgAdminName, setOrgAdminName] = useState('Org Admin Name');
-  setOrgAdminName('Org Admin Name');
+  // setOrgAdminName('Org Admin Name');
 
   return (
     <div>
