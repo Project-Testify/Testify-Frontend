@@ -56,9 +56,9 @@ export const SignInPage = () => {
           content: 'Login successful',
         });
 
-        // setTimeout(() => {
+        setTimeout(() => {
           navigate(PATH_ORG_ADMIN.dashboard);
-        // }, 5000);
+        }, 5000);
       } else {
         message.open({
           type: 'error',
