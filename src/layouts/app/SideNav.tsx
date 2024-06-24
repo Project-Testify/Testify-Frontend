@@ -236,7 +236,7 @@ const SideNav = ({ ...others }: SideNavProps) => {
           style={{ border: 'none' }}
         />}
         
-        {isRole === 'tutor' && <Menu
+        {/* {isRole === 'tutor' && <Menu
           mode="inline"
           items={tutorItems}
           onClick={onClick}
@@ -245,7 +245,7 @@ const SideNav = ({ ...others }: SideNavProps) => {
           selectedKeys={[current]}
           style={{ border: 'none' }}
         />
-        }
+        } */}
       </ConfigProvider>
     </Sider>
   );
