@@ -3,14 +3,14 @@ import { ConfigProvider, Layout, Menu, MenuProps, SiderProps } from 'antd';
 import {
   UserOutlined,
   BankOutlined,
-  BarChartOutlined
+  // BarChartOutlined
 } from '@ant-design/icons';
 import { Logo } from '../../components';
 import { Link, useLocation } from 'react-router-dom';
 import {
 
-  PATH_DASHBOARD,
-  PATH_EXAM,
+  // PATH_DASHBOARD,
+  // PATH_EXAM,
   PATH_USER_PROFILE,
 } from '../../constants';
 import { COLOR } from '../../App.tsx';
@@ -97,75 +97,75 @@ const orgAdminItems: MenuProps['items'] = [
 ];
 
 // Tutor items
-const tutorItems: MenuProps['items'] = [
+// const tutorItems: MenuProps['items'] = [
  
-  getItem(
-      <Link to={PATH_DASHBOARD.org_admin}>DashBoard</Link>,
-      'projects',
-      null
-    ),
-  getItem('Organizations', 'organizations', <BankOutlined />, [
-    getItem(<Link to={'org/name1'}>Organization 1</Link>, 'Org', null),
-  ]),
+//   getItem(
+//       <Link to={PATH_DASHBOARD.org_admin}>DashBoard</Link>,
+//       'projects',
+//       null
+//     ),
+//   getItem('Organizations', 'organizations', <BankOutlined />, [
+//     getItem(<Link to={'org/name1'}>Organization 1</Link>, 'Org', null),
+//   ]),
 
-  getItem('Exams', 'pages', null, [], 'group'),
+//   getItem('Exams', 'pages', null, [], 'group'),
 
-  getItem('Exams', 'exams', <BankOutlined />, [
-    getItem(<Link to={PATH_EXAM.exam}>All Exams</Link>, 'all_exams', null),
-    getItem(<Link to={PATH_EXAM.exam + '/new'}>New Exams</Link>, 'new_exam', null),
-    getItem(<Link to={PATH_EXAM.exam + '/grading'}>Grading</Link>, 'grading', null),
-  ]),
+//   getItem('Exams', 'exams', <BankOutlined />, [
+//     getItem(<Link to={PATH_EXAM.exam}>All Exams</Link>, 'all_exams', null),
+//     getItem(<Link to={PATH_EXAM.exam + '/new'}>New Exams</Link>, 'new_exam', null),
+//     getItem(<Link to={PATH_EXAM.exam + '/grading'}>Grading</Link>, 'grading', null),
+//   ]),
 
-  getItem('Results', 'results', null, [], 'group'),
+//   getItem('Results', 'results', null, [], 'group'),
 
-  getItem('Results', 'results', <BarChartOutlined />, [
-    getItem(<Link to={PATH_EXAM.exam}>All Exams</Link>, 'all_exams', null),
-    getItem(<Link to={PATH_EXAM.exam + '/new'}>New Exams</Link>, 'new_exam', null),
-    getItem(<Link to={PATH_EXAM.exam + '/grading'}>Grading</Link>, 'grading', null),
-  ]),
+//   getItem('Results', 'results', <BarChartOutlined />, [
+//     getItem(<Link to={PATH_EXAM.exam}>All Exams</Link>, 'all_exams', null),
+//     getItem(<Link to={PATH_EXAM.exam + '/new'}>New Exams</Link>, 'new_exam', null),
+//     getItem(<Link to={PATH_EXAM.exam + '/grading'}>Grading</Link>, 'grading', null),
+//   ]),
 
-  getItem('Account', 'pages', null, [], 'group'),
+//   getItem('Account', 'pages', null, [], 'group'),
 
-  getItem('User profile', 'user-profile', <UserOutlined />, [
-    getItem(
-      <Link to={PATH_USER_PROFILE.details}>Details</Link>,
-      'details',
-      null
-    ),
-    getItem(
-      <Link to={PATH_USER_PROFILE.preferences}>Preferences</Link>,
-      'preferences',
-      null
-    ),
-    getItem(
-      <Link to={PATH_USER_PROFILE.personalInformation}>Information</Link>,
-      'information',
-      null
-    ),
-    getItem(
-      <Link to={PATH_USER_PROFILE.security}>Security</Link>,
-      'security',
-      null
-    ),
-    getItem(
-      <Link to={PATH_USER_PROFILE.activity}>Activity</Link>,
-      'activity',
-      null
-    ),
-    getItem(
-      <Link to={PATH_USER_PROFILE.action}>Actions</Link>,
-      'actions',
-      null
-    ),
-    getItem(<Link to={PATH_USER_PROFILE.help}>Help</Link>, 'help', null),
-    getItem(
-      <Link to={PATH_USER_PROFILE.feedback}>Feedback</Link>,
-      'feedback',
-      null
-    ),
-  ]),
+//   getItem('User profile', 'user-profile', <UserOutlined />, [
+//     getItem(
+//       <Link to={PATH_USER_PROFILE.details}>Details</Link>,
+//       'details',
+//       null
+//     ),
+//     getItem(
+//       <Link to={PATH_USER_PROFILE.preferences}>Preferences</Link>,
+//       'preferences',
+//       null
+//     ),
+//     getItem(
+//       <Link to={PATH_USER_PROFILE.personalInformation}>Information</Link>,
+//       'information',
+//       null
+//     ),
+//     getItem(
+//       <Link to={PATH_USER_PROFILE.security}>Security</Link>,
+//       'security',
+//       null
+//     ),
+//     getItem(
+//       <Link to={PATH_USER_PROFILE.activity}>Activity</Link>,
+//       'activity',
+//       null
+//     ),
+//     getItem(
+//       <Link to={PATH_USER_PROFILE.action}>Actions</Link>,
+//       'actions',
+//       null
+//     ),
+//     getItem(<Link to={PATH_USER_PROFILE.help}>Help</Link>, 'help', null),
+//     getItem(
+//       <Link to={PATH_USER_PROFILE.feedback}>Feedback</Link>,
+//       'feedback',
+//       null
+//     ),
+//   ]),
   
-];
+// ];
 
 const rootSubmenuKeys = ['dashboards', 'corporate', 'user-profile'];
 
@@ -178,7 +178,9 @@ const SideNav = ({ ...others }: SideNavProps) => {
   const [current, setCurrent] = useState('');
 
   // set the state of the role as either tutor or orgadmin
-  const [isRole, setIsRole] = useState('org-admin');
+  // const [isRole, setIsRole] = useState('org-admin');
+  const isRole = 'org-admin';
+
   // setIsRole('org-admin');
 
 
@@ -234,7 +236,7 @@ const SideNav = ({ ...others }: SideNavProps) => {
           style={{ border: 'none' }}
         />}
         
-        {isRole === 'tutor' && <Menu
+        {/* {isRole === 'tutor' && <Menu
           mode="inline"
           items={tutorItems}
           onClick={onClick}
@@ -243,7 +245,7 @@ const SideNav = ({ ...others }: SideNavProps) => {
           selectedKeys={[current]}
           style={{ border: 'none' }}
         />
-        }
+        } */}
       </ConfigProvider>
     </Sider>
   );
