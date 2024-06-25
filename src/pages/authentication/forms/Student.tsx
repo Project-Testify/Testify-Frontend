@@ -23,7 +23,7 @@ import {
   import { useState } from 'react';
   import { PATH_ORG_ADMIN } from '../../../constants/routes';
 
-  import { registerStudent } from '../../../api/services/auth';
+  import { registerAttendee } from '../../../api/services/auth';
   
   const { Title, Text, Link } = Typography;
   
@@ -62,7 +62,7 @@ export const Student = () => {
         setLoading(true);
     
         try {
-          const { data } = await registerStudent({
+          const { data } = await registerAttendee({
             email: values.email,
             password: values.password,
             firstName: values.firstName,
