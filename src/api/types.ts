@@ -27,9 +27,9 @@ export interface OrganizationRegister {
 export interface AuthResponse {
     token: string;  
     expiresIn: number;
-    user: {
+    
         id: number;
         email: string;
         role: string;
-    };
+    
 }

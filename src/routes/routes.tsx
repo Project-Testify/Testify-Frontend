@@ -22,9 +22,14 @@ import {
 import {
   DashboardLayout,
   UserAccountLayout,
+  CommonLayout,
 } from '../layouts';
 
 import React, { ReactNode, useEffect } from 'react';
+
+import { ProtectedRoute } from './ProtectedRoutes';
+import { AuthProvider } from '../hooks/useAuth.tsx';
+
 
 // Custom scroll restoration function
 export const ScrollToTop: React.FC = () => {
@@ -65,6 +70,7 @@ const router = createBrowserRouter([
 
   {
     path: '/auth',
+    element: (<AuthProvider><PageWrapper children={<CommonLayout />} /></AuthProvider>)  ,
     errorElement: <ErrorPage />,
     children: [
       {
@@ -99,7 +105,8 @@ const router = createBrowserRouter([
   },
   {
     path: 'org-admin',
-    element: <PageWrapper children={<DashboardLayout />} />,
+    // element: <PageWrapper children={<DashboardLayout />} />,
+    element: (<AuthProvider><PageWrapper children={<DashboardLayout />} /></AuthProvider>)  ,
     errorElement: <ErrorPage />,
     children: [
       {
@@ -109,7 +116,8 @@ const router = createBrowserRouter([
       },
       {
         path: 'dashboard',
-        element: <OrgAdminPage />,
+        element: <ProtectedRoute roles={['ATTENDEE']} children={<OrgAdminPage />} />,
+        // element: <OrgAdminPage />,
         errorElement : <ErrorPage />  
       },
       {
