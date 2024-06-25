@@ -22,6 +22,7 @@ import {
 import {
   DashboardLayout,
   UserAccountLayout,
+  CommonLayout,
 } from '../layouts';
 
 import React, { ReactNode, useEffect } from 'react';
@@ -69,6 +70,7 @@ const router = createBrowserRouter([
 
   {
     path: '/auth',
+    element: (<AuthProvider><PageWrapper children={<CommonLayout />} /></AuthProvider>)  ,
     errorElement: <ErrorPage />,
     children: [
       {
@@ -114,7 +116,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'dashboard',
-        element: <ProtectedRoute roles={['organization']} children={<OrgAdminPage />} />,
+        element: <ProtectedRoute roles={['ATTENDEE']} children={<OrgAdminPage />} />,
         // element: <OrgAdminPage />,
         errorElement : <ErrorPage />  
       },

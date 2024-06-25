@@ -24,7 +24,11 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { PATH_ORG_ADMIN } from '../../constants/routes';
 
-import {login} from '../../api/services/auth';
+import {loginService} from '../../api/services/auth';
+import { useAuth } from '../../hooks/useAuth';
+
+
+
 
 const { Title, Text, Link } = Typography;
 
@@ -35,6 +39,10 @@ type FieldType = {
 };
 
 export const SignInPage = () => {
+
+
+  const {login} = useAuth();
+
   const {
     token: { colorPrimary },
   } = theme.useToken();
@@ -45,11 +53,16 @@ export const SignInPage = () => {
   const onFinish = (values: any) => {
 
 
-    login(values).then((res) => {
+    loginService(values).then((res) => {
       console.log(res);
+
       if (res.status === 200) {
         console.log('Success:', res.data);
         setLoading(true);
+
+
+        login(res.data);
+
 
         message.open({
           type: 'success',
@@ -70,13 +83,7 @@ export const SignInPage = () => {
       console.log('Failed:', error);
     });
 
-    console.log('Success:', values);
-    setLoading(true);
-
-    message.open({
-      type: 'success',
-      content: 'Login successful',
-    });
+ 
 
     // setTimeout(() => {
       // navigate(PATH_ORG_ADMIN.dashboard);

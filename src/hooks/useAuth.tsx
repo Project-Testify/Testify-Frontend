@@ -4,7 +4,7 @@ import { useLocalStorage } from "./useLocalStorage";
 
 interface User {
   id: number;
-  name: string;
+//   name: string;
   email: string;
   role: string;
 }
