@@ -2,6 +2,9 @@ import { createContext, useContext, useMemo, ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLocalStorage } from "./useLocalStorage";
 
+import { PATH_ORG_ADMIN, PATH_DASHBOARD } from '../constants/routes';
+
+
 interface User {
   id: number;
 //   name: string;
@@ -27,14 +30,24 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const login = async (data: User) => {
     setUser(data);
-    navigate("/profile");
-    window.location.href = '/profile';
+    // navigate("/profile");
+    if (data.role === "ORGANIZATION") {
+        navigate(PATH_ORG_ADMIN.dashboard);
+        }
+        if (data.role === "ATTENDEE") {
+          navigate(PATH_DASHBOARD.org_admin);
+        }
+        if (data.role === "EXAMSETTER") {
+          navigate(PATH_DASHBOARD.org_admin);
+        }
+
+    
+
   };
 
   const logout = () => {
     setUser(null);
     navigate("/", { replace: true });
-    window.location.href = '/';
   };
 
   const value = useMemo(
