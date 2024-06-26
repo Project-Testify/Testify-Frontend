@@ -64,7 +64,9 @@ const PageWrapper = ({ children }: PageProps) => {
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <SignInPage />,
+    element: (
+      <AuthProvider> <SignInPage /></AuthProvider>
+    ),
     errorElement: <ErrorPage />,
   },
 
