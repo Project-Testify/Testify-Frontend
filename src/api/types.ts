@@ -3,14 +3,14 @@ export interface LoginCredentials {
     password: string;
 }
 
-export interface StudentRegister {
+export interface AttendeeRegister {
     email: string;
     password: string;
     firstName: string;
     lastName: string
 }
 
-export interface EducatorRegister {
+export interface ExamsetterRegister {
     email: string;
     password: string;
     firstName: string;
@@ -27,9 +27,9 @@ export interface OrganizationRegister {
 export interface AuthResponse {
     token: string;  
     expiresIn: number;
-    user: {
+    
         id: number;
         email: string;
         role: string;
-    };
+    
 }

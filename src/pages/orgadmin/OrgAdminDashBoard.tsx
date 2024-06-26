@@ -182,8 +182,13 @@ export const OrgAdminDashBoard = () => {
     setExamTabKey(key);
   };
 
-  const [OrgAdminName, setOrgAdminName] = useState('Org Admin Name');
+  // const [OrgAdminName, setOrgAdminName] = useState('Org Admin Name');
+  const OrgAdminName = 'Org Admin Name';
+  
   // setOrgAdminName('Org Admin Name');
+
+
+
 
   return (
     <div>

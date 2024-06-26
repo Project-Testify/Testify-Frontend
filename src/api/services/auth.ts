@@ -1,21 +1,21 @@
 import api from '../config';
 import { AxiosResponse } from 'axios';
-import { LoginCredentials, StudentRegister, EducatorRegister,OrganizationRegister, AuthResponse } from '../types';
+import { LoginCredentials, ExamsetterRegister, AttendeeRegister ,OrganizationRegister, AuthResponse } from '../types';
 
-export const login = (credentials: LoginCredentials): Promise<AxiosResponse<AuthResponse>> => {
-    return api.post<AuthResponse>('/auth/login', credentials);
+export const loginService = (credentials: LoginCredentials): Promise<AxiosResponse<AuthResponse>> => {
+    return api.post<AuthResponse>('/auth/authenticate', credentials);
 };
 
-export const registerStudent = (student: StudentRegister): Promise<AxiosResponse<AuthResponse>> => {
-    return api.post<AuthResponse>('/auth/register/student', student);
+export const registerAttendee = (student: AttendeeRegister): Promise<AxiosResponse<AuthResponse>> => {
+    return api.post<AuthResponse>('/auth/register', student);
 };
 
-export const registerEducator = (educator: EducatorRegister): Promise<AxiosResponse<AuthResponse>> => {
-    return api.post<AuthResponse>('/auth/register/educator', educator);
+export const registerExamsetter = (educator: ExamsetterRegister): Promise<AxiosResponse<AuthResponse>> => {
+    return api.post<AuthResponse>('/auth/register', educator);
 };
 
 export const registerOrganization = (organization: OrganizationRegister): Promise<AxiosResponse<AuthResponse>> => {
-    return api.post<AuthResponse>('/auth/register/organization', organization);
+    return api.post<AuthResponse>('/auth/register', organization);
 };
 
 

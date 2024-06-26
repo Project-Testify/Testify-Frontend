@@ -103,7 +103,7 @@ const tutorItems: MenuProps['items'] = [
     getItem(<Link to={'org/name1'}>Organization 1</Link>, 'Org', null),
   ]),
 
-  getItem('Exams', 'pages', null, [], 'group'),
+//   getItem('Exams', 'pages', null, [], 'group'),
 
   getItem('Exams', 'exams', <BankOutlined />, [
     getItem(<Link to={PATH_EXAM.exam}>All Exams</Link>, 'all_exams', null),
@@ -119,7 +119,7 @@ const tutorItems: MenuProps['items'] = [
     ),
   ]),
 
-  getItem('Results', 'results', null, [], 'group'),
+//   getItem('Results', 'results', null, [], 'group'),
 
   getItem('Results', 'results', <BarChartOutlined />, [
     getItem(<Link to={PATH_EXAM.exam}>All Exams</Link>, 'all_exams', null),
@@ -135,7 +135,7 @@ const tutorItems: MenuProps['items'] = [
     ),
   ]),
 
-  getItem('Account', 'pages', null, [], 'group'),
+//   getItem('Account', 'pages', null, [], 'group'),
 
   getItem('User profile', 'user-profile', <UserOutlined />, [
     getItem(

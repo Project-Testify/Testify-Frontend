@@ -19,9 +19,17 @@ import {
   OrgAdminExamPage,
 } from '../pages';
 
-import { DashboardLayout, UserAccountLayout } from '../layouts';
+import {
+  DashboardLayout,
+  UserAccountLayout,
+  CommonLayout,
+} from '../layouts';
 
 import React, { ReactNode, useEffect } from 'react';
+
+import { ProtectedRoute } from './ProtectedRoutes';
+import { AuthProvider } from '../hooks/useAuth.tsx';
+
 
 // Custom scroll restoration function
 export const ScrollToTop: React.FC = () => {
@@ -56,12 +64,15 @@ const PageWrapper = ({ children }: PageProps) => {
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <SignInPage />,
+    element: (
+      <AuthProvider> <SignInPage /></AuthProvider>
+    ),
     errorElement: <ErrorPage />,
   },
 
   {
     path: '/auth',
+    element: (<AuthProvider><PageWrapper children={<CommonLayout />} /></AuthProvider>)  ,
     errorElement: <ErrorPage />,
     children: [
       {
@@ -96,7 +107,8 @@ const router = createBrowserRouter([
   },
   {
     path: 'org-admin',
-    element: <PageWrapper children={<DashboardLayout />} />,
+    // element: <PageWrapper children={<DashboardLayout />} />,
+    element: (<AuthProvider><PageWrapper children={<DashboardLayout />} /></AuthProvider>)  ,
     errorElement: <ErrorPage />,
     children: [
       {
@@ -106,30 +118,9 @@ const router = createBrowserRouter([
       },
       {
         path: 'dashboard',
-        element: <OrgAdminPage />,
-        errorElement: <ErrorPage />,
-      },
-      {
-        path: 'exam',
-        element: <OrgAdminExamPage />,
-      },
-    ],
-  },
-
-  {
-    path: 'tutor',
-    element: <PageWrapper children={<DashboardLayout />} />,
-    errorElement: <ErrorPage />,
-    children: [
-      {
-        index: true,
-        element: <OrgAdminPage />,
-        errorElement: <ErrorPage />,
-      },
-      {
-        path: 'dashboard',
-        element: <TutorDashBoardPage />,
-        errorElement: <ErrorPage />,
+        element: <ProtectedRoute roles={['ATTENDEE']} children={<OrgAdminPage />} />,
+        // element: <OrgAdminPage />,
+        errorElement : <ErrorPage />  
       },
       {
         path: 'exams',
