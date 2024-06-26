@@ -118,9 +118,32 @@ const router = createBrowserRouter([
       },
       {
         path: 'dashboard',
-        element: <ProtectedRoute roles={['ATTENDEE']} children={<OrgAdminPage />} />,
+        element: <ProtectedRoute roles={['ORGANIZATION']} children={<OrgAdminPage />} />,
         // element: <OrgAdminPage />,
         errorElement : <ErrorPage />  
+      },
+      {
+        path: 'exams',
+        element: <OrgAdminPage />,
+      },
+    ],
+  },
+
+
+  {
+    path: 'tutor',
+    element: <PageWrapper children={<DashboardLayout />} />,
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        index: true,
+        element: <OrgAdminPage />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: 'dashboard',
+        element: <TutorDashBoardPage />,
+        errorElement: <ErrorPage />,
       },
       {
         path: 'exams',

@@ -20,9 +20,9 @@ import {
 import { Logo } from '../../components';
 import { useMediaQuery } from 'react-responsive';
 import { PATH_AUTH } from '../../constants';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { PATH_USER_PROFILE, PATH_DASHBOARD } from '../../constants/routes';
+// import { PATH_USER_PROFILE, PATH_DASHBOARD, PATH_TUTOR } from '../../constants/routes';
 
 import {loginService} from '../../api/services/auth';
 import { useAuth } from '../../hooks/useAuth';
@@ -47,7 +47,7 @@ export const SignInPage = () => {
     token: { colorPrimary },
   } = theme.useToken();
   const isMobile = useMediaQuery({ maxWidth: 769 });
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
   const onFinish = (values: any) => {
@@ -71,20 +71,20 @@ export const SignInPage = () => {
             content: 'Login successful',
           });
 
-        setTimeout(() => {
+        // setTimeout(() => {
 
-          // navigate according to user role
-          if (res.data.role === 'ATTENDEE') {
-            navigate(PATH_USER_PROFILE.details);
-          }
-          if (res.data.role === 'ORGANIZATION') {
-            navigate(PATH_DASHBOARD.org_admin);
-          }
-          if (res.data.role === 'EXAMSETTER') {
-            navigate(PATH_DASHBOARD.org_admin);
-          }
+        //   // navigate according to user role
+        //   if (res.data.role === 'CANDIDATE') {
+        //     navigate(PATH_USER_PROFILE.details);
+        //   }
+        //   if (res.data.role === 'ORGANIZATION') {
+        //     navigate(PATH_DASHBOARD.org_admin);
+        //   }
+        //   if (res.data.role === 'EXAMSETTER') {
+        //     navigate(PATH_TUTOR.dashboard);
+        //   }
          
-        }, 1000);
+        // }, 1000);
       } else {
         message.open({
           type: 'error',
@@ -99,7 +99,7 @@ export const SignInPage = () => {
  
 
     // setTimeout(() => {
-    navigate(PATH_ORG_ADMIN.dashboard);
+    // navigate(PATH_ORG_ADMIN.dashboard);
     // }, 5000);
   };
 
