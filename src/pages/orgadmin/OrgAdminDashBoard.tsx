@@ -3,8 +3,8 @@ import {
   Card,
   Loader,
   PageHeader,
-  // MarketingStatsCard,
-  // LogisticsStatsCard,
+  MarketingStatsCard,
+  LogisticsStatsCard,
   ExamsTable,
   LearningStatsCard,
   ExamsCard as ExamCards,
@@ -160,8 +160,6 @@ export const OrgAdminDashBoard = () => {
     loading: examCardDataLoading,
   } = useFetchData('../mocks/Exams.json');
 
-
-
   const [examTabsKey, setExamTabKey] = useState<string>('all');
 
   const EXAM_TABS_CONTENT: Record<string, React.ReactNode> = {
@@ -210,8 +208,8 @@ export const OrgAdminDashBoard = () => {
                 <PieChartOutlined />
                 <span>dashboard</span>
               </>
-            )
-          }
+            ),
+          },
         ]}
       />
       <Row
@@ -230,7 +228,7 @@ export const OrgAdminDashBoard = () => {
             style={{ height: '100%' }}
           />
         </Col>
-        {/* <Col xs={24} sm={12} lg={8}>
+        <Col xs={24} sm={12} lg={8}>
           <MarketingStatsCard
             data={[274, 337, 81, 497]}
             title="Exams Taken"
@@ -246,7 +244,7 @@ export const OrgAdminDashBoard = () => {
             title="Exams Completed"
             diff={12.5}
           />
-        </Col> */}
+        </Col>
 
         <Col span={24}>
           <Card

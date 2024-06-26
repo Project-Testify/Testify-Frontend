@@ -1,9 +1,9 @@
 import { createBrowserRouter, useLocation } from 'react-router-dom';
 import {
   ErrorPage,
-  // HomePage,
   SignInPage,
   OrgAdminDashBoard as OrgAdminPage,
+  TutorDashBoard as TutorDashBoardPage,
   UserProfileDetailsPage,
   UserProfileActionsPage,
   UserProfileActivityPage,
@@ -16,13 +16,10 @@ import {
   PasswordResetPage,
   VerifyEmailPage,
   WelcomePage,
-  
+  OrgAdminExamPage,
 } from '../pages';
 
-import {
-  DashboardLayout,
-  UserAccountLayout,
-} from '../layouts';
+import { DashboardLayout, UserAccountLayout } from '../layouts';
 
 import React, { ReactNode, useEffect } from 'react';
 
@@ -105,24 +102,45 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <OrgAdminPage />,
-        errorElement : <ErrorPage />  
+        errorElement: <ErrorPage />,
       },
       {
         path: 'dashboard',
         element: <OrgAdminPage />,
-        errorElement : <ErrorPage />  
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: 'exam',
+        element: <OrgAdminExamPage />,
+      },
+    ],
+  },
+
+  {
+    path: 'tutor',
+    element: <PageWrapper children={<DashboardLayout />} />,
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        index: true,
+        element: <OrgAdminPage />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: 'dashboard',
+        element: <TutorDashBoardPage />,
+        errorElement: <ErrorPage />,
       },
       {
         path: 'exams',
         element: <OrgAdminPage />,
       },
-      
-    ]
+    ],
   },
 
   {
     path: '/user-profile',
-    element: <PageWrapper children={<UserAccountLayout />} />,
+    element: <PageWrapper children={<DashboardLayout />} />,
     errorElement: <ErrorPage />,
     children: [
       {
@@ -156,7 +174,6 @@ const router = createBrowserRouter([
       },
     ],
   },
-  
 ]);
 
 export default router;

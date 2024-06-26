@@ -3,16 +3,11 @@ import { ConfigProvider, Layout, Menu, MenuProps, SiderProps } from 'antd';
 import {
   UserOutlined,
   BankOutlined,
-  BarChartOutlined
+  BarChartOutlined,
 } from '@ant-design/icons';
 import { Logo } from '../../components';
 import { Link, useLocation } from 'react-router-dom';
-import {
-
-  PATH_DASHBOARD,
-  PATH_EXAM,
-  PATH_USER_PROFILE,
-} from '../../constants';
+import { PATH_DASHBOARD, PATH_EXAM, PATH_USER_PROFILE } from '../../constants';
 import { COLOR } from '../../App.tsx';
 import { PATH_HOME, PATH_ORG_ADMIN } from '../../constants/routes.ts';
 
@@ -36,21 +31,23 @@ const getItem = (
   } as MenuItem;
 };
 
-
 // org admin items
 const orgAdminItems: MenuProps['items'] = [
- 
   getItem(
-      <Link to={PATH_ORG_ADMIN.dashboard}>DashBoard</Link>,
-      'projects',
+    <Link to={PATH_ORG_ADMIN.dashboard}>DashBoard</Link>,
+    'dashboard',
+    <BarChartOutlined />
+  ),
+
+  getItem('Exams', 'exam', null, [], 'group'),
+
+  getItem('Exams', 'exam', <BankOutlined />, [
+    getItem(<Link to={PATH_ORG_ADMIN.exam}>All Exams</Link>, 'exam', null),
+    getItem(
+      <Link to={PATH_ORG_ADMIN.new_exam}>New Exams</Link>,
+      'new_exam',
       null
     ),
-
-  getItem('Exams', 'pages', null, [], 'group'),
-
-  getItem('Exams', 'exams', <BankOutlined />, [
-    getItem(<Link to={PATH_ORG_ADMIN.exam}>All Exams</Link>, 'all_exams', null),
-    getItem(<Link to={PATH_ORG_ADMIN.exam + '/new'}>New Exams</Link>, 'new_exam', null),
   ]),
 
   getItem('Account', 'pages', null, [], 'group'),
@@ -93,17 +90,15 @@ const orgAdminItems: MenuProps['items'] = [
       null
     ),
   ]),
-  
 ];
 
 // Tutor items
 const tutorItems: MenuProps['items'] = [
- 
   getItem(
-      <Link to={PATH_DASHBOARD.org_admin}>DashBoard</Link>,
-      'projects',
-      null
-    ),
+    <Link to={PATH_DASHBOARD.org_admin}>DashBoard</Link>,
+    'projects',
+    null
+  ),
   getItem('Organizations', 'organizations', <BankOutlined />, [
     getItem(<Link to={'org/name1'}>Organization 1</Link>, 'Org', null),
   ]),
@@ -112,16 +107,32 @@ const tutorItems: MenuProps['items'] = [
 
   getItem('Exams', 'exams', <BankOutlined />, [
     getItem(<Link to={PATH_EXAM.exam}>All Exams</Link>, 'all_exams', null),
-    getItem(<Link to={PATH_EXAM.exam + '/new'}>New Exams</Link>, 'new_exam', null),
-    getItem(<Link to={PATH_EXAM.exam + '/grading'}>Grading</Link>, 'grading', null),
+    getItem(
+      <Link to={PATH_EXAM.exam + '/new'}>New Exams</Link>,
+      'new_exam',
+      null
+    ),
+    getItem(
+      <Link to={PATH_EXAM.exam + '/grading'}>Grading</Link>,
+      'grading',
+      null
+    ),
   ]),
 
   getItem('Results', 'results', null, [], 'group'),
 
   getItem('Results', 'results', <BarChartOutlined />, [
     getItem(<Link to={PATH_EXAM.exam}>All Exams</Link>, 'all_exams', null),
-    getItem(<Link to={PATH_EXAM.exam + '/new'}>New Exams</Link>, 'new_exam', null),
-    getItem(<Link to={PATH_EXAM.exam + '/grading'}>Grading</Link>, 'grading', null),
+    getItem(
+      <Link to={PATH_EXAM.exam + '/new'}>New Exams</Link>,
+      'new_exam',
+      null
+    ),
+    getItem(
+      <Link to={PATH_EXAM.exam + '/grading'}>Grading</Link>,
+      'grading',
+      null
+    ),
   ]),
 
   getItem('Account', 'pages', null, [], 'group'),
@@ -164,7 +175,6 @@ const tutorItems: MenuProps['items'] = [
       null
     ),
   ]),
-  
 ];
 
 const rootSubmenuKeys = ['dashboards', 'corporate', 'user-profile'];
@@ -178,9 +188,7 @@ const SideNav = ({ ...others }: SideNavProps) => {
   const [current, setCurrent] = useState('');
 
   // set the state of the role as either tutor or orgadmin
-  const [isRole, setIsRole] = useState('org-admin');
-  // setIsRole('org-admin');
-
+  const [isRole, setIsRole] = useState('');
 
   const onClick: MenuProps['onClick'] = (e) => {
     console.log('click ', e);
@@ -199,6 +207,14 @@ const SideNav = ({ ...others }: SideNavProps) => {
     const paths = pathname.split('/');
     setOpenKeys(paths);
     setCurrent(paths[paths.length - 1]);
+  }, [pathname]);
+
+  useEffect(() => {
+    if (pathname.includes('org-admin')) {
+      setIsRole('org-admin');
+    } else if (pathname.includes('tutor')) {
+      setIsRole('tutor');
+    }
   }, [pathname]);
 
   return (
@@ -224,26 +240,29 @@ const SideNav = ({ ...others }: SideNavProps) => {
           },
         }}
       >
-        {isRole === 'org-admin' && <Menu
-          mode="inline"
-          items={orgAdminItems}
-          onClick={onClick}
-          openKeys={openKeys}
-          onOpenChange={onOpenChange}
-          selectedKeys={[current]}
-          style={{ border: 'none' }}
-        />}
-        
-        {isRole === 'tutor' && <Menu
-          mode="inline"
-          items={tutorItems}
-          onClick={onClick}
-          openKeys={openKeys}
-          onOpenChange={onOpenChange}
-          selectedKeys={[current]}
-          style={{ border: 'none' }}
-        />
-        }
+        {isRole === 'org-admin' && (
+          <Menu
+            mode="inline"
+            items={orgAdminItems}
+            onClick={onClick}
+            openKeys={openKeys}
+            onOpenChange={onOpenChange}
+            selectedKeys={[current]}
+            style={{ border: 'none' }}
+          />
+        )}
+
+        {isRole === 'tutor' && (
+          <Menu
+            mode="inline"
+            items={tutorItems}
+            onClick={onClick}
+            openKeys={openKeys}
+            onOpenChange={onOpenChange}
+            selectedKeys={[current]}
+            style={{ border: 'none' }}
+          />
+        )}
       </ConfigProvider>
     </Sider>
   );
