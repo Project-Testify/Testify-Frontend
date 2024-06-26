@@ -19,7 +19,7 @@ import {
 } from '@ant-design/icons';
 import { Logo } from '../../components';
 import { useMediaQuery } from 'react-responsive';
-import { PATH_AUTH} from '../../constants';
+import { PATH_AUTH } from '../../constants';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { PATH_USER_PROFILE, PATH_DASHBOARD } from '../../constants/routes';
@@ -66,10 +66,10 @@ export const SignInPage = () => {
 
 
 
-        message.open({
-          type: 'success',
-          content: 'Login successful',
-        });
+          message.open({
+            type: 'success',
+            content: 'Login successful',
+          });
 
         setTimeout(() => {
 
@@ -99,7 +99,7 @@ export const SignInPage = () => {
  
 
     // setTimeout(() => {
-      // navigate(PATH_ORG_ADMIN.dashboard);
+    navigate(PATH_ORG_ADMIN.dashboard);
     // }, 5000);
   };
 
@@ -144,7 +144,7 @@ export const SignInPage = () => {
             name="sign-up-form"
             layout="vertical"
             labelCol={{ span: 24 }}
-            wrapperCol={{ span: 24 }} 
+            wrapperCol={{ span: 24 }}
             // initialValues={{
             //   email: 'demo@email.com',
             //   password: 'demo123',

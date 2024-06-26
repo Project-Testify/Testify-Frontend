@@ -1,9 +1,9 @@
 import { createBrowserRouter, useLocation } from 'react-router-dom';
 import {
   ErrorPage,
-  // HomePage,
   SignInPage,
   OrgAdminDashBoard as OrgAdminPage,
+  TutorDashBoard as TutorDashBoardPage,
   UserProfileDetailsPage,
   UserProfileActionsPage,
   UserProfileActivityPage,
@@ -16,7 +16,7 @@ import {
   PasswordResetPage,
   VerifyEmailPage,
   WelcomePage,
-  
+  OrgAdminExamPage,
 } from '../pages';
 
 import {
@@ -114,7 +114,7 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <OrgAdminPage />,
-        errorElement : <ErrorPage />  
+        errorElement: <ErrorPage />,
       },
       {
         path: 'dashboard',
@@ -126,13 +126,12 @@ const router = createBrowserRouter([
         path: 'exams',
         element: <OrgAdminPage />,
       },
-      
-    ]
+    ],
   },
 
   {
     path: '/user-profile',
-    element: <PageWrapper children={<UserAccountLayout />} />,
+    element: <PageWrapper children={<DashboardLayout />} />,
     errorElement: <ErrorPage />,
     children: [
       {
@@ -166,7 +165,6 @@ const router = createBrowserRouter([
       },
     ],
   },
-  
 ]);
 
 export default router;
