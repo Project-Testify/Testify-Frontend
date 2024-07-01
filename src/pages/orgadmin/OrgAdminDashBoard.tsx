@@ -8,9 +8,10 @@ import {
   ExamsTable,
   LearningStatsCard,
   ExamsCard as ExamCards,
+  ExamListCard,
 } from '../../components';
 
-import { ExamsCard } from '../../components/dashboard/shared/ExamsCard/ExamsCard';
+// import { ExamsCard } from '../../components/dashboard/shared/ExamsCard/ExamsCard';
 import { Column } from '@ant-design/charts';
 import { Exams } from '../../types';
 import { useState } from 'react';
@@ -155,6 +156,12 @@ export const OrgAdminDashBoard = () => {
   } = useFetchData('../mocks/ExamsMock.json');
 
   const {
+    data: tasksListData = [],
+    error: tasksListError,
+    loading: tasksListLoading,
+  } = useFetchData('../mocks/ExamsMock.json');
+
+  const {
     data: examCardData,
     error: examCardDataError,
     loading: examCardDataLoading,
@@ -184,11 +191,8 @@ export const OrgAdminDashBoard = () => {
 
   // const [OrgAdminName, setOrgAdminName] = useState('Org Admin Name');
   const OrgAdminName = 'Org Admin Name';
-  
+
   // setOrgAdminName('Org Admin Name');
-
-
-
 
   return (
     <div>
@@ -252,35 +256,11 @@ export const OrgAdminDashBoard = () => {
         </Col>
 
         <Col span={24}>
-          <Card
-            title="Recently added Exams"
-            extra={<Button>View all Exam</Button>}
-          >
-            {examsDataError ? (
-              <Alert
-                message="Error"
-                description={examsDataError.toString()}
-                type="error"
-                showIcon
-              />
-            ) : examsDataLoading ? (
-              <Loader />
-            ) : (
-              <Row gutter={[16, 16]}>
-                {examsData.slice(0, 4).map((o: Exams) => {
-                  return (
-                    <Col xs={24} sm={12} xl={6} key={o.exam_id}>
-                      <ExamsCard
-                        exams={o}
-                        type="inner"
-                        style={{ height: '100%' }}
-                      />
-                    </Col>
-                  );
-                })}
-              </Row>
-            )}
-          </Card>
+          <ExamListCard
+            data={tasksListData}
+            error={tasksListError}
+            loading={tasksListLoading}
+          />
         </Col>
         <Col xs={24} sm={12} xl={16}>
           <Card

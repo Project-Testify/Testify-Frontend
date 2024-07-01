@@ -17,6 +17,7 @@ import {
   VerifyEmailPage,
   WelcomePage,
   OrgAdminExamPage,
+  OrgAdminNewExamPage,
 } from '../pages';
 
 import {
@@ -107,8 +108,8 @@ const router = createBrowserRouter([
   },
   {
     path: 'org-admin',
-    // element: <PageWrapper children={<DashboardLayout />} />,
-    element: (<AuthProvider><PageWrapper children={<DashboardLayout />} /></AuthProvider>)  ,
+    element: <PageWrapper children={<DashboardLayout />} />,
+    // element: (<AuthProvider><PageWrapper children={<DashboardLayout />} /></AuthProvider>)  ,
     errorElement: <ErrorPage />,
     children: [
       {
@@ -118,14 +119,20 @@ const router = createBrowserRouter([
       },
       {
         path: 'dashboard',
-        element: <ProtectedRoute roles={['ATTENDEE']} children={<OrgAdminPage />} />,
-        // element: <OrgAdminPage />,
+        // element: <ProtectedRoute roles={['ATTENDEE']} children={<OrgAdminPage />} />,
+        element: <OrgAdminPage />,
         errorElement : <ErrorPage />  
       },
       {
-        path: 'exams',
-        element: <OrgAdminPage />,
+        path: 'exam',
+        element: <OrgAdminExamPage />,
+        errorElement : <ErrorPage />
       },
+      {
+        path: "new_exam",
+        element: <OrgAdminNewExamPage />,
+        errorElement: <ErrorPage />
+      }
     ],
   },
 
