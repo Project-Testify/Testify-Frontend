@@ -22,6 +22,7 @@ export const COLOR = {
   800: '#003650',
   900: '#001620',
   borderColor: '#E7EAF3B2',
+  
 };
 
 function App() {

@@ -20,3 +20,4 @@ export { UserAvatar } from './UserAvatar/UserAvatar';
 export * from './Nprogress';
 export * from './dashboard';
 export * from './Container';
+export * from './Exam';
