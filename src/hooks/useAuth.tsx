@@ -2,7 +2,7 @@ import { createContext, useContext, useMemo, ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLocalStorage } from "./useLocalStorage";
 
-import { PATH_ORG_ADMIN, PATH_DASHBOARD } from '../constants/routes';
+import { PATH_ORG_ADMIN, PATH_TUTOR } from '../constants/routes';
 
 
 interface User {
@@ -35,10 +35,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         navigate(PATH_ORG_ADMIN.dashboard);
         }
         if (data.role === "ATTENDEE") {
-          navigate(PATH_DASHBOARD.org_admin);
+          navigate(PATH_ORG_ADMIN.dashboard);
         }
         if (data.role === "EXAMSETTER") {
-          navigate(PATH_DASHBOARD.org_admin);
+          navigate(PATH_TUTOR.dashboard);
         }
 
     
