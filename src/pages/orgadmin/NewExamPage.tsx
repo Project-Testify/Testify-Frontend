@@ -1,10 +1,9 @@
-import { PageHeader, Card, QuestionCard, AddQuestion } from '../../components';
+import { PageHeader, Card, AddQuestion, QuestionsListCard } from '../../components';
 
 import {
   BankOutlined,
-  CloseOutlined,
   HomeOutlined,
-  PlusCircleOutlined,
+
 } from '@ant-design/icons';
 import { Helmet } from 'react-helmet-async';
 import {
@@ -15,27 +14,19 @@ import {
   Col,
   Form,
   Input,
-  Checkbox,
   DatePicker,
   Space,
-  Typography,
+
   Flex,
   Modal,
 } from 'antd';
 import { useState } from 'react';
-import { remove, values } from 'lodash';
+import { useFetchData } from '../../hooks';
+
 
 const { Step } = Steps;
 
 type FieldType = {
-  // "title": "string",
-  // "description": "string",
-  // "instructions": "string",
-  // "duration": 0,
-  // "totalMarks": 0,
-  // "passMarks": 0,
-  // "examSetterId": 0,
-  // "organizationId": 0
 
   title?: string;
   description?: string;
@@ -251,111 +242,86 @@ export const NewExamPage = () => {
   function MakeQuestions() {
     const [form] = Form.useForm();
 
-    function addQuestion() {
-      form.setFieldsValue({
-        items: [...values(form.getFieldsValue().items), {}],
-      });
-    }
 
     const [open, setOpen] = useState(false);
 
     const showModal = () => {
       setOpen(true);
     };
+
+    const {
+      data: questionData = [],
+      error: questionError,
+      loading: questionLoading,
+    } = useFetchData('../mocks/Questions.json');
+
     const handleOk = () => {
-      setOpen(false);
+
+      form.validateFields().then(() => {
+        // console.log(form.getFieldsValue());
+        setOpen(false);
+
+        // send to database http://localhost:8080/api/v1/exam/1/addQuestion
+      });
+
     };
 
     const handleCancel = () => {
       setOpen(false);
+      form.resetFields();
     };
 
-    function makePopup() {
-      return (
-        <Modal
-          open={open}
-          title="Title"
-          onOk={handleOk}
-          onCancel={handleCancel}
-          footer={(_, { OkBtn, CancelBtn }) => (
-            <>
-              <Button>Custom Button</Button>
-              <CancelBtn />
-              <OkBtn />
-            </>
-          )}
-        >
-          <p>Some contents...</p>
-          <p>Some contents...</p>
-          <p>Some contents...</p>
-          <p>Some contents...</p>
-          <p>Some contents...</p>
-        </Modal>
-      );
-    }
-
     return (
-      <Flex vertical gap={12}>
-        <Space
-          align="end"
-          style={{
-            justifyContent: 'flex-end',
-            width: '100%',
-          }}
-        >
-          <Button type="primary" onClick={showModal}>
-            Add Question
-          </Button>
-
-          <Modal
-            open={open}
-            title="Add Question"
-            onOk={handleOk}
-            onCancel={handleCancel}
-            footer={(_, { OkBtn, CancelBtn }) => (
-              <>
-                <CancelBtn />
-                <OkBtn />
-              </>
-            )}
+      <>
+        <Flex vertical gap={12}>
+          <Space
+            align="end"
+            style={{
+              justifyContent: 'flex-end',
+              width: '100%',
+            }}
           >
-            <Form.Item>
-             <AddQuestion />
-            </Form.Item>
-          </Modal>
-        </Space>
+            <Button type="primary" onClick={showModal}>
+              Add Question
+            </Button>
 
-        <Form
-          form={form}
-          name="dynamic_form_complex"
-          autoComplete="off"
-          initialValues={{ items: [{}] }}
-        >
-          <Form.List name="items">
-            {(fields, { add, remove }) => (
-              <div
-                style={{ display: 'flex', rowGap: 16, flexDirection: 'column' }}
-              >
-                {fields.map((field) => (
-                  <QuestionCard fieldName={field} form={form} remove={remove} />
-                ))}
+            <Modal
+              open={open}
+              title="Add Question"
+              onOk={handleOk}
+              onCancel={handleCancel}
+              footer={(_, { OkBtn, CancelBtn }) => (
+                <>
+                  <CancelBtn />
+                  <OkBtn />
+                </>
+              )}
+            >
+              <Form form={form}>
+                <AddQuestion handleOk={handleOk} form={form} />
 
-                <Button type="dashed" onClick={() => add()} block>
-                  + Add Question
-                </Button>
-              </div>
-            )}
-          </Form.List>
+                {/* <Form.Item noStyle shouldUpdate>
+                  {(form) => (
+                    <Typography>
+                      <pre>
+                        {JSON.stringify(form.getFieldsValue(), null, 2)}
+                      </pre>
+                    </Typography>
+                  )}
+                </Form.Item> */}
+              </Form>
+            </Modal>
+          </Space>
+        </Flex>
 
-          <Form.Item noStyle shouldUpdate>
-            {() => (
-              <Typography>
-                <pre>{JSON.stringify(form.getFieldsValue(), null, 2)}</pre>
-              </Typography>
-            )}
-          </Form.Item>
-        </Form>
-      </Flex>
+        <Divider />        
+          <QuestionsListCard
+            data={questionData}
+            error={questionError}
+            loading={questionLoading}
+          />
+      </>
+
     );
   }
 

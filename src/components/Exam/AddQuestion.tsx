@@ -16,15 +16,17 @@ const tabList = [
 const mcqForm = () => {
   return (
     <>
-      <Form.Item label="Question" name="questionText">
+      <Form.Item name="questionType" hidden initialValue="MCQ" />
+      <Form.Item name="type" hidden initialValue="MCQ" />
+
+      <Form.Item label="Question" name="questionText" rules={[{required:true}]}>
+
         <Input.TextArea
           placeholder="Answer"
           autoSize={{ minRows: 2, maxRows: 6 }}
         />
       </Form.Item>
 
-      <Form.Item name="questionType" hidden initialValue="MCQ" />
-      <Form.Item name="type" hidden initialValue="MCQ" />
 
       <Form.Item label="Answers">
         <Form.List name={['options']}>
@@ -34,13 +36,16 @@ const mcqForm = () => {
             >
               {subFields.map((subField) => (
                 <Space key={subField.key}>
-                  <Form.Item noStyle name={[subField.name, 'optionText']}>
+                  <Form.Item name={[subField.name, 'optionText']} rules={[{required:true, message: 'Missing Answer'}]}>
                     <Input placeholder="Answer" />
                   </Form.Item>
-                  <Form.Item noStyle name={[subField.name, 'marks']}>
+
+                  <Form.Item name={[subField.name, 'marks']} rules={[{required:true, message: 'Missing Marks'}]}>
                     <Input placeholder="Marks" />
                   </Form.Item>
-                  <Form.Item noStyle name={[subField.name, 'isCorrect']}>
+
+                  <Form.Item name={[subField.name, 'isCorrect']} >
+
                     <Switch
                       defaultChecked={false}
                       checkedChildren={<CheckOutlined />}
@@ -67,17 +72,19 @@ const mcqForm = () => {
 const essayForm = () => {
   return (
     <>
-      <Form.Item name="questionType" hidden initialValue={'ESSAY'} />
-      <Form.Item name="type" hidden initialValue={'ESSAY'} />
+      <Form.Item name="questionType" hidden initialValue="ESSAY" />
+      <Form.Item name="type" hidden initialValue="ESSAY" />
 
-      <Form.Item label="Question" name="questionText">
+      <Form.Item label="Question" name="questionText" rules={[{required:true, message: 'Missing Question'}]}>
+
         <Input.TextArea
           placeholder="Answer"
           autoSize={{ minRows: 2, maxRows: 6 }}
         />
       </Form.Item>
 
-      <Form.Item label="Covering Points">
+      <Form.Item label="Covering Points" >
+
         <Form.List name={['coveringPoints']}>
           {(subFields, subOpt) => (
             <div
@@ -86,12 +93,14 @@ const essayForm = () => {
               {subFields.map((subField) => (
                 <Space key={subField.key}>
                   <Form.Item
-                    noStyle
+                    
                     name={[subField.name, 'coveringPointText']}
+                    rules={[{required:true, message: 'Missing Covering Point'}]}
                   >
                     <Input placeholder="coveringPoint" />
                   </Form.Item>
-                  <Form.Item noStyle name={[subField.name, 'marks']}>
+                  <Form.Item  name={[subField.name, 'marks']} rules={[{required:true, message: 'Missing Answer'}]}>
+
                     <Input placeholder="Marks" />
                   </Form.Item>
 
@@ -113,8 +122,8 @@ const essayForm = () => {
   );
 };
 
-export const AddQuestion = () => {
-  const [form] = Form.useForm();
+export const AddQuestion = ({ handleOk, form }) => {
+
   const [activeTabKey1, setActiveTabKey1] = useState<string>('mcq');
 
   const modelContent: Record<string, React.ReactNode> = {
@@ -125,7 +134,11 @@ export const AddQuestion = () => {
   const onTab1Change = (key: string) => {
     // clear values of the form
     form.resetFields();
-    
+
+    form.setFieldsValue({ questionType: key.toUpperCase() });
+    form.setFieldsValue({ type: key.toUpperCase() });
+
+
     setActiveTabKey1(key);
   };
 
@@ -138,23 +151,9 @@ export const AddQuestion = () => {
       tabProps={{
         size: 'middle',
       }}
-    >
-      <Form
-        form={form}
-        onFinish={(values) => {
-          console.log(values);
-        }}
-      >
-        {modelContent[activeTabKey1]}
+    > 
+      {modelContent[activeTabKey1]}
 
-        <Form.Item noStyle shouldUpdate>
-          {(form) => (
-            <Typography>
-              <pre>{JSON.stringify(form.getFieldsValue(), null, 2)}</pre>
-            </Typography>
-          )}
-        </Form.Item>
-      </Form>
     </Card>
   );
 };

@@ -1,0 +1,152 @@
+[
+  {
+    "questionType": "MCQ",
+    "type": "MCQ",
+    "questionText": "what is the capital of srilanka",
+    "options": [
+      {
+        "optionText": "cmb",
+        "marks": "1",
+        "isCorrect": true
+      },
+      {
+        "optionText": "kan",
+        "marks": "-1"
+      },
+      {
+        "optionText": "bad",
+        "marks": "-1"
+      }
+    ]
+  },
+  {
+    "questionType": "MCQ",
+    "type": "MCQ",
+    "questionText": "what is the capital of india",
+    "options": [
+      {
+        "optionText": "delhi",
+        "marks": "1",
+        "isCorrect": true
+      },
+      {
+        "optionText": "kan",
+        "marks": "-1"
+      },
+      {
+        "optionText": "bad",
+        "marks": "-1"
+      }
+    ]
+  },
+  {
+    "questionType": "MCQ",
+    "type": "MCQ",
+    "questionText": "what is the capital of pakistan",
+    "options": [
+      {
+        "optionText": "islamabad",
+        "marks": "1",
+        "isCorrect": true
+      },
+      {
+        "optionText": "kan",
+        "marks": "-1"
+      },
+      {
+        "optionText": "bad",
+        "marks": "-1"
+      }
+    ]
+  },
+  {
+    "questionType": "MCQ",
+    "type": "MCQ",
+    "questionText": "what is the capital of bangladesh",
+    "options": [
+      {
+        "optionText": "dhaka",
+        "marks": "1",
+        "isCorrect": true
+      },
+      {
+        "optionText": "kan",
+        "marks": "-1"
+      },
+      {
+        "optionText": "bad",
+        "marks": "-1"
+      }
+    ]
+  },
+  {
+    "questionType": "MCQ",
+    "type": "MCQ",
+    "questionText": "what is the capital of nepal",
+    "options": [
+      {
+        "optionText": "kathmandu",
+        "marks": "1"
+    },
+    {
+        "optionText": "kan",
+        "marks": "-1",
+        "isCorrect": true
+      },
+      {
+        "optionText": "bad",
+        "marks": "-1"
+      }
+    ]
+  },
+  {
+    "questionType": "MCQ",
+    "type": "MCQ",
+    "questionText": "what is the capital of bhutan",
+    "options": [
+      {
+        "optionText": "thimpu",
+        "marks": "1",
+        "isCorrect": true
+      },
+      {
+        "optionText": "kan",
+        "marks": "-1"
+      },
+      {
+        "optionText": "bad",
+        "marks": "-1"
+      }
+    ]
+  },
+  {
+    "questionType": "ESSAY",
+    "type": "ESSAY",
+    "questionText": "explain about srilanka",
+    "coveringPoints": [
+      {
+        "coveringPointText": "culture",
+        "marks": "5"
+      },
+      {
+        "coveringPointText": "grammar",
+        "marks": "2"
+      }
+    ]
+  },
+  {
+    "questionType": "ESSAY",
+    "type": "ESSAY",
+    "questionText": "explain about india",
+    "coveringPoints": [
+      {
+        "coveringPointText": "culture",
+        "marks": "5"
+      },
+      {
+        "coveringPointText": "grammar",
+        "marks": "2"
+      }
+    ]
+  }
+]
