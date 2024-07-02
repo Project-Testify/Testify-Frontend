@@ -20,11 +20,13 @@ const mcqForm = () => {
       <Form.Item name="type" hidden initialValue="MCQ" />
 
       <Form.Item label="Question" name="questionText" rules={[{required:true}]}>
+
         <Input.TextArea
           placeholder="Answer"
           autoSize={{ minRows: 2, maxRows: 6 }}
         />
       </Form.Item>
+
 
       <Form.Item label="Answers">
         <Form.List name={['options']}>
@@ -43,6 +45,7 @@ const mcqForm = () => {
                   </Form.Item>
 
                   <Form.Item name={[subField.name, 'isCorrect']} >
+
                     <Switch
                       defaultChecked={false}
                       checkedChildren={<CheckOutlined />}
@@ -73,6 +76,7 @@ const essayForm = () => {
       <Form.Item name="type" hidden initialValue="ESSAY" />
 
       <Form.Item label="Question" name="questionText" rules={[{required:true, message: 'Missing Question'}]}>
+
         <Input.TextArea
           placeholder="Answer"
           autoSize={{ minRows: 2, maxRows: 6 }}
@@ -80,6 +84,7 @@ const essayForm = () => {
       </Form.Item>
 
       <Form.Item label="Covering Points" >
+
         <Form.List name={['coveringPoints']}>
           {(subFields, subOpt) => (
             <div
@@ -95,6 +100,7 @@ const essayForm = () => {
                     <Input placeholder="coveringPoint" />
                   </Form.Item>
                   <Form.Item  name={[subField.name, 'marks']} rules={[{required:true, message: 'Missing Answer'}]}>
+
                     <Input placeholder="Marks" />
                   </Form.Item>
 
@@ -117,6 +123,7 @@ const essayForm = () => {
 };
 
 export const AddQuestion = ({ handleOk, form }) => {
+
   const [activeTabKey1, setActiveTabKey1] = useState<string>('mcq');
 
   const modelContent: Record<string, React.ReactNode> = {
@@ -146,6 +153,7 @@ export const AddQuestion = ({ handleOk, form }) => {
       }}
     > 
       {modelContent[activeTabKey1]}
+
     </Card>
   );
 };

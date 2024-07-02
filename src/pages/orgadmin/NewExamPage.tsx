@@ -3,6 +3,7 @@ import { PageHeader, Card, AddQuestion, QuestionsListCard } from '../../componen
 import {
   BankOutlined,
   HomeOutlined,
+
 } from '@ant-design/icons';
 import { Helmet } from 'react-helmet-async';
 import {
@@ -15,15 +16,18 @@ import {
   Input,
   DatePicker,
   Space,
+
   Flex,
   Modal,
 } from 'antd';
 import { useState } from 'react';
 import { useFetchData } from '../../hooks';
 
+
 const { Step } = Steps;
 
 type FieldType = {
+
   title?: string;
   description?: string;
   instructions?: string;
@@ -238,6 +242,7 @@ export const NewExamPage = () => {
   function MakeQuestions() {
     const [form] = Form.useForm();
 
+
     const [open, setOpen] = useState(false);
 
     const showModal = () => {
@@ -258,6 +263,7 @@ export const NewExamPage = () => {
 
         // send to database http://localhost:8080/api/v1/exam/1/addQuestion
       });
+
     };
 
     const handleCancel = () => {
@@ -315,6 +321,7 @@ export const NewExamPage = () => {
             loading={questionLoading}
           />
       </>
+
     );
   }
 
