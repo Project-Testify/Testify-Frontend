@@ -1,5 +1,3 @@
-import { or } from "firebase/firestore";
-
 function path(root: string, sublink: string) {
   return `${root}${sublink}`;
 }
@@ -27,6 +25,7 @@ const ROOTS_CALENDAR = '/calendar';
 const ROOTS_ERRORS = '/errors';
 const ROOTS_ABOUT = '/about';
 const ROOTS_ORG_ADMIN = '/org-admin';
+const ROOTS_TUTOR = '/tutor';
 
 export const PATH_LANDING = {
   root: ROOTS_LANDING,
@@ -37,20 +36,20 @@ export const PATH_LANDING = {
 };
 
 export const PATH_HOME = {
-  root: ROOTS_HOME
+  root: ROOTS_HOME,
 };
 
 export const PATH_DASHBOARD = {
   root: ROOTS_DASHBOARD,
   org_admin: path(ROOTS_DASHBOARD, '/orgadmin'),
-//   default: path(ROOTS_DASHBOARD, '/default'),
-//   projects: path(ROOTS_DASHBOARD, '/projects'),
-//   ecommerce: path(ROOTS_DASHBOARD, '/ecommerce'),
-//   marketing: path(ROOTS_DASHBOARD, '/marketing'),
-//   social: path(ROOTS_DASHBOARD, '/social'),
-//   bidding: path(ROOTS_DASHBOARD, '/bidding'),
-//   learning: path(ROOTS_DASHBOARD, '/learning'),
-//   logistics: path(ROOTS_DASHBOARD, '/logistics'),
+  default: path(ROOTS_DASHBOARD, '/default'),
+  //   projects: path(ROOTS_DASHBOARD, '/projects'),
+  //   ecommerce: path(ROOTS_DASHBOARD, '/ecommerce'),
+  //   marketing: path(ROOTS_DASHBOARD, '/marketing'),
+  //   social: path(ROOTS_DASHBOARD, '/social'),
+  //   bidding: path(ROOTS_DASHBOARD, '/bidding'),
+  //   learning: path(ROOTS_DASHBOARD, '/learning'),
+  //   logistics: path(ROOTS_DASHBOARD, '/logistics'),
 };
 
 export const PATH_EXAM = {
@@ -246,4 +245,11 @@ export const PATH_ORG_ADMIN = {
   root: ROOTS_ORG_ADMIN,
   dashboard: path(ROOTS_ORG_ADMIN, '/dashboard'),
   exam: path(ROOTS_ORG_ADMIN, '/exam'),
+  new_exam: path(ROOTS_ORG_ADMIN, '/new_exam'),
+};
+
+export const PATH_TUTOR = {
+  root: ROOTS_TUTOR,
+  dashboard: path(ROOTS_TUTOR, '/dashboard'),
+  exam: path(ROOTS_TUTOR, '/exam'),
 };

@@ -8,10 +8,9 @@ import {
   ExamsTable,
   LearningStatsCard,
   ExamsCard as ExamCards,
-  ExamListCard,
 } from '../../components';
 
-// import { ExamsCard } from '../../components/dashboard/shared/ExamsCard/ExamsCard';
+import { ExamsCard } from '../../components/dashboard/shared/ExamsCard/ExamsCard';
 import { Column } from '@ant-design/charts';
 import { Exams } from '../../types';
 import { useState } from 'react';
@@ -148,17 +147,11 @@ const EXAM_TABS = [
   },
 ];
 
-export const OrgAdminDashBoard = () => {
+export const TutorDashBoard = () => {
   const {
     data: examsData,
     error: examsDataError,
     loading: examsDataLoading,
-  } = useFetchData('../mocks/ExamsMock.json');
-
-  const {
-    data: tasksListData = [],
-    error: tasksListError,
-    loading: tasksListLoading,
   } = useFetchData('../mocks/ExamsMock.json');
 
   const {
@@ -189,10 +182,8 @@ export const OrgAdminDashBoard = () => {
     setExamTabKey(key);
   };
 
-  // const [OrgAdminName, setOrgAdminName] = useState('Org Admin Name');
-  const OrgAdminName = 'Org Admin Name';
-
-  // setOrgAdminName('Org Admin Name');
+  const [TutorName, SetTutorName] = useState('Tutor Name');
+  // SetTutorName('Org Admin Name');
 
   return (
     <div>
@@ -200,7 +191,7 @@ export const OrgAdminDashBoard = () => {
         <title>Testify</title>
       </Helmet>
       <PageHeader
-        title={'Welcome ' + OrgAdminName}
+        title={'Welcome ' + TutorName}
         breadcrumbs={[
           {
             title: (
@@ -227,7 +218,7 @@ export const OrgAdminDashBoard = () => {
           { xs: 8, sm: 16, md: 24, lg: 32 },
         ]}
       >
-        <Col xs={24} sm={12} lg={8}>
+        {/* <Col xs={24} sm={12} lg={8}>
           <LearningStatsCard
             title="Exams in Progress"
             value={18}
@@ -236,7 +227,7 @@ export const OrgAdminDashBoard = () => {
             progress={30}
             style={{ height: '100%' }}
           />
-        </Col>
+        </Col> */}
         <Col xs={24} sm={12} lg={8}>
           <MarketingStatsCard
             data={[274, 337, 81, 497]}
@@ -256,11 +247,35 @@ export const OrgAdminDashBoard = () => {
         </Col>
 
         <Col span={24}>
-          <ExamListCard
-            data={tasksListData}
-            error={tasksListError}
-            loading={tasksListLoading}
-          />
+          <Card
+            title="Recently added Exams"
+            extra={<Button>View all Exam</Button>}
+          >
+            {examsDataError ? (
+              <Alert
+                message="Error"
+                description={examsDataError.toString()}
+                type="error"
+                showIcon
+              />
+            ) : examsDataLoading ? (
+              <Loader />
+            ) : (
+              <Row gutter={[16, 16]}>
+                {examsData.slice(0, 4).map((o: Exams) => {
+                  return (
+                    <Col xs={24} sm={12} xl={6} key={o.exam_id}>
+                      <ExamsCard
+                        exams={o}
+                        type="inner"
+                        style={{ height: '100%' }}
+                      />
+                    </Col>
+                  );
+                })}
+              </Row>
+            )}
+          </Card>
         </Col>
         <Col xs={24} sm={12} xl={16}>
           <Card
