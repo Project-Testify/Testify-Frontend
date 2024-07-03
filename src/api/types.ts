@@ -12,7 +12,7 @@ export interface CandidateRegister {
     role: string;
 }
 
-export interface ExamsetterRegister {
+export interface TutorRegister {
     email: string;
     password: string;
     firstName: string;

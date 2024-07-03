@@ -32,7 +32,7 @@ type FieldType = {
   contactNo?: string;
 };
 
-export const Student = () => {
+export const Candidate = () => {
   const isMobile = useMediaQuery({ maxWidth: 769 });
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
