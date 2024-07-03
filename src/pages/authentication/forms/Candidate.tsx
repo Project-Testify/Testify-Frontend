@@ -19,8 +19,11 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
 import { registerCandidate } from '../../../api/services/auth';
+import { Link } from 'react-router-dom';
 
-const { Title, Text, Link } = Typography;
+const { Title, Text } = Typography;
+
+
 
 type FieldType = {
   firstName?: string;
@@ -89,14 +92,14 @@ export const Candidate = () => {
       gap="middle"
       style={{ height: '100%', padding: '2rem' }}
     >
-      <Link href="/auth/signup"> &lt;Back </Link>
+      <Link to="/auth/signup"> &lt;Back </Link>
       {/* <Link to="/"> &lt;Back </Link> */}
 
 
       <Title className="m-0">Create an account As a Candidate</Title>
       <Flex gap={4}>
         <Text>Already have an account?</Text>
-        <Link href={PATH_AUTH.signin}>Sign in here</Link>
+        <Link to={PATH_AUTH.signin}>Sign in here</Link>
       </Flex>
       <Flex
         vertical={isMobile}
@@ -197,7 +200,7 @@ export const Candidate = () => {
             <Form.Item<FieldType> name="terms" valuePropName="checked">
               <Flex>
                 <Checkbox>I agree to</Checkbox>
-                <Link>terms and conditions</Link>
+                <Link to={''}>terms and conditions</Link>
               </Flex>
             </Form.Item>
           </Col>

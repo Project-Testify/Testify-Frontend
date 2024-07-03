@@ -22,7 +22,9 @@ import {
   import { useNavigate } from 'react-router-dom';
   import { useState } from 'react';
   
-  const { Title, Text, Link } = Typography;
+  const { Title, Text } = Typography;
+
+  import { Link } from 'react-router-dom';
   
   type FieldType = {
     firstName?: string;
@@ -96,12 +98,12 @@ export const Tutor = () => {
         >
 
           {/* Back button */}
-          <Link href='/auth/signup'> &lt;Back </Link>
+          <Link to='/auth/signup'> &lt;Back </Link>
           
           <Title className="m-0">Create an account as an Tutor</Title>
           <Flex gap={4}>
             <Text>Already have an account?</Text>
-            <Link href={PATH_AUTH.signin}>Sign in here</Link>
+            <Link to={PATH_AUTH.signin}>Sign in here</Link>
           </Flex>
           <Flex
             vertical={isMobile}
@@ -203,7 +205,7 @@ export const Tutor = () => {
                 <Form.Item<FieldType> name="terms" valuePropName="checked">
                   <Flex>
                     <Checkbox>I agree to</Checkbox>
-                    <Link>terms and conditions</Link>
+                    <Link to="">terms and conditions</Link>
                   </Flex>
                 </Form.Item>
               </Col>
