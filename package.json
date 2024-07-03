@@ -16,6 +16,11 @@
     "prettier:write": "prettier . --write",
     "prepare": "husky install"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
   "dependencies": {
     "@ant-design/charts": "^1.4.2",
     "@ant-design/colors": "^7.0.2",
