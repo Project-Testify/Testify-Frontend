@@ -98,7 +98,7 @@ export const Tutor = () => {
           {/* Back button */}
           <Link href='/auth/signup'> &lt;Back </Link>
           
-          <Title className="m-0">Create an account as an Educator</Title>
+          <Title className="m-0">Create an account as an Tutor</Title>
           <Flex gap={4}>
             <Text>Already have an account?</Text>
             <Link href={PATH_AUTH.signin}>Sign in here</Link>

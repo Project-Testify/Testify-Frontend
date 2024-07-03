@@ -90,8 +90,10 @@ export const Candidate = () => {
       style={{ height: '100%', padding: '2rem' }}
     >
       <Link href="/auth/signup"> &lt;Back </Link>
+      {/* <Link to="/"> &lt;Back </Link> */}
 
-      <Title className="m-0">Create an account As a Student</Title>
+
+      <Title className="m-0">Create an account As a Candidate</Title>
       <Flex gap={4}>
         <Text>Already have an account?</Text>
         <Link href={PATH_AUTH.signin}>Sign in here</Link>

@@ -60,9 +60,9 @@ export const SignUpPage = () => {
         {/* <Select /> */}
 
         <Routes>
-        <Route path="/student" element={<Candidate />} />
+        <Route path="/candidate" element={<Candidate />} />
         <Route path="/organization" element={<Organization />} />
-        <Route path="/educator" element={<Tutor />} />
+        <Route path="/tutor" element={<Tutor />} />
 
         <Route path="/" element={<Select />} />
 
