@@ -21,9 +21,10 @@ import {
   import { PATH_AUTH} from '../../../constants';
   import { useNavigate } from 'react-router-dom';
   import { useState } from 'react';
-  import { PATH_ORG_ADMIN } from '../../../constants/routes';
   
-  const { Title, Text, Link } = Typography;
+  const { Title, Text } = Typography;
+
+  import { Link } from 'react-router-dom';
   
   type FieldType = {
     firstName?: string;
@@ -32,31 +33,55 @@ import {
     password?: string;
     cPassword?: string;
     terms?: boolean;
+    contactNo?: string;
   };
+
+import { registerTutor } from '../../../api/services/auth';
 
   
 
-export const Educator = () => {
+export const Tutor = () => {
 
 
       const isMobile = useMediaQuery({ maxWidth: 769 });
       const navigate = useNavigate();
       const [loading, setLoading] = useState(false);
     
-      const onFinish = (values: any) => {
+      // const onFinish = (values: any) => {
+      //   console.log('Success:', values);
+      //   setLoading(true);
+    
+      //   message.open({
+      //     type: 'success',
+      //     content: 'Account signup successful',
+      //   });
+    
+      //   // setTimeout(() => {
+      //     navigate(PATH_ORG_ADMIN.dashboard);
+      //   // }, 5000);
+      // };
+
+      const onFinish = async (values: any) => {
         console.log('Success:', values);
         setLoading(true);
+
+        // set role
+        values.role = 'EXAMSETTER';
     
-        message.open({
-          type: 'success',
-          content: 'Account signup successful',
-        });
-    
-        // setTimeout(() => {
-          navigate(PATH_ORG_ADMIN.dashboard);
-        // }, 5000);
+        try {
+          const response = await registerTutor(values);
+          console.log(response);
+          message.success('Account signup successful');
+          navigate(`${PATH_AUTH.verifyEmail}?email=${encodeURIComponent(values.email)}`);
+        } catch (error) {
+          console.log(error);
+          message.error('An error occurred. Please try again');
+        } finally {
+          setLoading(false);
+        }
       };
     
+
       const onFinishFailed = (errorInfo: any) => {
         console.log('Failed:', errorInfo);
       };
@@ -73,12 +98,12 @@ export const Educator = () => {
         >
 
           {/* Back button */}
-          <Link href='/auth/signup'> &lt;Back </Link>
+          <Link to='/auth/signup'> &lt;Back </Link>
           
-          <Title className="m-0">Create an account as an Educator</Title>
+          <Title className="m-0">Create an account as an Tutor</Title>
           <Flex gap={4}>
             <Text>Already have an account?</Text>
-            <Link href={PATH_AUTH.signin}>Sign in here</Link>
+            <Link to={PATH_AUTH.signin}>Sign in here</Link>
           </Flex>
           <Flex
             vertical={isMobile}
@@ -112,7 +137,7 @@ export const Educator = () => {
                     },
                   ]}
                 >
-                  <Input />
+                  <Input name="firstName"/>
                 </Form.Item>
               </Col>
               <Col xs={24} lg={12}>
@@ -123,7 +148,7 @@ export const Educator = () => {
                     { required: true, message: 'Please input your last name!' },
                   ]}
                 >
-                  <Input />
+                  <Input  name="password"/>
                 </Form.Item>
               </Col>
               <Col xs={24}>
@@ -134,9 +159,23 @@ export const Educator = () => {
                     { required: true, message: 'Please input your email' },
                   ]}
                 >
-                  <Input />
+                  <Input name="email"/>
                 </Form.Item>
               </Col>
+
+              {/* contactNo */}
+              <Col xs={24}>
+                <Form.Item<FieldType>
+                  label="Mobile"
+                  name="contactNo"
+                  rules={[
+                    { required: true, message: 'Please input your mobile number' },
+                  ]}
+                >
+                  <Input name='contactNo'/>
+                </Form.Item>  
+                </Col>
+
               <Col xs={24}>
                 <Form.Item<FieldType>
                   label="Password"
@@ -145,7 +184,7 @@ export const Educator = () => {
                     { required: true, message: 'Please input your password!' },
                   ]}
                 >
-                  <Input.Password />
+                  <Input.Password  name="password"/>
                 </Form.Item>
               </Col>
               <Col xs={24}>
@@ -166,7 +205,7 @@ export const Educator = () => {
                 <Form.Item<FieldType> name="terms" valuePropName="checked">
                   <Flex>
                     <Checkbox>I agree to</Checkbox>
-                    <Link>terms and conditions</Link>
+                    <Link to="">terms and conditions</Link>
                   </Flex>
                 </Form.Item>
               </Col>

@@ -1,7 +1,7 @@
 import { Layout, Row, Col, Divider } from 'antd';
 import { useMediaQuery } from 'react-responsive';
 import { Logo } from '../../components';
-import { PATH_HOME, PATH_ORG_ADMIN } from '../../constants/routes.ts';
+import { PATH_HOME } from '../../constants/routes.ts';
 
 const { Footer } = Layout;
 
