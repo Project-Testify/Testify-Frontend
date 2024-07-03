@@ -18,23 +18,26 @@ import {
     GoogleOutlined,
   } from '@ant-design/icons';
   import { useMediaQuery } from 'react-responsive';
-  import { PATH_AUTH} from '../../../constants';
   import { useNavigate } from 'react-router-dom';
   import { useState } from 'react';
-  import { PATH_ORG_ADMIN } from '../../../constants/routes';
+  import {  PATH_AUTH } from '../../../constants/routes';
   
   const { Title, Text, Link } = Typography;
   
   type FieldType = {
-    name?: string;
+    firstName?: string;
     email?: string;
-    mobile?: string;
+    contactNo?: string;
     password?: string;
     cPassword?: string;
     terms?: boolean;
+    city?: string;
+    state?: string;
 
     
   };
+
+  import { registerOrganization } from '../../../api/services/auth';
 
 
 export const Organization = () => {
@@ -44,19 +47,48 @@ export const Organization = () => {
       const navigate = useNavigate();
       const [loading, setLoading] = useState(false);
     
-      const onFinish = (values: any) => {
+      // const onFinish = (values: any) => {
+      //   console.log('Success:', values);
+      //   setLoading(true);
+    
+      //   message.open({
+      //     type: 'success',
+      //     content: 'Account signup successful',
+      //   });
+    
+      //   // setTimeout(() => {
+      //     navigate(PATH_ORG_ADMIN.dashboard);
+      //   // }, 5000);
+      // };
+
+      const onFinish = async (values: any) => {
         console.log('Success:', values);
         setLoading(true);
-    
-        message.open({
-          type: 'success',
-          content: 'Account signup successful',
-        });
-    
-        // setTimeout(() => {
-          navigate(PATH_ORG_ADMIN.dashboard);
-        // }, 5000);
+
+        // set role to ORGANIZATION
+        values.role = 'ORGANIZATION';
+
+
+
+        try {
+          const response = await registerOrganization(values);
+          console.log(response);
+          if (response.status === 200) {
+            message.success('Account signup successful');
+            // navigate(PATH_ORG_ADMIN.dashboard);
+            // navigate(PATH_AUTH.verifyEmail);
+            navigate(`${PATH_AUTH.verifyEmail}?email=${encodeURIComponent(values.email)}`);
+
+          } else {
+            message.error('Account signup failed');
+          }
+        } catch (error) {
+          message.error('Account signup failed');
+        }
+        setLoading(false);
       };
+
+
     
       const onFinishFailed = (errorInfo: any) => {
         console.log('Failed:', errorInfo);
@@ -104,7 +136,7 @@ export const Organization = () => {
               <Col xs={24}>
                 <Form.Item<FieldType>
                   label="Organization Name"
-                  name="name"
+                  name="firstName"
                   rules={[
                     {
                       required: true,
@@ -112,7 +144,7 @@ export const Organization = () => {
                     },
                   ]}
                 >
-                  <Input />
+                  <Input name="firstName"/>
                 </Form.Item>
               </Col>
 
@@ -124,7 +156,7 @@ export const Organization = () => {
                     { required: true, message: 'Please input your email' },
                   ]}
                 >
-                  <Input />
+                  <Input name="email" />
                 </Form.Item>
               </Col>
 
@@ -132,14 +164,41 @@ export const Organization = () => {
               <Col xs={24}>
                 <Form.Item<FieldType>
                   label="Mobile"
-                  name="mobile"
+                  name="contactNo"
                   rules={[
                     { required: true, message: 'Please input your mobile number' },
                   ]}
                 >
-                  <Input />
+                  <Input name='contactNo' />
                 </Form.Item>
               </Col>
+
+              {/* City */}
+              <Col xs={24}>
+                <Form.Item<FieldType>
+                  label="City"
+                  name="city"
+                  rules={[
+                    { required: true, message: 'Please input your city' },
+                  ]}
+                >
+                  <Input name='city' />
+                </Form.Item>
+              </Col>
+
+              {/* State */}
+              <Col xs={24}>
+                <Form.Item<FieldType>
+                  label="State"
+                  name="state"
+                  rules={[
+                    { required: true, message: 'Please input your state' },
+                  ]}
+                >
+                  <Input name='state' />
+                </Form.Item>
+              </Col>
+
 
               <Col xs={24}>
                 <Form.Item<FieldType>
@@ -149,7 +208,7 @@ export const Organization = () => {
                     { required: true, message: 'Please input your password!' },
                   ]}
                 >
-                  <Input.Password />
+                  <Input.Password name='password' />
                 </Form.Item>
               </Col>
               <Col xs={24}>
