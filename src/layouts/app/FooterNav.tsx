@@ -56,7 +56,7 @@ const FooterNav = ({ ...others }: FooterNavProps) => {
         justify="center"
         align="middle"
       >
-        AntD Dashboard © 2023 Created by Design Sparx
+       Testify © 2024 Created by Group 36
       </Row>
     </Footer>
   );
