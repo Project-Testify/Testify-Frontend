@@ -1,5 +1,5 @@
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
-import { Button, Card, Form, Input, Space, Switch, Typography } from 'antd';
+import { Button, Card, Form, Input, Space, Switch } from 'antd';
 import { useState } from 'react';
 
 const tabList = [

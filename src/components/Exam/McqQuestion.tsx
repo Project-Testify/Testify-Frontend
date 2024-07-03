@@ -1,6 +1,5 @@
 import { CloseOutlined } from '@ant-design/icons';
-import { Button, Card, Form, Input, Select, SelectProps, Flex } from 'antd';
-import { remove, set } from 'lodash';
+import { Button, Card, Form, Input, Select, Flex } from 'antd';
 import { useEffect, useState } from 'react';
 
 export const McqQuestion = ({ field = null, form = null }) => {

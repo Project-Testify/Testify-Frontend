@@ -1,14 +1,16 @@
 import { CheckOutlined, CloseOutlined, LoadingOutlined, WarningOutlined } from '@ant-design/icons';
-import { Card, Form, Input, Space, Switch, Spin, Alert, CardProps } from 'antd';
+import { Card, Form, Input, Space, Switch, Spin, Alert,
+  //  CardProps
+   } from 'antd';
 import { Store } from 'antd/es/form/interface';
 import { SetStateAction, Key, useState } from 'react';
-import { Question } from '../../types';
+// import { Question } from '../../types';
 
-type Props = {
-  data?: Question[];
-  loading?: boolean;
-  error?: any;
-} & CardProps;
+// type Props = {
+//   data?: Question[];
+//   loading?: boolean;
+//   error?: any;
+// } & CardProps;
 
 const mcqForm = (question: { questionText: any; options: any[] | undefined; }) => {
   return (
