@@ -22,13 +22,13 @@ import {
 
 import {
   DashboardLayout,
-  UserAccountLayout,
+  // UserAccountLayout,
   CommonLayout,
 } from '../layouts';
 
 import React, { ReactNode, useEffect } from 'react';
 
-import { ProtectedRoute } from './ProtectedRoutes';
+// import { ProtectedRoute } from './ProtectedRoutes';
 import { AuthProvider } from '../hooks/useAuth.tsx';
 
 

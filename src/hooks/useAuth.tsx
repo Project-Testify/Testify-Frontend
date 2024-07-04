@@ -30,6 +30,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const login = async (data: User) => {
     setUser(data);
+
+    console.log(data.role)
     // navigate("/profile");
     if (data.role === "ORGANIZATION") {
         navigate(PATH_ORG_ADMIN.dashboard);

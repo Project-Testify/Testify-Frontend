@@ -12,9 +12,9 @@ import {
 import { Logo } from '../../components';
 import { useMediaQuery } from 'react-responsive';
 
-import {Student} from './forms/Student';
+import {Candidate} from './forms/Candidate';
 import { Organization } from './forms/Organization';
-import { Educator } from './forms/Educator';
+import { Tutor } from './forms/Tutor';
 import { Select } from './forms/Select';
 
 import { Route, Routes } from 'react-router-dom';
@@ -60,9 +60,9 @@ export const SignUpPage = () => {
         {/* <Select /> */}
 
         <Routes>
-        <Route path="/student" element={<Student />} />
+        <Route path="/candidate" element={<Candidate />} />
         <Route path="/organization" element={<Organization />} />
-        <Route path="/educator" element={<Educator />} />
+        <Route path="/tutor" element={<Tutor />} />
 
         <Route path="/" element={<Select />} />
 
