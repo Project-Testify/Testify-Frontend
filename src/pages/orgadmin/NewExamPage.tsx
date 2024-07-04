@@ -298,7 +298,9 @@ export const NewExamPage = () => {
               )}
             >
               <Form form={form}>
-                <AddQuestion handleOk={handleOk} form={form} />
+                <AddQuestion
+                //  handleOk={handleOk}
+                  form={form} />
 
                 {/* <Form.Item noStyle shouldUpdate>
                   {(form) => (

@@ -1,9 +1,25 @@
 import { CloseOutlined } from '@ant-design/icons';
-import { Button, Card, Form, Input, Select, Flex } from 'antd';
+import { Button, Card, Form, Input, Select, Space } from 'antd';
 import { useEffect, useState } from 'react';
 
-export const McqQuestion = ({ field = null, form = null }) => {
-  const [options, setOptions] = useState([]);
+interface FieldData {
+  name: string;
+  key: number;
+  // fieldKey: number;
+}
+
+interface McqQuestionProps {
+  field?: FieldData | null;
+  form?: any;
+}
+
+interface Option {
+  label: string;
+  value: string;
+}
+
+export const McqQuestion = ({ field = null, form = null }: McqQuestionProps) => {
+  const [options, setOptions] = useState<Option[]>([]);
 
   const handleChange = (value: string[]) => {
     console.log(`selected ${value}`);
@@ -13,12 +29,16 @@ export const McqQuestion = ({ field = null, form = null }) => {
     const [form] = Form.useForm();
 
     const updateOptions = () => {
-      const values = document.getElementsByName('newQuestion').values();
-      console.log(values);
+      const values = form.getFieldValue('answers') || [];
+      const newOptions = values.map((answer: string, index: number) => ({
+        label: answer,
+        value: index.toString(),
+      }));
+      setOptions(newOptions.filter((option: Option) => option.label !== ''));
     };
 
     return (
-      <Form name='newQuestion' initialValues={{ items: [{}] }}>
+      <Form form={form} name="newQuestion" initialValues={{ answers: [''] }}>
         <Form.Item label="Question" name="question">
           <Input.TextArea
             placeholder="Enter question here"
@@ -26,57 +46,33 @@ export const McqQuestion = ({ field = null, form = null }) => {
           />
         </Form.Item>
 
-        {/* Nest Form.List */}
         <Form.Item label="Answers">
-          <Form.List name={'answers'}>
-            {(subFields, subOpt) => (
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  rowGap: 16,
-                }}
-              >
-                {subFields.map((subField) => (
-                  <Flex gap={'middle'}>
-                    <Form.Item noStyle name={subField.name}>
-                      <Input placeholder="Asnswer" />
+          <Form.List name="answers">
+            {(fields, { add, remove }) => (
+              <div style={{ display: 'flex', flexDirection: 'column', rowGap: 16 }}>
+                {fields.map((field) => (
+                  <Space key={field.key} align="baseline">
+                    <Form.Item
+                      {...field}
+                      name={[field.name]}
+                      fieldKey={field.fieldKey !== undefined ? field.fieldKey.toString() : field.name.toString()}
+                      rules={[{ required: true, message: 'Missing Answer' }]}
+                    >
+                      <Input placeholder="Answer" onChange={updateOptions} />
                     </Form.Item>
 
-                    <CloseOutlined
-                      onClick={() => {
-                        subOpt.remove(subField.name);
-                        // updateOptions();
-                      }}
-                    />
-                  </Flex>
+                    <CloseOutlined onClick={() => { remove(field.name); updateOptions(); }} />
+                  </Space>
                 ))}
-                <Button
-                  type="dashed"
-                  block
-                  onClick={() => {
-                    // check if the last answer is empty
-                    // const values = form.getFieldValue('items') || [];
-                    // const answers = values[field.name]?.answers || [];
-                    // if (
-                    //   answers.length === 0 ||
-                    //   answers[answers.length - 1] !== undefined
-                    // ) {
-
-                    subOpt.add();
-                    updateOptions();
-                    // }
-                  }}
-                >
+                <Button type="dashed" block onClick={() => { add(); updateOptions(); }}>
                   + Add Answers
                 </Button>
               </div>
             )}
           </Form.List>
         </Form.Item>
-        {/*add correct answer as a select multiple of the added answers*/}
 
-        <Form.Item label="Correct Answer" name={'correctAnswer'} shouldUpdate>
+        <Form.Item label="Correct Answer" name="correctAnswer">
           <Select
             mode="multiple"
             style={{ width: '100%' }}
@@ -90,18 +86,12 @@ export const McqQuestion = ({ field = null, form = null }) => {
   }
 
   const updateOptions = () => {
-    const values = form.getFieldValue('items') || [];
-    const answers = values[field.name]?.answers || [];
-    const newOptions = answers.map(
-      (answer: any, index: { toString: () => any }) => {
-        return {
-          label: answer,
-          value: index.toString(),
-        };
-      }
-    );
-    // remove tuples with empty labels
-    setOptions(newOptions.filter((option) => option.label !== ''));
+    const values = form.getFieldValue('answers') || [];
+    const newOptions = values.map((answer: string, index: number) => ({
+      label: answer,
+      value: index.toString(),
+    }));
+    setOptions(newOptions.filter((option: Option) => option.label !== ''));
   };
 
   useEffect(() => {
@@ -117,58 +107,35 @@ export const McqQuestion = ({ field = null, form = null }) => {
         />
       </Form.Item>
 
-      {/* Nest Form.List */}
       <Form.Item label="Answers">
         <Form.List name={[field.name, 'answers']}>
-          {(subFields, subOpt) => (
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                rowGap: 16,
-              }}
-            >
-              {subFields.map((subField) => (
-                <Flex gap={'middle'}>
-                  <Form.Item noStyle name={subField.name}>
-                    <Input placeholder="Asnswer" onChange={updateOptions} />
+          {(fields, { add, remove }) => (
+            <div style={{ display: 'flex', flexDirection: 'column', rowGap: 16 }}>
+              {fields.map((field) => (
+                <Space key={field.key} align="baseline">
+                  <Form.Item
+                    {...field}
+                    name={[field.name]}
+                    fieldKey={field.fieldKey !== undefined ? field.fieldKey.toString() : field.name.toString()}
+                    rules={[{ required: true, message: 'Missing Answer' }]}
+                  >
+                    <Input placeholder="Answer" onChange={updateOptions} />
                   </Form.Item>
 
-                  <CloseOutlined
-                    onClick={() => {
-                      subOpt.remove(subField.name);
-                      updateOptions();
-                    }}
-                  />
-                </Flex>
+                  <CloseOutlined onClick={() => { remove(field.name); updateOptions(); }} />
+                </Space>
               ))}
-              <Button
-                type="dashed"
-                block
-                onClick={() => {
-                  // check if the last answer is empty
-                  const values = form.getFieldValue('items') || [];
-                  const answers = values[field.name]?.answers || [];
-                  if (
-                    answers.length === 0 ||
-                    answers[answers.length - 1] !== undefined
-                  ) {
-                    subOpt.add();
-                  }
-                }}
-              >
+              <Button type="dashed" block onClick={() => { add(); updateOptions(); }}>
                 + Add Answers
               </Button>
             </div>
           )}
         </Form.List>
       </Form.Item>
-      {/*add correct answer as a select multiple of the added answers*/}
 
       <Form.Item
         label="Correct Answer"
         name={[field.name, 'correctAnswer']}
-        shouldUpdate
       >
         <Select
           mode="multiple"
@@ -181,3 +148,5 @@ export const McqQuestion = ({ field = null, form = null }) => {
     </Card>
   );
 };
+
+export default McqQuestion;
