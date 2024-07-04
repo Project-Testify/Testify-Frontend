@@ -6,7 +6,7 @@ import {
   MarketingStatsCard,
   LogisticsStatsCard,
   ExamsTable,
-  LearningStatsCard,
+  // LearningStatsCard,
   ExamsCard as ExamCards,
 } from '../../components';
 
@@ -182,7 +182,8 @@ export const TutorDashBoard = () => {
     setExamTabKey(key);
   };
 
-  const [TutorName, SetTutorName] = useState('Tutor Name');
+  // const [TutorName, SetTutorName] = useState('Tutor Name');
+  const TutorName = 'Tutor Name';
   // SetTutorName('Org Admin Name');
 
   return (

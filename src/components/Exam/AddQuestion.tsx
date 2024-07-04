@@ -1,5 +1,6 @@
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
-import { Button, Card, Form, FormInstance, Input, Space, Switch, Typography } from 'antd';
+import { Button, Card, Form, FormInstance, Input, Space, Switch } from 'antd';
+
 import { useState } from 'react';
 
 const tabList = [
@@ -122,12 +123,13 @@ const essayForm = () => {
   );
 };
 interface AddQuestionProps {
-  handleOk: () => void;
+  // handleOk: () => void;
   form: FormInstance;
 }
 
-export const AddQuestion: React.FC<AddQuestionProps> = ({ handleOk, form }) => {
+export const AddQuestion: React.FC<AddQuestionProps> = ({  form }) => {
 
+  // console.log(handleOk);
   const [activeTabKey1, setActiveTabKey1] = useState<string>('mcq');
 
   const modelContent: Record<string, React.ReactNode> = {

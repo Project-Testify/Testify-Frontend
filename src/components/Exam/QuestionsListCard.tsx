@@ -1,41 +1,45 @@
-import { CheckOutlined, CloseOutlined, LoadingOutlined, WarningOutlined } from '@ant-design/icons';
-import { Card, Form, Input, Space, Switch, Spin, Alert, CardProps } from 'antd';
-import { Store } from 'antd/es/form/interface';
-import { SetStateAction, Key, useState } from 'react';
-import { Question } from '../../types';
+import {
+  CheckOutlined,
+  CloseOutlined,
+  LoadingOutlined,
+  WarningOutlined,
+} from '@ant-design/icons';
+import { Card, Form, Input, Space, Switch, Spin, Alert } from 'antd';
+// import { Store } from 'antd/es/form/interface';
+import { SetStateAction, useState } from 'react';
 
-type Props = {
-  data?: Question[];
-  loading?: boolean;
-  error?: any;
-} & CardProps;
+interface Option {
+  optionText: string;
+  marks: number;
+  isCorrect: boolean;
+}
 
-const mcqForm = (question: { questionText: any; options: any[] | undefined; }) => {
+const mcqForm = (question: { questionText: string; options: Option[] | undefined; }) => {
   return (
     <>
       <Form.Item name="questionType" hidden initialValue="MCQ" />
       <Form.Item name="type" hidden initialValue="MCQ" />
 
       <Form.Item label="Question" name="questionText" initialValue={question.questionText} rules={[{ required: true }]}>
-        <Input.TextArea placeholder="Answer" autoSize={{ minRows: 2, maxRows: 6 }} disabled/>
+        <Input.TextArea placeholder="Answer" autoSize={{ minRows: 2, maxRows: 6 }} disabled />
       </Form.Item>
 
       <Form.Item label="Answers">
-        <Form.List name={['options']} initialValue={question.options}>
-          {(subFields, subOpt) => (
+        <Form.List name="options" initialValue={question.options}>
+          {(subFields) => (
             <div style={{ display: 'flex', flexDirection: 'column', rowGap: 16 }}>
-              {subFields.map((subField, index) => (
-                <Space key={subField.key}>
-                  <Form.Item name={[subField.name, 'optionText']} initialValue={subField.optionText} rules={[{ required: true, message: 'Missing Answer' }]}>
-                    <Input placeholder="Answer" disabled/>
+              {subFields.map((subField) => (
+                <Space key={subField.key} align="start">
+                  <Form.Item name={[subField.name, 'optionText']} rules={[{ required: true, message: 'Missing Answer' }]}>
+                    <Input placeholder="Answer" disabled />
                   </Form.Item>
 
-                  <Form.Item name={[subField.name, 'marks']} initialValue={subField.marks} rules={[{ required: true, message: 'Missing Marks' }]}>
-                    <Input placeholder="Marks" disabled/>
+                  <Form.Item name={[subField.name, 'marks']} rules={[{ required: true, message: 'Missing Marks' }]}>
+                    <Input placeholder="Marks" disabled />
                   </Form.Item>
 
-                  <Form.Item name={[subField.name, 'isCorrect']} initialValue={subField.isCorrect}>
-                    <Switch defaultChecked={subField.isCorrect} checkedChildren={<CheckOutlined />} unCheckedChildren={<CloseOutlined />} disabled />
+                  <Form.Item name={[subField.name, 'isCorrect']} valuePropName="checked">
+                    <Switch checkedChildren={<CheckOutlined />} unCheckedChildren={<CloseOutlined />} disabled />
                   </Form.Item>
                 </Space>
               ))}
@@ -53,21 +57,21 @@ const essayForm = (question: { questionText: any; coveringPoints: any[] | undefi
       <Form.Item name="questionType" hidden initialValue="ESSAY" />
       <Form.Item name="type" hidden initialValue="ESSAY" />
 
-      <Form.Item label="Question" name="questionText" initialValue={question.questionText} rules={[{ required: true, message: 'Missing Question' }]} >
+      <Form.Item label="Question" name="questionText" initialValue={question.questionText} rules={[{ required: true, message: 'Missing Question' }]}>
         <Input.TextArea placeholder="Answer" autoSize={{ minRows: 2, maxRows: 6 }} disabled />
       </Form.Item>
 
       <Form.Item label="Covering Points">
-        <Form.List name={['coveringPoints']} initialValue={question.coveringPoints} >
-          {(subFields, subOpt) => (
+        <Form.List name="coveringPoints" initialValue={question.coveringPoints}>
+          {(subFields) => (
             <div style={{ display: 'flex', flexDirection: 'column', rowGap: 16 }}>
-              {subFields.map((subField, index) => (
-                <Space key={subField.key}>
-                  <Form.Item name={[subField.name, 'coveringPointText']} initialValue={subField.coveringPointText} rules={[{ required: true, message: 'Missing Covering Point' }]}>
+              {subFields.map((subField) => (
+                <Space key={subField.key} align="start">
+                  <Form.Item name={[subField.name, 'coveringPointText']} rules={[{ required: true, message: 'Missing Covering Point' }]}>
                     <Input placeholder="Covering Point" disabled />
                   </Form.Item>
-                  <Form.Item name={[subField.name, 'marks']} initialValue={subField.marks} rules={[{ required: true, message: 'Missing Marks' }]}>
-                    <Input placeholder="Marks" disabled/>
+                  <Form.Item name={[subField.name, 'marks']} rules={[{ required: true, message: 'Missing Marks' }]}>
+                    <Input placeholder="Marks" disabled />
                   </Form.Item>
                 </Space>
               ))}
@@ -79,8 +83,14 @@ const essayForm = (question: { questionText: any; coveringPoints: any[] | undefi
   );
 };
 
-export function QuestionsListCard({ data, loading, error }) {
-  const [activeTabKey, setActiveTabKey] = useState('mcq');
+interface QuestionsListCardProps {
+  data?: any[];
+  loading?: boolean;
+  error?: any;
+}
+
+export function QuestionsListCard({ data = [], loading, error }: QuestionsListCardProps) {
+  const [activeTabKey, setActiveTabKey] = useState<string>('mcq');
 
   const onTabChange = (key: SetStateAction<string>) => {
     setActiveTabKey(key);
@@ -94,8 +104,8 @@ export function QuestionsListCard({ data, loading, error }) {
     return <Alert message="Error" description="There was an error loading the questions." type="error" showIcon icon={<WarningOutlined />} />;
   }
 
-  const mcqQuestions = data.filter((question: { questionType: string; }) => question.questionType === 'MCQ');
-  const essayQuestions = data.filter((question: { questionType: string; }) => question.questionType === 'ESSAY');
+  const mcqQuestions = data.filter((question) => question.questionType === 'MCQ');
+  const essayQuestions = data.filter((question) => question.questionType === 'ESSAY');
 
   return (
     <Card
@@ -107,13 +117,13 @@ export function QuestionsListCard({ data, loading, error }) {
       activeTabKey={activeTabKey}
       onTabChange={onTabChange}
     >
-      {activeTabKey === 'mcq' && mcqQuestions.map((question: Store | undefined, index: Key | null | undefined) => (
+      {activeTabKey === 'mcq' && mcqQuestions.map((question, index) => (
         <Form key={index} layout="vertical" initialValues={question}>
           {mcqForm(question)}
         </Form>
       ))}
 
-      {activeTabKey === 'essay' && essayQuestions.map((question: Store | undefined, index: Key | null | undefined) => (
+      {activeTabKey === 'essay' && essayQuestions.map((question, index) => (
         <Form key={index} layout="vertical" initialValues={question}>
           {essayForm(question)}
         </Form>

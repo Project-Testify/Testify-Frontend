@@ -1,7 +1,7 @@
-import { Alert, Button, Col, Row, Segmented, Space } from 'antd';
+import {  Button, Col, Row, Segmented, Space } from 'antd';
 import {
   Card,
-  Loader,
+  // Loader,
   PageHeader,
   MarketingStatsCard,
   LogisticsStatsCard,
@@ -151,8 +151,8 @@ const EXAM_TABS = [
 export const OrgAdminDashBoard = () => {
   const {
     data: examsData,
-    error: examsDataError,
-    loading: examsDataLoading,
+    // error: examsDataError,
+    // loading: examsDataLoading,
   } = useFetchData('../mocks/ExamsMock.json');
 
   const {
