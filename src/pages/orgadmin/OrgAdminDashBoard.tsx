@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import {  Button, Col, Row, Segmented, Space } from 'antd';
 import {
   Card,
