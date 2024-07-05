@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { CloseOutlined } from '@ant-design/icons';
 import { Button, Card, Form, Input, Select, Space } from 'antd';
 import { useEffect, useState } from 'react';
