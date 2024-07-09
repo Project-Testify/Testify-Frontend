@@ -4,7 +4,7 @@ import {
   // HomePage,
   SignInPage,
   OrgAdminDashBoard as OrgAdminPage,
-  LearningDashboardPage,
+  DignosticTestPage,
   TutorDashBoardPage,
   UserProfileDetailsPage,
   UserProfileActionsPage,
@@ -164,19 +164,29 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: '/full-scr',
+    path: '/candidate',
     element: <PageWrapper children={<DashboardLayout />} />,
     errorElement: <ErrorPage />,
     children: [
       {
         index: true,
-        element: <LearningDashboardPage />,
+        // element: <LearningDashboardPage />,
         errorElement: <ErrorPage />,
       },
       {
-        path: 'learning',
-        element: <LearningDashboardPage />,
+        path: 'exam',
+        // element: <TutorDashBoardPage />,
+        errorElement: <ErrorPage />,
+        children: [
+          {
+            path: 'dignostic-test',
+            element: <DignosticTestPage />,
+          },
+        ],
+        
       },
+
+      
     ],
 
   },

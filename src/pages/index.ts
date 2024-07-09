@@ -5,7 +5,7 @@ export * from './authentication';
 export * from './errors';
 
 export * from './orgadmin';
-export * from './FullSrc';
+export * from './candidate/index.ts';
 
 
 export * from './tutor';

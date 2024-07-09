@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react';
-import { Button } from 'antd';
-// import { Col, Row } from 'antd';
+import { Button, message, Steps, theme } from 'antd';
 import {
   // FileProtectOutlined,
   // FileSyncOutlined,
   HomeOutlined,
-  PieChartOutlined,
+  ContainerOutlined,
+  ControlOutlined,
+  VideoCameraOutlined,
+  AudioOutlined,
+  FullscreenOutlined,
   // SafetyCertificateOutlined,
   // UsergroupAddOutlined,
 } from '@ant-design/icons';
@@ -19,13 +22,16 @@ import {
   //   ProgressCard,
   //   StudyStatisticsCard,
 } from '../../components';
-import { DASHBOARD_ITEMS } from '../../constants';
-import { Link } from 'react-router-dom';
+// import { DASHBOARD_ITEMS } from '../../constants';
+// import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 // import { useFetchData } from '../../hooks';
 // import { useStylesContext } from '../../context';
 
-export const LearningDashboardPage = () => {
+
+
+
+export const DignosticTestPage = () => {
   // const stylesContext = useStylesContext();
   // const {
   //   data: coursesData,
@@ -53,14 +59,88 @@ export const LearningDashboardPage = () => {
   //   error: communitiesDataError,
   // } = useFetchData('../mocks/CommunityGroups.json');
 
-  const [isFullscreen, setIsFullscreen] = useState(false);
 
-  const requestFullScreen = () => {
+  // --------------Fullscreen Component----------------
+
+  const handleWebcamAccess = () => {
+    navigator.mediaDevices.getUserMedia({ video: true })
+      .then(() => console.log('Webcam access granted'))
+      .catch(err => console.error('Webcam access denied', err));
+  };
+  
+  const handleMicrophoneAccess = () => {
+    navigator.mediaDevices.getUserMedia({ audio: true })
+      .then(() => console.log('Microphone access granted'))
+      .catch(err => console.error('Microphone access denied', err));
+  };
+  
+  
+  // const handleFullscreen = () => {
+  //   if (document.documentElement.requestFullscreen) {
+  //     document.documentElement.requestFullscreen();
+  //   }
+  // };
+
+  const [isFullscreen,setIsFullscreen] = useState(false);
+
+  const handleFullscreen = () => {
     const element = document.documentElement;
     if (element.requestFullscreen) {
       element.requestFullscreen();
     }
   };
+  
+  
+  
+  const steps = [
+    {
+      title: '',
+      content: (
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '45vh', justifyContent: 'center' }}>
+          <VideoCameraOutlined style={{ fontSize: '100px'}} />
+          <span style={{ fontSize: '22px', marginTop: '-100px' }}>
+            Allow access to your web camera
+          </span>
+          <Button type="primary" style={{ marginTop: '-60px' }} onClick={handleWebcamAccess}>
+            Allow Webcam Access
+          </Button>
+        </div>
+      ),
+    },
+    {
+      title: '',
+      content: (
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '45vh', justifyContent: 'center' }}>
+          <AudioOutlined style={{ fontSize: '100px'}} />
+          <span style={{ fontSize: '22px', marginTop: '-100px' }}>
+            Allow access to your microphone
+          </span>
+          <Button type="primary" style={{ marginTop: '-60px' }} onClick={handleMicrophoneAccess}>
+            Allow Microphone Access
+          </Button>
+        </div>
+      ),
+    },
+    {
+      title: '',
+      content: (
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '45vh', justifyContent: 'center' }}>
+          <FullscreenOutlined style={{ fontSize: '100px'}} />
+          <span style={{ fontSize: '22px', marginTop: '-100px' }}>
+            Enable fullscreen mode
+          </span>
+          {!isFullscreen && (
+            <Button type="primary" style={{ marginTop: '-60px' }} onClick={handleFullscreen}>
+              Enable Fullscreen
+            </Button>
+          )}
+        </div>
+      ),
+    },
+  ];
+
+  
+
 
   // Function to log when exiting fullscreen mode
   const onFullscreenChange = () => {
@@ -77,29 +157,48 @@ export const LearningDashboardPage = () => {
   useEffect(() => {
     // Add event listeners for fullscreen change
     document.addEventListener('fullscreenchange', onFullscreenChange);
-    document.addEventListener('webkitfullscreenchange', onFullscreenChange);
-    document.addEventListener('mozfullscreenchange', onFullscreenChange);
-    document.addEventListener('MSFullscreenChange', onFullscreenChange);
 
     // Cleanup event listeners on unmount
     return () => {
       document.removeEventListener('fullscreenchange', onFullscreenChange);
-      document.removeEventListener(
-        'webkitfullscreenchange',
-        onFullscreenChange
-      );
-      document.removeEventListener('mozfullscreenchange', onFullscreenChange);
-      document.removeEventListener('MSFullscreenChange', onFullscreenChange);
     };
   }, []);
+
+
+  
+
+  // --------------Steps Component----------------
+
+  const { token } = theme.useToken();
+  const [current, setCurrent] = useState(0);
+
+  const next = () => {
+    setCurrent(current + 1);
+  };
+
+  const prev = () => {
+    setCurrent(current - 1);
+  };
+
+  const items = steps.map((item) => ({ key: item.title, title: item.title }));
+
+  const contentStyle: React.CSSProperties = {
+    lineHeight: '260px',
+    textAlign: 'center',
+    color: token.colorTextTertiary,
+    backgroundColor: token.colorFillAlter,
+    borderRadius: token.borderRadiusLG,
+    border: `1px dashed ${token.colorBorder}`,
+    marginTop: 16,
+  };
 
   return (
     <div>
       <Helmet>
-        <title>Testify | Full Screen</title>
+        <title>Testify | System Diagnostics Test</title>
       </Helmet>
       <PageHeader
-        title="learning dashboard"
+        title="System Diagnostics Test"
         breadcrumbs={[
           {
             title: (
@@ -113,28 +212,57 @@ export const LearningDashboardPage = () => {
           {
             title: (
               <>
-                <PieChartOutlined />
-                <span>dashboards</span>
+                <ContainerOutlined />
+                <span>Machine Learning - Quiz 3</span>
               </>
             ),
-            menu: {
-              items: DASHBOARD_ITEMS.map((d) => ({
-                key: d.title,
-                title: <Link to={d.path}>{d.title}</Link>,
-              })),
-            },
+            path: '/',
+            // menu: {
+            //   items: DASHBOARD_ITEMS.map((d) => ({
+            //     key: d.title,
+            //     title: <Link to={d.path}>{d.title}</Link>,
+            //   })),
+            // },
           },
           {
-            title: 'learning',
+            title: (
+              <>
+                <ControlOutlined />
+                <span>System Diagnostics Test</span>
+              </>
+            ),
+            path: '/',
           },
         ]}
       />
-      {!isFullscreen && (
+      {/* {!isFullscreen && (
         <Button type="primary" onClick={requestFullScreen}>
           Enter Fullscreen
         </Button>
-      )}
-      {/* <Row {...stylesContext?.rowProps}>
+      )} */}
+      {
+        <>
+          <Steps current={current} items={items} />
+          <div style={contentStyle}>{steps[current].content}</div>
+          <div style={{ marginTop: 24 }}>
+            {current < steps.length - 1 && (
+              <Button type="primary" onClick={() => next()}>
+                Next
+              </Button>
+            )}
+            {current === steps.length - 1 && (
+              <Button type="primary" onClick={() => message.success('Processing complete!')}>
+                Done
+              </Button>
+            )}
+            {current > 0 && (
+              <Button style={{ margin: '0 8px' }} onClick={() => prev()}>
+                Previous
+              </Button>
+            )}
+          </div>
+        </>
+      /* <Row {...stylesContext?.rowProps}>
         <Col xs={24} xl={18}>
           <Row {...stylesContext?.rowProps}>
             <Col xs={24} sm={12} xl={6}>
