@@ -5,7 +5,7 @@ import {
   SignInPage,
   OrgAdminDashBoard as OrgAdminPage,
   LearningDashboardPage,
-
+  TutorDashBoardPage,
   UserProfileDetailsPage,
   UserProfileActionsPage,
   UserProfileActivityPage,
@@ -25,7 +25,7 @@ import {
 
 import {
   DashboardLayout,
-  UserAccountLayout,
+  // UserAccountLayout,
   CommonLayout,
 } from '../layouts';
 

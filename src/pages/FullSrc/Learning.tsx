@@ -59,22 +59,13 @@ export const LearningDashboardPage = () => {
     const element = document.documentElement;
     if (element.requestFullscreen) {
       element.requestFullscreen();
-    } else if (element.mozRequestFullScreen) {
-      element.mozRequestFullScreen();
-    } else if (element.webkitRequestFullscreen) {
-      element.webkitRequestFullscreen();
-    } else if (element.msRequestFullscreen) {
-      element.msRequestFullscreen();
     }
   };
 
   // Function to log when exiting fullscreen mode
   const onFullscreenChange = () => {
     if (
-      !document.fullscreenElement &&
-      !document.webkitFullscreenElement &&
-      !document.mozFullScreenElement &&
-      !document.msFullscreenElement
+      !document.fullscreenElement
     ) {
       console.log('User exited full screen');
       setIsFullscreen(false);
