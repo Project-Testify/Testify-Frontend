@@ -15,7 +15,9 @@
     "build-storybook": "storybook build",
     "prettier:write": "prettier . --write",
     "prepare": "husky",
+
     "test": "node --max-old-space-size=4096 ./node_modules/typescript/bin/tsc && node --max-old-space-size=4096 ./node_modules/vite/bin/vite build"
+
   },
   "husky": {
     "hooks": {
