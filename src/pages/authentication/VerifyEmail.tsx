@@ -1,9 +1,16 @@
 import { Button, Flex, Typography } from 'antd';
 import { Logo } from '../../components';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { PATH_DASHBOARD } from '../../constants';
 
+
+
 export const VerifyEmailPage = () => {
+
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const email = params.get('email');
+
   return (
     <Flex
       vertical
@@ -16,8 +23,9 @@ export const VerifyEmailPage = () => {
       <Typography.Title className="m-0">Verify Your Email</Typography.Title>
       <Typography.Text>
         We have sent an email to{' '}
-        <Link to="mailto:kelvin.kiprop96@gmail.com">
-          kelvin.kiprop96@gmail.com
+        <Link to="mailto:{email}" >
+          {email}
+          
         </Link>{' '}
         plase follow a link to verify your email.
       </Typography.Text>

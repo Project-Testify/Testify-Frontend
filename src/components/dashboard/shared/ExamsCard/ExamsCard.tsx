@@ -10,7 +10,7 @@ import {
 import {
   CalendarOutlined,
   ClockCircleOutlined,
-  UsergroupAddOutlined,
+  // UsergroupAddOutlined,
 } from '@ant-design/icons';
 import { Exams } from '../../../../types';
 
@@ -27,19 +27,19 @@ export const ExamsCard = (props: Props) => {
   const {
     size,
     exams: {
-      exam_id,
+      // exam_id,
       exam_name,
       exam_type,
       exam_date,
       exam_duration,
-      exam_status,
-      exam_subject,
+      // exam_status,
+      // exam_subject,
       exam_description,
       exam_location,
       exam_category,
-      exam_priority,
-      exam_proctors,
-      exam_start_date,
+      // exam_priority,
+      // exam_proctors,
+      // exam_start_date,
       exam_end_date,
     },
     ...others

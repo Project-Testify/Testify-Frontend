@@ -7,4 +7,4 @@ export { RecentUsersCard } from './RecentUsersCard/RecentUsersCard.tsx';
 export { SubscribersChart } from './SubscribersChart/SubscribersChart.tsx';
 export { WeeklyActivityCard } from './WeeklyActivityCard/WeeklyActivityCard.tsx';
 export { TasksChartCard } from './TasksChartCard/TasksChartCard.tsx';
-export { TasksListCard } from './TasksListCard/TasksListCard.tsx';
+export { ExamListCard } from './ExamListCard/ExamListCard.tsx';

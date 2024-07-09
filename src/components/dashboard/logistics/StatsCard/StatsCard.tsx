@@ -14,8 +14,8 @@ type Props = {
 
 export const StatsCard = ({ icon, title, value, diff, ...others }: Props) => {
   return (
-    <Card {...others}>
-      <Flex vertical gap="middle" style={{ width: '100%' }}>
+    <Card style={{ width: '100%', height: '100%' }} {...others}>
+      <Flex vertical gap="middle" style={{ width: '100%', height: '100%' }}>
         {React.createElement(icon, { style: { fontSize: 30 } })}
         <Typography.Text style={{ textTransform: 'capitalize' }}>
           {title}
