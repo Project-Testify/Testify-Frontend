@@ -1,3 +1,4 @@
+// import TextEditor from './TextEditor/TextEditor';
 export { BackBtn } from './BackBtn/BackBtn.tsx';
 export { BlogsListCard } from './corporate/BlogsListCard/BlogsListCard';
 export { Card } from './Card/Card';
@@ -17,3 +18,4 @@ export * from './Nprogress';
 export * from './dashboard';
 export * from './Container';
 export * from './Exam';
+export {TextEditor} from './TextEditor/TextEditor.tsx'

@@ -1,9 +1,11 @@
 import { createBrowserRouter, useLocation } from 'react-router-dom';
 import {
   ErrorPage,
+  // HomePage,
   SignInPage,
   OrgAdminDashBoard as OrgAdminPage,
-  TutorDashBoard as TutorDashBoardPage,
+  LearningDashboardPage,
+  TutorDashBoardPage,
   UserProfileDetailsPage,
   UserProfileActionsPage,
   UserProfileActivityPage,
@@ -16,6 +18,7 @@ import {
   PasswordResetPage,
   VerifyEmailPage,
   WelcomePage,
+
   OrgAdminExamPage,
   OrgAdminNewExamPage,
 } from '../pages';
@@ -25,6 +28,7 @@ import {
   // UserAccountLayout,
   CommonLayout,
 } from '../layouts';
+
 
 import React, { ReactNode, useEffect } from 'react';
 
@@ -121,8 +125,8 @@ const router = createBrowserRouter([
         path: 'dashboard',
         // element: <ProtectedRoute roles={['ORGANIZATION']} children={<OrgAdminPage />} />,
         element: <OrgAdminPage />,
+        errorElement: <ErrorPage />,
 
-        errorElement : <ErrorPage />  
       },
       {
         path: 'exam',
@@ -158,6 +162,23 @@ const router = createBrowserRouter([
         element: <OrgAdminPage />,
       },
     ],
+  },
+  {
+    path: '/full-scr',
+    element: <PageWrapper children={<DashboardLayout />} />,
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        index: true,
+        element: <LearningDashboardPage />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: 'learning',
+        element: <LearningDashboardPage />,
+      },
+    ],
+
   },
 
   {

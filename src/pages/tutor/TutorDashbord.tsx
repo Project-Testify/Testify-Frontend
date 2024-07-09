@@ -148,7 +148,7 @@ const EXAM_TABS = [
   },
 ];
 
-export const TutorDashBoard = () => {
+export const TutorDashBoardPage = () => {
   const {
     data: examsData,
     error: examsDataError,
