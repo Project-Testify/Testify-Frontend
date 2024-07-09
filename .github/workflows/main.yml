@@ -2,9 +2,9 @@ name: Vite Build
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ "master" ]
+    branches: [ "main" ]
 
 jobs:
   build:
@@ -29,4 +29,6 @@ jobs:
 
     # Build the project using pnpm
     - name: Build frontend
+      env:
+        NODE_OPTIONS: "--max_old_space_size=4096"
       run: pnpm build

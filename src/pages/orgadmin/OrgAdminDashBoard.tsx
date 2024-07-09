@@ -1,16 +1,18 @@
-import { Alert, Button, Col, Row, Segmented, Space } from 'antd';
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+import {  Button, Col, Row, Segmented, Space } from 'antd';
 import {
   Card,
-  Loader,
+  // Loader,
   PageHeader,
   MarketingStatsCard,
   LogisticsStatsCard,
   ExamsTable,
   LearningStatsCard,
   ExamsCard as ExamCards,
+  ExamListCard,
 } from '../../components';
 
-import { ExamsCard } from '../../components/dashboard/shared/ExamsCard/ExamsCard';
+// import { ExamsCard } from '../../components/dashboard/shared/ExamsCard/ExamsCard';
 import { Column } from '@ant-design/charts';
 import { Exams } from '../../types';
 import { useState } from 'react';
@@ -150,8 +152,14 @@ const EXAM_TABS = [
 export const OrgAdminDashBoard = () => {
   const {
     data: examsData,
-    error: examsDataError,
-    loading: examsDataLoading,
+    // error: examsDataError,
+    // loading: examsDataLoading,
+  } = useFetchData('../mocks/ExamsMock.json');
+
+  const {
+    data: tasksListData = [],
+    error: tasksListError,
+    loading: tasksListLoading,
   } = useFetchData('../mocks/ExamsMock.json');
 
   const {
@@ -159,8 +167,6 @@ export const OrgAdminDashBoard = () => {
     error: examCardDataError,
     loading: examCardDataLoading,
   } = useFetchData('../mocks/Exams.json');
-
-
 
   const [examTabsKey, setExamTabKey] = useState<string>('all');
 
@@ -184,7 +190,10 @@ export const OrgAdminDashBoard = () => {
     setExamTabKey(key);
   };
 
-  const [OrgAdminName, setOrgAdminName] = useState('Org Admin Name');
+  // const [OrgAdminName, setOrgAdminName] = useState('Org Admin Name');
+  const OrgAdminName = 'Org Admin Name';
+
+  // setOrgAdminName('Org Admin Name');
 
   return (
     <div>
@@ -209,8 +218,8 @@ export const OrgAdminDashBoard = () => {
                 <PieChartOutlined />
                 <span>dashboard</span>
               </>
-            )
-          }
+            ),
+          },
         ]}
       />
       <Row
@@ -248,35 +257,11 @@ export const OrgAdminDashBoard = () => {
         </Col>
 
         <Col span={24}>
-          <Card
-            title="Recently added Exams"
-            extra={<Button>View all Exam</Button>}
-          >
-            {examsDataError ? (
-              <Alert
-                message="Error"
-                description={examsDataError.toString()}
-                type="error"
-                showIcon
-              />
-            ) : examsDataLoading ? (
-              <Loader />
-            ) : (
-              <Row gutter={[16, 16]}>
-                {examsData.slice(0, 4).map((o: Exams) => {
-                  return (
-                    <Col xs={24} sm={12} xl={6} key={o.exam_id}>
-                      <ExamsCard
-                        exams={o}
-                        type="inner"
-                        style={{ height: '100%' }}
-                      />
-                    </Col>
-                  );
-                })}
-              </Row>
-            )}
-          </Card>
+          <ExamListCard
+            data={tasksListData}
+            error={tasksListError}
+            loading={tasksListLoading}
+          />
         </Col>
         <Col xs={24} sm={12} xl={16}>
           <Card
