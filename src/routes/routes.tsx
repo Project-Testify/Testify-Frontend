@@ -19,8 +19,11 @@ import {
   VerifyEmailPage,
   WelcomePage,
 
+
+
   OrgAdminExamPage,
   OrgAdminNewExamPage,
+  Groups,
 } from '../pages';
 
 import {
@@ -137,7 +140,12 @@ const router = createBrowserRouter([
         path: "new_exam",
         element: <OrgAdminNewExamPage />,
         errorElement: <ErrorPage />
-      }
+      },
+      {
+        path: 'groups',
+        element: <Groups />,
+        errorElement: <ErrorPage />,
+      },
     ],
   },
 

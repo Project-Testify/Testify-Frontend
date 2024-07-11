@@ -19,3 +19,5 @@ export * from './dashboard';
 export * from './Container';
 export * from './Exam';
 export {TextEditor} from './TextEditor/TextEditor.tsx'
+
+export { GroupTable } from './Tables/GroupTable.tsx';
