@@ -24,6 +24,7 @@ import {
   OrgAdminExamPage,
   OrgAdminNewExamPage,
   Groups,
+  Candidates
 } from '../pages';
 
 import {
@@ -143,8 +144,25 @@ const router = createBrowserRouter([
       },
       {
         path: 'groups',
-        element: <Groups />,
+        // element: <Groups />,
         errorElement: <ErrorPage />,
+        children: [
+          {
+            index: true,
+            element: <Groups />,
+            errorElement: <ErrorPage />,
+
+
+          },
+
+          {
+            // group id / candidates
+
+            path: ':groupId/candidates',
+            element: <Candidates />,
+            errorElement: <ErrorPage />,
+          }
+        ]
       },
     ],
   },

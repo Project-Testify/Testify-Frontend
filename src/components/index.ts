@@ -1,3 +1,4 @@
+
 // import TextEditor from './TextEditor/TextEditor';
 export { BackBtn } from './BackBtn/BackBtn.tsx';
 export { BlogsListCard } from './corporate/BlogsListCard/BlogsListCard';
@@ -21,3 +22,4 @@ export * from './Exam';
 export {TextEditor} from './TextEditor/TextEditor.tsx'
 
 export { GroupTable } from './Tables/GroupTable.tsx';
+export {CandidatesTable} from './Tables/CandidatesTable.tsx';

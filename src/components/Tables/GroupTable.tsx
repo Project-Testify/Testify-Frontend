@@ -6,6 +6,7 @@ import {
   Space,
 } from 'antd';
 import { Group } from '../../types';
+import { Link } from 'react-router-dom';
 
 const COLUMNS = [
   {
@@ -55,8 +56,12 @@ const COLUMNS = [
     key: 'actions',
     render: () => (
       <Space>
-        <Button type="primary" style={{ backgroundColor: '#52c41a', borderColor: '#52c41a' }}>Edit</Button>
-        <Button type="primary" danger style={{ backgroundColor: '#f5222d', borderColor: '#f5222d' }}>Delete</Button>
+        <Button type="primary">Edit</Button>
+        <Button type="primary" danger>Delete</Button>
+        {/* View */}
+        <Link to="1/candidates">
+        <Button  type="primary" >View</Button>
+        </Link>
       </Space>
     ),
   },
