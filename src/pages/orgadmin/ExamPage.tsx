@@ -97,7 +97,7 @@ export const ExamPage = () => {
           tabList={EXAM_TABS}
           activeTabKey={examTabsKey}
           onTabChange={onProjectsTabChange}
-          style={{ backgroundColor: '#fff' }}
+          // style={{ backgroundColor: '#fff' }}
         >
           {EXAM_TABS_CONTENT[examTabsKey]}
         </Card>

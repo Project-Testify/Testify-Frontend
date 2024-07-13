@@ -1,0 +1,29 @@
+[
+  {
+    "name": "moushika",
+    "modules" : [
+      {
+        "codeId":"IS2201",
+        "name": "Data Structures and Algorithms"
+      }
+    ]
+  },
+  {
+    "name":"alis",
+    "modules" : [
+      {
+        "codeId":"IS2222",
+        "name": "Information systems security"
+      }
+    ]
+  },
+  {
+    "name":"sarah",
+    "modules" : [
+      {
+        "codeId":"IS2233",
+        "name": "Human Computer Interaction"
+      }
+    ]
+  } 
+]
