@@ -3,6 +3,7 @@ import {
   ErrorPage,
   // HomePage,
   SignInPage,
+  HomePage,
   OrgAdminDashBoard as OrgAdminPage,
   DignosticTestPage,
   TutorDashBoardPage,
@@ -74,7 +75,8 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: (
-      <AuthProvider> <SignInPage /></AuthProvider>
+      // <AuthProvider> <SignInPage /></AuthProvider>
+      <HomePage />
     ),
     errorElement: <ErrorPage />,
   },
@@ -94,7 +96,9 @@ const router = createBrowserRouter([
       // },
       {
         path: 'signin',
-        element: <SignInPage />,
+        element: (
+          <AuthProvider> <SignInPage /></AuthProvider>
+        ),
       },
       {
         path: 'welcome',

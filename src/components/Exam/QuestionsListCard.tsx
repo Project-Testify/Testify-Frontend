@@ -1,3 +1,4 @@
+
 import {
   CheckOutlined,
   CloseOutlined,
@@ -14,11 +15,13 @@ interface Option {
   isCorrect: boolean;
 }
 
+
 const mcqForm = (question: { questionText: string; options: Option[] | undefined; }) => {
   return (
     <>
       <Form.Item name="questionType" hidden initialValue="MCQ" />
       <Form.Item name="type" hidden initialValue="MCQ" />
+
 
       <Form.Item label="Question" name="questionText" initialValue={question.questionText} rules={[{ required: true }]}>
         <Input.TextArea placeholder="Answer" autoSize={{ minRows: 2, maxRows: 6 }} disabled />
@@ -27,6 +30,7 @@ const mcqForm = (question: { questionText: string; options: Option[] | undefined
       <Form.Item label="Answers">
         <Form.List name="options" initialValue={question.options}>
           {(subFields) => (
+
             <div style={{ display: 'flex', flexDirection: 'column', rowGap: 16 }}>
               {subFields.map((subField) => (
                 <Space key={subField.key} align="start">
