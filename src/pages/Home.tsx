@@ -160,6 +160,9 @@ export const HomePage = () => {
                 {/* A dynamic and versatile multipurpose{' '} */}
                 <span className="text-highlight">Engage</span>.<span className="text-highlight">Secure</span>.{' '}
                 <span className="text-highlight">Achieve</span>
+                <Text>
+                Experience seamless, secure, and efficient online testing with Testify. Our platform is designed to make exams easy for both students and administrators. Join the future of education with cutting-edge features and unparalleled reliability.
+                </Text>
               </Title>
               <Flex
                 gap="middle"
