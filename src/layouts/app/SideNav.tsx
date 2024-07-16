@@ -49,6 +49,18 @@ const orgAdminItems: MenuProps['items'] = [
     ),
   ]),
 
+  getItem('Candidates', 'candidates', null, [], 'group'),
+
+  getItem('Candidates', 'candidates', <BankOutlined />, [
+    getItem(<Link to={PATH_ORG_ADMIN.groups}>Groups</Link>, 'all', null),
+    getItem(
+      <Link to={PATH_ORG_ADMIN.exam}>New Candidate</Link>,
+      'new',
+      null
+    ),
+  ]),
+
+
   getItem('Account', 'pages', null, [], 'group'),
 
   getItem('User profile', 'user-profile', <UserOutlined />, [

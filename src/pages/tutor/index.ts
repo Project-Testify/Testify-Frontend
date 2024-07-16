@@ -1,1 +1,1 @@
-export { TutorDashBoard } from './TutorDashbord.tsx';
+export { TutorDashBoardPage } from './TutorDashbord.tsx';

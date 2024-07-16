@@ -40,3 +40,23 @@ export interface AuthResponse {
         role: string;
     
 }
+
+
+
+export interface Exam {
+    title: string;
+    description: string;
+    instructions: string;
+    duration: number;
+    totalMarks: number;
+    passMarks: number;
+    examSetterId: number;
+    organizationId: number;
+    startDatetime: string;
+    endDatetime: string;
+    private: boolean;
+}
+
+export interface Response {
+    status: string;
+}
