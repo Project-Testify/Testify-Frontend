@@ -1,88 +1,51 @@
-import { Button, Col, Flex, Image, Row, theme, Typography, Menu } from 'antd';
+import { Button, Col, Flex, Image, Row, Typography, Menu } from 'antd';
 import { useMediaQuery } from 'react-responsive';
 import {
   PATH_AUTH,
-  PATH_CORPORATE,
-  PATH_ERROR,
-  PATH_GITHUB,
-  PATH_USER_PROFILE,
+  // PATH_CORPORATE,
+  // PATH_ERROR,
+  // PATH_USER_PROFILE,
 } from '../constants';
 import { Link } from 'react-router-dom';
 import {
-  AntDesignOutlined,
-  AppstoreOutlined,
-  BorderOutlined,
-  CalendarOutlined,
-  ClockCircleFilled,
-  EditOutlined,
-  FileOutlined,
-  FormatPainterOutlined,
-  GithubOutlined,
+  HourglassFilled,
   LoginOutlined,
-  MergeCellsOutlined,
-  PieChartOutlined,
   QuestionCircleFilled,
-  RocketFilled,
+  SafetyCertificateFilled,
   SettingFilled,
-  TableOutlined,
   TrophyFilled,
+  VideoCameraFilled,
 } from '@ant-design/icons';
 import { Card, Container, Logo } from '../components';
-import { createElement, CSSProperties } from 'react';
+import { createElement} from 'react';
 import { Header } from 'antd/es/layout/layout';
 import { COLOR } from '../App';
 
-import {LiveHelp,HourglassTop, Grade, Dvr } from '@mui/icons-material';
-import { Black } from '../components/Logo/Logo.stories';
-import Meta from 'antd/es/card/Meta';
 
 const { Title, Text } = Typography;
 
-
-const APPS = [
-  {
-    title: 'corporate',
-    link: PATH_CORPORATE.team,
-    image: '/showcase/corporate/team.png',
-  },
-  {
-    title: 'user profile',
-    link: PATH_USER_PROFILE.details,
-    image: '/showcase/profile/details.png',
-  },
-  {
-    title: 'auth',
-    link: PATH_AUTH.signin,
-    image: '/showcase/auth/login.png',
-  },
-  {
-    title: 'errors',
-    link: PATH_ERROR.error400,
-    image: '/showcase/errors/400.png',
-  },
-];
 
 const FEATURES = [
   {
     title: 'Interactive Question Types',
     description:
       ' From drag-and-drop to coding challenges, make exams more engaging and immersive.',
-    icon: LiveHelp,
+    icon: QuestionCircleFilled,
   },
   {
     title: 'Support Candidates in Real-Time',
     description: 'Provide instant guidance with integrated video and real-time chat features.',
-    icon: HourglassTop,
+    icon: HourglassFilled,
   },
   {
     title: 'Streamline Grading',
     description: 'Accelerate grading with AI assistance, custom parameters, and plagiarism checking.',
-    icon: Grade,
+    icon: SafetyCertificateFilled,
   },
   {
     title: 'Simplify Proctoring',
     description: 'Easily assign proctors and manage exam settings to maintain control over the exam process.',
-    icon: Dvr,
+    icon: VideoCameraFilled,
   },
   {
     title: 'Customize Exams',
@@ -105,18 +68,18 @@ const menuItems = [
 ];
 
 export const HomePage = () => {
-  const {
-    token: { colorPrimary },
-  } = theme.useToken();
+  // const {
+  //   token: { colorPrimary },
+  // } = theme.useToken();
   const isMobile = useMediaQuery({ maxWidth: 769 });
   const isTablet = useMediaQuery({ maxWidth: 992 });
 
-  const sectionStyles: CSSProperties = {
-    paddingTop: isMobile ? 40 : 80,
-    paddingBottom: isMobile ? 40 : 80,
-    paddingRight: isMobile ? '1rem' : 0,
-    paddingLeft: isMobile ? '1rem' : 0,
-  };
+  // const sectionStyles: CSSProperties = {
+  //   paddingTop: isMobile ? 40 : 80,
+  //   paddingBottom: isMobile ? 40 : 80,
+  //   paddingRight: isMobile ? '1rem' : 0,
+  //   paddingLeft: isMobile ? '1rem' : 0,
+  // };
 
   return (
     <div
