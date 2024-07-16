@@ -38,9 +38,9 @@ export const Logo = ({
         <Flex gap="none" justify='space-around' align='flex-start' vertical>
           <Typography.Title
             level={5}
-            type="secondary"
+            // type="secondary"
             style={{
-              color,
+              // color,
               margin: 0,
               fontSize: '14px',
               padding: `0px`,
@@ -53,7 +53,7 @@ export const Logo = ({
 
           <Typography.Text
             style={{
-              color: '#000',
+              // color: '#000',
               fontSize: '12px',
               padding: `0px`,
               backgroundColor: bgColor,

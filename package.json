@@ -15,9 +15,7 @@
     "build-storybook": "storybook build",
     "prettier:write": "prettier . --write",
     "prepare": "husky",
-
     "test": "node --max-old-space-size=4096 ./node_modules/typescript/bin/tsc && node --max-old-space-size=4096 ./node_modules/vite/bin/vite build"
-
   },
   "husky": {
     "hooks": {
@@ -31,7 +29,7 @@
     "@changesets/cli": "^2.26.2",
     "@tanem/react-nprogress": "^5.0.51",
     "@types/jwt-decode": "^3.1.0",
-    "antd": "^5.10.1",
+    "antd": "^5.19.2",
     "axios": "^1.7.2",
     "dayjs": "^1.11.9",
     "firebase": "^10.8.0",
