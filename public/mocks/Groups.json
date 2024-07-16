@@ -1,0 +1,28 @@
+
+
+ [
+        {
+            "id": 1,
+            "group_name": "Group 1",
+            "description": "This is a test group",
+            "candidates": 10
+        },
+        {
+            "id": 2,
+            "group_name": "Group 2",
+            "description": "This is a test group",
+            "candidates": 20
+        },
+        {
+            "id": 3,
+            "group_name": "Group 3",
+            "description": "This is a test group",
+            "candidates": 30
+        },
+        {
+            "id": 4,
+            "group_name": "Group 4",
+            "description": "This is a test group",
+            "candidates": 40
+        }
+    ]

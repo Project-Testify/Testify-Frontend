@@ -36,7 +36,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     if (data.role === "ORGANIZATION") {
         navigate(PATH_ORG_ADMIN.dashboard);
         }
-        if (data.role === "ATTENDEE") {
+        if (data.role === "CANDIDATE") {
           navigate(PATH_ORG_ADMIN.dashboard);
         }
         if (data.role === "EXAMSETTER") {
