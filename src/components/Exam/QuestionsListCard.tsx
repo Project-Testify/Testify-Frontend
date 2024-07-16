@@ -50,7 +50,7 @@ const mcqForm = (question: { questionText: string; options: Option[] | undefined
             </div>
           )}
         </Form.List>
-      </Form.Item> */}
+      </Form.Item>
     </>
   );
 };
