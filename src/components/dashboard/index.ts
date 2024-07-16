@@ -8,18 +8,16 @@ export {
   SubscribersChart,
   WeeklyActivityCard,
   TasksChartCard,
-  TasksListCard,
   ExamListCard,
 } from './default';
-export { RevenueCard, PostsCard, ProjectsCard } from './shared';
+export { RevenueCard } from './shared';
 export { CustomerReviewsCard } from './ecommerce';
-export { ProjectsCountCard, ProjectsTable, ClientsTable } from './projects';
+export { ProjectsCountCard } from './projects';
 export {
   StatsCard as MarketingStatsCard,
   VisitorsChartCard,
   SocialStatsCard as MarketingSocialStatsCard,
   CampaignsActivity,
-  CampaignsAdsCard,
   AudienceLocationChart,
 } from './marketing';
 export {
@@ -28,30 +26,22 @@ export {
   LikesChart,
   DevicesCardChart,
   MilestonesCard,
-  CommentsCard,
 } from './social';
 export {
-  AuctionCarousel,
-  CreatorsCard,
-  TopItemsCard,
-  TransactionsCard,
+
+
   CategoriesCard as BiddingCategoriesCard,
 } from './bidding';
 export {
   StatsCard as LearningStatsCard,
-  CoursesCard,
-  CoursesCarousel,
+
   StudyStatisticsCard,
   ProgressCard,
   ExamsCard,
-  CommunityGroupCard,
   ExamsTable,
 } from './learning';
 export {
   StatsCard as LogisticsStatsCard,
-  DeliveryTableCard,
-  DeliveryAnalyticsCard,
   DailyPlanCard,
-  TruckListCard,
-  DeliveryRequestCard,
+
 } from './logistics';

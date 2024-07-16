@@ -1,0 +1,23 @@
+[{
+    "id": 1,
+    "email": "abc@abc.com",
+    "name": "John Doe"
+},
+{
+    "id": 2,
+    "email": "xyz@zta.uyg",
+    "name": "Jane Doe"
+},
+{
+    "id": 3,
+    "email": "abc@abc.com",
+    "name": "John Doe"
+},
+{
+    "id": 4,
+    "email": "xyz@zta.uyg",
+    "name": "Jane Doe"
+}
+
+
+]

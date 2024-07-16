@@ -1,4 +1,4 @@
-import { PageHeader, Card, AddQuestion, QuestionsListCard } from '../../components';
+import { PageHeader, Card, AddQuestion, QuestionsListCard, TextEditor} from '../../components';
 
 import {
   BankOutlined,
@@ -49,11 +49,12 @@ const rangeConfig = {
 };
 
 export const NewExamPage = () => {
-  const [current, setCurrent] = useState(1);
+  const [current, setCurrent] = useState(0);
 
   const onFinishExamInformation = () => {
     // setFormData(values)
     setCurrent(1);
+
   };
 
   return (
@@ -88,12 +89,13 @@ export const NewExamPage = () => {
         <Steps
           onChange={(c) => {
             setCurrent(c);
+            // remove the disalbed prop from current step
           }}
           current={current}
           labelPlacement="vertical"
           type="default"
         >
-          <Step title="Exam Information"></Step>
+          <Step title="Exam Information" ></Step>
           <Step title="Make Questions"></Step>
           <Step title="Add Setter"></Step>
         </Steps>
@@ -138,7 +140,7 @@ export const NewExamPage = () => {
             </Form.Item>
           </Col>
 
-          <Col sm={24} lg={12}>
+          {/* <Col sm={24} lg={12}>
             <Form.Item<FieldType>
               label="Instructions"
               name="instructions"
@@ -151,7 +153,7 @@ export const NewExamPage = () => {
             >
               <Input />
             </Form.Item>
-          </Col>
+          </Col> */}
 
           <Col sm={24} lg={12}>
             <Form.Item<FieldType>
@@ -223,6 +225,17 @@ export const NewExamPage = () => {
               {...rangeConfig}
             >
               <RangePicker showTime format="YYYY-MM-DD HH:mm:ss" />
+            </Form.Item>
+          </Col>
+
+
+          <Col sm={24}>
+            <Form.Item
+              name="instructions"
+              label="Instructions"
+            
+            >
+              <TextEditor/>
             </Form.Item>
           </Col>
 
@@ -298,7 +311,9 @@ export const NewExamPage = () => {
               )}
             >
               <Form form={form}>
-                <AddQuestion handleOk={handleOk} form={form} />
+                <AddQuestion
+                //  handleOk={handleOk}
+                  form={form} />
 
                 {/* <Form.Item noStyle shouldUpdate>
                   {(form) => (

@@ -18,9 +18,9 @@ import {
     GoogleOutlined,
   } from '@ant-design/icons';
   import { useMediaQuery } from 'react-responsive';
+  import { PATH_AUTH} from '../../../constants';
   import { useNavigate } from 'react-router-dom';
   import { useState } from 'react';
-  import {  PATH_AUTH } from '../../../constants/routes';
   
   const { Title, Text } = Typography;
 
@@ -28,21 +28,19 @@ import {
   
   type FieldType = {
     firstName?: string;
+    lastName?: string;
     email?: string;
-    contactNo?: string;
     password?: string;
     cPassword?: string;
     terms?: boolean;
-    city?: string;
-    state?: string;
-
-    
+    contactNo?: string;
   };
 
-  import { registerOrganization } from '../../../api/services/auth';
+import { registerTutor } from '../../../api/services/auth';
 
+  
 
-export const Organization = () => {
+export const Tutor = () => {
 
 
       const isMobile = useMediaQuery({ maxWidth: 769 });
@@ -67,31 +65,23 @@ export const Organization = () => {
         console.log('Success:', values);
         setLoading(true);
 
-        // set role to ORGANIZATION
-        values.role = 'ORGANIZATION';
-
-
-
-        try {
-          const response = await registerOrganization(values);
-          console.log(response);
-          if (response.status === 200) {
-            message.success('Account signup successful');
-            // navigate(PATH_ORG_ADMIN.dashboard);
-            // navigate(PATH_AUTH.verifyEmail);
-            navigate(`${PATH_AUTH.verifyEmail}?email=${encodeURIComponent(values.email)}`);
-
-          } else {
-            message.error('Account signup failed');
-          }
-        } catch (error) {
-          message.error('Account signup failed');
-        }
-        setLoading(false);
-      };
-
-
+        // set role
+        values.role = 'EXAMSETTER';
     
+        try {
+          const response = await registerTutor(values);
+          console.log(response);
+          message.success('Account signup successful');
+          navigate(`${PATH_AUTH.verifyEmail}?email=${encodeURIComponent(values.email)}`);
+        } catch (error) {
+          console.log(error);
+          message.error('An error occurred. Please try again');
+        } finally {
+          setLoading(false);
+        }
+      };
+    
+
       const onFinishFailed = (errorInfo: any) => {
         console.log('Failed:', errorInfo);
       };
@@ -106,10 +96,11 @@ export const Organization = () => {
           gap="middle"
           style={{ height: '100%', padding: '2rem' }}
         >
-                    <Link to='/auth/signup'> &lt;Back </Link>
 
-
-          <Title className="m-0">Create an account As an Organization</Title>
+          {/* Back button */}
+          <Link to='/auth/signup'> &lt;Back </Link>
+          
+          <Title className="m-0">Create an account as an Tutor</Title>
           <Flex gap={4}>
             <Text>Already have an account?</Text>
             <Link to={PATH_AUTH.signin}>Sign in here</Link>
@@ -135,21 +126,31 @@ export const Organization = () => {
             requiredMark={false}
           >
             <Row gutter={[8, 0]}>
-              <Col xs={24}>
+              <Col xs={24} lg={12}>
                 <Form.Item<FieldType>
-                  label="Organization Name"
+                  label="First name"
                   name="firstName"
                   rules={[
                     {
                       required: true,
-                      message: 'Please input your organization name!',
+                      message: 'Please input your first name!',
                     },
                   ]}
                 >
                   <Input name="firstName"/>
                 </Form.Item>
               </Col>
-
+              <Col xs={24} lg={12}>
+                <Form.Item<FieldType>
+                  label="Last name"
+                  name="lastName"
+                  rules={[
+                    { required: true, message: 'Please input your last name!' },
+                  ]}
+                >
+                  <Input  name="password"/>
+                </Form.Item>
+              </Col>
               <Col xs={24}>
                 <Form.Item<FieldType>
                   label="Email"
@@ -158,11 +159,11 @@ export const Organization = () => {
                     { required: true, message: 'Please input your email' },
                   ]}
                 >
-                  <Input name="email" />
+                  <Input name="email"/>
                 </Form.Item>
               </Col>
 
-
+              {/* contactNo */}
               <Col xs={24}>
                 <Form.Item<FieldType>
                   label="Mobile"
@@ -171,36 +172,9 @@ export const Organization = () => {
                     { required: true, message: 'Please input your mobile number' },
                   ]}
                 >
-                  <Input name='contactNo' />
-                </Form.Item>
-              </Col>
-
-              {/* City */}
-              <Col xs={24}>
-                <Form.Item<FieldType>
-                  label="City"
-                  name="city"
-                  rules={[
-                    { required: true, message: 'Please input your city' },
-                  ]}
-                >
-                  <Input name='city' />
-                </Form.Item>
-              </Col>
-
-              {/* State */}
-              <Col xs={24}>
-                <Form.Item<FieldType>
-                  label="State"
-                  name="state"
-                  rules={[
-                    { required: true, message: 'Please input your state' },
-                  ]}
-                >
-                  <Input name='state' />
-                </Form.Item>
-              </Col>
-
+                  <Input name='contactNo'/>
+                </Form.Item>  
+                </Col>
 
               <Col xs={24}>
                 <Form.Item<FieldType>
@@ -210,7 +184,7 @@ export const Organization = () => {
                     { required: true, message: 'Please input your password!' },
                   ]}
                 >
-                  <Input.Password name='password' />
+                  <Input.Password  name="password"/>
                 </Form.Item>
               </Col>
               <Col xs={24}>

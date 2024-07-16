@@ -1,10 +1,21 @@
 import { useState } from 'react';
-import { Card, Form, Input, Space } from 'antd';
+import { Card, FormInstance, Space } from 'antd';
 import { McqQuestion } from './McqQuestion';
-import { CloseOutlined, EditOutlined } from '@ant-design/icons';
-import { remove } from 'lodash';
+import { EditOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import { AddQuestion } from './AddQuestion';
+
+
+interface QuestionCardProps {
+  fieldName?: {
+    key: number;
+    name: string;
+
+  } | null;
+  form: FormInstance;
+  remove?: (name: number) => void;
+}
+
 
 const tabList = [
   {
@@ -17,7 +28,7 @@ const tabList = [
   },
 ];
 
-export const QuestionCard = ({ fieldName=null, form, remove }) => {
+export const QuestionCard: React.FC<QuestionCardProps> = ({ fieldName = null, form }) => {
   const [activeTabKey1, setActiveTabKey1] = useState<string>('mcq');
 
   const contentList: Record<string, React.ReactNode> = {
@@ -26,7 +37,7 @@ export const QuestionCard = ({ fieldName=null, form, remove }) => {
   };
 
   const modelContent : Record<string, React.ReactNode> = {
-    mcq: <AddQuestion />,
+    mcq: <AddQuestion form={form} />,
     structured: <p>content2</p>,
   };
 
