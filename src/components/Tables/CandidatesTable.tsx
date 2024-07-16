@@ -24,15 +24,17 @@ const COLUMNS = [
   },
   {
     title: 'Name',
-    dataIndex: 'name',
-    key: 'name',
-    render: (_: any, { name }: Candidate) => (
+    dataIndex: 'firstName',
+    key: 'firstName',
+    render: (_: any, { firstName, lastName }: Candidate) => (
       <Typography.Paragraph
         ellipsis={{ rows: 1 }}
         className="text-capitalize"
         style={{ marginBottom: 0 }}
       >
-        {name.substring(0, 20)}
+        {
+          firstName + ' ' + lastName
+        }
       </Typography.Paragraph>
     ),
   },

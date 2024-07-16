@@ -30,7 +30,7 @@ import {
   Table,
   Form,
 } from 'antd';
-import { useState } from 'react';
+import { SetStateAction, useState } from 'react';
 import { useFetchData } from '../../hooks';
 
 import { Candidate } from '../../types';
@@ -96,7 +96,7 @@ export const NewExamPage = () => {
 
       <Card>
         <Steps
-          onChange={(c) => {
+          onChange={(c: SetStateAction<number>) => {
             setCurrent(c);
             // remove the disalbed prop from current step
           }}
@@ -306,7 +306,7 @@ export const NewExamPage = () => {
               title="Add Question"
               onOk={handleOk}
               onCancel={handleCancel}
-              footer={(_, { OkBtn, CancelBtn }) => (
+              footer={(_: any, { OkBtn, CancelBtn }: any) => (
                 <>
                   <CancelBtn />
                   <OkBtn />
@@ -366,7 +366,7 @@ export const NewExamPage = () => {
       return (
         <>
           {criteria.map((criterion: any) => (
-            <Flex gap={12}>
+            <Flex gap={12} key={criterion.id}>
               <Form.Item
                 label={'Grade'}
                 name={`grade`}
@@ -392,7 +392,7 @@ export const NewExamPage = () => {
       return (
         <>
           <Form.List name="gradingCriteria">
-            {(fields, { add, remove }) => (
+            {(fields: { [x: string]: any; key: any; name: any; }[], { add, remove }: any) => (
               <>
                 {fields.map(({ key, name, ...restField }) => (
                   <div
@@ -445,7 +445,7 @@ export const NewExamPage = () => {
 
     const handleTabChange = (key: any) => {
       form.resetFields();
-      if (gradingCriteriaData && gradingCriteriaData[key - 1]) {
+      if (gradingCriteriaData?.[key - 1]) {
         console.log('key is ', key);
         form.setFieldsValue({
           gradingCriteria: gradingCriteriaData[key - 1].gradingCriteria,
