@@ -2,6 +2,7 @@ import { createBrowserRouter, useLocation } from 'react-router-dom';
 import {
   ErrorPage,
   SignInPage,
+  HomePage,
   OrgAdminDashBoard as OrgAdminPage,
   TutorDashBoard as TutorDashBoardPage,
   UserProfileDetailsPage,
@@ -66,7 +67,8 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: (
-      <AuthProvider> <SignInPage /></AuthProvider>
+      // <AuthProvider> <SignInPage /></AuthProvider>
+      <HomePage />
     ),
     errorElement: <ErrorPage />,
   },
@@ -86,7 +88,9 @@ const router = createBrowserRouter([
       // },
       {
         path: 'signin',
-        element: <SignInPage />,
+        element: (
+          <AuthProvider> <SignInPage /></AuthProvider>
+        ),
       },
       {
         path: 'welcome',

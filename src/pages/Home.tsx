@@ -1,4 +1,4 @@
-import { Button, Col, Flex, Image, Row, theme, Typography } from 'antd';
+import { Button, Col, Flex, Image, Row, theme, Typography, Menu } from 'antd';
 import { useMediaQuery } from 'react-responsive';
 import {
   PATH_AUTH,
@@ -13,6 +13,7 @@ import {
   AppstoreOutlined,
   BorderOutlined,
   CalendarOutlined,
+  ClockCircleFilled,
   EditOutlined,
   FileOutlined,
   FormatPainterOutlined,
@@ -20,11 +21,20 @@ import {
   LoginOutlined,
   MergeCellsOutlined,
   PieChartOutlined,
+  QuestionCircleFilled,
   RocketFilled,
+  SettingFilled,
   TableOutlined,
+  TrophyFilled,
 } from '@ant-design/icons';
-import { Card, Container } from '../components';
+import { Card, Container, Logo } from '../components';
 import { createElement, CSSProperties } from 'react';
+import { Header } from 'antd/es/layout/layout';
+import { COLOR } from '../App';
+
+import {LiveHelp,HourglassTop, Grade, Dvr } from '@mui/icons-material';
+import { Black } from '../components/Logo/Logo.stories';
+import Meta from 'antd/es/card/Meta';
 
 const { Title, Text } = Typography;
 
@@ -54,58 +64,44 @@ const APPS = [
 
 const FEATURES = [
   {
-    title: 'customizable theme',
+    title: 'Interactive Question Types',
     description:
-      'We have included a configurable theme provider to customize your elegant admin.',
-    icon: FormatPainterOutlined,
+      ' From drag-and-drop to coding challenges, make exams more engaging and immersive.',
+    icon: LiveHelp,
   },
   {
-    title: '50+ Page Templates',
-    description: 'We have 50+ pages to make your development easier.',
-    icon: FileOutlined,
+    title: 'Support Candidates in Real-Time',
+    description: 'Provide instant guidance with integrated video and real-time chat features.',
+    icon: HourglassTop,
   },
   {
-    title: '60+ UI components',
-    description: 'Almost 60+ UI Components being given with Antd Admin Pack.',
-    icon: AppstoreOutlined,
+    title: 'Streamline Grading',
+    description: 'Accelerate grading with AI assistance, custom parameters, and plagiarism checking.',
+    icon: Grade,
   },
   {
-    title: 'Ant Design',
-    description: 'Its been made with Ant Design and full responsive layout.',
-    icon: AntDesignOutlined,
+    title: 'Simplify Proctoring',
+    description: 'Easily assign proctors and manage exam settings to maintain control over the exam process.',
+    icon: Dvr,
   },
   {
-    title: '500+ font icons',
+    title: 'Customize Exams',
     description:
-      'Lots of Icon Fonts are included here in the package of Antd Admin.',
-    icon: BorderOutlined,
+      'Use smart algorithms to dynamically select questions, ensuring varied and fair exams.',
+    icon: SettingFilled,
   },
   {
-    title: 'Slick Carousel',
-    description: 'The Last React Carousel You will Ever Need!.',
-    icon: MergeCellsOutlined,
+    title: 'Motivate Candidates',
+    description: 'Encourage engagement with digital badges and leaderboards.ersive.',
+    icon: TrophyFilled,
   },
-  {
-    title: 'Easy to Customize',
-    description: 'Customization will be easy as we understand your pain.',
-    icon: EditOutlined,
-  },
-  {
-    title: 'Lots of Chart Options',
-    description:
-      'You name it and we have it, Yes lots of variations for Charts.',
-    icon: PieChartOutlined,
-  },
-  {
-    title: 'Lots of Table Examples',
-    description: 'Data Tables are initial requirement and we added them.',
-    icon: TableOutlined,
-  },
-  {
-    title: 'Calendar Design',
-    description: 'Calendar is available with our package & in nice design.',
-    icon: CalendarOutlined,
-  },
+];
+
+const menuItems = [
+  { label: <Link to="/">Home</Link>, key: 'home' },
+  { label: <Link to="#">about</Link>, key: 'corporate' },
+  { label: <Link to="#">contact us</Link>, key: 'profile' },
+  { label: <Link to={PATH_AUTH.signin}><Button type='primary' style={{borderRadius:'50px'}}>Login</Button></Link>, key: 'login' },
 ];
 
 export const HomePage = () => {
@@ -131,6 +127,13 @@ export const HomePage = () => {
         minHeight: '100vh',
       }}
     >
+      <Header style={{ display: 'flex',flexDirection:'row', backgroundColor:'white', alignItems:'center'}}>
+        <div className='logo' style={{marginRight:'auto'}}>
+          <Logo color='black'/>
+        </div>
+        <Menu mode='horizontal' items={menuItems} style={{flex:'1', justifyContent:'flex-end'}}/>
+      </Header>
+      
       <Flex
         vertical
         align="center"
@@ -138,22 +141,15 @@ export const HomePage = () => {
         style={{
           height: isTablet ? 600 : 800,
           width: '100%',
-          padding: isMobile ? '2rem 1rem' : '5rem 0',
+          // padding: isMobile ? '2rem 1rem' : '5rem 0',
           backgroundColor: 'rgba(255, 255, 255, 0.85)',
+
         }}
       >
+
         <Container>
           <Row style={{ alignItems: 'center' }}>
             <Col lg={12}>
-              <Text
-                style={{
-                  color: colorPrimary,
-                  fontSize: 16,
-                  fontWeight: 700,
-                }}
-              >
-                <RocketFilled /> Kick start your project with
-              </Text>
               <Title
                 style={{
                   fontSize: isMobile ? 36 : 40,
@@ -161,88 +157,45 @@ export const HomePage = () => {
                   margin: '1.5rem 0',
                 }}
               >
-                A dynamic and versatile multipurpose{' '}
-                <span className="text-highlight">dashboard</span> template built
-                using <span className="text-highlight">React</span>,{' '}
-                <span className="text-highlight">Vite</span>,{' '}
-                <span className="text-highlight">Ant Design</span>, and{' '}
-                <span className="text-highlight">Storybook</span>{' '}
+                {/* A dynamic and versatile multipurpose{' '} */}
+                <span className="text-highlight">Engage</span>.<span className="text-highlight">Secure</span>.{' '}
+                <span className="text-highlight">Achieve</span>
               </Title>
-              <Text style={{ fontSize: 20, marginBottom: '1.5rem' }}>
-                <span className="text-highlight fw-bolder">60+</span> ready made
-                components to use.
-              </Text>
               <Flex
                 gap="middle"
                 vertical={isMobile}
-                style={{ marginTop: '1.5rem' }}
+                style={{ marginTop: '1.5rem', marginLeft:'1.5rem' }}
               >
-                <Link to={PATH_AUTH.signin}>
+                <Link to={PATH_AUTH.signup}>
                   <Button
                     icon={<LoginOutlined />}
                     type="primary"
                     size="large"
                     block={isMobile}
                   >
-                    Live preview
-                  </Button>
-                </Link>
-                <Link to={PATH_GITHUB.repo}>
-                  <Button
-                    icon={<GithubOutlined />}
-                    type="default"
-                    size="large"
-                    block={isMobile}
-                  >
-                    Give us a star
+                    Get Started
                   </Button>
                 </Link>
               </Flex>
             </Col>
             {!isTablet && (
               <Col lg={12}>
-                <Image src="/landing-frame.png" alt="dashboard image snippet" />
+                <Image src="/hero.png" alt="dashboard image snippet" preview={false}/>
               </Col>
             )}
           </Row>
         </Container>
       </Flex>
-      <Container style={sectionStyles}>
+      {/* <Container style={sectionStyles}>
         <Title
           level={2}
           className="text-center"
-          style={{ marginBottom: '2rem' }}
+          style={{color:COLOR['500'] }}
         >
-          8 dashboard pages available
+          Elevate Your Exam Experience
         </Title>
-        <Row
-          gutter={[
-            { xs: 8, sm: 16, md: 24, lg: 32 },
-            { xs: 8, sm: 16, md: 24, lg: 32 },
-          ]}
-        >
-          {/* {DASHBOARDS.map((dashboard) => (
-            <Col key={dashboard.title} xs={24} lg={8} xl={6}>
-              <Link to={dashboard.link}>
-                <Card
-                  hoverable
-                  cover={<img src={dashboard.image} alt={dashboard.title} />}
-                >
-                  <Text className="m-0 text-capitalize">{dashboard.title}</Text>
-                </Card>
-              </Link>
-            </Col>
-          ))} */}
-        </Row>
-      </Container>
-      <Container style={sectionStyles}>
-        <Title
-          level={2}
-          className="text-center"
-          style={{ marginBottom: '2rem' }}
-        >
-          3+ pages available
-        </Title>
+      </Container> */}
+      {/* <Container style={sectionStyles}>
         <Row
           gutter={[
             { xs: 8, sm: 16, md: 24, lg: 32 },
@@ -259,14 +212,14 @@ export const HomePage = () => {
             </Col>
           ))}
         </Row>
-      </Container>
-      <Container style={sectionStyles}>
+      </Container> */}
+      <Container>
         <Title
           level={2}
           className="text-center"
-          style={{ marginBottom: '2rem' }}
+          style={{ marginBottom: '2rem', color:COLOR['500'] }}
         >
-          Other Amazing Features & Flexibility Provided
+          Elevate Your Exam Experience
         </Title>
         <Row
           gutter={[
@@ -276,12 +229,12 @@ export const HomePage = () => {
         >
           {FEATURES.map((feature) => (
             <Col key={feature.title} xs={24} md={12} lg={8}>
-              <Card style={{ height: '100%' }}>
-                <Flex vertical>
+              <Card style={{ height: '100%', backgroundColor:COLOR['50']}}>
+                <Flex vertical style={{alignItems:'center'}}>
                   {createElement(feature.icon, {
-                    style: { fontSize: 32, color: colorPrimary },
+                    style: { fontSize: 50, color: 'black' },
                   })}
-                  <Title level={5} className="text-capitalize">
+                  <Title level={5} className="text-capitalize" style={{color:COLOR['600']}}>
                     {feature.title}
                   </Title>
                   <Text>{feature.description}</Text>
@@ -291,7 +244,7 @@ export const HomePage = () => {
           ))}
         </Row>
       </Container>
-      <Card
+      {/* <Card
         style={{
           width: isMobile ? '95%' : 500,
           margin: '0 auto',
@@ -312,7 +265,33 @@ export const HomePage = () => {
             Submit an issue
           </Button>
         </Flex>
-      </Card>
+      </Card> */}
+      <Container>
+        <Card style={{ border: 'none', padding: '20px', display: 'flex', alignItems: 'center' }}>
+          <Flex>
+            <Image
+              src="/review.jpg"
+              alt="Testify testimonial"
+              style={{ borderRadius: '50%', width: '250px', height: '250px', objectFit: 'cover' }}
+            />
+            <div
+              style={{
+                backgroundColor: COLOR['500'],
+                color: 'white',
+                borderRadius: '20px',
+                padding: '20px',
+                marginLeft: '-150px',
+                display:'flex',
+                alignItems:'center',
+              }}
+            >
+              <Text style={{ color: 'white', fontSize: '16px', marginLeft:'150px', display:'flex', }}>
+              “The ability to customize Testify according to our needs, has made our examination process much faster for candidates. The data also shows that a quicker application process leads to a higher number applications and a better completion rate. As a result we're seeing increased participating speed with clear improvements in the quality of hire.”
+              </Text>
+            </div>
+          </Flex>
+        </Card>
+      </Container>
     </div>
   );
 };

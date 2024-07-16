@@ -189,7 +189,7 @@ export const NewExamPage = () => {
             </Form.Item>
           </Col>
 
-          <Col sm={24} lg={12}>
+          {/* <Col sm={24} lg={12}>
             <Form.Item<FieldType>
               label="Exam Setter"
               name="examSetterId"
@@ -214,7 +214,7 @@ export const NewExamPage = () => {
             >
               <Input />
             </Form.Item>
-          </Col>
+          </Col> */}
 
           <Col>
             <Form.Item

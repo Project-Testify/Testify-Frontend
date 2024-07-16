@@ -3,6 +3,7 @@ import { Card, Form, Input, Space, Switch, Spin, Alert, CardProps } from 'antd';
 import { Store } from 'antd/es/form/interface';
 import { SetStateAction, Key, useState } from 'react';
 import { Question } from '../../types';
+import { COLOR } from '../../App';
 
 type Props = {
   data?: Question[];
@@ -16,11 +17,30 @@ const mcqForm = (question: { questionText: any; options: any[] | undefined; }) =
       <Form.Item name="questionType" hidden initialValue="MCQ" />
       <Form.Item name="type" hidden initialValue="MCQ" />
 
-      <Form.Item label="Question" name="questionText" initialValue={question.questionText} rules={[{ required: true }]}>
+      {/* <Form.Item label="Question" name="questionText" initialValue={question.questionText} >
         <Input.TextArea placeholder="Answer" autoSize={{ minRows: 2, maxRows: 6 }} disabled/>
-      </Form.Item>
+      </Form.Item> */}
 
-      <Form.Item label="Answers">
+      <Card title="Question" style={{ marginBottom: 16, width:600, borderColor:COLOR[100]}}>
+        <p>{question.questionText}</p>
+        <p style={{fontStyle:'italic'}}>Answers</p>
+        <ul style={{listStyleType:'none'}}>
+          {question.options.map((option, index) => (
+            <li key={index} style={{display:'flex', flexDirection:'row', justifyContent:'space-around'}}>
+              <p>{option.optionText}</p>
+              <p>{option.marks} marks</p>
+              <p>{option.isCorrect ? 'Correct' : 'Incorrect'}</p>
+              <Switch
+                defaultChecked={false}
+                checkedChildren={<CheckOutlined />}
+                unCheckedChildren={<CloseOutlined />}
+              />
+            </li>
+          ))}
+          </ul>
+      </Card>
+
+      {/* <Form.Item label="Answers">
         <Form.List name={['options']} initialValue={question.options}>
           {(subFields, subOpt) => (
             <div style={{ display: 'flex', flexDirection: 'column', rowGap: 16 }}>
@@ -42,7 +62,7 @@ const mcqForm = (question: { questionText: any; options: any[] | undefined; }) =
             </div>
           )}
         </Form.List>
-      </Form.Item>
+      </Form.Item> */}
     </>
   );
 };
