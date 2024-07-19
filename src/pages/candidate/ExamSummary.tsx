@@ -115,6 +115,7 @@ export const ExamSummaryPage = () => {
                         </Col>
                     </Row>
                 </Col>
+                
                 <Col span={16} pull={8}>
                     <Col span={24}>
                     <ExamDescription
@@ -123,8 +124,8 @@ export const ExamSummaryPage = () => {
                         topics={topics}
                         instructions={instructions}
                     />
+                    </Col>
                 </Col>
-              </Col>
             </Row>
         </div>
   

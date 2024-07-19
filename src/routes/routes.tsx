@@ -14,6 +14,7 @@ import {
   UserProfileInformationPage,
   UserProfilePreferencesPage,
   ExamSummaryPage,
+  ExamViewPage,
   SignUpPage,
   AccountDeactivePage,
   PasswordResetPage,
@@ -182,6 +183,11 @@ const router = createBrowserRouter([
       {
         path: 'exam/dignostic-test',
         element: <DignosticTestPage />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: 'exam/view',
+        element: <ExamViewPage />,
         errorElement: <ErrorPage />,
       }
 
