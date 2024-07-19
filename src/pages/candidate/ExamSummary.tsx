@@ -1,5 +1,7 @@
 // import { useEffect, useState } from 'react';
-import { Row, Col, Card, Tag, Button} from 'antd';
+import { Row, Col, Button} from 'antd';
+import ExamDetailCard from '../../components/Card/ExamDetailCard';
+import ExamDescription from '../../components/Exam/ExamDescription';
 import {
 //   // FileProtectOutlined,
 //   // FileSyncOutlined,
@@ -26,13 +28,14 @@ import { Helmet } from 'react-helmet-async';
 // import { useFetchData } from '../../hooks';
 // import { useStylesContext } from '../../context';
 
-const topics = [
-  'Supervised Learning',
-  'Unsupervised Learning',
-  'Model Evaluation Metrics',
-  'Feature Engineering',
-  'Overfitting and Underfitting',
-  'Algorithm Selection'
+const topics = ['Supervised Learning', 'Unsupervised Learning', 'Reinforcement Learning', 'Algorithm Selection', 'Practical Applications', 'Feature Engineering'];
+
+const instructions = [
+    'Read each question carefully before answering.',
+    'No additional time will be given.',
+    'Ensure you have a stable internet connection.',
+    'Do not refresh the browser during the quiz.',
+    'The quiz is proctored, so ensure your camera and microphone are working.'
 ];
 
 
@@ -74,26 +77,34 @@ export const ExamSummaryPage = () => {
       />
             <Row gutter={[16, 16]}>
                 <Col span={8} push={16}>
-                    <Row gutter={[16, 16]}>
+                    <Row gutter={[16, 16]} justify="center">
                         <Col span={11}>
-                            <Card title={<span><FileTextOutlined /> Type</span>} bordered={false}>
-                                Multiple Choice
-                            </Card>
+                            <ExamDetailCard
+                                icon={<FileTextOutlined />}
+                                title="Type"
+                                content="Multiple Choice"
+                            />
                         </Col>
                         <Col span={11}>
-                            <Card title={<span><ClockCircleOutlined /> Time</span>} bordered={false}>
-                                60 minutes
-                            </Card>
+                            <ExamDetailCard
+                                icon={<ClockCircleOutlined />}
+                                title="Time"
+                                content="60 minutes"
+                            />
                         </Col>
                         <Col span={11}>
-                            <Card title={<span><BarChartOutlined /> Level</span>} bordered={false}>
-                                Intermediate
-                            </Card>
+                            <ExamDetailCard
+                                icon={<BarChartOutlined />}
+                                title="Level"
+                                content="Intermediate"
+                            />
                         </Col>
                         <Col span={11}>
-                            <Card title={<span><SafetyCertificateOutlined /> Proctoring</span>} bordered={false}>
-                                Yes
-                            </Card>
+                            <ExamDetailCard
+                                icon={<SafetyCertificateOutlined />}
+                                title="Proctoring"
+                                content="Yes"
+                            />
                         </Col>
                         <Col span={24}>
                           <div style={{ marginTop: '16px', textAlign: 'center' }}>
@@ -105,26 +116,14 @@ export const ExamSummaryPage = () => {
                     </Row>
                 </Col>
                 <Col span={16} pull={8}>
-                  <div>
-                      <h2>Machine Learning - Quiz 3</h2>
-                      <p>This quiz assesses your understanding of the fundamental concepts in machine learning, including algorithms, model evaluation, and practical applications. The quiz is designed to test both theoretical knowledge and practical skills.</p>
-                      <h3>Covered Topics:</h3>
-                      <div>
-                          {topics.map((topic, index) => (
-                              <Tag key={index} color="blue" style={{ marginBottom: '8px' }}>
-                                  {topic}
-                              </Tag>
-                          ))}
-                      </div>
-                      <h3>Instructions:</h3>
-                      <ul>
-                          <li>Read each question carefully before answering.</li>
-                          <li>No additional time will be given.</li>
-                          <li>Ensure you have a stable internet connection.</li>
-                          <li>Do not refresh the browser during the quiz.</li>
-                          <li>The quiz is proctored, so ensure your camera and microphone are working.</li>
-                      </ul>
-                  </div>
+                    <Col span={24}>
+                    <ExamDescription
+                        examName="Machine Learning - Quiz 3"
+                        description="This quiz assesses your understanding of the fundamental concepts in machine learning, including algorithms, model evaluation, and practical applications. The quiz is designed to test both theoretical knowledge and practical skills."
+                        topics={topics}
+                        instructions={instructions}
+                    />
+                </Col>
               </Col>
             </Row>
         </div>
