@@ -13,6 +13,7 @@ import {
   UserProfileHelpPage,
   UserProfileInformationPage,
   UserProfilePreferencesPage,
+  ExamSummaryPage,
   SignUpPage,
   AccountDeactivePage,
   PasswordResetPage,
@@ -175,16 +176,14 @@ const router = createBrowserRouter([
       },
       {
         path: 'exam',
-        // element: <TutorDashBoardPage />,
+        element: <ExamSummaryPage />,
         errorElement: <ErrorPage />,
-        children: [
-          {
-            path: 'dignostic-test',
-            element: <DignosticTestPage />,
-          },
-        ],
-        
       },
+      {
+        path: 'exam/dignostic-test',
+        element: <DignosticTestPage />,
+        errorElement: <ErrorPage />,
+      }
 
       
     ],
