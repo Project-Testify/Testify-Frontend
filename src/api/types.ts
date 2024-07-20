@@ -7,14 +7,14 @@ export interface AttendeeRegister {
     email: string;
     password: string;
     firstName: string;
-    lastName: string
+    lastName: string;
 }
 
 export interface ExamsetterRegister {
     email: string;
     password: string;
     firstName: string;
-    lastName: string
+    lastName: string;
 }
 
 export interface OrganizationRegister {

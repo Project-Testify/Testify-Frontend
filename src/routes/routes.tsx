@@ -161,12 +161,16 @@ const router = createBrowserRouter([
   },
 
   {
-    path: '/user-profile',
+    path: 'user-profile',
     element: <PageWrapper children={<DashboardLayout />} />,
     errorElement: <ErrorPage />,
     children: [
       {
         index: true,
+        element: <UserProfileDetailsPage />,
+        errorElement: <ErrorPage />,
+      },
+      {
         path: 'details',
         element: <UserProfileDetailsPage />,
       },

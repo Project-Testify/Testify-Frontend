@@ -177,6 +177,15 @@ const tutorItems: MenuProps['items'] = [
   ]),
 ];
 
+// User Profile items
+const userProfileItems: MenuProps['items'] = [
+  getItem(
+    <Link to={PATH_USER_PROFILE.details}>Profile</Link>,
+    'details',
+    null
+  )
+];
+
 const rootSubmenuKeys = ['dashboards', 'corporate', 'user-profile'];
 
 type SideNavProps = SiderProps;
@@ -214,6 +223,8 @@ const SideNav = ({ ...others }: SideNavProps) => {
       setIsRole('org-admin');
     } else if (pathname.includes('tutor')) {
       setIsRole('tutor');
+    }else if (pathname.includes('user-profile')) {
+      setIsRole('user-profile');
     }
   }, [pathname]);
 
@@ -253,6 +264,18 @@ const SideNav = ({ ...others }: SideNavProps) => {
         )}
 
         {isRole === 'tutor' && (
+          <Menu
+            mode="inline"
+            items={tutorItems}
+            onClick={onClick}
+            openKeys={openKeys}
+            onOpenChange={onOpenChange}
+            selectedKeys={[current]}
+            style={{ border: 'none' }}
+          />
+        )}
+
+{isRole === 'user-profile' && (
           <Menu
             mode="inline"
             items={tutorItems}
