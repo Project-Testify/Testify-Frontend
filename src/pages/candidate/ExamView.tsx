@@ -1,6 +1,6 @@
-import { Row, Col, theme } from 'antd';
-import { CSSProperties } from 'react';
+import { Row } from 'antd';
 import { McqQuestionView } from '../../components';
+import { TimeContainer } from '../../components';
 import './ExamView.css';
 
 import {
@@ -17,36 +17,6 @@ import { Helmet } from 'react-helmet-async';
 
 
 export const ExamViewPage = () => {
-    const {
-        token: { colorBgContainer, borderRadiusLG },
-      } = theme.useToken();
-
-    // const questionContainerStyle: CSSProperties = {
-    //     padding: '1px 24px',
-    //     background: colorBgContainer,
-    //     borderRadius: borderRadiusLG,
-    // };
-    
-    const timeStyle: CSSProperties = {
-        padding: 24,
-        background: colorBgContainer,
-        borderRadius: borderRadiusLG,
-    };
-
-    // const [hovered, setHovered] = useState<number | null>(null);
-    // const [selected, setSelected] = useState<number | null>(null);
-
-    // const handleMouseEnter = (index: number) => {
-    //     setHovered(index);
-    // };
-
-    // const handleMouseLeave = () => {
-    //     setHovered(null);
-    // };
-
-    // const handleSelection = (index: number) => {
-    //     setSelected(index);
-    // };
     
     return (
 
@@ -80,14 +50,7 @@ export const ExamViewPage = () => {
 
         <Row gutter={[16, 16]}>
              {/* ----------------Time Container----------------- */}
-             {/* ----------------Yeah I know, the second one comes first. Why? who tf knows :| ----------------- */}
-            <Col span={6} push={18}> 
-                <Col span={24}>
-                    <div style={timeStyle}>
-                        Time Remaining
-                    </div>
-                </Col>
-            </Col>
+            <TimeContainer/>
             {/* ----------------Question Container----------------- */}
             <McqQuestionView
                     question="5. Which of the following algorithms is typically used for classification tasks in machine learning?"
