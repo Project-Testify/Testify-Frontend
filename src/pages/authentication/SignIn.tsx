@@ -164,7 +164,7 @@ export const SignInPage = () => {
                     { required: true, message: 'Please input your email' },
                   ]}
                 >
-                  <Input />
+                  <Input  name="email"/>
                 </Form.Item>
               </Col>
               <Col xs={24}>
@@ -175,7 +175,7 @@ export const SignInPage = () => {
                     { required: true, message: 'Please input your password!' },
                   ]}
                 >
-                  <Input.Password />
+                  <Input.Password name="password"/>
                 </Form.Item>
               </Col>
               <Col xs={24}>

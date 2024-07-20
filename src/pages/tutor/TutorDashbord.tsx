@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { Alert, Button, Col, Row, Segmented, Space } from 'antd';
 import {
   Card,
@@ -6,7 +7,7 @@ import {
   MarketingStatsCard,
   LogisticsStatsCard,
   ExamsTable,
-  LearningStatsCard,
+  // LearningStatsCard,
   ExamsCard as ExamCards,
 } from '../../components';
 
@@ -147,7 +148,7 @@ const EXAM_TABS = [
   },
 ];
 
-export const TutorDashBoard = () => {
+export const TutorDashBoardPage = () => {
   const {
     data: examsData,
     error: examsDataError,
@@ -182,7 +183,8 @@ export const TutorDashBoard = () => {
     setExamTabKey(key);
   };
 
-  const [TutorName, SetTutorName] = useState('Tutor Name');
+  // const [TutorName, SetTutorName] = useState('Tutor Name');
+  const TutorName = 'Tutor Name';
   // SetTutorName('Org Admin Name');
 
   return (

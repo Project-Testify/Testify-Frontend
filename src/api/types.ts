@@ -3,14 +3,16 @@ export interface LoginCredentials {
     password: string;
 }
 
-export interface AttendeeRegister {
+export interface CandidateRegister {
     email: string;
     password: string;
     firstName: string;
     lastName: string;
+    contactNo: string;
+    role: string;
 }
 
-export interface ExamsetterRegister {
+export interface TutorRegister {
     email: string;
     password: string;
     firstName: string;
@@ -18,10 +20,15 @@ export interface ExamsetterRegister {
 }
 
 export interface OrganizationRegister {
-    email: string;
-    password: string;
-    name: string;
-    mobile: string;
+    firstName?: string;
+    email?: string;
+    contactNo?: string;
+    password?: string;
+    cPassword?: string;
+    terms?: boolean;
+    city?: string;
+    state?: string;
+
 }
 
 export interface AuthResponse {
@@ -32,4 +39,24 @@ export interface AuthResponse {
         email: string;
         role: string;
     
+}
+
+
+
+export interface Exam {
+    title: string;
+    description: string;
+    instructions: string;
+    duration: number;
+    totalMarks: number;
+    passMarks: number;
+    examSetterId: number;
+    organizationId: number;
+    startDatetime: string;
+    endDatetime: string;
+    private: boolean;
+}
+
+export interface Response {
+    status: string;
 }

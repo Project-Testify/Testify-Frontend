@@ -246,6 +246,7 @@ export const PATH_ORG_ADMIN = {
   dashboard: path(ROOTS_ORG_ADMIN, '/dashboard'),
   exam: path(ROOTS_ORG_ADMIN, '/exam'),
   new_exam: path(ROOTS_ORG_ADMIN, '/new_exam'),
+  groups: path(ROOTS_ORG_ADMIN, '/groups'),
 };
 
 export const PATH_TUTOR = {

@@ -11,9 +11,9 @@ const { Text } = Typography;
 
 const TOPICS = [
   {
-    title: 'Student',
+    title: 'Candidate',
     image: UserOutlined,
-    to: 'student',
+    to: 'candidate',
   },
   {
     title: 'Organizations',
@@ -21,9 +21,9 @@ const TOPICS = [
     to: 'organization',
   },
   {
-    title: 'Educator',
+    title: 'Tutor',
     image: UsergroupAddOutlined,
-    to: 'educator',
+    to: 'tutor',
   },
 ];
 

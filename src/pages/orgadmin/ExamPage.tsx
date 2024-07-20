@@ -3,10 +3,10 @@ import { ExamsTable, PageHeader } from '../../components';
 import {
   BankOutlined,
   HomeOutlined,
-  PieChartOutlined,
+  // PieChartOutlined,
   PlusOutlined,
 } from '@ant-design/icons';
-import { Button, Card, Col, Row, Space } from 'antd';
+import { Button, Card, Col, Space } from 'antd';
 import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Exams } from '../../types';
@@ -32,8 +32,8 @@ const EXAM_TABS = [
 export const ExamPage = () => {
   const {
     data: examsData,
-    error: examsDataError,
-    loading: examsDataLoading,
+    // error: examsDataError,
+    // loading: examsDataLoading,
   } = useFetchData('../mocks/ExamsMock.json');
 
   const [examTabsKey, setExamTabKey] = useState<string>('all');
@@ -97,7 +97,7 @@ export const ExamPage = () => {
           tabList={EXAM_TABS}
           activeTabKey={examTabsKey}
           onTabChange={onProjectsTabChange}
-          style={{ backgroundColor: '#fff' }}
+          // style={{ backgroundColor: '#fff' }}
         >
           {EXAM_TABS_CONTENT[examTabsKey]}
         </Card>

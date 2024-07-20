@@ -1,9 +1,12 @@
 import { createBrowserRouter, useLocation } from 'react-router-dom';
 import {
   ErrorPage,
+  // HomePage,
   SignInPage,
+  HomePage,
   OrgAdminDashBoard as OrgAdminPage,
-  TutorDashBoard as TutorDashBoardPage,
+  DignosticTestPage,
+  TutorDashBoardPage,
   UserProfileDetailsPage,
   UserProfileActionsPage,
   UserProfileActivityPage,
@@ -16,19 +19,25 @@ import {
   PasswordResetPage,
   VerifyEmailPage,
   WelcomePage,
+
+
+
   OrgAdminExamPage,
   OrgAdminNewExamPage,
+  Groups,
+  Candidates
 } from '../pages';
 
 import {
   DashboardLayout,
-  UserAccountLayout,
+  // UserAccountLayout,
   CommonLayout,
 } from '../layouts';
 
+
 import React, { ReactNode, useEffect } from 'react';
 
-import { ProtectedRoute } from './ProtectedRoutes';
+// import { ProtectedRoute } from './ProtectedRoutes';
 import { AuthProvider } from '../hooks/useAuth.tsx';
 
 
@@ -66,7 +75,8 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: (
-      <AuthProvider> <SignInPage /></AuthProvider>
+      // <AuthProvider> <SignInPage /></AuthProvider>
+      <HomePage />
     ),
     errorElement: <ErrorPage />,
   },
@@ -86,7 +96,9 @@ const router = createBrowserRouter([
       // },
       {
         path: 'signin',
-        element: <SignInPage />,
+        element: (
+          <AuthProvider> <SignInPage /></AuthProvider>
+        ),
       },
       {
         path: 'welcome',
@@ -121,8 +133,8 @@ const router = createBrowserRouter([
         path: 'dashboard',
         // element: <ProtectedRoute roles={['ORGANIZATION']} children={<OrgAdminPage />} />,
         element: <OrgAdminPage />,
+        errorElement: <ErrorPage />,
 
-        errorElement : <ErrorPage />  
       },
       {
         path: 'exam',
@@ -133,7 +145,29 @@ const router = createBrowserRouter([
         path: "new_exam",
         element: <OrgAdminNewExamPage />,
         errorElement: <ErrorPage />
-      }
+      },
+      {
+        path: 'groups',
+        // element: <Groups />,
+        errorElement: <ErrorPage />,
+        children: [
+          {
+            index: true,
+            element: <Groups />,
+            errorElement: <ErrorPage />,
+
+
+          },
+
+          {
+            // group id / candidates
+
+            path: ':groupId/candidates',
+            element: <Candidates />,
+            errorElement: <ErrorPage />,
+          }
+        ]
+      },
     ],
   },
 
@@ -158,6 +192,33 @@ const router = createBrowserRouter([
         element: <OrgAdminPage />,
       },
     ],
+  },
+  {
+    path: '/candidate',
+    element: <PageWrapper children={<DashboardLayout />} />,
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        index: true,
+        // element: <LearningDashboardPage />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: 'exam',
+        // element: <TutorDashBoardPage />,
+        errorElement: <ErrorPage />,
+        children: [
+          {
+            path: 'dignostic-test',
+            element: <DignosticTestPage />,
+          },
+        ],
+        
+      },
+
+      
+    ],
+
   },
 
   {

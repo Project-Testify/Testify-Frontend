@@ -8,7 +8,6 @@ import {
 import { Logo } from '../../components';
 import { Link, useLocation } from 'react-router-dom';
 import { PATH_DASHBOARD, PATH_EXAM, PATH_USER_PROFILE } from '../../constants';
-import { COLOR } from '../../App.tsx';
 import { PATH_HOME, PATH_ORG_ADMIN } from '../../constants/routes.ts';
 
 const { Sider } = Layout;
@@ -49,6 +48,18 @@ const orgAdminItems: MenuProps['items'] = [
       null
     ),
   ]),
+
+  getItem('Candidates', 'candidates', null, [], 'group'),
+
+  getItem('Candidates', 'candidates', <BankOutlined />, [
+    getItem(<Link to={PATH_ORG_ADMIN.groups}>Groups</Link>, 'all', null),
+    getItem(
+      <Link to={PATH_ORG_ADMIN.exam}>New Candidate</Link>,
+      'new',
+      null
+    ),
+  ]),
+
 
   getItem('Account', 'pages', null, [], 'group'),
 
@@ -240,16 +251,16 @@ const SideNav = ({ ...others }: SideNavProps) => {
         style={{ padding: '1rem 0' }}
       />
       <ConfigProvider
-        theme={{
-          components: {
-            Menu: {
-              itemBg: 'none',
-              itemSelectedBg: COLOR['100'],
-              itemHoverBg: COLOR['50'],
-              itemSelectedColor: COLOR['600'],
-            },
-          },
-        }}
+        // theme={{
+        //   components: {
+        //     Menu: {
+        //       itemBg: 'none',
+        //       itemSelectedBg: COLOR['100'],
+        //       itemHoverBg: COLOR['50'],
+        //       itemSelectedColor: COLOR['600'],
+        //     },
+        //   },
+        // }}
       >
         {isRole === 'org-admin' && (
           <Menu
