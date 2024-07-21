@@ -5,7 +5,6 @@ import {
   SignInPage,
   HomePage,
   OrgAdminDashBoard as OrgAdminPage,
-  DignosticTestPage,
   TutorDashBoardPage,
   UserProfileDetailsPage,
   UserProfileActionsPage,

@@ -1,4 +1,4 @@
-import { Button, Col, Row, Space, Typography } from "antd";
+import { Button, Col, Row, Space} from "antd";
 
 export const UserProfileDetailsPage = () => {
 
