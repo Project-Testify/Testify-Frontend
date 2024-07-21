@@ -5,10 +5,13 @@ import {
   BankOutlined,
   BarChartOutlined,
 } from '@ant-design/icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFilePen, faBuildingUser, faMedal, faRankingStar, faClockRotateLeft, faChartColumn } from '@fortawesome/free-solid-svg-icons';
+
 import { Logo } from '../../components';
 import { Link, useLocation } from 'react-router-dom';
 import { PATH_DASHBOARD, PATH_EXAM, PATH_USER_PROFILE } from '../../constants';
-import { PATH_HOME, PATH_ORG_ADMIN } from '../../constants/routes.ts';
+import { PATH_HOME, PATH_ORG_ADMIN, PATH_CANDIDATE } from '../../constants/routes.ts';
 
 const { Sider } = Layout;
 
@@ -29,6 +32,55 @@ const getItem = (
     type,
   } as MenuItem;
 };
+
+const candidateItems: MenuProps['items'] = [
+  getItem(
+    <Link to={PATH_CANDIDATE.dashboard}>DashBoard</Link>,
+    'dashboard',
+    <FontAwesomeIcon icon={faChartColumn} />
+  ),
+  
+  getItem('Exams', 'exam', <FontAwesomeIcon icon={faFilePen} />, [
+    getItem(<Link to={PATH_CANDIDATE.all_exams}>All </Link>, 'exam', null),
+    getItem(
+      <Link to={PATH_CANDIDATE.completed_exams}>Completed </Link>,
+      'new_exam',
+      null
+    ),
+    getItem(
+      <Link to={PATH_CANDIDATE.ongoing_exams}>Ongoing</Link>,
+      'new_exam',
+      null
+    ),
+    getItem(
+      <Link to={PATH_CANDIDATE.upcoming_exams}>Upcoming</Link>,
+      'new_exam',
+      null
+    )
+  ]),
+  getItem(
+    'Organizations',
+    'organizations',
+    <FontAwesomeIcon icon={faBuildingUser} />
+  ),
+  getItem(
+    <Link to={PATH_CANDIDATE.badges}>Badges </Link>,
+    'organizations',
+    <FontAwesomeIcon icon={faMedal} />
+  ),
+  getItem(
+    <Link to={PATH_CANDIDATE.grading}>Grading </Link>,
+    'organizations',
+    <FontAwesomeIcon icon={faRankingStar} />
+  ),
+  getItem(
+    <Link to={PATH_CANDIDATE.activity_history}>Activity History </Link>,
+    'organizations',
+    <FontAwesomeIcon icon={faClockRotateLeft} />
+  ),
+];
+
+
 
 // org admin items
 const orgAdminItems: MenuProps['items'] = [
@@ -188,6 +240,8 @@ const tutorItems: MenuProps['items'] = [
   ]),
 ];
 
+
+
 const rootSubmenuKeys = ['dashboards', 'corporate', 'user-profile'];
 
 type SideNavProps = SiderProps;
@@ -205,7 +259,7 @@ const SideNav = ({ ...others }: SideNavProps) => {
     console.log('click ', e);
   };
 
-  const onOpenChange: MenuProps['onOpenChange'] = (keys) => {
+  const onOpenChange: MenuProps['onOpenChange'] = (keys: string[]) => {
     const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1);
     if (latestOpenKey && rootSubmenuKeys.indexOf(latestOpenKey!) === -1) {
       setOpenKeys(keys);
@@ -225,6 +279,8 @@ const SideNav = ({ ...others }: SideNavProps) => {
       setIsRole('org-admin');
     } else if (pathname.includes('tutor')) {
       setIsRole('tutor');
+    }else if (pathname.includes('candidate')) {
+      setIsRole('candidate');
     }
   }, [pathname]);
 
@@ -267,6 +323,18 @@ const SideNav = ({ ...others }: SideNavProps) => {
           <Menu
             mode="inline"
             items={tutorItems}
+            onClick={onClick}
+            openKeys={openKeys}
+            onOpenChange={onOpenChange}
+            selectedKeys={[current]}
+            style={{ border: 'none' }}
+          />
+        )}
+
+        {isRole === 'candidate' && (
+          <Menu
+            mode="inline"
+            items={candidateItems}
             onClick={onClick}
             openKeys={openKeys}
             onOpenChange={onOpenChange}

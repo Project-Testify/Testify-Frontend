@@ -5,7 +5,6 @@ import {
   SignInPage,
   HomePage,
   OrgAdminDashBoard as OrgAdminPage,
-  DignosticTestPage,
   TutorDashBoardPage,
   UserProfileDetailsPage,
   UserProfileActionsPage,
@@ -20,12 +19,18 @@ import {
   VerifyEmailPage,
   WelcomePage,
 
-
-
   OrgAdminExamPage,
   OrgAdminNewExamPage,
   Groups,
-  Candidates
+  Candidates,
+  CandidateDashboard,
+  CandidateAllExams,
+  CandidateOngoingExams,
+  CandidateCompletedExams,
+  CandidateUpcomingExams,
+  CandidateBadges,
+  CandidateGrading,
+  CandidateActivityHistory
 } from '../pages';
 
 import {
@@ -200,19 +205,54 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        // element: <LearningDashboardPage />,
+        element: <CandidateDashboard />,
         errorElement: <ErrorPage />,
       },
       {
-        path: 'exam',
-        // element: <TutorDashBoardPage />,
+        path: 'dashboard',
+        element: <CandidateDashboard />,
         errorElement: <ErrorPage />,
-        children: [
-          {
-            path: 'dignostic-test',
-            element: <DignosticTestPage />,
-          },
-        ],
+      },
+      {
+        path: 'all-exams',
+        element: <CandidateAllExams />,
+        errorElement: <ErrorPage />,
+        
+      },
+      {
+        path: 'completed-exams',
+        element: <CandidateCompletedExams />,
+        errorElement: <ErrorPage />,
+        
+      },
+      {
+        path: 'ongoing-exams',
+        element: <CandidateOngoingExams />,
+        errorElement: <ErrorPage />,
+        
+      },
+      {
+        path: 'upcoming-exams',
+        element: <CandidateUpcomingExams />,
+        errorElement: <ErrorPage />,
+        
+      },
+      {
+        path: 'badges',
+        element: <CandidateBadges />,
+        errorElement: <ErrorPage />,
+        
+      },
+      {
+        path: 'grading',
+        element: <CandidateGrading />,
+        errorElement: <ErrorPage />,
+        
+      },
+      {
+        path: 'activity-history',
+        element: <CandidateActivityHistory />,
+        errorElement: <ErrorPage />,
         
       },
 
@@ -222,12 +262,16 @@ const router = createBrowserRouter([
   },
 
   {
-    path: '/user-profile',
+    path: 'user-profile',
     element: <PageWrapper children={<DashboardLayout />} />,
     errorElement: <ErrorPage />,
     children: [
       {
         index: true,
+        element: <UserProfileDetailsPage />,
+        errorElement: <ErrorPage />,
+      },
+      {
         path: 'details',
         element: <UserProfileDetailsPage />,
       },

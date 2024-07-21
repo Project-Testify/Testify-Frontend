@@ -16,7 +16,7 @@ export interface TutorRegister {
     email: string;
     password: string;
     firstName: string;
-    lastName: string
+    lastName: string;
 }
 
 export interface OrganizationRegister {
