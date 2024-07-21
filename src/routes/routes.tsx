@@ -32,7 +32,8 @@ import {
   CandidateUpcomingExams,
   CandidateBadges,
   CandidateGrading,
-  CandidateActivityHistory
+  CandidateActivityHistory,
+  DignosticTestPage
 } from '../pages';
 
 import {
