@@ -1,9 +1,16 @@
-import { PageHeader, Card, AddQuestion, QuestionsListCard, TextEditor} from '../../components';
+import {
+  PageHeader,
+  Card,
+  AddQuestion,
+  QuestionsListCard,
+  TextEditor,
+} from '../../components';
 
 import {
   BankOutlined,
+  CloseCircleOutlined,
   HomeOutlined,
-
+  PlusOutlined,
 } from '@ant-design/icons';
 import { Helmet } from 'react-helmet-async';
 import {
@@ -12,22 +19,25 @@ import {
   Divider,
   Row,
   Col,
-  Form,
   Input,
   DatePicker,
   Space,
-
   Flex,
   Modal,
+  Typography,
+  Tabs,
+  Select,
+  Table,
+  Form,
 } from 'antd';
-import { useState } from 'react';
+import { SetStateAction, useState } from 'react';
 import { useFetchData } from '../../hooks';
 
+import { Candidate } from '../../types';
 
 const { Step } = Steps;
 
 type FieldType = {
-
   title?: string;
   description?: string;
   instructions?: string;
@@ -54,7 +64,6 @@ export const NewExamPage = () => {
   const onFinishExamInformation = () => {
     // setFormData(values)
     setCurrent(1);
-
   };
 
   return (
@@ -87,7 +96,7 @@ export const NewExamPage = () => {
 
       <Card>
         <Steps
-          onChange={(c) => {
+          onChange={(c: SetStateAction<number>) => {
             setCurrent(c);
             // remove the disalbed prop from current step
           }}
@@ -95,9 +104,10 @@ export const NewExamPage = () => {
           labelPlacement="vertical"
           type="default"
         >
-          <Step title="Exam Information" ></Step>
+          <Step title="Exam Information"></Step>
           <Step title="Make Questions"></Step>
-          <Step title="Add Setter"></Step>
+          <Step title="Grading and Proctoring"></Step>
+          <Step title="Select Candidates"></Step>
         </Steps>
 
         <Divider />
@@ -106,7 +116,8 @@ export const NewExamPage = () => {
           <ExamInformation onFinishFun={onFinishExamInformation} />
         )}
         {current === 1 && <MakeQuestions />}
-        {current === 2 && <AddSetter />}
+        {current === 2 && <GradingAndProctoring />}
+        {current === 3 && <AddCandidate />}
 
         <Divider />
       </Card>
@@ -228,14 +239,9 @@ export const NewExamPage = () => {
             </Form.Item>
           </Col>
 
-
           <Col sm={24}>
-            <Form.Item
-              name="instructions"
-              label="Instructions"
-            
-            >
-              <TextEditor/>
+            <Form.Item name="instructions" label="Instructions">
+              <TextEditor />
             </Form.Item>
           </Col>
 
@@ -255,7 +261,6 @@ export const NewExamPage = () => {
   function MakeQuestions() {
     const [form] = Form.useForm();
 
-
     const [open, setOpen] = useState(false);
 
     const showModal = () => {
@@ -269,14 +274,12 @@ export const NewExamPage = () => {
     } = useFetchData('../mocks/Questions.json');
 
     const handleOk = () => {
-
       form.validateFields().then(() => {
         // console.log(form.getFieldsValue());
         setOpen(false);
 
         // send to database http://localhost:8080/api/v1/exam/1/addQuestion
       });
-
     };
 
     const handleCancel = () => {
@@ -303,7 +306,7 @@ export const NewExamPage = () => {
               title="Add Question"
               onOk={handleOk}
               onCancel={handleCancel}
-              footer={(_, { OkBtn, CancelBtn }) => (
+              footer={(_: any, { OkBtn, CancelBtn }: any) => (
                 <>
                   <CancelBtn />
                   <OkBtn />
@@ -312,8 +315,9 @@ export const NewExamPage = () => {
             >
               <Form form={form}>
                 <AddQuestion
-                //  handleOk={handleOk}
-                  form={form} />
+                  //  handleOk={handleOk}
+                  form={form}
+                />
 
                 {/* <Form.Item noStyle shouldUpdate>
                   {(form) => (
@@ -329,22 +333,333 @@ export const NewExamPage = () => {
           </Space>
         </Flex>
 
-        <Divider />        
-          <QuestionsListCard
-            data={questionData}
-            error={questionError}
-            loading={questionLoading}
-          />
+        <Divider />
+        <QuestionsListCard
+          data={questionData}
+          error={questionError}
+          loading={questionLoading}
+        />
       </>
-
     );
   }
 
-  // add setter
-  function AddSetter() {
+  // add grading and proctoring
+  function GradingAndProctoring() {
+    const { data: gradingCriteriaData } = useFetchData(
+      '../mocks/GradingCriteria.json'
+    );
+    const { data: proctorsData } = useFetchData('../mocks/ProctorsMock.json');
+
+    const options = (proctorsData || []).map((proctor: any) => ({
+      label: proctor.name,
+      value: proctor.name,
+    }));
+
+    const onFinish = (values: any) => {
+      console.log('Received values of form:', values);
+
+      setCurrent(current + 1);
+    };
+
+    function standardGrading(criteria: any) {
+      // console.log(criteria);
+      return (
+        <>
+          {criteria.map((criterion: any) => (
+            <Flex gap={12} key={criterion.id}>
+              <Form.Item
+                label={'Grade'}
+                name={`grade`}
+                initialValue={criterion.grade}
+              >
+                <Input disabled value={criterion.value} />
+              </Form.Item>
+
+              <Form.Item
+                label={'Value'}
+                name={`value`}
+                initialValue={criterion.value}
+              >
+                <Input disabled value={criterion.value} />
+              </Form.Item>
+            </Flex>
+          ))}
+        </>
+      );
+    }
+
+    function customGrading() {
+      return (
+        <>
+          <Form.List name="gradingCriteria">
+            {(fields: { [x: string]: any; key: any; name: any; }[], { add, remove }: any) => (
+              <>
+                {fields.map(({ key, name, ...restField }) => (
+                  <div
+                    key={key}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'baseline',
+                      justifyContent: 'space-around',
+                      flex: 1,
+                      gap: 20,
+                    }}
+                  >
+                    <Form.Item
+                      {...restField}
+                      name={[name, 'grade']}
+                      rules={[
+                        { required: true, message: 'Missing first name' },
+                      ]}
+                      style={{ flex: 1 }}
+                    >
+                      <Input placeholder="Grade" />
+                    </Form.Item>
+                    <Form.Item
+                      {...restField}
+                      name={[name, 'value']}
+                      rules={[{ required: true, message: 'Missing last name' }]}
+                      style={{ flex: 1 }}
+                    >
+                      <Input placeholder="Mark" />
+                    </Form.Item>
+                    <CloseCircleOutlined onClick={() => remove(name)} />
+                  </div>
+                ))}
+                <Form.Item>
+                  <Button
+                    type="dashed"
+                    onClick={() => add()}
+                    block
+                    icon={<PlusOutlined />}
+                  >
+                    Add Grade
+                  </Button>
+                </Form.Item>
+              </>
+            )}
+          </Form.List>
+        </>
+      );
+    }
+
+    const handleTabChange = (key: any) => {
+      form.resetFields();
+      if (gradingCriteriaData?.[key - 1]) {
+        console.log('key is ', key);
+        form.setFieldsValue({
+          gradingCriteria: gradingCriteriaData[key - 1].gradingCriteria,
+        });
+      }
+    };
+
+    const [form] = Form.useForm();
     return (
       <div>
-        <h1>Add Setter</h1>
+        <Typography.Title level={3}>Add Grading</Typography.Title>
+        <Divider />
+        <Form name="dynamic_form_nest_item" onFinish={onFinish} form={form}>
+          <Col sm={24} lg={24}>
+            <Tabs
+              tabPosition={'left'}
+              onChange={handleTabChange}
+              items={[
+                ...(gradingCriteriaData || []).map(
+                  (criteria: any, index: number) => ({
+                    label: `Grading Criteria ${index + 1}`,
+                    key: `${index + 1}`,
+                    children: standardGrading(criteria.gradingCriteria),
+                  })
+                ),
+                {
+                  label: 'Customized',
+                  key: `${(gradingCriteriaData || []).length + 1}`,
+                  children: customGrading(),
+                },
+              ]}
+            />
+            <Divider />
+
+            <Typography.Title level={3}>Add Proctors</Typography.Title>
+            <Form.Item name="proctors" label="Proctors">
+              <Select
+                mode="multiple"
+                allowClear
+                style={{ width: '100%' }}
+                placeholder="Please select"
+                options={options}
+              />
+            </Form.Item>
+            <Divider />
+            {/* <Form.Item noStyle shouldUpdate>
+              {() => (
+                <Typography>
+                  <pre>{JSON.stringify(form.getFieldsValue(), null, 2)}</pre>
+                </Typography>
+              )}
+            </Form.Item> */}
+          </Col>
+          <Form.Item>
+            <Button type="primary" htmlType="submit">
+              Submit
+            </Button>
+          </Form.Item>
+        </Form>
+      </div>
+    );
+  }
+
+  // add grading and proctoring
+  function AddCandidate() {
+    const [candidates, setCandidates] = useState<Candidate[]>([]);
+
+    const { data: candidatesData } = useFetchData(
+      '../mocks/CandidatesMock.json'
+    );
+
+    // useEffect(() => {
+    //   if (candidatesData) {
+    //     setCandidates(candidatesData);
+    //   }
+    // }, [candidatesData]);
+
+    const options = (candidatesData || []).map((candidate: Candidate) => ({
+      label: `${candidate.firstName} ${candidate.lastName}`,
+      value: candidate.id,
+    }));
+
+    const uniqueGroups = new Set(
+      (candidatesData || []).map((candidate: Candidate) => candidate.group)
+    );
+
+    const optionsGroup = Array.from(uniqueGroups).map((group) => ({
+      label: group,
+      value: group,
+    }));
+
+    const columns = [
+      {
+        title: 'First Name',
+        dataIndex: 'firstName',
+        key: 'firstName',
+      },
+      {
+        title: 'Last Name',
+        dataIndex: 'lastName',
+        key: 'lastName',
+      },
+      {
+        title: 'Group',
+        dataIndex: 'group',
+        key: 'group',
+      },
+    ];
+
+    // when submit button is pressed
+    const onFinish = () => {
+      console.log(candidates);
+    };
+
+    const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
+
+    const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
+      setSelectedRowKeys(newSelectedRowKeys);
+    };
+
+    const rowSelection = {
+      selectedRowKeys,
+      onChange: onSelectChange,
+    };
+
+    const addValue = (value: any) => {
+      console.log(value);
+      const candidate = candidatesData.find(
+        (candidate: Candidate) => candidate.id === value
+      );
+      if (!candidate || candidates.includes(candidate)) {
+        return;
+      }
+      setCandidates([...candidates, candidate]);
+    };
+
+    const deleteSelected = () => {
+      const newCandidatesData = candidates.filter((candidate) => {
+        return !selectedRowKeys.includes(candidate.id);
+      });
+      setCandidates(newCandidatesData);
+    };
+
+    const addGroup = (value: any) => {
+      const newCandidatesData = candidatesData.filter((candidate: Candidate) =>
+        value.includes(candidate.group)
+      );
+      setCandidates(newCandidatesData);
+    };
+
+    const [form] = Form.useForm();
+    return (
+      <div>
+        <Typography.Title level={3}>Add Candidates</Typography.Title>
+        <Divider />
+        <Form name="dynamic_form_nest_item" onFinish={onFinish} form={form}>
+          <Col sm={24} lg={24}>
+            <Flex justify="stretch" gap={10}>
+              <Form.Item
+                name="candidate"
+                label="Search"
+                style={{ width: '100%', flex: 1 }}
+              >
+                <Select
+                  allowClear
+                  placeholder="Search"
+                  options={options}
+                  onChange={addValue}
+                />
+              </Form.Item>
+
+              <Form.Item
+                name="candidateGroup"
+                label="Search Group"
+                style={{ width: '100%', flex: 1 }}
+              >
+                <Select
+                  mode="multiple"
+                  allowClear
+                  placeholder="Search Group"
+                  options={optionsGroup}
+                  onChange={addGroup}
+                />
+              </Form.Item>
+            </Flex>
+            <Divider />
+          </Col>
+          <Row>
+            <Space direction='vertical'>
+
+            <Col lg={24} style={{ flex: 1 }}>
+              <Flex justify="end" align="end" gap={10} >
+                <Button onClick={deleteSelected}>Delete</Button>
+              </Flex>
+            </Col>
+            <Col lg={24}>
+              <Table
+                dataSource={candidates}
+                columns={columns}
+                rowKey="id"
+                pagination={{ pageSize: 10 }}
+                rowSelection={rowSelection}
+                scroll={{ y: 300 }}
+              />
+            </Col>
+            </Space>
+          </Row>
+
+          <Form.Item>
+            <Button type="primary" htmlType="submit">
+              Submit
+            </Button>
+          </Form.Item>
+        </Form>
       </div>
     );
   }

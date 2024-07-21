@@ -8,7 +8,7 @@ import { useFetchData } from '../../hooks';
 export const Candidates = () => {
   const [open, setOpen] = useState(false);
   const [form] = Form.useForm();
-  const { data: candidatesData } = useFetchData('../../../mocks/Candidates.json');
+  const { data: candidatesData } = useFetchData('../../../mocks/CandidatesMock.json');
   const [examTabsKey, setExamTabKey] = useState<string>('all');
 
   const EXAM_TABS_CONTENT: Record<string, React.ReactNode> = {
