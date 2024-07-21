@@ -117,7 +117,7 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
           trigger={null}
           collapsible
           collapsed={collapsed}
-          onCollapse={(value) => setCollapsed(value)}
+          onCollapse={(value: boolean) => setCollapsed(value)}
           style={{
             overflow: 'auto',
             position: 'fixed',
