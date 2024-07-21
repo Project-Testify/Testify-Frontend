@@ -5,7 +5,7 @@ import {
   SignInPage,
   HomePage,
   OrgAdminDashBoard as OrgAdminPage,
-  TutorDashBoardPage,
+  ExamSetterDashBoardPage,
   UserProfileDetailsPage,
   UserProfileActionsPage,
   UserProfileActivityPage,
@@ -178,7 +178,7 @@ const router = createBrowserRouter([
 
 
   {
-    path: 'tutor',
+    path: 'examSetter',
     element: <PageWrapper children={<DashboardLayout />} />,
     errorElement: <ErrorPage />,
     children: [
@@ -189,7 +189,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'dashboard',
-        element: <TutorDashBoardPage />,
+        element: <ExamSetterDashBoardPage />,
         errorElement: <ErrorPage />,
       },
       {
