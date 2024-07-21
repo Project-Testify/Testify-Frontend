@@ -1,6 +1,7 @@
 import {CSSProperties} from 'react';
 import { Col, theme, Divider } from 'antd';
 import { CountdownTimer } from './CountdownTimer';
+import { QuestionIndexes } from './QuestionIndexes';
 
 
 
@@ -32,6 +33,10 @@ export const TimeContainer = () => {
         textAlign: 'center',
     };
 
+    const totalQuestions = 20;
+    const answeredIndexes = [1, 3, 4, 5, 6, 7];
+    const skippedIndexes = [2, 8];
+
     return (
         <Col span={6} push={18}>
             <Col span={24}>
@@ -41,7 +46,9 @@ export const TimeContainer = () => {
                         <CountdownTimer initialHours={1} initialMinutes={30} initialSeconds={0} />
                     </div>
                     <Divider />
-                    <p>Question Indexes:</p>
+                    {/* <p>Question Indexes:</p> */}
+                    <QuestionIndexes totalQuestions={totalQuestions} answeredIndexes={answeredIndexes} skippedIndexes={skippedIndexes} />
+            
                 </div>
             </Col>
         </Col>

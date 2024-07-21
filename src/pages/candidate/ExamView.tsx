@@ -53,7 +53,7 @@ export const ExamViewPage = () => {
             <TimeContainer/>
             {/* ----------------Question Container----------------- */}
             <McqQuestionView
-                    question="5. Which of the following algorithms is typically used for classification tasks in machine learning?"
+                    question="9. Which of the following algorithms is typically used for classification tasks in machine learning?"
                     options={[
                         'K-Means Clustering',
                         'Linear Regression',
