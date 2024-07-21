@@ -56,7 +56,7 @@ const FooterNav = ({ ...others }: FooterNavProps) => {
         justify="center"
         align="middle"
       >
-       Testify © 2024 Created by Group 36
+       Testify © {new Date().getFullYear()} Created by Group 36
       </Row>
     </Footer>
   );
