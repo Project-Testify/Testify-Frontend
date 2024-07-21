@@ -30,11 +30,15 @@ import {
   CandidateUpcomingExams,
   CandidateBadges,
   CandidateGrading,
-  CandidateActivityHistory
+  CandidateActivityHistory,
+
+  // examSetter
+  OrganizationDashBoard
 } from '../pages';
 
 import {
   DashboardLayout,
+  ExamSetterLayout,
   // UserAccountLayout,
   CommonLayout,
 } from '../layouts';
@@ -179,7 +183,7 @@ const router = createBrowserRouter([
 
   {
     path: 'examSetter',
-    element: <PageWrapper children={<DashboardLayout />} />,
+    element: <PageWrapper children={<ExamSetterLayout />} />,
     errorElement: <ErrorPage />,
     children: [
       {
@@ -190,6 +194,11 @@ const router = createBrowserRouter([
       {
         path: 'dashboard',
         element: <ExamSetterDashBoardPage />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: 'organization',
+        element: <OrganizationDashBoard />,
         errorElement: <ErrorPage />,
       },
       {

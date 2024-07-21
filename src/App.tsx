@@ -1,7 +1,9 @@
 import { RouterProvider } from 'react-router-dom';
 import { ConfigProvider, theme } from 'antd';
 import { HelmetProvider } from 'react-helmet-async';
-import { StylesContext } from './context';
+import { StylesContext,GlobalStateProvider } from './context';
+
+
 import routes from './routes/routes.tsx';
 
 import './App.css';
@@ -111,7 +113,9 @@ function App() {
             },
           }}
         >
+          <GlobalStateProvider>
           <RouterProvider router={routes} />
+          </GlobalStateProvider>
         </StylesContext.Provider>
       </ConfigProvider>
     </HelmetProvider>
