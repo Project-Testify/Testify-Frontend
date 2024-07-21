@@ -13,6 +13,8 @@ import {
   UserProfileHelpPage,
   UserProfileInformationPage,
   UserProfilePreferencesPage,
+  ExamSummaryPage,
+  ExamViewPage,
   SignUpPage,
   AccountDeactivePage,
   PasswordResetPage,
@@ -30,7 +32,8 @@ import {
   CandidateUpcomingExams,
   CandidateBadges,
   CandidateGrading,
-  CandidateActivityHistory
+  CandidateActivityHistory,
+  DignosticTestPage
 } from '../pages';
 
 import {
@@ -209,6 +212,10 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage />,
       },
       {
+        path: 'exam',
+        element: <ExamSummaryPage />,
+        errorElement: <ErrorPage />,
+},{
         path: 'dashboard',
         element: <CandidateDashboard />,
         errorElement: <ErrorPage />,
@@ -255,6 +262,16 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage />,
         
       },
+      {
+        path: 'exam/dignostic-test',
+        element: <DignosticTestPage />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: 'exam/view',
+        element: <ExamViewPage />,
+        errorElement: <ErrorPage />,
+      }
 
       
     ],
