@@ -1,0 +1,38 @@
+.question-style {
+    text-align: justify;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.answer-container {
+    padding: 24px 24px;
+    margin-bottom: 8px;
+    border-radius: 4px;
+    border: 2px solid #F3F3F3; /* Initial border removed */
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+}
+
+.answer-container.hovered {
+    border: 2px solid #1890FF; /* Apply border on hover */
+}
+
+.answer {
+    text-align: justify;
+    font-size: 15px;
+}
+
+.radio-button {
+    margin-right: 8px;
+    transform: scale(1.6); /* Make the radio button larger */
+    transition: accent-color 0.5s ease;
+}
+
+.radio-button:hover,
+.radio-button:checked {
+    accent-color: #1890FF; /* Change the color when selected or hovered */
+}
+
+.radio-button:checked + label {
+    color: #1890FF; /* Change label color when selected */
+}
