@@ -1,0 +1,126 @@
+[
+  {
+    "gradingCriteria": [
+      {
+        "grade": "A+",
+        "value": "90"
+      },
+      {
+        "grade": "A",
+        "value": "80"
+      },
+      {
+        "grade": "B+",
+        "value": "70"
+      },
+      {
+        "grade": "B",
+        "value": "60"
+      },
+      {
+        "grade": "C+",
+        "value": "50"
+      },
+      {
+        "grade": "C",
+        "value": "40"
+      },
+      {
+        "grade": "D",
+        "value": "30"
+      },
+      {
+        "grade": "F",
+        "value": "20"
+      }
+    ]
+  },
+  {
+    "gradingCriteria": [
+      {
+        "grade": "Excellent",
+        "value": "85"
+      },
+      {
+        "grade": "Very Good",
+        "value": "75"
+      },
+      {
+        "grade": "Good",
+        "value": "65"
+      },
+      {
+        "grade": "Satisfactory",
+        "value": "55"
+      },
+      {
+        "grade": "Pass",
+        "value": "45"
+      },
+      {
+        "grade": "Fail",
+        "value": "35"
+      }
+    ]
+  },
+  {
+    "gradingCriteria": [
+      {
+        "grade": "Distinction",
+        "value": "85"
+      },
+      {
+        "grade": "Merit",
+        "value": "75"
+      },
+      {
+        "grade": "Credit",
+        "value": "65"
+      },
+      {
+        "grade": "Pass",
+        "value": "50"
+      },
+      {
+        "grade": "Fail",
+        "value": "40"
+      }
+    ]
+  },
+  {
+    "gradingCriteria": [
+      {
+        "grade": "O",
+        "value": "90"
+      },
+      {
+        "grade": "A+",
+        "value": "80"
+      },
+      {
+        "grade": "A",
+        "value": "70"
+      },
+      {
+        "grade": "B+",
+        "value": "60"
+      },
+      {
+        "grade": "B",
+        "value": "50"
+      },
+      {
+        "grade": "C",
+        "value": "40"
+      },
+      {
+        "grade": "P",
+        "value": "30"
+      },
+      {
+        "grade": "F",
+        "value": "20"
+      }
+    ]
+  }
+]

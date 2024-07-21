@@ -16,7 +16,7 @@ export interface TutorRegister {
     email: string;
     password: string;
     firstName: string;
-    lastName: string
+    lastName: string;
 }
 
 export interface OrganizationRegister {
@@ -39,4 +39,24 @@ export interface AuthResponse {
         email: string;
         role: string;
     
+}
+
+
+
+export interface Exam {
+    title: string;
+    description: string;
+    instructions: string;
+    duration: number;
+    totalMarks: number;
+    passMarks: number;
+    examSetterId: number;
+    organizationId: number;
+    startDatetime: string;
+    endDatetime: string;
+    private: boolean;
+}
+
+export interface Response {
+    status: string;
 }

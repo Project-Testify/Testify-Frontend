@@ -25,6 +25,7 @@ const ROOTS_CALENDAR = '/calendar';
 const ROOTS_ERRORS = '/errors';
 const ROOTS_ABOUT = '/about';
 const ROOTS_ORG_ADMIN = '/org-admin';
+const ROOTS_CANDIDATE = '/candidate';
 const ROOTS_TUTOR = '/tutor';
 
 export const PATH_LANDING = {
@@ -246,10 +247,23 @@ export const PATH_ORG_ADMIN = {
   dashboard: path(ROOTS_ORG_ADMIN, '/dashboard'),
   exam: path(ROOTS_ORG_ADMIN, '/exam'),
   new_exam: path(ROOTS_ORG_ADMIN, '/new_exam'),
+  groups: path(ROOTS_ORG_ADMIN, '/groups'),
+};
+
+export const PATH_CANDIDATE = {
+  root: ROOTS_CANDIDATE,
+  dashboard: path(ROOTS_CANDIDATE, '/dashboard'),
+  all_exams: path(ROOTS_CANDIDATE, '/all-exams'),
+  upcoming_exams: path(ROOTS_CANDIDATE, '/upcoming-exams'),
+  ongoing_exams: path(ROOTS_CANDIDATE, '/ongoing-exams'),
+  completed_exams: path(ROOTS_CANDIDATE, '/completed-exams'),
+  badges: path(ROOTS_CANDIDATE, '/badges'),
+  grading: path(ROOTS_CANDIDATE, '/grading'),
+  activity_history: path(ROOTS_CANDIDATE, '/activity-history'),
 };
 
 export const PATH_TUTOR = {
   root: ROOTS_TUTOR,
   dashboard: path(ROOTS_TUTOR, '/dashboard'),
-  exam: path(ROOTS_TUTOR, '/exam'),
-};
+  
+}

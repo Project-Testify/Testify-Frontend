@@ -3,8 +3,8 @@ import {
   ErrorPage,
   // HomePage,
   SignInPage,
+  HomePage,
   OrgAdminDashBoard as OrgAdminPage,
-  DignosticTestPage,
   TutorDashBoardPage,
   UserProfileDetailsPage,
   UserProfileActionsPage,
@@ -23,6 +23,16 @@ import {
 
   OrgAdminExamPage,
   OrgAdminNewExamPage,
+  Groups,
+  Candidates,
+  CandidateDashboard,
+  CandidateAllExams,
+  CandidateOngoingExams,
+  CandidateCompletedExams,
+  CandidateUpcomingExams,
+  CandidateBadges,
+  CandidateGrading,
+  CandidateActivityHistory
 } from '../pages';
 
 import {
@@ -72,7 +82,8 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: (
-      <AuthProvider> <SignInPage /></AuthProvider>
+      // <AuthProvider> <SignInPage /></AuthProvider>
+      <HomePage />
     ),
     errorElement: <ErrorPage />,
   },
@@ -92,7 +103,9 @@ const router = createBrowserRouter([
       // },
       {
         path: 'signin',
-        element: <SignInPage />,
+        element: (
+          <AuthProvider> <SignInPage /></AuthProvider>
+        ),
       },
       {
         path: 'welcome',
@@ -139,7 +152,29 @@ const router = createBrowserRouter([
         path: "new_exam",
         element: <OrgAdminNewExamPage />,
         errorElement: <ErrorPage />
-      }
+      },
+      {
+        path: 'groups',
+        // element: <Groups />,
+        errorElement: <ErrorPage />,
+        children: [
+          {
+            index: true,
+            element: <Groups />,
+            errorElement: <ErrorPage />,
+
+
+          },
+
+          {
+            // group id / candidates
+
+            path: ':groupId/candidates',
+            element: <Candidates />,
+            errorElement: <ErrorPage />,
+          }
+        ]
+      },
     ],
   },
 
@@ -172,13 +207,59 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        // element: <LearningDashboardPage />,
+        element: <CandidateDashboard />,
         errorElement: <ErrorPage />,
       },
       {
         path: 'exam',
         element: <ExamSummaryPage />,
         errorElement: <ErrorPage />,
+},{
+        path: 'dashboard',
+        element: <CandidateDashboard />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: 'all-exams',
+        element: <CandidateAllExams />,
+        errorElement: <ErrorPage />,
+        
+      },
+      {
+        path: 'completed-exams',
+        element: <CandidateCompletedExams />,
+        errorElement: <ErrorPage />,
+        
+      },
+      {
+        path: 'ongoing-exams',
+        element: <CandidateOngoingExams />,
+        errorElement: <ErrorPage />,
+        
+      },
+      {
+        path: 'upcoming-exams',
+        element: <CandidateUpcomingExams />,
+        errorElement: <ErrorPage />,
+        
+      },
+      {
+        path: 'badges',
+        element: <CandidateBadges />,
+        errorElement: <ErrorPage />,
+        
+      },
+      {
+        path: 'grading',
+        element: <CandidateGrading />,
+        errorElement: <ErrorPage />,
+        
+      },
+      {
+        path: 'activity-history',
+        element: <CandidateActivityHistory />,
+        errorElement: <ErrorPage />,
+        
       },
       {
         path: 'exam/dignostic-test',
@@ -197,12 +278,16 @@ const router = createBrowserRouter([
   },
 
   {
-    path: '/user-profile',
+    path: 'user-profile',
     element: <PageWrapper children={<DashboardLayout />} />,
     errorElement: <ErrorPage />,
     children: [
       {
         index: true,
+        element: <UserProfileDetailsPage />,
+        errorElement: <ErrorPage />,
+      },
+      {
         path: 'details',
         element: <UserProfileDetailsPage />,
       },
