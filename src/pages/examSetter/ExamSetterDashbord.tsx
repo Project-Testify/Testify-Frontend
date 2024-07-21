@@ -148,7 +148,7 @@ const EXAM_TABS = [
   },
 ];
 
-export const TutorDashBoardPage = () => {
+export const ExamSetterDashBoardPage = () => {
   const {
     data: examsData,
     error: examsDataError,
@@ -183,9 +183,9 @@ export const TutorDashBoardPage = () => {
     setExamTabKey(key);
   };
 
-  // const [TutorName, SetTutorName] = useState('Tutor Name');
-  const TutorName = 'Tutor Name';
-  // SetTutorName('Org Admin Name');
+  // const [ExamSetterName, SetExamSetterName] = useState('ExamSetter Name');
+  const ExamSetterName = 'ExamSetter Name';
+  // SetExamSetterName('Org Admin Name');
 
   return (
     <div>
@@ -193,7 +193,7 @@ export const TutorDashBoardPage = () => {
         <title>Testify</title>
       </Helmet>
       <PageHeader
-        title={'Welcome ' + TutorName}
+        title={'Welcome ' + ExamSetterName}
         breadcrumbs={[
           {
             title: (
