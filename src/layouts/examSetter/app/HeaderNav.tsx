@@ -7,7 +7,7 @@ type HeaderNavProps = {
   navFill?: boolean;
 } & React.HTMLAttributes<HTMLDivElement>;
 
-const HeaderNav = ({ navFill, ...others }: HeaderNavProps) => {
+const HeaderNav = ({ navFill = false, ...others }: HeaderNavProps) => {
   const nodeRef = useRef(null);
 
   return <Header ref={nodeRef} {...others} />;
