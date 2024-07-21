@@ -60,6 +60,8 @@ export const ExamViewPage = () => {
                         'Support Vector Machine (SVM)',
                         'Principal Component Analysis (PCA)',
                     ]}
+                    onNext={() => {}}
+                    onPrevious={() => {}}
             />
         </Row>
         </div>

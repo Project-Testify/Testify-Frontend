@@ -10,8 +10,8 @@
 }
 
 .question-box.answered {
-    background-color: #1890FF;
-    border: 1px solid #1890FF;
+    background-color: #1b7bff;
+    border: 1px solid #1b7bff;
     color: #fff;
 }
 
@@ -32,4 +32,80 @@
 .question-box {
     background-color: #fff;
     color: #000;
+}
+
+
+/* .question-container{
+    padding: '1px 24px';
+    background: #FFF;
+    border-radius: 4;
+}; */
+
+/* MCQ Question View */
+.question-container {
+    padding: 1px 24px;
+    background: #FFF;
+    border-radius: 8px;
+}
+
+.answer-container {
+    padding: 12px 24px;
+    margin-bottom: 8px;
+    border-radius: 4px;
+    border: 1px solid #f8f8f8;
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+}
+
+.answer-container.hovered {
+    border-color: #1b7bff;
+}
+
+.answer-container.selected {
+    border-color: #1b7bff;
+}
+
+.radio-button {
+    margin-right: 8px;
+    transform: scale(1.6);
+    accent-color: #1b7bff;
+}
+
+.button-container {
+    margin: 10px;
+    margin-top: 24px;
+    margin-bottom: 24px;
+    display: flex;
+    justify-content: right;
+}
+
+.button{
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 120px;
+}
+
+.clear-button {
+    background-color: #da0000;
+}
+
+.clear-button:hover {
+    background-color: #bf0000 !important;
+}
+
+.next-button:hover {
+    background-color: #0475df !important;
+}
+
+.previous-button {
+
+    margin: 0px 20px;
+}
+
+.previous-button:hover {
+    background-color: #0475df !important;
+}
+
+.submit-button {
+    width: 100%;
 }

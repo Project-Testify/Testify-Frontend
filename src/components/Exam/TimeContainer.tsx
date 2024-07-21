@@ -1,7 +1,8 @@
 import {CSSProperties} from 'react';
-import { Col, theme, Divider } from 'antd';
+import { Col, theme, Divider, Button } from 'antd';
 import { CountdownTimer } from './CountdownTimer';
 import { QuestionIndexes } from './QuestionIndexes';
+import './styles.css';
 
 
 
@@ -19,7 +20,7 @@ export const TimeContainer = () => {
 
     const countdownStyle: CSSProperties = {
         textAlign: 'center',
-        padding: 24,
+        padding: '12px 24px',
         background: colorBgContainer,
         border: '2px solid #1890FF',
         borderRadius: borderRadiusLG,
@@ -48,6 +49,12 @@ export const TimeContainer = () => {
                     <Divider />
                     {/* <p>Question Indexes:</p> */}
                     <QuestionIndexes totalQuestions={totalQuestions} answeredIndexes={answeredIndexes} skippedIndexes={skippedIndexes} />
+                    <Divider />
+                    <div style={{textAlign: 'center', marginTop: '20px'}}>
+                        <Button type="primary" size={'large'} className="submit-button" >
+                                Submit Exam
+                        </Button>
+                    </div>
             
                 </div>
             </Col>
