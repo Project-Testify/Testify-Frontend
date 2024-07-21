@@ -35,7 +35,7 @@ import {
   CandidateActivityHistory,
 
   // examSetter
-  OrganizationDashBoard
+  OrganizationDashBoard,
 
   DignosticTestPage
 } from '../pages';
