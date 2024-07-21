@@ -33,11 +33,11 @@ import {
   CandidateBadges,
   CandidateGrading,
   CandidateActivityHistory,
+  DignosticTestPage,
 
   // examSetter
-  OrganizationDashBoard,
+  OrganizationDashBoard
 
-  DignosticTestPage
 } from '../pages';
 
 import {
