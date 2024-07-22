@@ -44,7 +44,6 @@ import React, { ReactNode, useEffect } from 'react';
 
 // import { ProtectedRoute } from './ProtectedRoutes';
 import { AuthProvider } from '../hooks/useAuth.tsx';
-import { CandidateDashboard } from '../pages/candidate/CandidateDashboard.tsx';
 
 
 // Custom scroll restoration function
