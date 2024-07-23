@@ -11,7 +11,7 @@ import {
   Tooltip,
 } from 'antd';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { ReactNode, useEffect, useRef, useState } from 'react';
+import { ReactNode, useContext, useEffect, useRef, useState } from 'react';
 import {
   AppstoreOutlined,
   LogoutOutlined,
@@ -33,8 +33,12 @@ import HeaderNav from './HeaderNav.tsx';
 import FooterNav from './FooterNav.tsx';
 import { NProgress, TogglerDarkTheme } from '../../components';
 import { PATH_LANDING } from '../../constants';
+import ThemeContext from '../../hooks/ThemeProvider.tsx';
+
 
 const { Content } = Layout;
+
+
 
 type AppLayoutProps = {
   children: ReactNode;
@@ -91,6 +95,8 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
   ];
 
 
+  // get theme from antd theme context
+  const { theme } = useContext(ThemeContext);
 
   useEffect(() => {
     setCollapsed(isMobile);
@@ -132,16 +138,17 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
             transition: 'all .2s',
           }}
         />
+        
         <Layout
-          style={{
-            // background: 'none',
-          }}
-        >
-          <HeaderNav
+          // style={{
+          //   background: theme === 'dark' ? '#001529' : 'none',
+          //   }}
+          >
+            <HeaderNav
             style={{
               marginLeft: collapsed ? 0 : '200px',
               padding: '0 2rem 0 0',
-              background: navFill ? 'rgba(255, 255, 255, .5)' : 'none',
+              background: theme === 'dark' ? 'rgba(0, 0, 0, 0.05)' : (navFill ? 'rgba(255, 255, 255, .5)' : 'none'),
               backdropFilter: navFill ? 'blur(8px)' : 'none',
               boxShadow: navFill ? '0 0 8px 2px rgba(0, 0, 0, 0.05)' : 'none',
               display: 'flex',

@@ -81,7 +81,7 @@ export const Groups = () => {
           }
           activeTabKey={examTabsKey}
           onTabChange={onTabChange}
-          style={{ backgroundColor: '#fff' }}
+          // style={{ backgroundColor: '#fff' }}
         >
           {EXAM_TABS_CONTENT[examTabsKey]}
         </Card>
