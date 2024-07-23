@@ -7,7 +7,7 @@ import {
   Layout,
   MenuProps,
   message,
-  theme,
+  theme as antdTheme,
   Tooltip,
 } from 'antd';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -31,7 +31,7 @@ import { useMediaQuery } from 'react-responsive';
 import SideNav from './SideNav.tsx';
 import HeaderNav from './HeaderNav.tsx';
 import FooterNav from './FooterNav.tsx';
-import { NProgress } from '../../components';
+import { NProgress, TogglerDarkTheme } from '../../components';
 import { PATH_LANDING } from '../../constants';
 
 const { Content } = Layout;
@@ -43,7 +43,7 @@ type AppLayoutProps = {
 export const AppLayout = ({ children }: AppLayoutProps) => {
   const {
     token: { borderRadius },
-  } = theme.useToken();
+  } = antdTheme.useToken();
   const isMobile = useMediaQuery({ maxWidth: 769 });
   const [collapsed, setCollapsed] = useState(true);
   const [navFill, setNavFill] = useState(false);
@@ -90,6 +90,8 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
     },
   ];
 
+
+
   useEffect(() => {
     setCollapsed(isMobile);
   }, [isMobile]);
@@ -110,7 +112,7 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
       <Layout
         style={{
           minHeight: '100vh',
-          backgroundColor: 'white',
+          // backgroundColor: '#f0f2f5',
         }}
       >
         <SideNav
@@ -118,20 +120,21 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
           collapsible
           collapsed={collapsed}
           onCollapse={(value) => setCollapsed(value)}
+          theme={'light'}
           style={{
             overflow: 'auto',
             position: 'fixed',
             left: 0,
             top: 0,
             bottom: 0,
-            background: 'none',
+            // background: '#f0f2f5',
             border: 'none',
             transition: 'all .2s',
           }}
         />
         <Layout
           style={{
-            background: 'none',
+            // background: 'none',
           }}
         >
           <HeaderNav
@@ -176,6 +179,8 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
               />
             </Flex>
             <Flex align="center" gap="small">
+              <TogglerDarkTheme />
+
               <Tooltip title="Apps">
                 <Button icon={<AppstoreOutlined />} type="text" size="large" />
               </Tooltip>
@@ -198,7 +203,7 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
           <Content
             style={{
               margin: `0 0 0 ${collapsed ? 0 : '200px'}`,
-              background: '#ebedf0',
+              // background: '#ebedf0',
               borderRadius: collapsed ? 0 : borderRadius,
               transition: 'all .25s',
               padding: '24px 32px',
