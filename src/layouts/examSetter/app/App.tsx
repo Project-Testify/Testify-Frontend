@@ -7,11 +7,11 @@ import {
   Layout,
   MenuProps,
   message,
-  theme as antdTheme,
+  theme,
   Tooltip,
 } from 'antd';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { ReactNode, useContext, useEffect, useRef, useState } from 'react';
+import { ReactNode, useEffect, useRef, useState } from 'react';
 import {
   AppstoreOutlined,
   LogoutOutlined,
@@ -31,14 +31,10 @@ import { useMediaQuery } from 'react-responsive';
 import SideNav from './SideNav.tsx';
 import HeaderNav from './HeaderNav.tsx';
 import FooterNav from './FooterNav.tsx';
-import { NProgress, TogglerDarkTheme } from '../../components';
-import { PATH_LANDING } from '../../constants';
-import ThemeContext from '../../hooks/ThemeProvider.tsx';
-
+import { NProgress } from '../../../components';
+import { PATH_LANDING } from '../../../constants';
 
 const { Content } = Layout;
-
-
 
 type AppLayoutProps = {
   children: ReactNode;
@@ -47,7 +43,7 @@ type AppLayoutProps = {
 export const AppLayout = ({ children }: AppLayoutProps) => {
   const {
     token: { borderRadius },
-  } = antdTheme.useToken();
+  } = theme.useToken();
   const isMobile = useMediaQuery({ maxWidth: 769 });
   const [collapsed, setCollapsed] = useState(true);
   const [navFill, setNavFill] = useState(false);
@@ -94,10 +90,6 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
     },
   ];
 
-
-  // get theme from antd theme context
-  const { theme } = useContext(ThemeContext);
-
   useEffect(() => {
     setCollapsed(isMobile);
   }, [isMobile]);
@@ -118,7 +110,7 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
       <Layout
         style={{
           minHeight: '100vh',
-          // backgroundColor: '#f0f2f5',
+          backgroundColor: 'white',
         }}
       >
         <SideNav
@@ -126,29 +118,27 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
           collapsible
           collapsed={collapsed}
           onCollapse={(value: boolean) => setCollapsed(value)}
-          theme={'light'}
           style={{
             overflow: 'auto',
             position: 'fixed',
             left: 0,
             top: 0,
             bottom: 0,
-            // background: '#f0f2f5',
+            background: 'none',
             border: 'none',
             transition: 'all .2s',
           }}
         />
-        
         <Layout
-          // style={{
-          //   background: theme === 'dark' ? '#001529' : 'none',
-          //   }}
-          >
-            <HeaderNav
+          style={{
+            background: 'none',
+          }}
+        >
+          <HeaderNav
             style={{
               marginLeft: collapsed ? 0 : '200px',
               padding: '0 2rem 0 0',
-              background: theme === 'dark' ? 'rgba(0, 0, 0, 0.05)' : (navFill ? 'rgba(255, 255, 255, .5)' : 'none'),
+              background: navFill ? 'rgba(255, 255, 255, .5)' : 'none',
               backdropFilter: navFill ? 'blur(8px)' : 'none',
               boxShadow: navFill ? '0 0 8px 2px rgba(0, 0, 0, 0.05)' : 'none',
               display: 'flex',
@@ -186,8 +176,6 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
               />
             </Flex>
             <Flex align="center" gap="small">
-              <TogglerDarkTheme />
-
               <Tooltip title="Apps">
                 <Button icon={<AppstoreOutlined />} type="text" size="large" />
               </Tooltip>
@@ -210,7 +198,7 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
           <Content
             style={{
               margin: `0 0 0 ${collapsed ? 0 : '200px'}`,
-              // background: '#ebedf0',
+              background: '#ebedf0',
               borderRadius: collapsed ? 0 : borderRadius,
               transition: 'all .25s',
               padding: '24px 32px',
