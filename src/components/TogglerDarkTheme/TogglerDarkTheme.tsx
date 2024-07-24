@@ -1,7 +1,6 @@
 import React from 'react';
 import { useContext } from "react";
 import { Switch } from 'antd';
-// import './togglerDarkTheme.module.css';
 import { MoonOutlined, SunFilled } from '@ant-design/icons';
 import ThemeContext from "../../hooks/ThemeProvider";
 
