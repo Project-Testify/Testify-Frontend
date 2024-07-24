@@ -32,27 +32,6 @@ export const EssayQuestionView = ({ question, length, onNext, onPrevious }: Essa
             <Col span={24}>
                 <div className="question-container">
                     <p className="question-style">{question}</p>
-                    {/* {options.map((answer, index) => (
-                        <Col span={24} key={index}>
-                            <div
-                                className={`answer-container ${hovered === index ? 'hovered' : ''} ${selected === index ? 'selected' : ''}`}
-                                onMouseEnter={() => handleMouseEnter(index)}
-                                onMouseLeave={handleMouseLeave}
-                                onClick={() => handleSelection(index)}
-                            >
-                                <input
-                                    type="radio"
-                                    id={`option${index}`}
-                                    name="mcq"
-                                    value={`option${index}`}
-                                    className={`radio-button ${hovered === index ? 'hovered' : ''}`}
-                                    checked={selected === index}
-                                    onChange={() => handleSelection(index)}
-                                />
-                                <label className="answer" htmlFor={`option${index}`}>{answer}</label>
-                            </div>
-                        </Col>
-                    ))} */}
                     <TextArea
                         showCount
                         maxLength={length}
