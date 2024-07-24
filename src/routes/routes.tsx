@@ -5,7 +5,7 @@ import {
   SignInPage,
   HomePage,
   OrgAdminDashBoard as OrgAdminPage,
-  TutorDashBoardPage,
+  ExamSetterDashBoardPage,
   UserProfileDetailsPage,
   UserProfileActionsPage,
   UserProfileActivityPage,
@@ -13,6 +13,8 @@ import {
   UserProfileHelpPage,
   UserProfileInformationPage,
   UserProfilePreferencesPage,
+  ExamSummaryPage,
+  ExamViewPage,
   SignUpPage,
   AccountDeactivePage,
   PasswordResetPage,
@@ -31,11 +33,15 @@ import {
   CandidateBadges,
   CandidateGrading,
   CandidateActivityHistory,
-  CandidateOrganizations
+  CandidateOrganizations,
+  DignosticTestPage,
+  // examSetter
+  OrganizationDashBoard
 } from '../pages';
 
 import {
   DashboardLayout,
+  ExamSetterLayout,
   // UserAccountLayout,
   CommonLayout,
 } from '../layouts';
@@ -179,8 +185,8 @@ const router = createBrowserRouter([
 
 
   {
-    path: 'tutor',
-    element: <PageWrapper children={<DashboardLayout />} />,
+    path: 'examSetter',
+    element: <PageWrapper children={<ExamSetterLayout />} />,
     errorElement: <ErrorPage />,
     children: [
       {
@@ -190,7 +196,12 @@ const router = createBrowserRouter([
       },
       {
         path: 'dashboard',
-        element: <TutorDashBoardPage />,
+        element: <ExamSetterDashBoardPage />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: 'organization',
+        element: <OrganizationDashBoard />,
         errorElement: <ErrorPage />,
       },
       {
@@ -210,6 +221,10 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage />,
       },
       {
+        path: 'exam',
+        element: <ExamSummaryPage />,
+        errorElement: <ErrorPage />,
+},{
         path: 'dashboard',
         element: <CandidateDashboard />,
         errorElement: <ErrorPage />,
@@ -261,6 +276,16 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage />,
         
       },
+      {
+        path: 'exam/dignostic-test',
+        element: <DignosticTestPage />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: 'exam/view',
+        element: <ExamViewPage />,
+        errorElement: <ErrorPage />,
+      }
 
       
     ],

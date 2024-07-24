@@ -8,5 +8,5 @@ export * from './orgadmin';
 export * from './candidate/index.ts';
 
 
-export * from './tutor';
+export * from './examSetter';
 

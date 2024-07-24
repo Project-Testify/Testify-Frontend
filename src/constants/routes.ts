@@ -26,7 +26,7 @@ const ROOTS_ERRORS = '/errors';
 const ROOTS_ABOUT = '/about';
 const ROOTS_ORG_ADMIN = '/org-admin';
 const ROOTS_CANDIDATE = '/candidate';
-const ROOTS_TUTOR = '/tutor';
+const ROOTS_TUTOR = '/examSetter';
 
 export const PATH_LANDING = {
   root: ROOTS_LANDING,

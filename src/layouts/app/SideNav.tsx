@@ -155,8 +155,8 @@ const orgAdminItems: MenuProps['items'] = [
   ]),
 ];
 
-// Tutor items
-const tutorItems: MenuProps['items'] = [
+// ExamSetter items
+const examSetterItems: MenuProps['items'] = [
   getItem(
     <Link to={PATH_DASHBOARD.org_admin}>DashBoard</Link>,
     'projects',
@@ -252,7 +252,7 @@ const SideNav = ({ ...others }: SideNavProps) => {
   const [openKeys, setOpenKeys] = useState(['']);
   const [current, setCurrent] = useState('');
 
-  // set the state of the role as either tutor or orgadmin
+  // set the state of the role as either examSetter or orgadmin
   const [isRole, setIsRole] = useState('');
 
   const onClick: MenuProps['onClick'] = (e) => {
@@ -277,8 +277,8 @@ const SideNav = ({ ...others }: SideNavProps) => {
   useEffect(() => {
     if (pathname.includes('org-admin')) {
       setIsRole('org-admin');
-    } else if (pathname.includes('tutor')) {
-      setIsRole('tutor');
+    } else if (pathname.includes('examSetter')) {
+      setIsRole('examSetter');
     }else if (pathname.includes('candidate')) {
       setIsRole('candidate');
     }
@@ -319,10 +319,10 @@ const SideNav = ({ ...others }: SideNavProps) => {
           />
         )}
 
-        {isRole === 'tutor' && (
+        {isRole === 'examSetter' && (
           <Menu
             mode="inline"
-            items={tutorItems}
+            items={examSetterItems}
             onClick={onClick}
             openKeys={openKeys}
             onOpenChange={onOpenChange}

@@ -1,6 +1,6 @@
 import api from '../config';
 import { AxiosResponse } from 'axios';
-import { LoginCredentials, TutorRegister, CandidateRegister ,OrganizationRegister, AuthResponse } from '../types';
+import { LoginCredentials, ExamSetterRegister, CandidateRegister ,OrganizationRegister, AuthResponse } from '../types';
 
 export const loginService = (credentials: LoginCredentials): Promise<AxiosResponse<AuthResponse>> => {
     return api.post<AuthResponse>('/auth/authenticate', credentials);
@@ -10,7 +10,7 @@ export const registerCandidate = (candidate: CandidateRegister): Promise<AxiosRe
     return api.post<AuthResponse>('/auth/register', candidate);
 };
 
-export const registerTutor = (educator: TutorRegister): Promise<AxiosResponse<AuthResponse>> => {
+export const registerExamSetter = (educator: ExamSetterRegister): Promise<AxiosResponse<AuthResponse>> => {
     return api.post<AuthResponse>('/auth/register', educator);
 };
 

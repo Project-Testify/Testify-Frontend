@@ -1,4 +1,6 @@
 export { DignosticTestPage } from './Diagnostics.tsx';
+export { ExamSummaryPage } from './ExamSummary.tsx';
+export { ExamViewPage } from './ExamView.tsx';
 export { CandidateDashboard } from './CandidateDashboard.tsx';
 export { CandidateAllExams } from './CandidateAllExams.tsx';
 export { CandidateCompletedExams } from './CandidateCompletedExams.tsx';
