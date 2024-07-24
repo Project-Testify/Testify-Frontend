@@ -1,5 +1,5 @@
 import { Row } from 'antd';
-import { McqQuestionView } from '../../components';
+import { EssayQuestionView, } from '../../components';
 import { TimeContainer } from '../../components';
 import './ExamView.css';
 
@@ -52,7 +52,19 @@ export const ExamViewPage = () => {
              {/* ----------------Time Container----------------- */}
             <TimeContainer/>
             {/* ----------------Question Container----------------- */}
-            <McqQuestionView
+            <EssayQuestionView
+                    question="9. Which of the following algorithms is typically used for classification tasks in machine learning?"
+                    length={500}
+                    // options={[
+                    //     'K-Means Clustering',
+                    //     'Linear Regression',
+                    //     'Support Vector Machine (SVM)',
+                    //     'Principal Component Analysis (PCA)',
+                    // ]}
+                    onNext={() => {}}
+                    onPrevious={() => {}}
+            />
+            {/* <McqQuestionView
                     question="9. Which of the following algorithms is typically used for classification tasks in machine learning?"
                     options={[
                         'K-Means Clustering',
@@ -62,7 +74,7 @@ export const ExamViewPage = () => {
                     ]}
                     onNext={() => {}}
                     onPrevious={() => {}}
-            />
+            /> */}
         </Row>
         </div>
     );
