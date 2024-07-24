@@ -255,7 +255,7 @@ const SideNav = ({ ...others }: SideNavProps) => {
   // set the state of the role as either tutor or orgadmin
   const [isRole, setIsRole] = useState('');
 
-  const onClick: MenuProps['onClick'] = (e: React.MouseEvent) => {
+  const onClick: MenuProps['onClick'] = (e) => {
     console.log('click ', e);
   };
 
