@@ -3,29 +3,36 @@ import { Col, Button, Input } from 'antd';
 import './styles.css';
 import { RightOutlined, LeftOutlined } from '@ant-design/icons';
 
-// import { useTheme } from 'antd/es/theme';
-
 interface EssayQuestionViewProps {
     question: string;
     length: number;
     onNext: () => void;
     onPrevious: () => void;
+    onAnswer: () => void;
+    onClearSelection: () => void;
 }
 
 // const McqQuestionView: React.FC<McqQuestionViewProps> = ({ question, options }) => {
-export const EssayQuestionView = ({ question, length, onNext, onPrevious }: EssayQuestionViewProps) => {
+export const EssayQuestionView = ({ question, length, onNext, onPrevious, onAnswer, onClearSelection }: EssayQuestionViewProps) => {
     
     const { TextArea } = Input;
+    const [content, setContent] = useState('');
 
     const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        setContent(e.target.value);
+        const text = e.target.value;
+        setContent(text);
+        if (text.length > 0) {
+            onAnswer();
+        } else {
+            onClearSelection();
+        }
     };
-
-    const [content, setContent] = useState('');
 
     const handleClearContent = () => {
         setContent('');
+        onClearSelection();
     };
+
 
     return (
         <Col span={18} pull={6}>

@@ -4,9 +4,15 @@ import { CountdownTimer } from './CountdownTimer';
 import { QuestionIndexes } from './QuestionIndexes';
 import './styles.css';
 
+interface TimeContainerProps {
+    totalQuestions: number;
+    answeredIndexes: number[];
+    skippedIndexes: number[];
+}
 
 
-export const TimeContainer = () => {
+
+export const TimeContainer = ({ totalQuestions, answeredIndexes, skippedIndexes }: TimeContainerProps) => {
 
     const {
         token: { colorBgContainer, borderRadiusLG },
@@ -34,9 +40,9 @@ export const TimeContainer = () => {
         textAlign: 'center',
     };
 
-    const totalQuestions = 20;
-    const answeredIndexes = [1, 3, 4, 5, 6, 7];
-    const skippedIndexes = [2, 8];
+    // const totalQuestions = 20;
+    // const answeredIndexes = [1, 3, 4, 5, 6, 7];
+    // const skippedIndexes = [2, 8];
 
     return (
         <Col span={6} push={18}>

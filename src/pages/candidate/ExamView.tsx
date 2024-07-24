@@ -54,7 +54,9 @@ const isEssayQuestion = (question: Question): question is EssayQuestion => {
 export const ExamViewPage = () => {
 
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-    const [examType] = useState<'mcq' | 'essay'>('mcq');
+    const [answeredIndexes, setAnsweredIndexes] = useState<number[]>([]);
+    const [skippedIndexes, setSkippedIndexes] = useState<number[]>([]);
+    const [examType] = useState<'mcq' | 'essay'>('essay');
 
     const questions: Question[] = examType === 'mcq' ? mcqQuestions : essayQuestions;
 
@@ -62,12 +64,25 @@ export const ExamViewPage = () => {
         if (currentQuestionIndex < questions.length - 1) {
             setCurrentQuestionIndex(currentQuestionIndex + 1);
         }
+        if (!answeredIndexes.includes(currentQuestionIndex + 1)) {
+            setSkippedIndexes([...skippedIndexes, currentQuestionIndex + 1]);
+        }
     };
 
     const handlePrevious = () => {
         if (currentQuestionIndex > 0) {
             setCurrentQuestionIndex(currentQuestionIndex - 1);
         }
+    };
+
+    const handleAnswered = () => {
+        setAnsweredIndexes([...answeredIndexes, currentQuestionIndex + 1]);
+        setSkippedIndexes(skippedIndexes.filter(index => index !== currentQuestionIndex + 1));
+    };
+
+    const handleClearSelection = () => {
+        setAnsweredIndexes(answeredIndexes.filter(index => index !== currentQuestionIndex + 1));
+        setSkippedIndexes([...skippedIndexes, currentQuestionIndex + 1]);
     };
 
     const currentQuestion = questions[currentQuestionIndex];
@@ -104,13 +119,17 @@ export const ExamViewPage = () => {
           />
 
           <Row gutter={[16, 16]}>
-              <TimeContainer/>
+
+              <TimeContainer totalQuestions={questions.length} answeredIndexes={answeredIndexes} skippedIndexes={skippedIndexes} />
+                
               {isMcqQuestion(currentQuestion) ? (
                   <McqQuestionView
                       question={currentQuestion.question}
                       options={currentQuestion.options}
                       onNext={handleNext}
                       onPrevious={handlePrevious}
+                      onAnswer={handleAnswered}
+                      onClearSelection={handleClearSelection}
                   />
               ) : isEssayQuestion(currentQuestion) ? (
                   <EssayQuestionView
@@ -118,6 +137,8 @@ export const ExamViewPage = () => {
                       length={currentQuestion.length}
                       onNext={handleNext}
                       onPrevious={handlePrevious}
+                      onAnswer={handleAnswered}
+                      onClearSelection={handleClearSelection}
                   />
               ) : null}
           </Row>

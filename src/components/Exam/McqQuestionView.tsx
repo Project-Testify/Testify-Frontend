@@ -9,10 +9,11 @@ interface McqQuestionViewProps {
     options: string[];
     onNext: () => void;
     onPrevious: () => void;
+    onAnswer: () => void;
+    onClearSelection: () => void;
 }
 
-// const McqQuestionView: React.FC<McqQuestionViewProps> = ({ question, options }) => {
-export const McqQuestionView = ({ question, options, onNext, onPrevious }: McqQuestionViewProps) => {
+export const McqQuestionView = ({ question, options, onNext, onPrevious, onAnswer, onClearSelection }: McqQuestionViewProps) => {
     
 
     const [hovered, setHovered] = useState<number | null>(null);
@@ -28,10 +29,12 @@ export const McqQuestionView = ({ question, options, onNext, onPrevious }: McqQu
 
     const handleSelection = (index: number) => {
         setSelected(index);
+        onAnswer();
     };
 
     const handleClearSelection = () => {
         setSelected(null);
+        onClearSelection();
     };
 
     return (
