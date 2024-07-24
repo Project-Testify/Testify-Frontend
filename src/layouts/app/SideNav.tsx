@@ -59,23 +59,23 @@ const candidateItems: MenuProps['items'] = [
     )
   ]),
   getItem(
-    'Organizations',
+    <Link to={PATH_CANDIDATE.organizations}>Organizations </Link>,
     'organizations',
     <FontAwesomeIcon icon={faBuildingUser} />
   ),
   getItem(
     <Link to={PATH_CANDIDATE.badges}>Badges </Link>,
-    'organizations',
+    'badges',
     <FontAwesomeIcon icon={faMedal} />
   ),
   getItem(
     <Link to={PATH_CANDIDATE.grading}>Grading </Link>,
-    'organizations',
+    'grading',
     <FontAwesomeIcon icon={faRankingStar} />
   ),
   getItem(
     <Link to={PATH_CANDIDATE.activity_history}>Activity History </Link>,
-    'organizations',
+    'activity_history',
     <FontAwesomeIcon icon={faClockRotateLeft} />
   ),
 ];

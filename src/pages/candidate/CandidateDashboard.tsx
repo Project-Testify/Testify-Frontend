@@ -1,7 +1,6 @@
 import { Helmet } from "react-helmet-async";
-import { ExamStatCard, LogisticsStatsCard, PageHeader } from "../../components";
-import { HomeOutlined, PieChartOutlined, FileTextOutlined } from "@ant-design/icons";
-import { Col, Row, Calendar, Table, Tag } from "antd";
+import { ExamStatCard } from "../../components";
+import { Col, Row, Calendar, Table, Tag, Typography, Card, Flex, Image } from "antd";
 
 export const CandidateDashboard = () => {
 
@@ -96,34 +95,19 @@ export const CandidateDashboard = () => {
         <title>Candidate Dashboard</title>
       </Helmet>
 
-      <PageHeader 
-        title={`Welcome ${candidateName}`}
-        breadcrumbs={[
-          {
-            title: (
-              <>
-                <HomeOutlined/>
-                <span>Home</span>
-              </>
-            ),
-            path:'/'
-          },
-          {
-            title: (
-              <>
-                <PieChartOutlined/>
-                <span>Dashboard</span>
-              </>
-            ),
-          }
-        ]}
-        />
-
       <Row
         gutter={[
           { xs: 8, sm: 16, md: 20, lg: 32 },
           { xs: 8, sm: 16, md: 24, lg: 20 },
         ]}>
+
+        <Col lg={24}>
+          <Card style={{background:'url("./background.jpg")', backgroundPosition:'center', overflow:'hidden', position:'relative'}}>
+            <Flex align="center">
+              <Typography.Title level={1}>Hello, {candidateName}!</Typography.Title>
+            </Flex>
+          </Card>
+        </Col>
 
         <Col xs={24} sm={12} lg={8}>
           <ExamStatCard data={examData} chartType={"bar"}/>
@@ -142,12 +126,17 @@ export const CandidateDashboard = () => {
         </Col>
 
         <Col xs={24} sm={12} lg={8}>
-          <LogisticsStatsCard
-            icon={FileTextOutlined}
-            value={234}
-            title="Your Badges"
-            diff={12.5}
-          />
+          <Card>
+            <Flex justify="space-between" align="center">
+              <Typography.Title level={5}>Your Badges</Typography.Title>
+              <Typography.Title level={4}>3</Typography.Title>
+            </Flex>
+            <Flex justify="space-berween" align="center">
+              <Image src="./badge.jpg" preview={false}/>
+              <Image src="./badge.jpg" preview={false}/>
+              <Image src="./badge.jpg" preview={false}/>
+            </Flex>
+          </Card>
         </Col>
 
       </Row>

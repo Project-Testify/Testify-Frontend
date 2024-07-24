@@ -30,7 +30,8 @@ import {
   CandidateUpcomingExams,
   CandidateBadges,
   CandidateGrading,
-  CandidateActivityHistory
+  CandidateActivityHistory,
+  CandidateOrganizations
 } from '../pages';
 
 import {
@@ -236,6 +237,11 @@ const router = createBrowserRouter([
         element: <CandidateUpcomingExams />,
         errorElement: <ErrorPage />,
         
+      },
+      {
+        path: 'organizations',
+        element: <CandidateOrganizations />,
+        errorElement: <ErrorPage />,
       },
       {
         path: 'badges',
