@@ -1,5 +1,4 @@
 
-// import TextEditor from './TextEditor/TextEditor';
 export { BackBtn } from './BackBtn/BackBtn.tsx';
 export { BlogsListCard } from './corporate/BlogsListCard/BlogsListCard';
 export { Card } from './Card/Card';
@@ -23,3 +22,4 @@ export {TextEditor} from './TextEditor/TextEditor.tsx'
 
 export { GroupTable } from './Tables/GroupTable.tsx';
 export {CandidatesTable} from './Tables/CandidatesTable.tsx';
+export {TogglerDarkTheme} from './TogglerDarkTheme/TogglerDarkTheme.tsx';
