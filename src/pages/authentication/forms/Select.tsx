@@ -21,9 +21,9 @@ const TOPICS = [
     to: 'organization',
   },
   {
-    title: 'Tutor',
+    title: 'ExamSetter',
     image: UsergroupAddOutlined,
-    to: 'tutor',
+    to: 'examSetter',
   },
 ];
 

@@ -36,11 +36,11 @@ import {
     contactNo?: string;
   };
 
-import { registerTutor } from '../../../api/services/auth';
+import { registerExamSetter } from '../../../api/services/auth';
 
   
 
-export const Tutor = () => {
+export const ExamSetter = () => {
 
 
       const isMobile = useMediaQuery({ maxWidth: 769 });
@@ -69,7 +69,7 @@ export const Tutor = () => {
         values.role = 'EXAMSETTER';
     
         try {
-          const response = await registerTutor(values);
+          const response = await registerExamSetter(values);
           console.log(response);
           message.success('Account signup successful');
           navigate(`${PATH_AUTH.verifyEmail}?email=${encodeURIComponent(values.email)}`);
@@ -100,7 +100,7 @@ export const Tutor = () => {
           {/* Back button */}
           <Link to='/auth/signup'> &lt;Back </Link>
           
-          <Title className="m-0">Create an account as an Tutor</Title>
+          <Title className="m-0">Create an account as an ExamSetter</Title>
           <Flex gap={4}>
             <Text>Already have an account?</Text>
             <Link to={PATH_AUTH.signin}>Sign in here</Link>
