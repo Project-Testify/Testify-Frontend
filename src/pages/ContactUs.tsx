@@ -6,6 +6,12 @@ import { MailOutlined, PhoneOutlined, EnvironmentOutlined, FacebookOutlined, Twi
 const { Title, Paragraph } = Typography;
 
 export const ContactUs = () => {
+
+  const handleSubmit = () => {
+    return
+  }
+
+
   return (
     <>
     
