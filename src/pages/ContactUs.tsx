@@ -1,5 +1,5 @@
 import { Typography, Row, Col, Form, Input, Button } from 'antd';
-import { Container, PageHeader } from '../components';
+import { Container} from '../components';
 import HeaderNav from '../../src/layouts/app/HeaderNav';
 import { MailOutlined, PhoneOutlined, EnvironmentOutlined, FacebookOutlined, TwitterOutlined, InstagramOutlined, LinkedinOutlined } from '@ant-design/icons';
 
@@ -13,7 +13,6 @@ export const ContactUs = () => {
     <Container>
     <Row justify="center" style={{ marginTop: '-35px'}}>
       <Col>
-        <PageHeader title="" />
         <Title
           level={3}
           style={{
