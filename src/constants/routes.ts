@@ -257,6 +257,7 @@ export const PATH_CANDIDATE = {
   upcoming_exams: path(ROOTS_CANDIDATE, '/upcoming-exams'),
   ongoing_exams: path(ROOTS_CANDIDATE, '/ongoing-exams'),
   completed_exams: path(ROOTS_CANDIDATE, '/completed-exams'),
+  organizations: path(ROOTS_CANDIDATE, '/organizations'),
   badges: path(ROOTS_CANDIDATE, '/badges'),
   grading: path(ROOTS_CANDIDATE, '/grading'),
   activity_history: path(ROOTS_CANDIDATE, '/activity-history'),

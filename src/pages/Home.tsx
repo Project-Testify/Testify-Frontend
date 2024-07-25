@@ -20,6 +20,7 @@ import { Card, Container, Logo } from '../components';
 import { createElement} from 'react';
 import { Header } from 'antd/es/layout/layout';
 import { COLOR } from '../App';
+import FooterNav from '../layouts/app/FooterNav';
 
 
 const { Title, Text } = Typography;
@@ -94,7 +95,7 @@ export const HomePage = () => {
         <div className='logo' style={{marginRight:'auto'}}>
           <Logo color='black'/>
         </div>
-        <Menu mode='horizontal' items={menuItems} style={{flex:'1', justifyContent:'flex-end'}}/>
+        <Menu mode='horizontal' items={menuItems} style={{flex:'1', justifyContent:'flex-end', fontSize:'16px'}}/>
       </Header>
       
       <Flex
@@ -105,7 +106,7 @@ export const HomePage = () => {
           height: isTablet ? 600 : 800,
           width: '100%',
           // padding: isMobile ? '2rem 1rem' : '5rem 0',
-          backgroundColor: 'rgba(255, 255, 255, 0.85)',
+          backgroundColor: 'rgba(255, 255, 255, 0.85)'
 
         }}
       >
@@ -123,7 +124,10 @@ export const HomePage = () => {
                 {/* A dynamic and versatile multipurpose{' '} */}
                 <span className="text-highlight">Engage</span>.<span className="text-highlight">Secure</span>.{' '}
                 <span className="text-highlight">Achieve</span>
-                <Text>
+                <br /><br/>
+                <Text
+                  style={{fontSize: 20, fontWeight: 500, color: COLOR['700']}}
+                >
                 Experience seamless, secure, and efficient online testing with Testify. Our platform is designed to make exams easy for both students and administrators. Join the future of education with cutting-edge features and unparalleled reliability.
                 </Text>
               </Title>
@@ -233,31 +237,58 @@ export const HomePage = () => {
         </Flex>
       </Card> */}
       <Container>
-        <Card style={{ border: 'none', padding: '20px', display: 'flex', alignItems: 'center' }}>
+        <Card style={{ border: 'none', padding: '20px', display: 'flex', alignItems: 'center'}}>
           <Flex>
             <Image
               src="/review.jpg"
               alt="Testify testimonial"
-              style={{ borderRadius: '50%', width: '250px', height: '250px', objectFit: 'cover' }}
+              style={{ width: '320px', height:'320px', objectFit: 'cover', borderRadius: '20px 0px 0px 20px' }}
+              preview={false}
             />
             <div
               style={{
-                backgroundColor: COLOR['500'],
-                color: 'white',
-                borderRadius: '20px',
+                backgroundColor: COLOR['50'],
+                borderRadius: '0px 20px 20px 0px',
                 padding: '20px',
-                marginLeft: '-150px',
+                //marginLeft: '-150px',
                 display:'flex',
                 alignItems:'center',
+                //border:'1px solid red'
               }}
             >
-              <Text style={{ color: 'white', fontSize: '16px', marginLeft:'150px', display:'flex', }}>
-              “The ability to customize Testify according to our needs, has made our examination process much faster for candidates. The data also shows that a quicker application process leads to a higher number applications and a better completion rate. As a result we're seeing increased participating speed with clear improvements in the quality of hire.”
+              
+              <Text style={{fontSize: '16px'}}>
+                <Title>"</Title>The ability to customize Testify according to our needs, has made our examination process much faster for candidates. The data also shows that a quicker application process leads to a higher number applications and a better completion rate. As a result we're seeing increased participating speed with clear improvements in the quality of hire.<Title>"</Title>
               </Text>
+              
             </div>
           </Flex>
         </Card>
       </Container>
+
+      <Container style={{marginBottom:'20px'}}>
+        <Card style={{display:'flex', alignItems:'center'}}>
+          <Flex>
+            <div style={{flex:1, display:'flex',justifyContent:'center',flexDirection:'column'}} className='textContainer'>
+              <Text>
+              <Title level={3}>Ready to Transform Your Exam Experience?</Title>
+              <br/>
+              Join thousands of satisfied users who trust Testify for their online examinations. Sign up now and experience the future of testing!
+              </Text>
+              <br/>
+            <div className='buttonContainer' style={{margin:'10px'}}>
+              <Link to={PATH_AUTH.signup}><Button style={{margin:'5px'}} type='primary'>Get Started</Button></Link>
+              <Button style={{margin:'5px'}} type='primary'>Schedule a Demo</Button>
+            </div>
+            </div>
+            <div style={{flex:1}} className='imageContainer'>
+              <Image src='/cta.jpg' preview={false} style={{width:'50%', display:'flex', justifyContent:'center'}}></Image>
+            </div>
+          </Flex>
+        </Card>
+      </Container>
+
+      <FooterNav></FooterNav>
     </div>
   );
 };

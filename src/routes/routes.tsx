@@ -33,11 +33,10 @@ import {
   CandidateBadges,
   CandidateGrading,
   CandidateActivityHistory,
+  CandidateOrganizations,
   DignosticTestPage,
-
   // examSetter
   OrganizationDashBoard
-
 } from '../pages';
 
 import {
@@ -212,7 +211,7 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: '/candidate',
+    path: 'candidate',
     element: <PageWrapper children={<DashboardLayout />} />,
     errorElement: <ErrorPage />,
     children: [
@@ -253,6 +252,11 @@ const router = createBrowserRouter([
         element: <CandidateUpcomingExams />,
         errorElement: <ErrorPage />,
         
+      },
+      {
+        path: 'organizations',
+        element: <CandidateOrganizations />,
+        errorElement: <ErrorPage />,
       },
       {
         path: 'badges',

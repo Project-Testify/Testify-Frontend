@@ -9,6 +9,7 @@ export {
   WeeklyActivityCard,
   TasksChartCard,
   ExamListCard,
+  ExamStatCard,
 } from './default';
 export { RevenueCard } from './shared';
 export { CustomerReviewsCard } from './ecommerce';

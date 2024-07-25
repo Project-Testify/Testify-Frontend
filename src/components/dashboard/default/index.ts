@@ -8,3 +8,4 @@ export { SubscribersChart } from './SubscribersChart/SubscribersChart.tsx';
 export { WeeklyActivityCard } from './WeeklyActivityCard/WeeklyActivityCard.tsx';
 export { TasksChartCard } from './TasksChartCard/TasksChartCard.tsx';
 export { ExamListCard } from './ExamListCard/ExamListCard.tsx';
+export { ExamStatCard } from './ExamStatCard/ExamStatCard.tsx';
