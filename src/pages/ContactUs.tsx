@@ -63,17 +63,17 @@ export const ContactUs = () => {
 
         </Col>
         <Col span={10} offset={2} style={{marginTop:'40px'}}>
-          <Form layout="vertical">
-            <Form.Item label="Your name" style={{fontWeight:'bold'}}>
+          <Form layout="vertical" onFinish={handleSubmit}>
+            <Form.Item label="Your name" name="name" style={{ fontWeight: 'bold' }} rules={[{ required: true, message: 'Please enter your name' }]}>
               <Input placeholder="Jananga Wijewardhana" style={{ backgroundColor: '#EBECFE', width: '500px' }}/>
             </Form.Item>
-            <Form.Item label="Email" style={{fontWeight:'bold'}}>
+            <Form.Item label="Email" name="email" style={{ fontWeight: 'bold' }} rules={[{ required: true, type: 'email', message: 'Please enter a valid email address' }]}>
               <Input placeholder="Enter a valid email address" style={{ backgroundColor: '#EBECFE', width: '500px' }}/>
             </Form.Item>
-            <Form.Item label="Phone Number" style={{fontWeight:'bold'}}>
+            <Form.Item label="Phone Number" name="phone" style={{ fontWeight: 'bold' }} rules={[{ required: true, message: 'Please enter your phone number' }]}>
               <Input placeholder="011-5869743" style={{ backgroundColor: '#EBECFE', width: '500px' }}/>
             </Form.Item>
-            <Form.Item label="Write your message here" style={{fontWeight:'bold'}}>
+            <Form.Item label="Write your message here" name="message" style={{ fontWeight: 'bold' }} rules={[{ required: true, message: 'Please enter your message' }]}>
               <Input.TextArea placeholder="test message" style={{ backgroundColor: '#EBECFE', height: '100px', width: '500px' }}/>
             </Form.Item>
             <Form.Item>
