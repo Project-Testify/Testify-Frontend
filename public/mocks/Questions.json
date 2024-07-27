@@ -1,5 +1,6 @@
 [
   {
+    "id": "1",
     "questionType": "MCQ",
     "type": "MCQ",
     "questionText": "what is the capital of srilanka",
@@ -17,9 +18,11 @@
         "optionText": "bad",
         "marks": "-1"
       }
-    ]
+    ],
+    "questionDifficulty": "easy"
   },
   {
+    "id": "2",
     "questionType": "MCQ",
     "type": "MCQ",
     "questionText": "what is the capital of india",
@@ -37,9 +40,11 @@
         "optionText": "bad",
         "marks": "-1"
       }
-    ]
+    ],
+    "questionDifficulty": "easy"
   },
   {
+    "id": "3",
     "questionType": "MCQ",
     "type": "MCQ",
     "questionText": "what is the capital of pakistan",
@@ -57,9 +62,11 @@
         "optionText": "bad",
         "marks": "-1"
       }
-    ]
+    ],
+    "questionDifficulty": "medium"
   },
   {
+    "id": "4",
     "questionType": "MCQ",
     "type": "MCQ",
     "questionText": "what is the capital of bangladesh",
@@ -77,9 +84,11 @@
         "optionText": "bad",
         "marks": "-1"
       }
-    ]
+    ], 
+    "questionDifficulty": "medium"
   },
   {
+    "id": "5",
     "questionType": "MCQ",
     "type": "MCQ",
     "questionText": "what is the capital of nepal",
@@ -97,9 +106,11 @@
         "optionText": "bad",
         "marks": "-1"
       }
-    ]
+    ],
+    "questionDifficulty": "hard"
   },
   {
+    "id": "6",
     "questionType": "MCQ",
     "type": "MCQ",
     "questionText": "what is the capital of bhutan",
@@ -117,9 +128,11 @@
         "optionText": "bad",
         "marks": "-1"
       }
-    ]
+    ],
+    "questionDifficulty": "hard"
   },
   {
+    "id": "7",
     "questionType": "ESSAY",
     "type": "ESSAY",
     "questionText": "explain about srilanka",
@@ -132,9 +145,11 @@
         "coveringPointText": "grammar",
         "marks": "2"
       }
-    ]
+    ],
+    "questionDifficulty": "easy"
   },
   {
+    "id": "8",
     "questionType": "ESSAY",
     "type": "ESSAY",
     "questionText": "explain about india",
@@ -147,6 +162,7 @@
         "coveringPointText": "grammar",
         "marks": "2"
       }
-    ]
+    ],
+    "questionDifficulty": "easy"
   }
 ]
