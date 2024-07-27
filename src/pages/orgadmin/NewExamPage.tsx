@@ -11,6 +11,7 @@ import {
   CloseCircleOutlined,
   HomeOutlined,
   PlusOutlined,
+  UploadOutlined,
 } from '@ant-design/icons';
 import { Helmet } from 'react-helmet-async';
 import {
@@ -29,12 +30,17 @@ import {
   Select,
   Table,
   Form,
+  Upload,
+  message,
+  UploadFile,
+  UploadProps,
 } from 'antd';
 import { SetStateAction, useState } from 'react';
 import { useFetchData } from '../../hooks';
 
 import { Candidate } from '../../types';
 import { Switch } from 'antd';
+import { uploadFiles } from '../../api/services/AIAssistant';
 
 const { Step } = Steps;
 
@@ -266,9 +272,16 @@ export const NewExamPage = () => {
 
     const [open, setOpen] = useState(false);
 
+    const [contentModalOpen, setContentModalOpen] = useState(false);
+
+
     const showModal = () => {
       setOpen(true);
     };
+
+    const showContentModal = () => {
+      setContentModalOpen(true);
+    }
 
     
 
@@ -283,8 +296,36 @@ export const NewExamPage = () => {
 
     const handleCancel = () => {
       setOpen(false);
+      setContentModalOpen(false);
       form.resetFields();
     };
+
+
+    const [fileList, setFileList] = useState<UploadFile[]>([]);
+
+    const handleFiles: UploadProps['onChange'] = (info) => {
+      console.log(info); // Log the file information for debugging
+      setFileList(info.fileList.filter(file => !!file.originFileObj));
+    };
+    
+    const handleUpload = async () => {
+      const files = fileList.map(file => file.originFileObj as File); // Type assertion as File
+      const examId = 'example-exam-id'; // This should be dynamically fetched or set
+      console.log('Uploading files:', files);
+      if (files.length > 0) {
+        uploadFiles(files, examId).then(response => {
+          console.log('Files uploaded successfully:', response);
+          setFileList([]); // Clear the file list after successful upload
+          message.success('Files uploaded successfully');
+          handleCancel();
+        }).catch(error => {
+          console.error('Failed to upload files:', error);
+          message.error('Failed to upload files');
+        });
+      }
+    };
+    
+
 
     return (
       <>
@@ -296,10 +337,44 @@ export const NewExamPage = () => {
               width: '100%',
             }}
           >
+              <Button type="primary" onClick={showContentModal}>
+                          Upload Content
+            </Button>
+
             <Button type="primary" onClick={showModal}>
               Add Question
             </Button>
 
+            {/* Upload Content Modal */}
+
+            <Modal
+    open={contentModalOpen}
+    title="Upload Content"
+    onOk={handleUpload}
+    onCancel={handleCancel}
+    footer={(_: any, { OkBtn, CancelBtn }: any) => (
+      <>
+        <CancelBtn  />
+        <OkBtn />
+      </>
+    )}
+  >
+    <Form form={form}>
+      <Form.Item name="upload" label="Upload">
+        <Upload
+          beforeUpload={() => false}
+          onChange={handleFiles}
+          fileList={fileList}
+          multiple={true}
+        >
+          <Button icon={<UploadOutlined />}>Click to Upload</Button>
+        </Upload>
+      </Form.Item>
+    </Form>
+  </Modal>
+
+
+{/* New Question Modal */}
             <Modal
               open={open}
               title="Add Question"
@@ -329,6 +404,7 @@ export const NewExamPage = () => {
                 </Form.Item> */}
               </Form>
             </Modal>
+
           </Space>
         </Flex>
 
