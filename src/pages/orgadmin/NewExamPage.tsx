@@ -34,6 +34,7 @@ import { SetStateAction, useState } from 'react';
 import { useFetchData } from '../../hooks';
 
 import { Candidate } from '../../types';
+import { Switch } from 'antd';
 
 const { Step } = Steps;
 
@@ -108,6 +109,7 @@ export const NewExamPage = () => {
           <Step title="Make Questions"></Step>
           <Step title="Grading and Proctoring"></Step>
           <Step title="Select Candidates"></Step>
+          <Step title="Additional Features"></Step>
         </Steps>
 
         <Divider />
@@ -118,6 +120,7 @@ export const NewExamPage = () => {
         {current === 1 && <MakeQuestions />}
         {current === 2 && <GradingAndProctoring />}
         {current === 3 && <AddCandidate />}
+        {current === 4 && <AdditionalFeatures />}
 
         <Divider />
       </Card>
@@ -655,6 +658,71 @@ export const NewExamPage = () => {
           </Form.Item>
         </Form>
       </div>
+    );
+  }
+
+  function AdditionalFeatures() {
+    const [form] = Form.useForm();
+
+    // handleSubmission
+    const handleSubmission = () => {
+      console.log(form.getFieldsValue());
+    };
+
+    return (
+      <>
+        <Form form={form} onFinish={handleSubmission}>
+          <Row>
+            <Col sm={12} lg={12}>
+              <Typography.Title level={5}>Feature 1</Typography.Title>
+            </Col>
+            <Col sm={12} lg={12}>
+              <Form.Item name="feature1">
+                <Switch />
+              </Form.Item>
+            </Col>
+          </Row>
+
+          <Row>
+            <Col sm={12} lg={12}>
+              <Typography.Title level={5}>Feature 2</Typography.Title>
+            </Col>
+            <Col sm={12} lg={12}>
+              <Form.Item name="feature2">
+                <Switch />
+              </Form.Item>
+            </Col>
+          </Row>
+
+          <Row>
+            <Col sm={12} lg={12}>
+              <Typography.Title level={5}>Feature 3</Typography.Title>
+            </Col>
+            <Col sm={12} lg={12}>
+              <Form.Item name="feature3">
+                <Switch />
+              </Form.Item>
+            </Col>
+          </Row>
+
+          {/* <Form.Item noStyle shouldUpdate>
+            {() => (
+              <Typography>
+                <pre>{JSON.stringify(form.getFieldsValue(), null, 2)}</pre>
+              </Typography>
+            )}
+          </Form.Item> */}
+
+          <Divider />
+          {/* align button on the right side */}
+          <Form.Item style={{ textAlign: 'right' }}>
+            <Button type="primary" htmlType="submit">
+              Submit
+            </Button>
+          </Form.Item>
+        </Form>
+        {/* // add submit button */}
+      </>
     );
   }
 };
