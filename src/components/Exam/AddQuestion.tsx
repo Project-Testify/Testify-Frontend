@@ -1,5 +1,5 @@
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
-import { Button, Card, Form, FormInstance, Input, Space, Switch, Radio } from 'antd';
+import { Button, Card, Form, FormInstance, Input, Space, Switch, Radio, Typography } from 'antd';
 
 import { useState } from 'react';
 
@@ -111,7 +111,7 @@ const essayForm = () => {
 
       <Form.Item
         label="Difficulty"
-        name={['difficulty']}
+        name={['questionDifficulty']}
         rules={[{ required: true, message: 'Missing Difficulty' }]}
       >
         <Radio.Group buttonStyle="solid">
@@ -196,6 +196,13 @@ export const AddQuestion: React.FC<AddQuestionProps> = ({ form }) => {
       }}
     >
       {modelContent[activeTabKey1]}
+      <Form.Item noStyle shouldUpdate>
+            {() => (
+              <Typography>
+                <pre>{JSON.stringify(form.getFieldsValue(), null, 2)}</pre>
+              </Typography>
+            )}
+          </Form.Item>
     </Card>
   );
 };
