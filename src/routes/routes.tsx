@@ -52,7 +52,7 @@ import React, { ReactNode, useEffect } from 'react';
 // import { ProtectedRoute } from './ProtectedRoutes';
 import { AuthProvider } from '../hooks/useAuth.tsx';
 import { ContactUs } from '../pages/ContactUs.tsx';
-import { About, AboutPage } from '../pages/About.tsx';
+import { About } from '../pages/About.tsx';
 
 
 // Custom scroll restoration function

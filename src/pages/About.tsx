@@ -49,17 +49,11 @@ export const About = () => {
             ABOUT US
           </Title>
           <Paragraph style={{marginRight:'40px', marginTop:'25px'}}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sed mauris commodo erat rutrum tincidunt. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla odio sed vehicula. printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the.
+          We are 3rd year undergraduate students at the University of Colombo School of Computing. This is our 3rd year group project idea.We are developing an advanced online exam platform to transform the way exams are conducted. Our goal is to create a secure, efficient, and engaging system accessible to all users. The platform will feature interactive question types like drag-and-drop and coding challenges, and include live video and chat support for immediate assistance during exams.
           </Paragraph>
           {showMore && (
             <Paragraph style={{marginRight:'40px'}}>
-              Contrary to popular belief, Lorem Ipsum is not simply random text.
-              It has roots in a piece of classical Latin literature from 45 BC,
-              making it over 2000 years old. Richard McClintock, a Latin
-              professor at Hampden-Sydney College in Virginia, looked up one of
-              the more obscure Latin words, consectetur, from a Lorem Ipsum
-              passage, and going through the cites of the word in classical
-              literature, discovered the undoubtable source.
+              Security is a priority, with features like browser lockdown and two-factor authentication to prevent cheating. AI technology will help grade written answers quickly and accurately, and check for plagiarism. Students will receive detailed feedback to help them improve.Our motivation stems from the challenges of traditional exam systems. We aim to build a reliable, inclusive, and engaging solution for students and educators worldwide. Our future vision includes integrating with existing learning management systems to enhance learning and assessment.
             </Paragraph>
           )}
           <Button type="primary" size="large" onClick={handleLearnMore}>
