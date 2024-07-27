@@ -1,113 +1,77 @@
-import { Col, Flex, Row, Typography } from 'antd';
-import { useStylesContext } from '../context';
-import {
-  BugOutlined,
-  BulbOutlined,
-  CodeOutlined,
-  GithubOutlined,
-  HomeOutlined,
-  PieChartOutlined,
-} from '@ant-design/icons';
-import { Card, PageHeader } from '../components';
-import { createElement } from 'react';
-import { DASHBOARD_ITEMS, PATH_GITHUB } from '../constants';
-import { Link } from 'react-router-dom';
+import { Typography, Row, Col, Button} from 'antd';
+import { Container } from '../components';
+import { useState } from 'react';
+const { Title} = Typography;
 
-const { Title, Text } = Typography;
 
-const SITES = [
-  {
-    title: 'GitHub',
-    description: 'Source code of the website.',
-    icon: GithubOutlined,
-    link: PATH_GITHUB.repo,
-  },
-  {
-    title: 'Report Bug',
-    description: 'Something not working? Report a bug',
-    icon: BugOutlined,
-    link: PATH_GITHUB.repo + '/issues/new/choose',
-  },
-  {
-    title: 'Request Feature',
-    description: 'Need something? Request a new feature.',
-    icon: BulbOutlined,
-    link: PATH_GITHUB.repo + '/issues/new/choose',
-  },
-  {
-    title: 'Contribute',
-    description: 'Contribute to this project.',
-    icon: CodeOutlined,
-    link: PATH_GITHUB.repo + '/blob/main/CONTRIBUTING.md',
-  },
-];
+const { Paragraph } = Typography;
+export const About = () => {
+  const [showMore, setShowMore] = useState(false);
 
-export const AboutPage = () => {
-  const context = useStylesContext();
+  const handleLearnMore = () => {
+    setShowMore(!showMore);
+  };
 
   return (
-    <div>
-      <Flex vertical gap="middle">
-        <PageHeader
-          title="About"
-          breadcrumbs={[
-            {
-              title: (
-                <>
-                  <HomeOutlined />
-                  <span>home</span>
-                </>
-              ),
-              path: '/',
-            },
-            {
-              title: (
-                <>
-                  <PieChartOutlined />
-                  <span>dashboards</span>
-                </>
-              ),
-              menu: {
-                items: DASHBOARD_ITEMS.map((d) => ({
-                  key: d.title,
-                  title: <Link to={d.path}>{d.title}</Link>,
-                })),
-              },
-            },
-            {
-              title: 'about',
-            },
-          ]}
-        />
-        <Card>
-          <Flex vertical gap="small">
-            <Title level={3} className="m-0">
-              Antd Admin
-            </Title>
-            <Text>
-              A dynamic and versatile multipurpose dashboard template built
-              using React, Vite, Ant Design, and Storybook
-            </Text>
-          </Flex>
-        </Card>
-        <Row {...context?.rowProps}>
-          {SITES.map((s) => (
-            <Col xs={24} sm={12} key={`col-${s.title}`}>
-              <a href={s.link} target="_blank" rel="noopener noreferrer">
-                <Card hoverable>
-                  <Flex vertical gap="small">
-                    {createElement(s.icon, { style: { fontSize: 24 } })}
-                    <Title level={5} className="m-0">
-                      {s.title}
-                    </Title>
-                    <Text>{s.description}</Text>
-                  </Flex>
-                </Card>
-              </a>
-            </Col>
-          ))}
-        </Row>
-      </Flex>
-    </div>
+
+    <Container>
+    <Row justify="center" style={{ marginTop: '20px'}}>
+      <Col>
+        <Title
+          level={3}
+          style={{
+            color: '#1890ff',
+            fontSize: '20px',
+            textAlign: 'center',
+            fontWeight: 'bold'
+          }}
+        > ABOUT-US </Title>
+      </Col>
+    </Row>
+
+    <Row justify="center" style={{ marginTop: '-5px'}}>
+        <Col>
+        <Title
+            level={1}
+            style={{
+            color: 'black',
+            fontSize: '30px',
+            textAlign: 'center',
+            fontWeight: 'bold'
+            }}
+        > Who We Are</Title>
+        </Col>
+    </Row>
+
+    <Row justify="center" style={{ marginTop: '10px' }}>
+        <Col span={12} >
+          <Title level={2} style={{ color: 'black', fontWeight: 'bold',marginTop:'80px' }}>
+            ABOUT US
+          </Title>
+          <Paragraph style={{marginRight:'40px', marginTop:'25px'}}>
+          We are 3rd year undergraduate students at the University of Colombo School of Computing. This is our 3rd year group project idea.We are developing an advanced online exam platform to transform the way exams are conducted. Our goal is to create a secure, efficient, and engaging system accessible to all users. The platform will feature interactive question types like drag-and-drop and coding challenges, and include live video and chat support for immediate assistance during exams.
+          </Paragraph>
+          {showMore && (
+            <Paragraph style={{marginRight:'40px'}}>
+              Security is a priority, with features like browser lockdown and two-factor authentication to prevent cheating. AI technology will help grade written answers quickly and accurately, and check for plagiarism. Students will receive detailed feedback to help them improve.Our motivation stems from the challenges of traditional exam systems. We aim to build a reliable, inclusive, and engaging solution for students and educators worldwide. Our future vision includes integrating with existing learning management systems to enhance learning and assessment.
+            </Paragraph>
+          )}
+          <Button type="primary" size="large" onClick={handleLearnMore}>
+            {showMore ? 'Show Less' : 'Learn More'}
+          </Button>
+        </Col>
+        <Col span={12} style={{marginTop:'-50px'}}>
+          <img
+            src="/aboutUs_image.png"
+            alt="About Us Illustration"
+            style={{ width: '100%' }}
+          />
+        </Col>
+      </Row>
+
+    </Container>
+
+    
   );
+
 };
