@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card, Row, Col } from 'antd';
 import { CalendarOutlined, CheckCircleOutlined, StopOutlined } from '@ant-design/icons';
+import './styles.css';
 
 interface ExamStatusCardProps {
     remainingAttempts: number;
@@ -15,35 +16,35 @@ export const ExamStatusCard: React.FC<ExamStatusCardProps> = ({ remainingAttempt
                 {isExamAvailable ? (
                     <>
                         <Col span={24}>
-                            <div style={{ display: 'flex', alignItems: 'center' }}>
-                                <CalendarOutlined style={{ fontSize: '24px', color: '#1890ff', marginRight: '16px' }} />
+                            <div className="exam-status-card">
+                                <CalendarOutlined className={`icon calendar-icon`} />
                                 <div>
-                                    <div style={{ fontSize: '16px', fontWeight: 'bold' }}>Available Between: </div>
-                                    <div style={{ fontSize: '15px' }}>{availabilityDuration}</div>
+                                    <div className="bold-text">Available Between: </div>
+                                    <div className="details">{availabilityDuration}</div>
                                 </div>
                             </div>
                         </Col>
                         <Col span={24}>
-                            <div style={{ display: 'flex', alignItems: 'center' }}>
+                            <div className="exam-status-card">
                                 {remainingAttempts > 0 ? (
-                                    <CheckCircleOutlined style={{ fontSize: '24px', color: '#52c41a', marginRight: '16px' }} />
+                                    <CheckCircleOutlined className={`icon check-icon`} />
                                 ) : (
-                                    <StopOutlined style={{ fontSize: '24px', color: '#ff4d4f', marginRight: '16px' }} />
+                                    <StopOutlined className={`icon stop-icon`} />
                                 )}
                                 <div>
-                                    <div style={{ fontSize: '16px', fontWeight: 'bold' }}>Remaining Attempts: &nbsp;
-                                    <span style={{ fontSize: '15px', fontWeight: 'normal' }}>{remainingAttempts}</span></div>
+                                    <div className="bold-text">Remaining Attempts: &nbsp;
+                                    <span className="details">{remainingAttempts}</span></div>
                                 </div>
                             </div>
                         </Col>
                     </>
                 ) : (
                     <Col span={24}>
-                        <div style={{ display: 'flex', alignItems: 'center' }}>
-                            <StopOutlined style={{ fontSize: '24px', color: '#ff4d4f', marginRight: '16px' }} />
+                        <div className="exam-status-card">
+                            <StopOutlined className={`icon stop-icon`} />
                             <div>
-                                <div style={{ fontSize: '16px', fontWeight: 'bold' }}>Exam Not Available Until: </div>
-                                <div style={{ fontSize: '15px' }}>{availabilityDuration}</div>
+                                <div className="bold-text">Exam Not Available Until: </div>
+                                <div className="details">{availabilityDuration}</div>
                             </div>
                         </div>
                     </Col>
