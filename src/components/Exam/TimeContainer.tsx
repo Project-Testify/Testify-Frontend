@@ -1,10 +1,18 @@
 import {CSSProperties} from 'react';
-import { Col, theme, Divider } from 'antd';
+import { Col, theme, Divider, Button } from 'antd';
 import { CountdownTimer } from './CountdownTimer';
+import { QuestionIndexes } from './QuestionIndexes';
+import './styles.css';
+
+interface TimeContainerProps {
+    totalQuestions: number;
+    answeredIndexes: number[];
+    skippedIndexes: number[];
+}
 
 
 
-export const TimeContainer = () => {
+export const TimeContainer = ({ totalQuestions, answeredIndexes, skippedIndexes }: TimeContainerProps) => {
 
     const {
         token: { colorBgContainer, borderRadiusLG },
@@ -18,7 +26,7 @@ export const TimeContainer = () => {
 
     const countdownStyle: CSSProperties = {
         textAlign: 'center',
-        padding: 24,
+        padding: '12px 24px',
         background: colorBgContainer,
         border: '2px solid #1890FF',
         borderRadius: borderRadiusLG,
@@ -32,6 +40,10 @@ export const TimeContainer = () => {
         textAlign: 'center',
     };
 
+    // const totalQuestions = 20;
+    // const answeredIndexes = [1, 3, 4, 5, 6, 7];
+    // const skippedIndexes = [2, 8];
+
     return (
         <Col span={6} push={18}>
             <Col span={24}>
@@ -41,7 +53,15 @@ export const TimeContainer = () => {
                         <CountdownTimer initialHours={1} initialMinutes={30} initialSeconds={0} />
                     </div>
                     <Divider />
-                    <p>Question Indexes:</p>
+                    {/* <p>Question Indexes:</p> */}
+                    <QuestionIndexes totalQuestions={totalQuestions} answeredIndexes={answeredIndexes} skippedIndexes={skippedIndexes} />
+                    <Divider />
+                    <div style={{textAlign: 'center', marginTop: '20px'}}>
+                        <Button type="primary" size={'large'} className="submit-button" >
+                                Submit Exam
+                        </Button>
+                    </div>
+            
                 </div>
             </Col>
         </Col>
