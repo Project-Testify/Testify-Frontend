@@ -4,7 +4,6 @@ import { Question } from './Question';
 import { useEffect, useState } from 'react';
 import { useFetchData } from '../../hooks';
 import { Question as QuestionType } from '../../types';
-import { set } from 'lodash';
 
 
 export function QuestionsListCard() {
@@ -14,7 +13,7 @@ export function QuestionsListCard() {
     loading: questionLoading,
   } = useFetchData('../mocks/Questions.json');
 
-  
+
   const [questions, setQuestions] = useState(questionData);
 
   const [isVisible, setIsVisible] = useState(false);
@@ -33,8 +32,9 @@ export function QuestionsListCard() {
     setQuestions(newQuestions);
   };
 
-  const updateQuestion = (index: number) => {
-    // console.log("Update question", index);
+  const updateQuestion = () => {
+    console.log("Update question");
+    setIsVisible(false);
   };
 
   const showModel = (question: QuestionType) => {
@@ -81,7 +81,7 @@ export function QuestionsListCard() {
         <Modal
           title="Update Question"
           open={isVisible}
-          onOk={() => setIsVisible(false)}
+          onOk={updateQuestion}
           onCancel={() => setIsVisible(false)}
         >
           <Question question={modelData} extra={false} />

@@ -5,17 +5,14 @@ import {
   EditTwoTone,
 } from '@ant-design/icons';
 import {
-  Button,
   Card,
   Form,
-  FormInstance,
   Input,
   Space,
   Switch,
   Radio,
 } from 'antd';
 
-import { useState } from 'react';
 
 // import Question type
 import type { Question as QuestionCardType } from '../../types/questions';
