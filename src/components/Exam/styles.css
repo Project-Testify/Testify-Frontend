@@ -47,6 +47,17 @@
     background: #FFF;
     border-radius: 8px;
 }
+.question-style{
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 0px;
+}
+/* 
+.summary-container {
+    padding: 16px 16px;
+    background: #FFF;
+    border-radius: 8px;
+} */
 
 .answer-container {
     padding: 12px 24px;

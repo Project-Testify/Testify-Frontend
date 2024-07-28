@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Col, Button, Input } from 'antd';
+import { Col, Button, Input, Card } from 'antd';
 import './styles.css';
 import { RightOutlined, LeftOutlined } from '@ant-design/icons';
 
@@ -37,7 +37,7 @@ export const EssayQuestionView = ({ question, length, onNext, onPrevious, onAnsw
     return (
         <Col span={18} pull={6}>
             <Col span={24}>
-                <div className="question-container">
+                <Card>
                     <p className="question-style">{question}</p>
                     <TextArea
                         showCount
@@ -59,7 +59,7 @@ export const EssayQuestionView = ({ question, length, onNext, onPrevious, onAnsw
                             Next
                         </Button>
                     </div>
-                </div>
+                </Card>
             </Col>
         </Col>
     );

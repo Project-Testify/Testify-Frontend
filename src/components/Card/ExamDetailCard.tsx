@@ -31,13 +31,13 @@ const contentStyle: CSSProperties = {
     marginBottom: '8px',
 };
 
-const cardStyle: CSSProperties = {
-    backgroundColor: 'white',
-};
+// const cardStyle: CSSProperties = {
+//     backgroundColor: 'white',
+// };
 
 const ExamDetailCard: React.FC<ExamDetailCardProps> = ({ icon, title, content }) => {
     return (
-        <Card bordered={false} style={cardStyle}>
+        <Card bordered={false}>
             <div style={iconStyle}>{icon}</div>
             <span style={topicsStyle}>{title}</span>
             <div style={contentStyle}>{content}</div>

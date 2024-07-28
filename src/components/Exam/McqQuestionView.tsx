@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Col, Button } from 'antd';
+import { Col, Button, Card } from 'antd';
 import './styles.css';
 import { RightOutlined, LeftOutlined } from '@ant-design/icons';
 // import { useTheme } from 'antd/es/theme';
@@ -40,7 +40,7 @@ export const McqQuestionView = ({ question, options, onNext, onPrevious, onAnswe
     return (
         <Col span={18} pull={6}>
             <Col span={24}>
-                <div className="question-container">
+                <Card>
                     <p className="question-style">{question}</p>
                     {options.map((answer, index) => (
                         <Col span={24} key={index}>
@@ -75,7 +75,7 @@ export const McqQuestionView = ({ question, options, onNext, onPrevious, onAnswe
                             Next
                         </Button>
                     </div>
-                </div>
+                </Card>
             </Col>
         </Col>
     );

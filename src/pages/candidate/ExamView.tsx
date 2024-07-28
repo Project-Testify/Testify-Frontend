@@ -56,7 +56,7 @@ export const ExamViewPage = () => {
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [answeredIndexes, setAnsweredIndexes] = useState<number[]>([]);
     const [skippedIndexes, setSkippedIndexes] = useState<number[]>([]);
-    const [examType] = useState<'mcq' | 'essay'>('essay');
+    const [examType] = useState<'mcq' | 'essay'>('mcq');
 
     const questions: Question[] = examType === 'mcq' ? mcqQuestions : essayQuestions;
 

@@ -101,14 +101,16 @@ export const ExamSummaryPage = () => {
                     </Row>
                 </Col>
                 <Col span={16} pull={8}>
-                    <Col span={24}>
-                        <ExamDescription
-                            examName="Machine Learning - Quiz 3"
-                            description="This quiz assesses your understanding of the fundamental concepts in machine learning, including algorithms, model evaluation, and practical applications. The quiz is designed to test both theoretical knowledge and practical skills."
-                            topics={topics}
-                            instructions={instructions}
-                        />
-                    </Col>
+                    <Row gutter={[16, 16]} justify="center">
+                        <Col span={24}>
+                            <ExamDescription
+                                examName="Machine Learning - Quiz 3"
+                                description="This quiz assesses your understanding of the fundamental concepts in machine learning, including algorithms, model evaluation, and practical applications. The quiz is designed to test both theoretical knowledge and practical skills."
+                                topics={topics}
+                                instructions={instructions}
+                            />
+                        </Col>
+                    </Row>
                 </Col>
             </Row>
         </div>
