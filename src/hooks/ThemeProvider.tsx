@@ -41,10 +41,10 @@ export const ThemeProvider = ({ children }: ThemeProviderProps) => {
             itemColor: 'rgba(0,0,0,.8)',
           },
           Calendar: {
-            colorBgContainer: 'none',
+            // colorBgContainer: 'none',
           },
           Card: {
-            colorBgContainer: 'none',
+            // colorBgContainer: 'none',
           },
           Carousel: {
             dotWidth: 8,
@@ -56,7 +56,7 @@ export const ThemeProvider = ({ children }: ThemeProviderProps) => {
             colorTextLabel: '#000000',
           },
           Table: { 
-            colorBgContainer: 'none',
+            // colorBgContainer: 'none',
             headerBg: 'none',  
           },
           Timeline: {
