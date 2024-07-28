@@ -91,3 +91,4 @@ export interface GenericAddOrUpdateResponse{
 export interface InviteExamSetterRequest{
     email: string;
 }
+
