@@ -13,7 +13,6 @@ import {
 } from '../../components';
 
 // import { ExamsCard } from '../../components/dashboard/shared/ExamsCard/ExamsCard';
-import { Column } from '@ant-design/charts';
 import { Exams } from '../../types';
 import { useState } from 'react';
 import {

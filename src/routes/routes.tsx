@@ -22,7 +22,7 @@ import {
 
   OrgAdminExamPage,
   OrgAdminNewExamPage,
-  orgAdminExamSetters as OrgAdminExamSettersPage,
+  OrgAdminExamSetters as OrgAdminExamSettersPage,
   Groups,
   Candidates,
   CandidateDashboard,

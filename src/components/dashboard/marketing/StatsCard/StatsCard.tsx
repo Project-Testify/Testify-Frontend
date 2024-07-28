@@ -1,7 +1,5 @@
-import { CardProps, Col, Flex, Row, Tag, Typography } from 'antd';
-import { TinyColumn } from '@ant-design/charts';
+import { CardProps, Col, Flex, Row,  Typography } from 'antd';
 import { Card } from '../../../index.ts';
-import CountUp from 'react-countup';
 
 type ChartData = [number, number, number, number];
 
@@ -35,11 +33,9 @@ type Props = {
 } & CardProps;
 
 export const StatsCard = ({
-  data,
-  diff,
+ 
   title,
-  value,
-  asCurrency,
+
   ...others
 }: Props) => {
   return (
