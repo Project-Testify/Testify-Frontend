@@ -10,8 +10,8 @@ const { Title, Paragraph} = Typography;
 
 const menuItems = [
   { label: <Link to="/">Home</Link>, key: 'home' },
-  { label: <Link to="#">about</Link>, key: 'corporate' },
-  { label: <Link to="#">contact us</Link>, key: 'profile' },
+  { label: <Link to="/about">about</Link>, key: 'corporate' },
+  { label: <Link to="/contact-us">contact us</Link>, key: 'profile' },
   { label: <Link to={PATH_AUTH.signin}><Button type='primary' style={{borderRadius:'50px'}}>Login</Button></Link>, key: 'login' },
 ];
 
@@ -78,7 +78,7 @@ export const About = () => {
             {showMore ? 'Show Less' : 'Learn More'}
           </Button>
         </Col>
-        <Col span={12} style={{marginTop:'-50px'}}>
+        <Col span={12} style={{marginTop:'-60px'}}>
           <img
             src="/aboutUs_image.png"
             alt="About Us Illustration"

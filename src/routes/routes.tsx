@@ -94,6 +94,20 @@ const router = createBrowserRouter([
     ),
     errorElement: <ErrorPage />,
   },
+  {
+    path: '/about', // Define the path for ContactUs page
+    element: (
+      <About />
+    ),
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: '/contact-us', // Define the path for ContactUs page
+    element: (
+      <ContactUs />
+    ),
+    errorElement: <ErrorPage />,
+  },
 
   {
     path: '/auth',
