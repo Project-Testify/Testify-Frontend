@@ -1,7 +1,5 @@
 import React from 'react';
 import { CardProps, Flex, Typography } from 'antd';
-import { ArrowDownOutlined, ArrowUpOutlined } from '@ant-design/icons';
-import { green, red } from '@ant-design/colors';
 import { Card } from '../../../index.ts';
 import CountUp from 'react-countup';
 
@@ -24,13 +22,13 @@ export const StatsCard = ({ icon, title, value, diff, ...others }: Props) => {
           <Typography.Title level={2} className="m-0">
             <CountUp end={value} />
           </Typography.Title>
-          <Typography.Text
+          {/* <Typography.Text
             strong
             style={{ color: diff > 0 ? green[5] : red[5] }}
           >
             {diff}%&nbsp;
             {diff > 0 ? <ArrowUpOutlined /> : <ArrowDownOutlined />}
-          </Typography.Text>
+          </Typography.Text> */}
         </Flex>
       </Flex>
     </Card>

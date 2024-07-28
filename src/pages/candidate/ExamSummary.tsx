@@ -1,32 +1,10 @@
-// import { useEffect, useState } from 'react';
-import { Row, Col, Button} from 'antd';
+import { Row, Col, Button } from 'antd';
 import ExamDetailCard from '../../components/Card/ExamDetailCard';
+import ExamStatusCard from '../../components/Card/ExamStatusCard';
 import ExamDescription from '../../components/Exam/ExamDescription';
-import {
-//   // FileProtectOutlined,
-//   // FileSyncOutlined,
-  HomeOutlined,
-  ContainerOutlined,
-  FileTextOutlined,
-  ClockCircleOutlined,
-  BarChartOutlined,
-  SafetyCertificateOutlined,
-} from '@ant-design/icons';
-import {
-//   //   CommunityGroupCard,
-//   //   CoursesCard,
-//   //   CoursesCarousel,
-//   //   ExamsCard,
-//   //   LearningStatsCard,
-  PageHeader,
-//   //   ProgressCard,
-//   //   StudyStatisticsCard,
-} from '../../components';
-// // import { DASHBOARD_ITEMS } from '../../constants';
-// // import { Link } from 'react-router-dom';
+import { PageHeader } from '../../components';
 import { Helmet } from 'react-helmet-async';
-// import { useFetchData } from '../../hooks';
-// import { useStylesContext } from '../../context';
+import { HomeOutlined, ContainerOutlined, FileTextOutlined, ClockCircleOutlined, BarChartOutlined, SafetyCertificateOutlined } from '@ant-design/icons';
 
 const topics = ['Supervised Learning', 'Unsupervised Learning', 'Reinforcement Learning', 'Algorithm Selection', 'Practical Applications', 'Feature Engineering'];
 
@@ -38,43 +16,43 @@ const instructions = [
     'The quiz is proctored, so ensure your camera and microphone are working.'
 ];
 
-
 export const ExamSummaryPage = () => {
+    const remainingAttempts = 3; 
+    const availabilityDuration = '24/07/30 09:00 AM - 24/07/30 10:00 AM'; 
+    const isExamAvailable = true;
 
-  return(
-    <div style={{ padding: '20px' }}>
-      <Helmet>
-        <title>Testify | Machine Learning - Quiz 3</title>
-      </Helmet>
-      <PageHeader
-        title="Exam Summary"
-        breadcrumbs={[
-          {
-            title: (
-              <>
-                <HomeOutlined />
-                <span>home</span>
-              </>
-            ),
-            path: '/',
-          },
-          {
-            title: (
-              <>
-                <ContainerOutlined />
-                <span>Machine Learning - Quiz 3</span>
-              </>
-            ),
-            path: '/',
-            // menu: {
-            //   items: DASHBOARD_ITEMS.map((d) => ({
-            //     key: d.title,
-            //     title: <Link to={d.path}>{d.title}</Link>,
-            //   })),
-            // },
-          }
-        ]}
-      />
+
+    // Determine if the "Start Test" button should be disabled
+    const isButtonDisabled = !isExamAvailable || remainingAttempts <= 0;
+
+    return (
+        <div style={{ padding: '20px' }}>
+            <Helmet>
+                <title>Testify | Machine Learning - Quiz 3</title>
+            </Helmet>
+            <PageHeader
+                title="Exam Summary"
+                breadcrumbs={[
+                    {
+                        title: (
+                            <>
+                                <HomeOutlined />
+                                <span>home</span>
+                            </>
+                        ),
+                        path: '/',
+                    },
+                    {
+                        title: (
+                            <>
+                                <ContainerOutlined />
+                                <span>Machine Learning - Quiz 3</span>
+                            </>
+                        ),
+                        path: '/',
+                    }
+                ]}
+            />
             <Row gutter={[16, 16]}>
                 <Col span={8} push={16}>
                     <Row gutter={[16, 16]} justify="center">
@@ -106,29 +84,35 @@ export const ExamSummaryPage = () => {
                                 content="Yes"
                             />
                         </Col>
+                        <Col span={22}>
+                            <ExamStatusCard
+                                remainingAttempts={remainingAttempts}
+                                availabilityDuration={availabilityDuration}
+                                isExamAvailable={isExamAvailable}
+                            />
+                        </Col>
                         <Col span={24}>
-                          <div style={{ marginTop: '16px', textAlign: 'center' }}>
-                              <Button type="primary" size="large" style={{ width: '150px' }}>
-                                  Start Test
-                              </Button>
-                          </div>
+                            <div style={{ marginTop: '8px', textAlign: 'center' }}>
+                                <Button type="primary" size="large" style={{ width: '150px' }} disabled={isButtonDisabled}>
+                                    Start Test
+                                </Button>
+                            </div>
                         </Col>
                     </Row>
                 </Col>
-                
                 <Col span={16} pull={8}>
                     <Col span={24}>
-                    <ExamDescription
-                        examName="Machine Learning - Quiz 3"
-                        description="This quiz assesses your understanding of the fundamental concepts in machine learning, including algorithms, model evaluation, and practical applications. The quiz is designed to test both theoretical knowledge and practical skills."
-                        topics={topics}
-                        instructions={instructions}
-                    />
+                        <ExamDescription
+                            examName="Machine Learning - Quiz 3"
+                            description="This quiz assesses your understanding of the fundamental concepts in machine learning, including algorithms, model evaluation, and practical applications. The quiz is designed to test both theoretical knowledge and practical skills."
+                            topics={topics}
+                            instructions={instructions}
+                        />
                     </Col>
                 </Col>
             </Row>
         </div>
-  
-  );
-
+    );
 };
+
+export default ExamSummaryPage;

@@ -12,9 +12,9 @@ import {
 import { Logo } from '../../components';
 import { useMediaQuery } from 'react-responsive';
 
-import {Candidate} from './forms/Candidate';
+import { Candidate } from './forms/Candidate';
 import { Organization } from './forms/Organization';
-import { ExamSetter } from './forms/ExamSetter';
+// import { ExamSetter } from './forms/ExamSetter';
 import { Select } from './forms/Select';
 
 import { Route, Routes } from 'react-router-dom';
@@ -60,16 +60,11 @@ export const SignUpPage = () => {
         {/* <Select /> */}
 
         <Routes>
-        <Route path="/candidate" element={<Candidate />} />
-        <Route path="/organization" element={<Organization />} />
-        <Route path="/examSetter" element={<ExamSetter />} />
-
-        <Route path="/" element={<Select />} />
-
-      </Routes>
-       
-
-
+          <Route path="/" element={<Select />} />
+          <Route path="/candidate" element={<Candidate />} />
+          <Route path="/organization" element={<Organization />} />
+          {/* <Route path="/examSetter" element={<ExamSetter />} /> */}
+        </Routes>
       </Col>
     </Row>
   );

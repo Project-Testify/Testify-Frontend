@@ -3,6 +3,15 @@ export interface LoginCredentials {
     password: string;
 }
 
+export interface User {
+    id: number;
+    userName: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    role: UserRole;
+  }
+
 export interface CandidateRegister {
     email: string;
     password: string;
@@ -32,13 +41,21 @@ export interface OrganizationRegister {
 }
 
 export interface AuthResponse {
-    token: string;  
-    expiresIn: number;
-    
-        id: number;
-        email: string;
-        role: string;
-    
+    success: boolean;
+    accessToken: string;
+    refreshToken: string;
+    id: number;
+    userName: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    role: UserRole;
+}
+export enum UserRole {
+    ADMIN = 'ADMIN',
+    EXAMSETTER = 'EXAMSETTER',
+    CANDIDATE = 'CANDIDATE',
+    ORGANIZATION = 'ORGANIZATION',
 }
 
 
@@ -60,3 +77,18 @@ export interface Exam {
 export interface Response {
     status: string;
 }
+
+export interface addExamSetter{
+    examSetterId: number;
+}
+
+export interface GenericAddOrUpdateResponse{
+    success: boolean;
+    message: string;
+    id: any;
+}
+
+export interface InviteExamSetterRequest{
+    email: string;
+}
+

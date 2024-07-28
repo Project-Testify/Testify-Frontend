@@ -39,22 +39,22 @@ const candidateItems: MenuProps['items'] = [
     'dashboard',
     <FontAwesomeIcon icon={faChartColumn} />
   ),
-  
+
   getItem('Exams', 'exam', <FontAwesomeIcon icon={faFilePen} />, [
     getItem(<Link to={PATH_CANDIDATE.all_exams}>All </Link>, 'exam', null),
     getItem(
       <Link to={PATH_CANDIDATE.completed_exams}>Completed </Link>,
-      'new_exam',
+      'completedExams',
       null
     ),
     getItem(
       <Link to={PATH_CANDIDATE.ongoing_exams}>Ongoing</Link>,
-      'new_exam',
+      'ongoingExams',
       null
     ),
     getItem(
       <Link to={PATH_CANDIDATE.upcoming_exams}>Upcoming</Link>,
-      'new_exam',
+      'upcomingExams',
       null
     )
   ]),
@@ -92,8 +92,8 @@ const orgAdminItems: MenuProps['items'] = [
 
   getItem('Exams', 'exam', null, [], 'group'),
 
-  getItem('Exams', 'exam', <BankOutlined />, [
-    getItem(<Link to={PATH_ORG_ADMIN.exam}>All Exams</Link>, 'exam', null),
+  getItem('Exams', 'examList', <BankOutlined />, [
+    getItem(<Link to={PATH_ORG_ADMIN.exam}>All Exams</Link>, 'allExams', null),
     getItem(
       <Link to={PATH_ORG_ADMIN.new_exam}>New Exams</Link>,
       'new_exam',
@@ -101,15 +101,15 @@ const orgAdminItems: MenuProps['items'] = [
     ),
   ]),
 
+  getItem('Exam Setters', 'examSetters', null, [], 'group'),
+  getItem('Exam Setters', 'examSettersList', <BankOutlined />, [
+    getItem(<Link to={PATH_ORG_ADMIN.exam_setters}>All Exam Setters</Link>, 'exam', null),
+  ]),
+
   getItem('Candidates', 'candidates', null, [], 'group'),
 
-  getItem('Candidates', 'candidates', <BankOutlined />, [
+  getItem('Candidates', 'candidatesList', <BankOutlined />, [
     getItem(<Link to={PATH_ORG_ADMIN.groups}>Groups</Link>, 'all', null),
-    getItem(
-      <Link to={PATH_ORG_ADMIN.exam}>New Candidate</Link>,
-      'new',
-      null
-    ),
   ]),
 
 
@@ -166,7 +166,7 @@ const examSetterItems: MenuProps['items'] = [
     getItem(<Link to={'org/name1'}>Organization 1</Link>, 'Org', null),
   ]),
 
-//   getItem('Exams', 'pages', null, [], 'group'),
+  //   getItem('Exams', 'pages', null, [], 'group'),
 
   getItem('Exams', 'exams', <BankOutlined />, [
     getItem(<Link to={PATH_EXAM.exam}>All Exams</Link>, 'all_exams', null),
@@ -182,7 +182,7 @@ const examSetterItems: MenuProps['items'] = [
     ),
   ]),
 
-//   getItem('Results', 'results', null, [], 'group'),
+  //   getItem('Results', 'results', null, [], 'group'),
 
   getItem('Results', 'results', <BarChartOutlined />, [
     getItem(<Link to={PATH_EXAM.exam}>All Exams</Link>, 'all_exams', null),
@@ -198,7 +198,7 @@ const examSetterItems: MenuProps['items'] = [
     ),
   ]),
 
-//   getItem('Account', 'pages', null, [], 'group'),
+  //   getItem('Account', 'pages', null, [], 'group'),
 
   getItem('User profile', 'user-profile', <UserOutlined />, [
     getItem(
@@ -279,7 +279,7 @@ const SideNav = ({ ...others }: SideNavProps) => {
       setIsRole('org-admin');
     } else if (pathname.includes('examSetter')) {
       setIsRole('examSetter');
-    }else if (pathname.includes('candidate')) {
+    } else if (pathname.includes('candidate')) {
       setIsRole('candidate');
     }
   }, [pathname]);
@@ -296,16 +296,16 @@ const SideNav = ({ ...others }: SideNavProps) => {
         style={{ padding: '1rem 0' }}
       />
       <ConfigProvider
-        // theme={{
-        //   components: {
-        //     Menu: {
-        //       itemBg: 'none',
-        //       itemSelectedBg: COLOR['100'],
-        //       itemHoverBg: COLOR['50'],
-        //       itemSelectedColor: COLOR['600'],
-        //     },
-        //   },
-        // }}
+      // theme={{
+      //   components: {
+      //     Menu: {
+      //       itemBg: 'none',
+      //       itemSelectedBg: COLOR['100'],
+      //       itemHoverBg: COLOR['50'],
+      //       itemSelectedColor: COLOR['600'],
+      //     },
+      //   },
+      // }}
       >
         {isRole === 'org-admin' && (
           <Menu
