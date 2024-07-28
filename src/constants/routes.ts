@@ -248,6 +248,7 @@ export const PATH_ORG_ADMIN = {
   exam: path(ROOTS_ORG_ADMIN, '/exam'),
   new_exam: path(ROOTS_ORG_ADMIN, '/new_exam'),
   groups: path(ROOTS_ORG_ADMIN, '/groups'),
+  exam_setters: path(ROOTS_ORG_ADMIN, '/exam-setters'),
 };
 
 export const PATH_CANDIDATE = {

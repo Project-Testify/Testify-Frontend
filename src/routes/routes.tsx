@@ -1,7 +1,6 @@
 import { createBrowserRouter, useLocation } from 'react-router-dom';
 import {
   ErrorPage,
-  // HomePage,
   SignInPage,
   HomePage,
   OrgAdminDashBoard as OrgAdminPage,
@@ -23,6 +22,7 @@ import {
 
   OrgAdminExamPage,
   OrgAdminNewExamPage,
+  OrgAdminExamSetters as OrgAdminExamSettersPage,
   Groups,
   Candidates,
   CandidateDashboard,
@@ -111,7 +111,7 @@ const router = createBrowserRouter([
 
   {
     path: '/auth',
-    element: (<AuthProvider><PageWrapper children={<CommonLayout />} /></AuthProvider>)  ,
+    element: (<AuthProvider><PageWrapper children={<CommonLayout />} /></AuthProvider>),
     errorElement: <ErrorPage />,
     children: [
       {
@@ -163,11 +163,16 @@ const router = createBrowserRouter([
       {
         path: 'exam',
         element: <OrgAdminExamPage />,
-        errorElement : <ErrorPage />
+        errorElement: <ErrorPage />
       },
       {
         path: "new_exam",
         element: <OrgAdminNewExamPage />,
+        errorElement: <ErrorPage />
+      },
+      {
+        path: "exam-setters",
+        element: <OrgAdminExamSettersPage />,
         errorElement: <ErrorPage />
       },
       {
@@ -236,7 +241,7 @@ const router = createBrowserRouter([
         path: 'exam',
         element: <ExamSummaryPage />,
         errorElement: <ErrorPage />,
-},{
+      }, {
         path: 'dashboard',
         element: <CandidateDashboard />,
         errorElement: <ErrorPage />,
@@ -245,25 +250,25 @@ const router = createBrowserRouter([
         path: 'all-exams',
         element: <CandidateAllExams />,
         errorElement: <ErrorPage />,
-        
+
       },
       {
         path: 'completed-exams',
         element: <CandidateCompletedExams />,
         errorElement: <ErrorPage />,
-        
+
       },
       {
         path: 'ongoing-exams',
         element: <CandidateOngoingExams />,
         errorElement: <ErrorPage />,
-        
+
       },
       {
         path: 'upcoming-exams',
         element: <CandidateUpcomingExams />,
         errorElement: <ErrorPage />,
-        
+
       },
       {
         path: 'organizations',
@@ -274,19 +279,19 @@ const router = createBrowserRouter([
         path: 'badges',
         element: <CandidateBadges />,
         errorElement: <ErrorPage />,
-        
+
       },
       {
         path: 'grading',
         element: <CandidateGrading />,
         errorElement: <ErrorPage />,
-        
+
       },
       {
         path: 'activity-history',
         element: <CandidateActivityHistory />,
         errorElement: <ErrorPage />,
-        
+
       },
       {
         path: 'exam/dignostic-test',
@@ -299,7 +304,7 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage />,
       }
 
-      
+
     ],
 
   },
@@ -347,13 +352,13 @@ const router = createBrowserRouter([
 
   {
     path: '/contact-us',
-    element: <ContactUs/>,
-    errorElement: <ErrorPage/>,
+    element: <ContactUs />,
+    errorElement: <ErrorPage />,
   },
   {
     path: '/about',
+    errorElement: <ErrorPage />,
     element: <About/>,
-    errorElement: <ErrorPage/>,
   }
 ]);
 

@@ -5,7 +5,6 @@ import { useEffect, useState } from 'react';
 import { useFetchData } from '../../hooks';
 import { Question as QuestionType } from '../../types';
 
-
 export function QuestionsListCard() {
   const {
     data: questionData = [],
@@ -13,23 +12,18 @@ export function QuestionsListCard() {
     loading: questionLoading,
   } = useFetchData('../mocks/Questions.json');
 
-
-  const [questions, setQuestions] = useState(questionData);
-
+  const [questions, setQuestions] = useState<QuestionType[]>([]);
   const [isVisible, setIsVisible] = useState(false);
-
   const [modelData, setModelData] = useState<QuestionType | null>(null);
 
   useEffect(() => {
     setQuestions(questionData);
-  }, [questionData, ]);
+  }, [questionData]);
 
-  const deleteQuestion = (index: number) => {
-    // remove the question from the questions array
-    const newQuestions = questions.filter(
-      (question: QuestionType) => question.id !== index
-    );
-    setQuestions(newQuestions);
+  const deleteQuestion = (id: number) => {
+    const newQuestions = questions.filter((question: QuestionType) => question.id !== id);
+    console.log(newQuestions);
+    setQuestions([...newQuestions]);  // Create a new array reference
   };
 
   const updateQuestion = () => {
@@ -38,11 +32,7 @@ export function QuestionsListCard() {
   };
 
   const showModel = (question: QuestionType) => {
-
     setModelData(question);
-
-    // create a form instance and set the values of the question
-
     setIsVisible(true);
   };
 
@@ -67,10 +57,10 @@ export function QuestionsListCard() {
   return (
     <>
       <Space direction="vertical" style={{ width: '100%' }}>
-        {questions.map((question: QuestionType, index: number) => (
+        {questions.map((question: QuestionType) => (
           <Question
             question={question}
-            key={index}
+            key={question.id}
             onDelete={() => deleteQuestion(question.id)}
             showModal={() => showModel(question)}
           />
