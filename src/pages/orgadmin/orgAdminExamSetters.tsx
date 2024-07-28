@@ -1,15 +1,18 @@
 import { HomeOutlined, BankOutlined, PlusOutlined } from "@ant-design/icons";
-import { Button, Card, Col, Input, message, Modal, Space, Typography } from "antd";
+import { Button, Card, Col, Input, message, Modal, Space, Table, Tabs, Typography } from "antd";
 import { Helmet } from "react-helmet-async";
 import { PageHeader } from "../../components";
-import { useState } from "react";
+import { JSXElementConstructor, ReactElement, ReactNode, useEffect, useState } from "react";
 import { addExamSetterService } from "../../api/services/organization";
 import { getLoggedInUser } from "../../utils/authUtils";
+import TabPane from "antd/es/tabs/TabPane";
 
 export const orgAdminExamSetters = () => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [examSetterEmail, setExamSetterEmail] = useState("");
+  const [invitations, setInvitations] = useState<{ email: string; invitationLink: string; accepted: boolean }[]>([]);
+  const [examSetters, setExamSetters] = useState<{ name: string; email: string; }[]>([]);
 
   const handleAddExamSetter = async () => {
     setLoading(true);
@@ -39,6 +42,29 @@ export const orgAdminExamSetters = () => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    setInvitations([
+      { email: 'invite1@example.com', invitationLink: 'http://invite.link/1', accepted: false },
+      { email: 'invite2@example.com', invitationLink: 'http://invite.link/2', accepted: true },
+    ]);
+
+    setExamSetters([
+      { name: 'John Doe', email: 'john.doe@example.com' },
+      { name: 'Jane Smith', email: 'jane.smith@example.com' },
+    ]);
+  }, []);
+
+  const columnsInvitations = [
+    { title: 'Email', dataIndex: 'email', key: 'email' },
+    { title: 'Invitation Link', dataIndex: 'invitationLink', key: 'invitationLink', render: (text: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | null | undefined) => <a href={text}>{text}</a> },
+    { title: 'Accepted', dataIndex: 'accepted', key: 'accepted', render: (accepted: any) => (accepted ? "Yes" : "No") },
+  ];
+
+  const columnsExamSetters = [
+    { title: 'Name', dataIndex: 'name', key: 'name' },
+    { title: 'Email', dataIndex: 'email', key: 'email' },
+  ];
 
   return (
     <div>
@@ -78,7 +104,15 @@ export const orgAdminExamSetters = () => {
             </Space>
           }
         >
-          {/* Content for exam setters */}
+          
+          <Tabs defaultActiveKey="1">
+            <TabPane tab="Invitations" key="1">
+              <Table columns={columnsInvitations} dataSource={invitations} rowKey="email" />
+            </TabPane>
+            <TabPane tab="Exam Setters" key="2">
+              <Table columns={columnsExamSetters} dataSource={examSetters} rowKey="email" />
+            </TabPane>
+          </Tabs>
         </Card>
       </Col>
 
