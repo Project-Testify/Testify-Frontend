@@ -21,8 +21,8 @@ const topicsStyle: CSSProperties = {
     display: 'block',
     marginBottom: '8px',
     fontSize: '16px',
-    fontWeight: 'bold' as 'bold',
-    textAlign: 'center' as 'center',
+    fontWeight: 'bold',
+    textAlign: 'center',
 };
 
 const contentStyle: CSSProperties = {
