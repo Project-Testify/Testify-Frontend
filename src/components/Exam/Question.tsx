@@ -8,8 +8,6 @@ import { Card, Form, Input, Space, Switch, Radio, Typography } from 'antd';
 
 // import Question type
 import type { Question as QuestionCardType } from '../../types/questions';
-import form from 'antd/es/form';
-import { update } from 'lodash';
 
 interface QuestionProps {
   question: QuestionCardType;
