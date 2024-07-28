@@ -376,6 +376,7 @@ export const NewExamPage = () => {
 
 {/* New Question Modal */}
             <Modal
+              width={1100}
               open={open}
               title="Add Question"
               onOk={handleOk}
