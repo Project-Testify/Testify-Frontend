@@ -1,13 +1,13 @@
 import { HomeOutlined, BankOutlined, PlusOutlined } from "@ant-design/icons";
-import { Button, Card, Col, Input, message, Modal, Space, Table, Tabs, Typography } from "antd";
+import { Button, Card, Col, Input, message, Modal, Space, Table, Tabs } from "antd";
 import { Helmet } from "react-helmet-async";
 import { PageHeader } from "../../components";
-import { JSXElementConstructor, ReactElement, ReactNode, useEffect, useState } from "react";
+import {  useEffect, useState } from "react";
 import { addExamSetterService } from "../../api/services/organization";
 import { getLoggedInUser } from "../../utils/authUtils";
 import TabPane from "antd/es/tabs/TabPane";
 
-export const orgAdminExamSetters = () => {
+export const OrgAdminExamSetters = () => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [examSetterEmail, setExamSetterEmail] = useState("");
@@ -57,7 +57,7 @@ export const orgAdminExamSetters = () => {
 
   const columnsInvitations = [
     { title: 'Email', dataIndex: 'email', key: 'email' },
-    { title: 'Invitation Link', dataIndex: 'invitationLink', key: 'invitationLink' },
+    { title: 'Invitation Link', dataIndex: 'invitationLink', key: 'invitationLink', render: (text: string ) => <a href={text}>{text}</a> },
     { title: 'Accepted', dataIndex: 'accepted', key: 'accepted', render: (accepted: any) => (accepted ? "Yes" : "No") },
   ];
 

@@ -1,7 +1,5 @@
 import React from 'react';
 import { CardProps, Flex, Typography } from 'antd';
-import { ArrowDownOutlined, ArrowUpOutlined } from '@ant-design/icons';
-import { green, red } from '@ant-design/colors';
 import { Card } from '../../../index.ts';
 import CountUp from 'react-countup';
 

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import {  Button, Col, Row, Segmented, Space } from 'antd';
+import {  Button, Col, Row, Space } from 'antd';
 import {
   Card,
   // Loader,
@@ -8,12 +8,11 @@ import {
   LogisticsStatsCard,
   ExamsTable,
   LearningStatsCard,
-  ExamsCard as ExamCards,
+  // ExamsCard as ExamCards,
   ExamListCard,
 } from '../../components';
 
 // import { ExamsCard } from '../../components/dashboard/shared/ExamsCard/ExamsCard';
-import { Column } from '@ant-design/charts';
 import { Exams } from '../../types';
 import { useState } from 'react';
 import {
@@ -27,113 +26,113 @@ import { useFetchData } from '../../hooks';
 import { getLoggedInUser } from '../../utils/authUtils';
 // import { or } from 'firebase/firestore';
 
-const RevenueColumnChart = () => {
-  const data = [
-    {
-      name: 'Present',
-      period: 'Mon',
-      value: 18.9,
-    },
-    {
-      name: 'Present',
-      period: 'Tue',
-      value: 28.8,
-    },
-    {
-      name: 'Present',
-      period: 'Wed',
-      value: 39.3,
-    },
-    {
-      name: 'Present',
-      period: 'Thur',
-      value: 81.4,
-    },
-    {
-      name: 'Present',
-      period: 'Fri',
-      value: 47,
-    },
-    {
-      name: 'Present',
-      period: 'Sat',
-      value: 20.3,
-    },
-    {
-      name: 'Present',
-      period: 'Sun',
-      value: 24,
-    },
-    {
-      name: 'Absent',
-      period: 'Mon',
-      value: 12.4,
-    },
-    {
-      name: 'Absent',
-      period: 'Tue',
-      value: 23.2,
-    },
-    {
-      name: 'Absent',
-      period: 'Wed',
-      value: 34.5,
-    },
-    {
-      name: 'Absent',
-      period: 'Thur',
-      value: 99.7,
-    },
-    {
-      name: 'Absent',
-      period: 'Fri',
-      value: 52.6,
-    },
-    {
-      name: 'Absent',
-      period: 'Sat',
-      value: 35.5,
-    },
-    {
-      name: 'Absent',
-      period: 'Sun',
-      value: 37.4,
-    },
-  ];
-  const config = {
-    data,
-    isGroup: true,
-    xField: 'period',
-    yField: 'value',
-    seriesField: 'name',
+// const RevenueColumnChart = () => {
+//   const data = [
+//     {
+//       name: 'Present',
+//       period: 'Mon',
+//       value: 18.9,
+//     },
+//     {
+//       name: 'Present',
+//       period: 'Tue',
+//       value: 28.8,
+//     },
+//     {
+//       name: 'Present',
+//       period: 'Wed',
+//       value: 39.3,
+//     },
+//     {
+//       name: 'Present',
+//       period: 'Thur',
+//       value: 81.4,
+//     },
+//     {
+//       name: 'Present',
+//       period: 'Fri',
+//       value: 47,
+//     },
+//     {
+//       name: 'Present',
+//       period: 'Sat',
+//       value: 20.3,
+//     },
+//     {
+//       name: 'Present',
+//       period: 'Sun',
+//       value: 24,
+//     },
+//     {
+//       name: 'Absent',
+//       period: 'Mon',
+//       value: 12.4,
+//     },
+//     {
+//       name: 'Absent',
+//       period: 'Tue',
+//       value: 23.2,
+//     },
+//     {
+//       name: 'Absent',
+//       period: 'Wed',
+//       value: 34.5,
+//     },
+//     {
+//       name: 'Absent',
+//       period: 'Thur',
+//       value: 99.7,
+//     },
+//     {
+//       name: 'Absent',
+//       period: 'Fri',
+//       value: 52.6,
+//     },
+//     {
+//       name: 'Absent',
+//       period: 'Sat',
+//       value: 35.5,
+//     },
+//     {
+//       name: 'Absent',
+//       period: 'Sun',
+//       value: 37.4,
+//     },
+//   ];
+//   const config = {
+//     data,
+//     isGroup: true,
+//     xField: 'period',
+//     yField: 'value',
+//     seriesField: 'name',
 
-    /** set color */
-    // color: ['#1ca9e6', '#f88c24'],
+//     /** set color */
+//     // color: ['#1ca9e6', '#f88c24'],
 
-    /** Set spacing */
-    // marginRatio: 0.1,
-    label: {
-      // Label data label position can be manually configured
-      position: 'middle',
-      // 'top', 'middle', 'bottom'
-      // Configurable additional layout method
-      layout: [
-        // Column chart data label position automatically adjusted
-        {
-          type: 'interval-adjust-position',
-        }, // Data label anti-obstruction
-        {
-          type: 'interval-hide-overlap',
-        }, // Data label text color automatically adjusted
-        {
-          type: 'adjust-color',
-        },
-      ],
-    },
-  };
-  // @ts-ignore
-  return <Column {...config} />;
-};
+//     /** Set spacing */
+//     // marginRatio: 0.1,
+//     label: {
+//       // Label data label position can be manually configured
+//       position: 'middle',
+//       // 'top', 'middle', 'bottom'
+//       // Configurable additional layout method
+//       layout: [
+//         // Column chart data label position automatically adjusted
+//         {
+//           type: 'interval-adjust-position',
+//         }, // Data label anti-obstruction
+//         {
+//           type: 'interval-hide-overlap',
+//         }, // Data label text color automatically adjusted
+//         {
+//           type: 'adjust-color',
+//         },
+//       ],
+//     },
+//   };
+// // @ts-ignore
+//   return <Column {...config} />;
+// };
 
 const EXAM_TABS = [
   {
