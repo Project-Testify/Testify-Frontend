@@ -1,7 +1,7 @@
 import { Button, Flex, Typography } from 'antd';
 import { Logo } from '../../components';
 import { Link, useLocation } from 'react-router-dom';
-import { PATH_DASHBOARD, PATH_AUTH } from '../../constants';
+import {  PATH_AUTH } from '../../constants';
 
 
 
