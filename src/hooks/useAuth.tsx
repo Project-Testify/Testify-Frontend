@@ -4,7 +4,7 @@ import { useLocalStorage } from "./useLocalStorage";
 
 import { PATH_ORG_ADMIN, PATH_TUTOR, PATH_CANDIDATE } from '../constants/routes';
 import { AuthResponse, UserRole, User } from '../api/types';
-// import { getLoggedInUser } from "../utils/authUtils";
+import { getLoggedInUser } from "../utils/authUtils";
 
 
 // Define the AuthContext type
