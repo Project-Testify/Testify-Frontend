@@ -57,7 +57,7 @@ export const orgAdminExamSetters = () => {
 
   const columnsInvitations = [
     { title: 'Email', dataIndex: 'email', key: 'email' },
-    { title: 'Invitation Link', dataIndex: 'invitationLink', key: 'invitationLink', render: (text: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | Iterable<ReactNode> | null | undefined) => <a href={text}>{text}</a> },
+    { title: 'Invitation Link', dataIndex: 'invitationLink', key: 'invitationLink' },
     { title: 'Accepted', dataIndex: 'accepted', key: 'accepted', render: (accepted: any) => (accepted ? "Yes" : "No") },
   ];
 
