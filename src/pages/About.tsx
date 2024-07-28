@@ -1,10 +1,20 @@
-import { Typography, Row, Col, Button} from 'antd';
-import { Container } from '../components';
+import { Typography, Row, Col, Button, Menu} from 'antd';
+import { Container, Logo } from '../components';
 import { useState } from 'react';
-const { Title} = Typography;
+import { Link } from 'react-router-dom';
+import { PATH_AUTH } from '../constants';
+import { Header } from 'antd/es/layout/layout';
+import FooterNav from '../layouts/app/FooterNav';
 
+const { Title, Paragraph} = Typography;
 
-const { Paragraph } = Typography;
+const menuItems = [
+  { label: <Link to="/">Home</Link>, key: 'home' },
+  { label: <Link to="/about">about</Link>, key: 'corporate' },
+  { label: <Link to="/contact-us">contact us</Link>, key: 'profile' },
+  { label: <Link to={PATH_AUTH.signin}><Button type='primary' style={{borderRadius:'50px'}}>Login</Button></Link>, key: 'login' },
+];
+
 export const About = () => {
   const [showMore, setShowMore] = useState(false);
 
@@ -13,6 +23,14 @@ export const About = () => {
   };
 
   return (
+
+    <>
+    <Header style={{ display: 'flex',flexDirection:'row', backgroundColor:'white', alignItems:'center'}}>
+        <div className='logo' style={{marginRight:'auto'}}>
+          <Logo color='black'/>
+        </div>
+        <Menu mode='horizontal' items={menuItems} style={{flex:'1', justifyContent:'flex-end', fontSize:'16px'}}/>
+      </Header>
 
     <Container>
     <Row justify="center" style={{ marginTop: '20px'}}>
@@ -60,7 +78,7 @@ export const About = () => {
             {showMore ? 'Show Less' : 'Learn More'}
           </Button>
         </Col>
-        <Col span={12} style={{marginTop:'-50px'}}>
+        <Col span={12} style={{marginTop:'-60px'}}>
           <img
             src="/aboutUs_image.png"
             alt="About Us Illustration"
@@ -70,6 +88,9 @@ export const About = () => {
       </Row>
 
     </Container>
+
+    <FooterNav></FooterNav>
+    </>
 
     
   );
