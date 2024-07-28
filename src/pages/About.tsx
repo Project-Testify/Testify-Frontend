@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { PATH_AUTH } from '../constants';
 import { Header } from 'antd/es/layout/layout';
+import FooterNav from '../layouts/app/FooterNav';
 
 const { Title, Paragraph} = Typography;
 
@@ -87,6 +88,8 @@ export const About = () => {
       </Row>
 
     </Container>
+
+    <FooterNav></FooterNav>
     </>
 
     

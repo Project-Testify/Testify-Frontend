@@ -4,6 +4,7 @@ import { MailOutlined, PhoneOutlined, EnvironmentOutlined, FacebookOutlined, Twi
 import { Link } from 'react-router-dom';
 import { PATH_AUTH } from '../constants';
 import { Header } from 'antd/es/layout/layout';
+import FooterNav from '../layouts/app/FooterNav';
 
 const { Title, Paragraph } = Typography;
 
@@ -83,7 +84,7 @@ export const ContactUs = () => {
           <LinkedinOutlined style={{ color: '#0077B5', fontSize: '40px', margin: '0 10px', cursor: 'pointer' }} />
 
         </Col>
-        <Col span={10} offset={2} style={{marginTop:'40px'}}>
+        <Col span={10} offset={2} style={{marginTop:'40px', marginBottom:'20px'}}>
           <Form layout="vertical" onFinish={handleSubmit}>
             <Form.Item label="Your name" name="name" style={{ fontWeight: 'bold' }} rules={[{ required: true, message: 'Please enter your name' }]}>
               <Input placeholder="Jananga Wijewardhana" style={{ backgroundColor: '#EBECFE', width: '500px' }}/>
@@ -106,6 +107,8 @@ export const ContactUs = () => {
         </Col>
       </Row>
       </Container>
+
+      <FooterNav></FooterNav>
 
     </>
     
