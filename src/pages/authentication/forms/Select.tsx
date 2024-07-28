@@ -20,11 +20,11 @@ const TOPICS = [
     image: TeamOutlined,
     to: 'organization',
   },
-  {
-    title: 'ExamSetter',
-    image: UsergroupAddOutlined,
-    to: 'examSetter',
-  },
+  // {
+  //   title: 'ExamSetter',
+  //   image: UsergroupAddOutlined,
+  //   to: 'examSetter',
+  // },
 ];
 
 export const Select = () => {

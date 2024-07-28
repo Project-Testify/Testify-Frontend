@@ -40,19 +40,6 @@ export const Candidate = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
-  // const onFinish = (values: any) => {
-  //   console.log('Success:', values);
-  //   setLoading(true);
-
-  //   message.open({
-  //     type: 'success',
-  //     content: 'Account signup successful',
-  //   });
-
-  //   setTimeout(() => {
-  //     navigate(PATH_ORG_ADMIN.dashboard);
-  //   }, 50000);
-  // };
   const onFinish = async (values: any) => {
     console.log('Success:', values);
     setLoading(true);
@@ -70,7 +57,6 @@ export const Candidate = () => {
 
       message.success('Account signup successful');
       console.log(data);
-      // navigate(PATH_ORG_ADMIN.dashboard);
       navigate(`${PATH_AUTH.verifyEmail}?email=${encodeURIComponent(values.email)}`);
 
     } catch (error) {
@@ -133,7 +119,7 @@ export const Candidate = () => {
                 },
               ]}
             >
-              <Input  name="firstName" />
+              <Input name="firstName" />
             </Form.Item>
           </Col>
           <Col xs={24} lg={12}>
@@ -153,13 +139,13 @@ export const Candidate = () => {
               name="email"
               rules={[{ required: true, message: 'Please input your email' }]}
             >
-              <Input  name="email"/>
+              <Input name="email" />
             </Form.Item>
           </Col>
 
-              {/* contactNo */}
+          {/* contactNo */}
 
-              <Col xs={24}>
+          <Col xs={24}>
             <Form.Item<FieldType>
               label="Mobile"
               name="contactNo"
@@ -179,7 +165,7 @@ export const Candidate = () => {
                 { required: true, message: 'Please input your password!' },
               ]}
             >
-              <Input.Password  name="password"/>
+              <Input.Password name="password" />
             </Form.Item>
           </Col>
           <Col xs={24}>

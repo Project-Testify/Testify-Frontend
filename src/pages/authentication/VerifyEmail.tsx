@@ -1,7 +1,7 @@
 import { Button, Flex, Typography } from 'antd';
 import { Logo } from '../../components';
 import { Link, useLocation } from 'react-router-dom';
-import { PATH_DASHBOARD } from '../../constants';
+import { PATH_DASHBOARD, PATH_AUTH } from '../../constants';
 
 
 
@@ -29,7 +29,7 @@ export const VerifyEmailPage = () => {
         </Link>{' '}
         plase follow a link to verify your email.
       </Typography.Text>
-      <Link to={PATH_DASHBOARD.default}>
+      <Link to={PATH_AUTH.signin}>
         <Button>Skip</Button>
       </Link>
       <Flex gap={2}>

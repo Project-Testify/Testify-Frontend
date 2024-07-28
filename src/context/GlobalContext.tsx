@@ -23,7 +23,7 @@ const GlobalStateProvider: FC<{ children: ReactNode }> = ({ children }) => {
   });
 
   useEffect(() => {
-    console.log(state);
+    // console.log(state);
     }, [state]);
    
 
