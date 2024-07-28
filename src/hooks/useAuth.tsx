@@ -33,6 +33,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     localStorage.setItem('accessToken', accessToken);
     setUser(userData);
     //print user data in console User date:{userdata}
+    const loggedUser = getLoggedInUser();
+    console.log('User data:', loggedUser);
 
     // Redirect based on user role
     if (userData.role === UserRole.ORGANIZATION) {

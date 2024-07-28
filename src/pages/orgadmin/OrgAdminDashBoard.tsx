@@ -24,6 +24,7 @@ import {
 } from '@ant-design/icons';
 import { Helmet } from 'react-helmet-async';
 import { useFetchData } from '../../hooks';
+import { getLoggedInUser } from '../../utils/authUtils';
 // import { or } from 'firebase/firestore';
 
 const RevenueColumnChart = () => {
@@ -162,11 +163,11 @@ export const OrgAdminDashBoard = () => {
     loading: tasksListLoading,
   } = useFetchData('../mocks/ExamsMock.json');
 
-  const {
-    data: examCardData,
-    error: examCardDataError,
-    loading: examCardDataLoading,
-  } = useFetchData('../mocks/Exams.json');
+  // const {
+  //   data: examCardData,
+  //   error: examCardDataError,
+  //   loading: examCardDataLoading,
+  // } = useFetchData('../mocks/Exams.json');
 
   const [examTabsKey, setExamTabKey] = useState<string>('all');
 
@@ -190,10 +191,8 @@ export const OrgAdminDashBoard = () => {
     setExamTabKey(key);
   };
 
-  // const [OrgAdminName, setOrgAdminName] = useState('Org Admin Name');
-  const OrgAdminName = 'Org Admin Name';
-
-  // setOrgAdminName('Org Admin Name');
+  //get user from getLoggedInUser
+  const user = getLoggedInUser();
 
   return (
     <div>
@@ -201,7 +200,7 @@ export const OrgAdminDashBoard = () => {
         <title>Testify</title>
       </Helmet>
       <PageHeader
-        title={'Welcome ' + OrgAdminName}
+        title={'Welcome ' + user?.firstName}
         breadcrumbs={[
           {
             title: (
@@ -230,7 +229,7 @@ export const OrgAdminDashBoard = () => {
       >
         <Col xs={24} sm={12} lg={8}>
           <LearningStatsCard
-            title="Exams in Progress"
+            title="Today Exams in Progress"
             value={18}
             icon={FileTextOutlined}
             color="#6f7ae8"
@@ -241,7 +240,7 @@ export const OrgAdminDashBoard = () => {
         <Col xs={24} sm={12} lg={8}>
           <MarketingStatsCard
             data={[274, 337, 81, 497]}
-            title="Exams Taken"
+            title="Upcoming Exams"
             diff={12.5}
             value={16826}
             style={{ height: '100%' }}
@@ -263,7 +262,7 @@ export const OrgAdminDashBoard = () => {
             loading={tasksListLoading}
           />
         </Col>
-        <Col xs={24} sm={12} xl={16}>
+        {/* <Col xs={24} sm={12} xl={16}>
           <Card
             title="Exam stats"
             extra={
@@ -274,8 +273,8 @@ export const OrgAdminDashBoard = () => {
           >
             <RevenueColumnChart />
           </Card>
-        </Col>
-        <Col xs={24} sm={12} xl={8}>
+        </Col> */}
+        {/* <Col xs={24} sm={12} xl={8}>
           <Card title="Top clients">
             <ExamCards
               data={examCardData}
@@ -283,7 +282,7 @@ export const OrgAdminDashBoard = () => {
               error={examCardDataError}
             />
           </Card>
-        </Col>
+        </Col> */}
         <Col span={24}>
           <Card
             title="Exams"

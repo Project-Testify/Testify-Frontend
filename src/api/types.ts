@@ -77,3 +77,17 @@ export interface Exam {
 export interface Response {
     status: string;
 }
+
+export interface addExamSetter{
+    examSetterId: number;
+}
+
+export interface GenericAddOrUpdateResponse{
+    success: boolean;
+    message: string;
+    id: any;
+}
+
+export interface InviteExamSetterRequest{
+    email: string;
+}
