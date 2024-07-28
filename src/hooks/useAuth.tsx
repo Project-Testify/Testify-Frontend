@@ -4,7 +4,7 @@ import { useLocalStorage } from "./useLocalStorage";
 
 import { PATH_ORG_ADMIN, PATH_TUTOR, PATH_CANDIDATE } from '../constants/routes';
 import { AuthResponse, UserRole, User } from '../api/types';
-// import { getLoggedInUser } from "../utils/authUtils";
+import { getLoggedInUser } from "../utils/authUtils";
 
 
 // Define the AuthContext type
@@ -33,6 +33,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     localStorage.setItem('accessToken', accessToken);
     setUser(userData);
     //print user data in console User date:{userdata}
+    const loggedUser = getLoggedInUser();
+    console.log('User data:', loggedUser);
 
     // Redirect based on user role
     if (userData.role === UserRole.ORGANIZATION) {

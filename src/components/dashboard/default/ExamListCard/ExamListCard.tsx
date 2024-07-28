@@ -25,7 +25,7 @@ type Props = {
 export const ExamListCard = ({ data, error, loading, ...others }: Props) => {
   return (
     <Card
-      title="Upcoming So so like this. Exams"
+      title="Upcoming Exams"
       extra={<Button>View all</Button>}
       className="exams-list-card card"
       {...others}
