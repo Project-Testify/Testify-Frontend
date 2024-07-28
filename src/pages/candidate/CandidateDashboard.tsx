@@ -12,9 +12,8 @@ import {
   Flex,
   Image,
 } from 'antd';
-import { getCandidate } from '../../api/services/candidate';
-import { getLoggedInUser } from '../../utils/authUtils';
 
+import { getLoggedInUser } from '../../utils/authUtils';
 
 export const CandidateDashboard = () => {
   
@@ -36,9 +35,6 @@ export const CandidateDashboard = () => {
     { date: '2023-07-06', count: 4 },
     { date: '2023-07-07', count: 9 },
   ];
-
-  const Candidate = getCandidate();
-  console.log(Candidate);
 
   //exam table
   const columns = [
@@ -131,7 +127,7 @@ export const CandidateDashboard = () => {
           >
             <Flex align="center">
               <Typography.Title level={1}>
-                Hello, {candidateName}!
+                Welcome, {candidateName}
               </Typography.Title>
             </Flex>
           </Card>
