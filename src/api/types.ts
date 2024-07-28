@@ -77,3 +77,4 @@ export interface Exam {
 export interface Response {
     status: string;
 }
+
