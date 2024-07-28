@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';  // Import Link from react-router-dom
 
 import { Card } from '../../../components';
 
-import { UserOutlined, TeamOutlined, UsergroupAddOutlined } from '@ant-design/icons';
+import { UserOutlined, TeamOutlined } from '@ant-design/icons';
 import { createElement } from 'react';
 
 const { Text } = Typography;
@@ -20,11 +20,11 @@ const TOPICS = [
     image: TeamOutlined,
     to: 'organization',
   },
-  {
-    title: 'ExamSetter',
-    image: UsergroupAddOutlined,
-    to: 'examSetter',
-  },
+  // {
+  //   title: 'ExamSetter',
+  //   image: UsergroupAddOutlined,
+  //   to: 'examSetter',
+  // },
 ];
 
 export const Select = () => {

@@ -44,17 +44,17 @@ const candidateItems: MenuProps['items'] = [
     getItem(<Link to={PATH_CANDIDATE.all_exams}>All </Link>, 'exam', null),
     getItem(
       <Link to={PATH_CANDIDATE.completed_exams}>Completed </Link>,
-      'new_exam',
+      'completedExams',
       null
     ),
     getItem(
       <Link to={PATH_CANDIDATE.ongoing_exams}>Ongoing</Link>,
-      'new_exam',
+      'ongoingExams',
       null
     ),
     getItem(
       <Link to={PATH_CANDIDATE.upcoming_exams}>Upcoming</Link>,
-      'new_exam',
+      'upcomingExams',
       null
     )
   ]),
@@ -92,8 +92,8 @@ const orgAdminItems: MenuProps['items'] = [
 
   getItem('Exams', 'exam', null, [], 'group'),
 
-  getItem('Exams', 'exam', <BankOutlined />, [
-    getItem(<Link to={PATH_ORG_ADMIN.exam}>All Exams</Link>, 'exam', null),
+  getItem('Exams', 'examList', <BankOutlined />, [
+    getItem(<Link to={PATH_ORG_ADMIN.exam}>All Exams</Link>, 'allExams', null),
     getItem(
       <Link to={PATH_ORG_ADMIN.new_exam}>New Exams</Link>,
       'new_exam',
@@ -101,15 +101,15 @@ const orgAdminItems: MenuProps['items'] = [
     ),
   ]),
 
+  getItem('Exam Setters', 'examSetters', null, [], 'group'),
+  getItem('Exam Setters', 'examSettersList', <BankOutlined />, [
+    getItem(<Link to={PATH_ORG_ADMIN.exam}>All Exam Setters</Link>, 'exam', null),
+  ]),
+
   getItem('Candidates', 'candidates', null, [], 'group'),
 
-  getItem('Candidates', 'candidates', <BankOutlined />, [
+  getItem('Candidates', 'candidatesList', <BankOutlined />, [
     getItem(<Link to={PATH_ORG_ADMIN.groups}>Groups</Link>, 'all', null),
-    getItem(
-      <Link to={PATH_ORG_ADMIN.exam}>New Candidate</Link>,
-      'new',
-      null
-    ),
   ]),
 
 

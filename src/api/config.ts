@@ -9,7 +9,7 @@ const api: AxiosInstance = axios.create({
 });
 
 // Function to get the auth token from storage
-const getAuthToken = (): string | null => localStorage.getItem('authToken');
+const getAuthToken = (): string | null => localStorage.getItem('accessToken');
 
 // Interceptor to add token to headers of every request
 api.interceptors.request.use(

@@ -48,7 +48,6 @@ export const ThemeProvider = ({ children }: ThemeProviderProps) => {
           },
           
           Segmented: {
-            
             borderRadius: 6,
             colorTextLabel: '#000000',
           },
