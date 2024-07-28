@@ -13,10 +13,13 @@ import {
   Image,
 } from 'antd';
 import { getCandidate } from '../../api/services/candidate';
+import { getLoggedInUser } from '../../utils/authUtils';
+
 
 export const CandidateDashboard = () => {
-  const candidateName = 'Kaumadi';
   
+  const user = getLoggedInUser();
+  const candidateName = user?.firstName;
   
   const examData = [
     { type: 'Ongoing', value: 5 },
