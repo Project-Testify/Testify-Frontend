@@ -14,7 +14,7 @@ import { useMediaQuery } from 'react-responsive';
 
 import { Candidate } from './forms/Candidate';
 import { Organization } from './forms/Organization';
-import { ExamSetter } from './forms/ExamSetter';
+// import { ExamSetter } from './forms/ExamSetter';
 import { Select } from './forms/Select';
 
 import { Route, Routes } from 'react-router-dom';

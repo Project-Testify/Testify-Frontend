@@ -52,7 +52,7 @@ import React, { ReactNode, useEffect } from 'react';
 // import { ProtectedRoute } from './ProtectedRoutes';
 import { AuthProvider } from '../hooks/useAuth.tsx';
 import { ContactUs } from '../pages/ContactUs.tsx';
-import { AboutPage } from '../pages/About.tsx';
+import { About } from '../pages/About.tsx';
 
 
 // Custom scroll restoration function
@@ -91,6 +91,20 @@ const router = createBrowserRouter([
     element: (
       // <AuthProvider> <SignInPage /></AuthProvider>
       <HomePage />
+    ),
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: '/about', // Define the path for ContactUs page
+    element: (
+      <About />
+    ),
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: '/contact-us', // Define the path for ContactUs page
+    element: (
+      <ContactUs />
     ),
     errorElement: <ErrorPage />,
   },
@@ -343,8 +357,8 @@ const router = createBrowserRouter([
   },
   {
     path: '/about',
-    element: <AboutPage />,
     errorElement: <ErrorPage />,
+    element: <About/>,
   }
 ]);
 

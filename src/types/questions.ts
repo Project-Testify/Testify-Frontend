@@ -1,6 +1,7 @@
-// make types for questions
+// Types of questions for paper setter
 export type QuestionType = "MCQ" | "ESSAY" | string;
 export type Question = {
+    id : number;
     questionType: QuestionType;
     type: QuestionType;
     questionText: string;
@@ -9,6 +10,7 @@ export type Question = {
         marks: string;
         isCorrect?: boolean;
     }[];
+    questionDifficulty: "easy" | "medium" | "hard";
     coveringPoints?: {
         coveringPointText: string;
         marks: string;

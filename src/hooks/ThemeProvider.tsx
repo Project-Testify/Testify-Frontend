@@ -43,9 +43,6 @@ export const ThemeProvider = ({ children }: ThemeProviderProps) => {
           Calendar: {
             colorBgContainer: 'none',
           },
-          Card: {
-            colorBgContainer: 'none',
-          },
           Carousel: {
             dotWidth: 8,
           },

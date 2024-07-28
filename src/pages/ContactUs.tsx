@@ -1,9 +1,19 @@
-import { Typography, Row, Col, Form, Input, Button } from 'antd';
-import { Container} from '../components';
-import HeaderNav from '../../src/layouts/app/HeaderNav';
+import { Typography, Row, Col, Form, Input, Button, Menu } from 'antd';
+import { Container, Logo} from '../components';
 import { MailOutlined, PhoneOutlined, EnvironmentOutlined, FacebookOutlined, TwitterOutlined, InstagramOutlined, LinkedinOutlined } from '@ant-design/icons';
+import { Link } from 'react-router-dom';
+import { PATH_AUTH } from '../constants';
+import { Header } from 'antd/es/layout/layout';
+import FooterNav from '../layouts/app/FooterNav';
 
 const { Title, Paragraph } = Typography;
+
+const menuItems = [
+  { label: <Link to="/">Home</Link>, key: 'home' },
+  { label: <Link to="/about">about</Link>, key: 'corporate' },
+  { label: <Link to="/contact-us">contact us</Link>, key: 'profile' },
+  { label: <Link to={PATH_AUTH.signin}><Button type='primary' style={{borderRadius:'50px'}}>Login</Button></Link>, key: 'login' },
+];
 
 export const ContactUs = () => {
 
@@ -15,9 +25,15 @@ export const ContactUs = () => {
   return (
     <>
     
-    <HeaderNav />
+    <Header style={{ display: 'flex',flexDirection:'row', backgroundColor:'white', alignItems:'center'}}>
+        <div className='logo' style={{marginRight:'auto'}}>
+          <Logo color='black'/>
+        </div>
+        <Menu mode='horizontal' items={menuItems} style={{flex:'1', justifyContent:'flex-end', fontSize:'16px'}}/>
+    </Header>
+
     <Container>
-    <Row justify="center" style={{ marginTop: '-35px'}}>
+    <Row justify="center" style={{ marginTop: '-15px'}}>
       <Col>
         <Title
           level={3}
@@ -31,7 +47,7 @@ export const ContactUs = () => {
       </Col>
     </Row>
 
-    <Row justify="center" style={{ marginTop: '-5px'}}>
+    <Row justify="center" style={{ marginTop: '-10px'}}>
         <Col>
         <Title
             level={1}
@@ -46,7 +62,7 @@ export const ContactUs = () => {
     </Row>
 
     <Row justify="center" style={{ marginTop: '20px'}}>
-        <Col span={10} style={{ marginTop: '15px'}}>
+        <Col span={10} style={{ marginTop: '30px'}}>
           <Title level={4} style={{fontWeight:'bold'}}>Send us a message <MailOutlined style={{ color: '#1890ff', fontSize: '24px',marginBottom:'10px', marginLeft:'5px' }}/></Title>
           <Paragraph style={{ marginBottom:'25px' }}>
             It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal.
@@ -68,7 +84,7 @@ export const ContactUs = () => {
           <LinkedinOutlined style={{ color: '#0077B5', fontSize: '40px', margin: '0 10px', cursor: 'pointer' }} />
 
         </Col>
-        <Col span={10} offset={2} style={{marginTop:'40px'}}>
+        <Col span={10} offset={2} style={{marginTop:'40px', marginBottom:'20px'}}>
           <Form layout="vertical" onFinish={handleSubmit}>
             <Form.Item label="Your name" name="name" style={{ fontWeight: 'bold' }} rules={[{ required: true, message: 'Please enter your name' }]}>
               <Input placeholder="Jananga Wijewardhana" style={{ backgroundColor: '#EBECFE', width: '500px' }}/>
@@ -91,6 +107,8 @@ export const ContactUs = () => {
         </Col>
       </Row>
       </Container>
+
+      <FooterNav></FooterNav>
 
     </>
     
