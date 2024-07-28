@@ -1,28 +1,19 @@
-import { useState, CSSProperties } from 'react';
-import { Col, theme } from 'antd';
+import { useState } from 'react';
+import { Col, Button } from 'antd';
+import './styles.css';
+import { RightOutlined, LeftOutlined } from '@ant-design/icons';
 // import { useTheme } from 'antd/es/theme';
 
 interface McqQuestionViewProps {
     question: string;
     options: string[];
+    onNext: () => void;
+    onPrevious: () => void;
+    onAnswer: () => void;
+    onClearSelection: () => void;
 }
 
-// const McqQuestionView: React.FC<McqQuestionViewProps> = ({ question, options }) => {
-export const McqQuestionView = ({ question, options }: McqQuestionViewProps) => {
-    const {
-        token: { colorBgContainer, borderRadiusLG },
-      } = theme.useToken();
-
-    // const {
-    //     token: { colorBgContainer, borderRadiusLG },
-    // } = theme;
-
-    const questionContainerStyle: CSSProperties = {
-        padding: '1px 24px',
-        background: colorBgContainer,
-        borderRadius: borderRadiusLG,
-    };
-
+export const McqQuestionView = ({ question, options, onNext, onPrevious, onAnswer, onClearSelection }: McqQuestionViewProps) => {
     
 
     const [hovered, setHovered] = useState<number | null>(null);
@@ -38,12 +29,18 @@ export const McqQuestionView = ({ question, options }: McqQuestionViewProps) => 
 
     const handleSelection = (index: number) => {
         setSelected(index);
+        onAnswer();
+    };
+
+    const handleClearSelection = () => {
+        setSelected(null);
+        onClearSelection();
     };
 
     return (
         <Col span={18} pull={6}>
             <Col span={24}>
-                <div style={questionContainerStyle}>
+                <div className="question-container">
                     <p className="question-style">{question}</p>
                     {options.map((answer, index) => (
                         <Col span={24} key={index}>
@@ -66,6 +63,18 @@ export const McqQuestionView = ({ question, options }: McqQuestionViewProps) => 
                             </div>
                         </Col>
                     ))}
+                    <div className="button-container">
+                        
+                        <Button onClick={handleClearSelection}  type="primary" size={'large'} className="clear-button button">
+                            Clear
+                        </Button>
+                        <Button onClick={onPrevious} type="primary" icon={<LeftOutlined />} size={'large'} className="previous-button button">
+                            Previous
+                        </Button>
+                        <Button onClick={onNext} type="primary" icon={<RightOutlined />} iconPosition={'end'} size={'large'} className="next-button button">
+                            Next
+                        </Button>
+                    </div>
                 </div>
             </Col>
         </Col>

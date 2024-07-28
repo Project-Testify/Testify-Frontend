@@ -51,6 +51,8 @@ import React, { ReactNode, useEffect } from 'react';
 
 // import { ProtectedRoute } from './ProtectedRoutes';
 import { AuthProvider } from '../hooks/useAuth.tsx';
+import { ContactUs } from '../pages/ContactUs.tsx';
+import { About } from '../pages/About.tsx';
 
 
 // Custom scroll restoration function
@@ -92,6 +94,20 @@ const router = createBrowserRouter([
     ),
     errorElement: <ErrorPage />,
   },
+  {
+    path: '/about', // Define the path for ContactUs page
+    element: (
+      <About />
+    ),
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: '/contact-us', // Define the path for ContactUs page
+    element: (
+      <ContactUs />
+    ),
+    errorElement: <ErrorPage />,
+  },
 
   {
     path: '/auth',
@@ -102,10 +118,6 @@ const router = createBrowserRouter([
         path: 'signup/*',
         element: <SignUpPage />,
       },
-      // {
-      //   path: 'signup/user',
-      //   element: <SignUpPage />,
-      // },
       {
         path: 'signin',
         element: (
@@ -332,6 +344,17 @@ const router = createBrowserRouter([
       },
     ],
   },
+
+  {
+    path: '/contact-us',
+    element: <ContactUs/>,
+    errorElement: <ErrorPage/>,
+  },
+  {
+    path: '/about',
+    element: <About/>,
+    errorElement: <ErrorPage/>,
+  }
 ]);
 
 export default router;

@@ -20,11 +20,9 @@ import {
 import { Logo } from '../../components';
 import { useMediaQuery } from 'react-responsive';
 import { PATH_AUTH } from '../../constants';
-// import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-// import { PATH_USER_PROFILE, PATH_DASHBOARD, PATH_TUTOR } from '../../constants/routes';
 
-import {loginService} from '../../api/services/auth';
+import { loginService } from '../../api/services/auth';
 import { useAuth } from '../../hooks/useAuth';
 
 
@@ -41,7 +39,7 @@ type FieldType = {
 export const SignInPage = () => {
 
 
-  const {login} = useAuth();
+  const { login } = useAuth();
 
   const {
     token: { colorPrimary },
@@ -54,37 +52,17 @@ export const SignInPage = () => {
 
 
     loginService(values).then((res) => {
-      console.log(res);
 
       if (res.status === 200) {
         console.log('Success:', res.data);
         setLoading(true);
-
-
         login(res.data);
 
+        message.open({
+          type: 'success',
+          content: 'Login successful',
+        });
 
-
-
-          message.open({
-            type: 'success',
-            content: 'Login successful',
-          });
-
-        // setTimeout(() => {
-
-        //   // navigate according to user role
-        //   if (res.data.role === 'CANDIDATE') {
-        //     navigate(PATH_USER_PROFILE.details);
-        //   }
-        //   if (res.data.role === 'ORGANIZATION') {
-        //     navigate(PATH_DASHBOARD.org_admin);
-        //   }
-        //   if (res.data.role === 'EXAMSETTER') {
-        //     navigate(PATH_TUTOR.dashboard);
-        //   }
-         
-        // }, 1000);
       } else {
         message.open({
           type: 'error',
@@ -96,11 +74,6 @@ export const SignInPage = () => {
       console.log('Failed:', error);
     });
 
- 
-
-    // setTimeout(() => {
-    // navigate(PATH_ORG_ADMIN.dashboard);
-    // }, 5000);
   };
 
   const onFinishFailed = (errorInfo: any) => {
@@ -164,7 +137,7 @@ export const SignInPage = () => {
                     { required: true, message: 'Please input your email' },
                   ]}
                 >
-                  <Input  name="email"/>
+                  <Input name="email" />
                 </Form.Item>
               </Col>
               <Col xs={24}>
@@ -175,7 +148,7 @@ export const SignInPage = () => {
                     { required: true, message: 'Please input your password!' },
                   ]}
                 >
-                  <Input.Password name="password"/>
+                  <Input.Password name="password" />
                 </Form.Item>
               </Col>
               <Col xs={24}>
