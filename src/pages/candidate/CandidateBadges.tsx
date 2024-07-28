@@ -1,4 +1,4 @@
-import { Card, Col, Flex, Row, Typography } from "antd";
+import {  Col,  Row, Typography } from "antd";
 const { Title } = Typography;
 
 const badges = [
