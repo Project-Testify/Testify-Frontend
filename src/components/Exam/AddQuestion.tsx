@@ -1,5 +1,5 @@
 import { CheckOutlined, CloseOutlined,OpenAIOutlined, PlusOutlined } from '@ant-design/icons';
-import { Button, Card, Form, FormInstance, Input, Switch, Radio, Collapse, Flex } from 'antd';
+import { Button, Card, Form, FormInstance, Input, Switch, Radio, Collapse, Flex, Typography } from 'antd';
 
 import {generateEssayQuestion, generateMCQQuestion} from '../../api/services/AIAssistant';
 
@@ -163,7 +163,7 @@ const EssayForm = ({ form } : {form: FormInstance}) => {
 
       <Form.Item
         label="Difficulty"
-        name={['difficulty']}
+        name={['questionDifficulty']}
         rules={[{ required: true, message: 'Missing Difficulty' }]}
       >
         <Radio.Group buttonStyle="solid">
@@ -256,6 +256,13 @@ export const AddQuestion: React.FC<AddQuestionProps> = ({ form }) => {
       }}
     >
       {modelContent[activeTabKey1]}
+      <Form.Item noStyle shouldUpdate>
+            {() => (
+              <Typography>
+                <pre>{JSON.stringify(form.getFieldsValue(), null, 2)}</pre>
+              </Typography>
+            )}
+          </Form.Item>
     </Card>
   );
 };

@@ -1,4 +1,4 @@
-import { Button, Col, Flex, Image, Row, Typography, Menu } from 'antd';
+import { Button, Col, Flex, Image, Row, Typography} from 'antd';
 import { useMediaQuery } from 'react-responsive';
 import {
   PATH_AUTH,
@@ -16,17 +16,19 @@ import {
   TrophyFilled,
   VideoCameraFilled,
 } from '@ant-design/icons';
-import { Card, Container, Logo } from '../components';
-import { createElement} from 'react';
-import { Header } from 'antd/es/layout/layout';
+import { Card, Container} from '../components';
+import { createElement, useState, useEffect} from 'react';
 import { COLOR } from '../App';
 import FooterNav from '../layouts/app/FooterNav';
+import HomeNav from '../components/HomeNav';
+import { motion, AnimatePresence } from 'framer-motion';
+import { assets } from '../assets';
 
 
 const { Title, Text } = Typography;
 
 
-const FEATURES = [
+const ORG_FEATURES = [
   {
     title: 'Interactive Question Types',
     description:
@@ -61,26 +63,69 @@ const FEATURES = [
   },
 ];
 
-const menuItems = [
-  { label: <Link to="/">Home</Link>, key: 'home' },
-  { label: <Link to="/about">about</Link>, key: 'corporate' },
-  { label: <Link to="/contact-us">contact us</Link>, key: 'profile' },
-  { label: <Link to={PATH_AUTH.signin}><Button type='primary' style={{borderRadius:'50px'}}>Login</Button></Link>, key: 'login' },
+const CANDIDATE_FEATURES = [
+  {
+    title: 'Interactive Exams',
+    description: ' Enjoy dynamic question types like drag-and-drop, coding challenges, and more to keep you engaged.',
+    icon: TrophyFilled
+  },
+  {
+    title: 'Real-Time Support',
+    description: 'Access live video and chat support for instant guidance during your exams.',
+    icon: TrophyFilled
+  },
+  {
+    title: 'Secure Testing Environment',
+    description: ' Benefit from browser lockdown, two-factor authentication (2FA), session timeouts, and IP restrictions for a safe exam experience.',
+    icon: TrophyFilled
+  },
+  {
+    title: 'Digital Badges & Leaderboards',
+    description: 'Stay motivated with achievements and see how you rank against others on the leaderboard.',
+    icon: TrophyFilled
+  },
+  {
+    title: 'Mobile-Friendly Experience',
+    description: 'Take your exams on any device with our fully responsive mobile design.',
+    icon: TrophyFilled
+  },
+  {
+    title: 'Smart Grading',
+    description: 'Get your answers graded quickly with AI-driven grading, custom parameters, and comprehensive plagiarism checks.',
+    icon: TrophyFilled,
+  },
 ];
 
 export const HomePage = () => {
-  // const {
-  //   token: { colorPrimary },
-  // } = theme.useToken();
+  
+  const [showOrgFeatures, setShowOrgFeatures] = useState(true);
+  const features = showOrgFeatures ? ORG_FEATURES : CANDIDATE_FEATURES;
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setShowOrgFeatures((prev) => !prev);
+    }, 50000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const selectedOrgStyle = {
+    //outline: '2px solid ' + COLOR['500'],
+    borderRadius: '10px',
+    padding: '10px',
+    backgroundColor: COLOR['200'],
+  };
+
+  const selectedCandiStyle = {
+    //outline: '2px solid ' + COLOR['500'],
+    borderRadius: '10px',
+    padding: '10px',
+    backgroundColor: COLOR['100'],
+  };
+  
   const isMobile = useMediaQuery({ maxWidth: 769 });
   const isTablet = useMediaQuery({ maxWidth: 992 });
 
-  // const sectionStyles: CSSProperties = {
-  //   paddingTop: isMobile ? 40 : 80,
-  //   paddingBottom: isMobile ? 40 : 80,
-  //   paddingRight: isMobile ? '1rem' : 0,
-  //   paddingLeft: isMobile ? '1rem' : 0,
-  // };
 
   return (
     <div
@@ -91,12 +136,7 @@ export const HomePage = () => {
         minHeight: '100vh',
       }}
     >
-      <Header style={{ display: 'flex',flexDirection:'row', backgroundColor:'white', alignItems:'center'}}>
-        <div className='logo' style={{marginRight:'auto'}}>
-          <Logo color='black'/>
-        </div>
-        <Menu mode='horizontal' items={menuItems} style={{flex:'1', justifyContent:'flex-end', fontSize:'16px'}}/>
-      </Header>
+      <HomeNav></HomeNav>
       
       <Flex
         vertical
@@ -121,7 +161,6 @@ export const HomePage = () => {
                   margin: '1.5rem 0',
                 }}
               >
-                {/* A dynamic and versatile multipurpose{' '} */}
                 <span className="text-highlight">Engage</span>.<span className="text-highlight">Secure</span>.{' '}
                 <span className="text-highlight">Achieve</span>
                 <br /><br/>
@@ -149,9 +188,11 @@ export const HomePage = () => {
               </Flex>
             </Col>
             {!isTablet && (
+              
               <Col lg={12}>
-                <Image src="/hero.png" alt="dashboard image snippet" preview={false}/>
+                <Image src={assets.hero} alt="dashboard image snippet" preview={false}/>
               </Col>
+              
             )}
           </Row>
         </Container>
@@ -191,15 +232,32 @@ export const HomePage = () => {
         >
           Elevate Your Exam Experience
         </Title>
+        
+        <Row>
+          <Col lg={24}>
+          <Flex align='center' justify='space-around'>
+            <Typography.Title level={3} style={{color:COLOR['50'], cursor:'pointer', ...(showOrgFeatures ? selectedOrgStyle: {})}} onClick={()=>setShowOrgFeatures(true)}>Are you an Organization ?</Typography.Title>
+            <Typography.Title level={3} style={{color:COLOR['500'], cursor:'pointer', ...(!showOrgFeatures ? selectedCandiStyle: {})}} onClick={()=>setShowOrgFeatures(false)}>Are you a Candidate ?</Typography.Title>
+          </Flex>
+          </Col>
+        </Row>
+        
         <Row
           gutter={[
             { xs: 8, sm: 16, md: 24, lg: 32 },
             { xs: 8, sm: 16, md: 24, lg: 32 },
           ]}
         >
-          {FEATURES.map((feature) => (
+          {features.map((feature) => (
+            <AnimatePresence>
             <Col key={feature.title} xs={24} md={12} lg={8}>
-              <Card style={{ height: '100%', backgroundColor:COLOR['50']}}>
+                <motion.div
+                  initial={{ x: 300, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  exit={{ x: -300, opacity: 0 }}
+                  transition={{ duration: 0.5 }}
+                >
+              <Card style={{ height: '100%', ...(showOrgFeatures ? selectedOrgStyle: selectedCandiStyle)}}>
                 <Flex vertical style={{alignItems:'center'}}>
                   {createElement(feature.icon, {
                     style: { fontSize: 50, color: 'black' },
@@ -210,37 +268,18 @@ export const HomePage = () => {
                   <Text>{feature.description}</Text>
                 </Flex>
               </Card>
+              </motion.div>
             </Col>
+            </AnimatePresence>
           ))}
         </Row>
       </Container>
-      {/* <Card
-        style={{
-          width: isMobile ? '95%' : 500,
-          margin: '0 auto',
-          textAlign: 'center',
-        }}
-      >
-        <Title level={4} style={{ marginTop: 0 }}>
-          Haven't found an answer to your question?
-        </Title>
-        <Text style={{ marginTop: '1rem' }}>
-          Connect with us either on discord or email us
-        </Text>
-        <Flex gap="middle" justify="center" style={{ marginTop: '1rem' }}>
-          <Button href="mailto:kelvin.kiprop96@gmail.com" type="primary">
-            Email
-          </Button>
-          <Button target="_blank" href={`${PATH_GITHUB.repo}/issues`}>
-            Submit an issue
-          </Button>
-        </Flex>
-      </Card> */}
+      
       <Container>
         <Card style={{ border: 'none', padding: '20px', display: 'flex', alignItems: 'center'}}>
           <Flex>
             <Image
-              src="/review.jpg"
+              src={assets.review}
               alt="Testify testimonial"
               style={{ width: '320px', height:'320px', objectFit: 'cover', borderRadius: '20px 0px 0px 20px' }}
               preview={false}
@@ -282,7 +321,7 @@ export const HomePage = () => {
             </div>
             </div>
             <div style={{flex:1}} className='imageContainer'>
-              <Image src='/cta.jpg' preview={false} style={{width:'50%', display:'flex', justifyContent:'center'}}></Image>
+              <Image src={assets.cta} preview={false} style={{width:'50%', display:'flex', justifyContent:'center'}}></Image>
             </div>
           </Flex>
         </Card>

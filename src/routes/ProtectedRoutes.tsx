@@ -8,7 +8,7 @@ interface ProtectedRouteProps {
 }
 
 export const ProtectedRoute = ({ children, roles }: ProtectedRouteProps) => {
-  const { user } = useAuth();
+  const { user } = useAuth(); //can get logged in user details 
   if (!user || !roles.includes(user.role)) {
     // User is not authenticated or does not have the required role
     // window.location.href = '/auth/signin';

@@ -1,16 +1,27 @@
 import { GroupTable, PageHeader } from '../../components';
 import { BankOutlined, HomeOutlined, PlusOutlined } from '@ant-design/icons';
-import { Button, Card, Col, Space, Modal, Form, Input, Upload, message } from 'antd';
+import { Button, Card, Col, Space, Modal, Form, Input, Upload, message, FormInstance } from 'antd';
 import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useFetchData } from '../../hooks';
 import { UploadOutlined } from '@ant-design/icons';
+import { UploadFile } from 'antd';
+
+import { createGroup } from '../../api/services/group';
+import {  UploadChangeParam } from 'antd/es/upload';
 
 export const Groups = () => {
   const [open, setOpen] = useState(false);
   const [form] = Form.useForm();
   const { data: examsData } = useFetchData('../mocks/Groups.json');
   const [examTabsKey, setExamTabKey] = useState<string>('all');
+  const [emails, setEmails] = useState<string[]>([]);
+
+
+  // file
+  const [fileList, setFileList] = useState<UploadFile[]>([]);
+  const [uploading, setUploading] = useState(false);
+
 
   const EXAM_TABS_CONTENT: Record<string, React.ReactNode> = {
     all: <GroupTable key="all-groups-table" data={examsData} />,
@@ -20,28 +31,54 @@ export const Groups = () => {
     setExamTabKey(key);
   };
 
-  const handleFileUpload = (info: any) => {
-    const { status, originFileObj } = info.file;
-
-    if (status !== 'uploading') {
+  // set file list
+  const handleFileUpload = (info: UploadChangeParam<UploadFile<any>>) => {
+    setFileList(info.fileList);
+  
+    // Process each file as it is uploaded
+    info.fileList.forEach((file) => {
+      if ( file.originFileObj) {
         const reader = new FileReader();
-        reader.onload = (e) => {
-            if (e.target) {
-                const content = e.target.result as string;
-                // Process the file content here
-                console.log(content);
-                // You can parse the content to extract emails and update the form state if needed
-            }
+        reader.onload = (e: ProgressEvent<FileReader>) => {
+          const content = e.target?.result as string;
+          const emailRegex = /[\w.-]+@[\w.-]+\.\w+/g;
+          const foundEmails = content.match(emailRegex) || [];
+          setEmails(prevEmails => [...prevEmails, ...foundEmails]);
+          console.log(foundEmails);
+          message.success(`${file.name} file uploaded successfully`);
         };
-        reader.readAsText(originFileObj);
-    }
-
-    if (status === 'done') {
-      message.success(`${info.file.name} file uploaded successfully.`);
-    } else if (status === 'error') {
-      message.error(`${info.file.name} file upload failed.`);
-    }
+        reader.readAsText(file.originFileObj as Blob);
+      }
+    });
   };
+
+  const submit = (form: FormInstance) => {
+    form.validateFields().then(values => {
+      console.log(values);
+      console.log(fileList);
+      setUploading(true);
+      const group = {
+        name: values.name,
+        description: values.description,
+        emails: emails
+      }
+      createGroup(group).then(res => {
+        console.log(res);
+        message.success('Group created successfully');
+        setUploading(false);
+        setOpen(false);
+      }).catch(err => {
+        console.log(err);
+        message.error('Failed to create group');
+        setUploading(false);
+      })
+
+    }).catch(err => {
+      console.log(err);
+    })
+       
+
+  }
 
   return (
     <div>
@@ -86,15 +123,18 @@ export const Groups = () => {
           {EXAM_TABS_CONTENT[examTabsKey]}
         </Card>
       </Col>
+
       <Modal
         title="New Group"
         open={open}
-        onOk={() => setOpen(false)}
+        // onOk={() => submit(form)}
         onCancel={() => setOpen(false)}
-        footer={(_, { OkBtn, CancelBtn }) => (
+        footer={(_, {  CancelBtn }) => (
           <>
             <CancelBtn />
-            <OkBtn />
+            <Button loading={uploading} onClick={() => submit(form)} type="primary">
+              Create
+            </Button>
           </>
         )}
       >
@@ -118,12 +158,14 @@ export const Groups = () => {
             label="Email List"
             rules={[{ required: true, message: 'Missing Email List' }]}
           >
-            <Upload beforeUpload={() => false} onChange={handleFileUpload}>
+            <Upload beforeUpload={() => false} onChange={handleFileUpload} fileList={fileList} multiple>
               <Button icon={<UploadOutlined />}>Upload Email List</Button>
             </Upload>
           </Form.Item>
         </Form>
       </Modal>
+
+
     </div>
   );
 };
