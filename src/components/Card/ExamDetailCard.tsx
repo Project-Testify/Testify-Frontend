@@ -11,7 +11,8 @@ interface ExamDetailCardProps {
 
 const iconStyle: CSSProperties = {
     fontSize: '24px',
-    color: '#1890ff',
+    // color: '#1890ff',
+    color: '#6D76ED',
     display: 'block',
     marginBottom: '8px',
     textAlign: 'center' as 'center'
