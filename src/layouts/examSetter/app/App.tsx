@@ -1,22 +1,32 @@
 import {
+  Badge,
   Button,
+  Card,
+  Col,
   Dropdown,
   Flex,
   FloatButton,
   Input,
+  Menu,
   Layout,
   MenuProps,
   message,
+  Modal,
   theme,
+  Typography,
   Tooltip,
+  Image,
+  Space,
 } from 'antd';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { ReactNode, useEffect, useRef, useState } from 'react';
 import {
+  HomeFilled,
   AppstoreOutlined,
   LogoutOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
+  PhoneFilled,
   MessageOutlined,
   QuestionOutlined,
   SettingOutlined,
@@ -33,6 +43,8 @@ import HeaderNav from './HeaderNav.tsx';
 import FooterNav from './FooterNav.tsx';
 import { NProgress } from '../../../components';
 import { PATH_LANDING } from '../../../constants';
+import { COLOR } from '../../../App.tsx';
+import { faL } from '@fortawesome/free-solid-svg-icons';
 
 const { Content } = Layout;
 
@@ -52,6 +64,24 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
   const navigate = useNavigate();
   const nodeRef = useRef(null);
   const floatBtnRef = useRef(null);
+
+  // const organization = getOrganaization();
+  const organization = undefined;
+
+
+  const orgValue = undefined;
+
+
+  const [selectedOrganization, setSelectedOrganization] = useState<number | null>(null);
+
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    if (organization === undefined) {
+      setIsModalOpen(true);
+    }
+  }, []);
 
   const items: MenuProps['items'] = [
     {
@@ -89,6 +119,33 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
       },
     },
   ];
+
+  const organizations = [
+    {
+      key: 1,
+      name: 'University of Colombo School of Computing',
+      img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSjh8HCAzjZbfXikaInHueqXzhxl9UzKtQhWw&s',
+      verified: true,
+    },
+    {
+      key: 2,
+      name: 'Institute of Java and Software Engineering',
+      img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5LccFPVcf9Hh3tb_YCTkki_UlFoe-N4rj2Q&s',
+    },
+    {
+      key: 3,
+      name: 'Ocean University of Sri Lanka',
+      img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRV2-DHBPr2I-QGhnWSnqW1LFlINkS98DCENA&s',
+      verified: true,
+    },
+  ];
+
+  const handleOrganizationClick = (org: any) => {
+    // setOrganization(org);
+    setSelectedOrganization(org);
+    
+    setIsModalOpen(false);
+  };
 
   useEffect(() => {
     setCollapsed(isMobile);
@@ -128,6 +185,7 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
             border: 'none',
             transition: 'all .2s',
           }}
+          organization={selectedOrganization}
         />
         <Layout
           style={{
@@ -239,6 +297,66 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
               background: 'none',
             }}
           />
+
+          <Modal
+            title="Please Select Organization"
+            open={isModalOpen}
+            onCancel={() => setIsModalOpen(false)}
+            width="80vw"
+          >
+            <Flex justify="center">
+              <Space direction="vertical">
+                {organizations.map((org) => (
+                  <>
+                    <div
+                      key={org.key}
+                      onClick={() => handleOrganizationClick(org.name)}
+                      style={{ cursor: 'pointer', scale: '0.8'}}
+                    >
+                      {org.verified && (
+                        <Badge.Ribbon
+                          text="Verified"
+                          color="green"
+                          style={{ fontSize: '12px' }}
+                        >
+                          <Card key={org.name} hoverable>
+                            <Flex
+                              align="center"
+                              style={{ marginBottom: '20px' }}
+                            >
+                              <Image
+                                src={org.img}
+                                style={{ width: '50%' }}
+                                preview={false}
+                              />
+                              <Typography.Title level={4}>
+                                {org.name}
+                              </Typography.Title>
+                            </Flex>
+                          </Card>
+                        </Badge.Ribbon>
+                      )}
+
+                      {!org.verified && (
+                        <Card key={org.name} hoverable>
+                          <Flex align="center" style={{ marginBottom: '20px' }}>
+                            <Image
+                              src={org.img}
+                              style={{ width: '50%' }}
+                              preview={false}
+                            />
+                            <Typography.Title level={4}>
+                              {org.name}
+                            </Typography.Title>
+                          </Flex>
+                        </Card>
+                      )}
+                    </div>
+                  </>
+                ))}
+              </Space>
+            </Flex>
+          </Modal>
         </Layout>
       </Layout>
     </>

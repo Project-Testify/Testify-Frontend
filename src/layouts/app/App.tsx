@@ -70,7 +70,7 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
 
   useEffect(() => {
     if (location.pathname.includes('org-admin')) {
-      setProfileImage('https://avatars.githubusercontent.com/u/29647600?v=4');
+      setProfileImage('/public/orgnaization.png');
     } else if (location.pathname.includes('candidate')) {
       setProfileImage('/public/nirmal.jpg');
     }
