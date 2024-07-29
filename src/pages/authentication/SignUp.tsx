@@ -1,10 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
-
-  Card,
   Col,
   Flex,
-
   Row,
   theme,
   Typography,

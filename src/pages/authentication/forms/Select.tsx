@@ -1,13 +1,9 @@
 import { Button, Flex, Typography } from 'antd';
-import { useMediaQuery } from 'react-responsive';
 import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 
 import { Card } from '../../../components';
 
-import { UserOutlined, TeamOutlined } from '@ant-design/icons';
-import { createElement } from 'react';
 
-const { Text } = Typography;
 
 const TOPICS = [
   {
@@ -39,7 +35,6 @@ const imgStyle: React.CSSProperties = {
 };
 
 export const Select = () => {
-  const isMobile = useMediaQuery({ maxWidth: 769 });
 
   return (
     <Flex
