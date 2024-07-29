@@ -1,15 +1,30 @@
-import { Helmet } from "react-helmet-async";
-import { ExamStatCard } from "../../components";
-import { Col, Row, Calendar, Table, Tag, Typography, Card, Flex, Image } from "antd";
+import { Helmet } from 'react-helmet-async';
+import { assets } from '../../assets';
+import { ExamStatCard } from '../../components';
+import {
+  Col,
+  Row,
+  Calendar,
+  Table,
+  Tag,
+  Typography,
+  Card,
+  Flex,
+  Image,
+} from 'antd';
+
+import { getLoggedInUser } from '../../utils/authUtils';
 
 export const CandidateDashboard = () => {
-
-  const candidateName = 'Kaumadi';
+  
+  const user = getLoggedInUser();
+  const candidateName = user?.firstName;
+  
   const examData = [
-    {type: 'Ongoing', value: 5},
-    {type: 'Upcoming', value: 3},
-    {type: 'Completed', value: 10}
-  ]
+    { type: 'Ongoing', value: 5 },
+    { type: 'Upcoming', value: 3 },
+    { type: 'Completed', value: 10 },
+  ];
 
   const participationData = [
     { date: '2023-07-01', count: 5 },
@@ -27,7 +42,7 @@ export const CandidateDashboard = () => {
       title: 'Exam Name',
       dataIndex: 'name',
       key: 'name',
-      render: (text:string) => <a>{text}</a>,
+      render: (text: string) => <a>{text}</a>,
     },
     {
       title: 'Organization Name',
@@ -43,15 +58,15 @@ export const CandidateDashboard = () => {
       title: 'Status',
       key: 'status',
       dataIndex: 'status',
-      render: (status:any) => (
+      render: (status: any) => (
         <>
-          {status.map((tag:string) => {
+          {status.map((tag: string) => {
             let color = 'green';
             if (tag === 'upcoming') {
               color = 'volcano';
             } else if (tag === 'ongoing') {
               color = 'geekblue';
-            } else if(tag === 'complete'){
+            } else if (tag === 'complete') {
               color = 'green';
             }
             return (
@@ -64,7 +79,7 @@ export const CandidateDashboard = () => {
       ),
     },
   ];
-  
+
   const data = [
     {
       key: '1',
@@ -88,7 +103,7 @@ export const CandidateDashboard = () => {
       status: ['complete'],
     },
   ];
-  
+
   return (
     <div>
       <Helmet>
@@ -99,26 +114,35 @@ export const CandidateDashboard = () => {
         gutter={[
           { xs: 8, sm: 16, md: 20, lg: 32 },
           { xs: 8, sm: 16, md: 24, lg: 20 },
-        ]}>
-
+        ]}
+      >
         <Col lg={24}>
-          <Card style={{background:'url("./background.jpg")', backgroundPosition:'center', overflow:'hidden', position:'relative'}}>
+          <Card
+            style={{
+              background: `url(${assets.background}) no-repeat center center`,
+              backgroundPosition: 'center',
+              overflow: 'hidden',
+              position: 'relative',
+            }}
+          >
             <Flex align="center">
-              <Typography.Title level={1}>Hello, {candidateName}!</Typography.Title>
+              <Typography.Title level={1}>
+                Welcome, {candidateName}
+              </Typography.Title>
             </Flex>
           </Card>
         </Col>
 
         <Col xs={24} sm={12} lg={8}>
-          <ExamStatCard data={examData} chartType={"bar"}/>
+          <ExamStatCard data={examData} chartType={'bar'} />
         </Col>
-        
+
         <Col xs={24} sm={12} lg={8}>
-          <ExamStatCard data={participationData} chartType={"line"}/>
+          <ExamStatCard data={participationData} chartType={'line'} />
         </Col>
-        
+
         <Col xs={24} sm={12} lg={8}>
-          <Calendar fullscreen={false}/>
+          <Calendar fullscreen={false} />
         </Col>
 
         <Col lg={16}>
@@ -132,15 +156,13 @@ export const CandidateDashboard = () => {
               <Typography.Title level={4}>3</Typography.Title>
             </Flex>
             <Flex justify="space-berween" align="center">
-              <Image src="./badge.jpg" preview={false}/>
-              <Image src="./badge.jpg" preview={false}/>
-              <Image src="./badge.jpg" preview={false}/>
+              <Image src={assets.badge} preview={false} />
+              <Image src={assets.badge} preview={false} />
+              <Image src={assets.badge} preview={false} />
             </Flex>
           </Card>
         </Col>
-
       </Row>
     </div>
   );
-
 };
