@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { PATH_AUTH } from '../constants';
 import { Header } from 'antd/es/layout/layout';
 import FooterNav from '../layouts/app/FooterNav';
+import HomeNav from '../components/HomeNav';
 
 const { Title, Paragraph} = Typography;
 
@@ -25,12 +26,7 @@ export const About = () => {
   return (
 
     <>
-    <Header style={{ display: 'flex',flexDirection:'row', backgroundColor:'white', alignItems:'center'}}>
-        <div className='logo' style={{marginRight:'auto'}}>
-          <Logo color='black'/>
-        </div>
-        <Menu mode='horizontal' items={menuItems} style={{flex:'1', justifyContent:'flex-end', fontSize:'16px'}}/>
-      </Header>
+    <HomeNav/>
 
     <Container>
     <Row justify="center" style={{ marginTop: '20px'}}>

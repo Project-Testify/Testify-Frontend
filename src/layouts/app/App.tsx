@@ -34,10 +34,10 @@ import FooterNav from './FooterNav.tsx';
 import { NProgress, TogglerDarkTheme } from '../../components';
 import { PATH_LANDING } from '../../constants';
 import ThemeContext from '../../hooks/ThemeProvider.tsx';
+import { set } from 'lodash';
 
 
 const { Content } = Layout;
-
 
 
 type AppLayoutProps = {
@@ -45,9 +45,11 @@ type AppLayoutProps = {
 };
 
 export const AppLayout = ({ children }: AppLayoutProps) => {
+  
   const {
     token: { borderRadius },
   } = antdTheme.useToken();
+  
   const isMobile = useMediaQuery({ maxWidth: 769 });
   const [collapsed, setCollapsed] = useState(true);
   const [navFill, setNavFill] = useState(false);
@@ -56,6 +58,24 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
   const navigate = useNavigate();
   const nodeRef = useRef(null);
   const floatBtnRef = useRef(null);
+  const [profileImage ,  setProfileImage] = useState('https://avatars.githubusercontent.com/u/29647600?v=4');
+
+  // check if the url has contains the word 'admin'
+  // if(location.pathname.includes('org-admin')){
+  //   setProfileImage('https://avatars.githubusercontent.com/u/29647600?v=4');
+  // }
+  // if(location.pathname.includes('candidate')){
+  //   setProfileImage('/public/me.jpg');
+  // }
+
+  useEffect(() => {
+    if (location.pathname.includes('org-admin')) {
+      setProfileImage('https://avatars.githubusercontent.com/u/29647600?v=4');
+    } else if (location.pathname.includes('candidate')) {
+      setProfileImage('/public/nirmal.jpg');
+    }
+  }, [location.pathname]);
+
 
   const items: MenuProps['items'] = [
     {
@@ -197,7 +217,7 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
               <Dropdown menu={{ items }} trigger={['click']}>
                 <Flex>
                   <img
-                    src="/me.jpg"
+                    src={profileImage}
                     alt="user profile photo"
                     height={36}
                     width={36}
