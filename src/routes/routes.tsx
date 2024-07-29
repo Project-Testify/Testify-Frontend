@@ -34,7 +34,7 @@ import {
   CandidateGrading,
   CandidateActivityHistory,
   CandidateOrganizations,
-  DignosticTestPage,
+  DiagnosticTestPage,
   // examSetter
   OrganizationDashBoard
 } from '../pages';
@@ -299,8 +299,8 @@ const router = createBrowserRouter([
 
       },
       {
-        path: 'exam/dignostic-test',
-        element: <DignosticTestPage />,
+        path: 'exam/diagnostic-test',
+        element: <DiagnosticTestPage />,
         errorElement: <ErrorPage />,
       },
       {

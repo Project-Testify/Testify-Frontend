@@ -1,4 +1,4 @@
-export { DignosticTestPage } from './Diagnostics.tsx';
+export { DiagnosticTestPage } from './Diagnostics.tsx';
 export { ExamSummaryPage } from './ExamSummary.tsx';
 export { ExamViewPage } from './ExamView.tsx';
 export { CandidateDashboard } from './CandidateDashboard.tsx';
