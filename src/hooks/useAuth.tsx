@@ -11,6 +11,8 @@ interface AuthContextType {
   user: User | null;
   login: (data: AuthResponse) => Promise<void>;
   logout: () => void;
+  saveOrganization: (organizationId: number) => void;
+  getOrganization: () => number | null;
 }
 
 // Create the AuthContext
@@ -24,6 +26,7 @@ interface AuthProviderProps {
 // AuthProvider component
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useSessionStorage<User | null>('user', null);
+  const [organizationId, setOrganizationId] = useSessionStorage<number | null>('organizationId', null);
   const navigate = useNavigate();
 
   const login = async (data: AuthResponse) => {
@@ -37,6 +40,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
     // Redirect based on user role
     if (userData.role === UserRole.ORGANIZATION) {
+      saveOrganization(userData.id);
       navigate(PATH_ORG_ADMIN.dashboard);
     } else if (userData.role === UserRole.CANDIDATE) {
       navigate(PATH_CANDIDATE.dashboard);
@@ -46,9 +50,20 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   };
 
   const logout = () => {
+    sessionStorage.removeItem('accessToken');
+    sessionStorage.removeItem('user');
     sessionStorage.clear();
     setUser(null);
+    setOrganizationId(null); // Clear the organization ID on logout
     navigate('/', { replace: true });
+  };
+
+  const saveOrganization = (id: number) => {
+    setOrganizationId(id);
+  };
+
+  const getOrganization = () => {
+    return sessionStorage.getItem('organizationId') ? Number(sessionStorage.getItem('organizationId')) : null;
   };
 
   const value = useMemo(
@@ -56,8 +71,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       user,
       login,
       logout,
+      saveOrganization,
+      getOrganization,
     }),
-    [user]
+    [user, organizationId]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

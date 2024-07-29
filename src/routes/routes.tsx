@@ -145,7 +145,7 @@ const router = createBrowserRouter([
   },
   {
     path: 'org-admin',
-    element: <PageWrapper children={<DashboardLayout />} />,
+    element: <AuthProvider><PageWrapper children={<DashboardLayout />} /></AuthProvider>,
     // element: (<AuthProvider><PageWrapper children={<DashboardLayout />} /></AuthProvider>)  ,
     errorElement: <ErrorPage />,
     children: [
