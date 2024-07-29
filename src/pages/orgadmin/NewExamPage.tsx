@@ -161,6 +161,17 @@ export const NewExamPage = () => {
   function ExamInformation({ onFinishFun = () => {} }) {
 
 
+
+  const context = useContext(NewExamContext);
+
+  if (!context) {
+      throw new Error('ExamComponent must be used within a NewExamProvider');
+  }
+
+  const {  setNewExamState } = context;
+
+
+
     const submit = (values:ExamInformationFormValues) => {
       const formattedValues = {
         title: values.title,
@@ -184,6 +195,14 @@ export const NewExamPage = () => {
         console.error('Failed to create exam:', error);
         message.error('Failed to create exam');
       });
+
+
+      // Remove this line when the API is ready, use the above code instead
+      setNewExamState({
+        examId: 'example-exam-id',
+        examName: values.title,
+      })
+      onFinishFun();
       
     };
     
