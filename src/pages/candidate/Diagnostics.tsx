@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Button, message, Steps, theme } from 'antd';
+import { useNavigate } from 'react-router-dom';
 import {
   // FileProtectOutlined,
   // FileSyncOutlined,
@@ -31,7 +32,7 @@ import { Helmet } from 'react-helmet-async';
 
 
 
-export const DignosticTestPage = () => {
+export const DiagnosticTestPage = () => {
   // const stylesContext = useStylesContext();
   // const {
   //   data: coursesData,
@@ -58,6 +59,13 @@ export const DignosticTestPage = () => {
   //   loading: communitiesDataLoading,
   //   error: communitiesDataError,
   // } = useFetchData('../mocks/CommunityGroups.json');
+
+  const navigate = useNavigate();
+  const handleGoToExam = () => {
+    message.success('Diagnostics completed!', 2).then(() => {
+      navigate('/candidate/exam/view');
+    });
+  };
 
 
   // --------------Fullscreen Component----------------
@@ -94,7 +102,7 @@ export const DignosticTestPage = () => {
   
   const steps = [
     {
-      title: '',
+      title: 'Webcam Check',
       content: (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '45vh', justifyContent: 'center' }}>
           <VideoCameraOutlined style={{ fontSize: '100px'}} />
@@ -108,7 +116,7 @@ export const DignosticTestPage = () => {
       ),
     },
     {
-      title: '',
+      title: 'Microphone Check',
       content: (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '45vh', justifyContent: 'center' }}>
           <AudioOutlined style={{ fontSize: '100px'}} />
@@ -122,7 +130,7 @@ export const DignosticTestPage = () => {
       ),
     },
     {
-      title: '',
+      title: 'Fullscreen Check',
       content: (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '45vh', justifyContent: 'center' }}>
           <FullscreenOutlined style={{ fontSize: '100px'}} />
@@ -251,8 +259,8 @@ export const DignosticTestPage = () => {
               </Button>
             )}
             {current === steps.length - 1 && (
-              <Button type="primary" onClick={() => message.success('Processing complete!')}>
-                Done
+              <Button type="primary" onClick={handleGoToExam}>
+                Go to Exam
               </Button>
             )}
             {current > 0 && (

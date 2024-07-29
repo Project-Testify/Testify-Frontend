@@ -50,7 +50,7 @@ export const TimeContainer = ({ totalQuestions, answeredIndexes, skippedIndexes 
                 <div style={timeContStyle}>
                     <div style={countdownStyle}>
                         <span style={topicStyle}>Time Remaining</span>
-                        <CountdownTimer initialHours={1} initialMinutes={30} initialSeconds={0} />
+                        <CountdownTimer initialHours={0} initialMinutes={60} initialSeconds={0} />
                     </div>
                     <Divider />
                     {/* <p>Question Indexes:</p> */}

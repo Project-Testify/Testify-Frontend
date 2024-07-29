@@ -4,6 +4,7 @@ import ExamStatusCard from '../../components/Card/ExamStatusCard';
 import ExamDescription from '../../components/Exam/ExamDescription';
 import { PageHeader } from '../../components';
 import { Helmet } from 'react-helmet-async';
+import { useNavigate } from 'react-router-dom';
 import { HomeOutlined, ContainerOutlined, FileTextOutlined, ClockCircleOutlined, BarChartOutlined, SafetyCertificateOutlined } from '@ant-design/icons';
 
 const topics = ['Supervised Learning', 'Unsupervised Learning', 'Reinforcement Learning', 'Algorithm Selection', 'Practical Applications', 'Feature Engineering'];
@@ -24,6 +25,12 @@ export const ExamSummaryPage = () => {
 
     // Determine if the "Start Test" button should be disabled
     const isButtonDisabled = !isExamAvailable || remainingAttempts <= 0;
+
+    const navigate = useNavigate();
+    const handleStartExam = () => {
+        navigate('/candidate/exam/diagnostic-test');
+    };
+    
 
     return (
         <div style={{ padding: '20px' }}>
@@ -93,22 +100,24 @@ export const ExamSummaryPage = () => {
                         </Col>
                         <Col span={24}>
                             <div style={{ marginTop: '8px', textAlign: 'center' }}>
-                                <Button type="primary" size="large" style={{ width: '150px' }} disabled={isButtonDisabled}>
-                                    Start Test
+                                <Button type="primary" size="large" style={{ width: '150px' }} disabled={isButtonDisabled} onClick={handleStartExam}>
+                                    Start Exam
                                 </Button>
                             </div>
                         </Col>
                     </Row>
                 </Col>
                 <Col span={16} pull={8}>
-                    <Col span={24}>
-                        <ExamDescription
-                            examName="Machine Learning - Quiz 3"
-                            description="This quiz assesses your understanding of the fundamental concepts in machine learning, including algorithms, model evaluation, and practical applications. The quiz is designed to test both theoretical knowledge and practical skills."
-                            topics={topics}
-                            instructions={instructions}
-                        />
-                    </Col>
+                    <Row gutter={[16, 16]} justify="center">
+                        <Col span={24}>
+                            <ExamDescription
+                                examName="Machine Learning - Quiz 3"
+                                description="This quiz assesses your understanding of the fundamental concepts in machine learning, including algorithms, model evaluation, and practical applications. The quiz is designed to test both theoretical knowledge and practical skills."
+                                topics={topics}
+                                instructions={instructions}
+                            />
+                        </Col>
+                    </Row>
                 </Col>
             </Row>
         </div>
