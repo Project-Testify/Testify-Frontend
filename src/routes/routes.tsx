@@ -53,6 +53,7 @@ import React, { ReactNode, useEffect } from 'react';
 import { AuthProvider } from '../hooks/useAuth.tsx';
 import { ContactUs } from '../pages/ContactUs.tsx';
 import { About } from '../pages/About.tsx';
+import NewExamProvider from '../context/NewExamContext.tsx';
 
 
 // Custom scroll restoration function
@@ -167,7 +168,11 @@ const router = createBrowserRouter([
       },
       {
         path: "new_exam",
-        element: <OrgAdminNewExamPage />,
+        element: (
+          <NewExamProvider>
+            <OrgAdminNewExamPage />
+          </NewExamProvider>
+        ),
         errorElement: <ErrorPage />
       },
       {
