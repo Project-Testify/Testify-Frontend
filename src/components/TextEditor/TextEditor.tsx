@@ -1,26 +1,37 @@
-// components/Editor/main.js
+// components/Editor/main.tsx
 
-// Importing helper modules
-import { useState } from 'react';
-
-// Importing core components
+import React, { useState, useEffect } from 'react';
 import QuillEditor from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import Styles from './styles.module.css';
-export const TextEditor = () => {
-  // Editor state
-  const [value, setValue] = useState('');
 
-  // Handler to handle button clicked
+interface TextEditorProps {
+  value?: string;
+  onChange?: (value: string) => void;
+}
+
+const TextEditor: React.FC<TextEditorProps> = ({ value: initialValue = '', onChange }) => {
+  const [value, setValue] = useState(initialValue);
+
+  useEffect(() => {
+    setValue(initialValue);
+  }, [initialValue]);
+
+  const handleChange = (newValue: string) => {
+    setValue(newValue);
+    if (onChange) {
+      onChange(newValue);
+    }
+  };
 
   return (
-    <>
-      <QuillEditor
-        className={Styles.wrapper}
-        theme="snow"
-        value={value}
-        onChange={(value) => setValue(value)}
-      />
-    </>
+    <QuillEditor
+      className={Styles.wrapper}
+      theme="snow"
+      value={value}
+      onChange={handleChange}
+    />
   );
 };
+
+export  {TextEditor};
