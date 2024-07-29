@@ -92,3 +92,30 @@ export interface InviteExamSetterRequest{
     email: string;
 }
 
+export interface ExamRequestForm{
+    title: string;
+    description: string;
+    instructions: string;
+    duration: number;
+    totalMarks: number;
+    passMarks: number;
+    organizationId: number;
+    startDatetime: string;
+    endDatetime: string;
+    private: boolean;
+    date ?: any;
+}
+
+export interface ExamRequest{
+    title: string;
+    description: string;
+    instructions: string;
+    duration: number;
+    totalMarks: number;
+    passMarks: number;
+    organizationId: number;
+    startDatetime: string;
+    endDatetime: string;
+    private: boolean;
+}
+
