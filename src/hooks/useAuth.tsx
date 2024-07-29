@@ -46,8 +46,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   };
 
   const logout = () => {
-    sessionStorage.removeItem('accessToken');
-    sessionStorage.removeItem('user'); 
+    sessionStorage.clear();
     setUser(null);
     navigate('/', { replace: true });
   };
