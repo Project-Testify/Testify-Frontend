@@ -35,7 +35,7 @@ import { NProgress, TogglerDarkTheme } from '../../components';
 import { PATH_LANDING } from '../../constants';
 import ThemeContext from '../../hooks/ThemeProvider.tsx';
 
-
+import { useAuth } from '../../hooks/useAuth.tsx';
 
 const { Content } = Layout;
 
@@ -58,6 +58,7 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
   const nodeRef = useRef(null);
   const floatBtnRef = useRef(null);
 
+  const { logout } = useAuth();
   
 
   const items: MenuProps['items'] = [
@@ -91,6 +92,9 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
         });
 
         setTimeout(() => {
+
+          logout();
+
           navigate(PATH_LANDING.root);
         }, 1000);
       },

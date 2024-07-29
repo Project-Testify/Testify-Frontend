@@ -50,8 +50,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   };
 
   const logout = () => {
-    sessionStorage.removeItem('accessToken');
-    sessionStorage.removeItem('user');
+    sessionStorage.clear();
     setUser(null);
     setOrganizationId(null); // Clear the organization ID on logout
     navigate('/', { replace: true });
