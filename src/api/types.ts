@@ -67,8 +67,8 @@ export interface Exam {
     duration: number;
     totalMarks: number;
     passMarks: number;
-    examSetterId: number;
-    organizationId: number;
+    // examSetterId: number;
+    // organizationId: number;
     startDatetime: string;
     endDatetime: string;
     private: boolean;
