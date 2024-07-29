@@ -36,6 +36,7 @@ import { PATH_LANDING } from '../../constants';
 import ThemeContext from '../../hooks/ThemeProvider.tsx';
 
 
+
 const { Content } = Layout;
 
 
@@ -56,6 +57,8 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
   const navigate = useNavigate();
   const nodeRef = useRef(null);
   const floatBtnRef = useRef(null);
+
+  
 
   const items: MenuProps['items'] = [
     {
