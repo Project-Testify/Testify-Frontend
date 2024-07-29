@@ -4,5 +4,5 @@ import { Exam, Response } from "../types";
 
 
 export const createExam = (exam: Exam): Promise<AxiosResponse<Response>> => {
-    return api.post<Response>('/exam/create', exam);
+    return api.post<Response>('/exam', exam);
 };

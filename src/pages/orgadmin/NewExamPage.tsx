@@ -35,7 +35,7 @@ import {
   UploadFile,
   UploadProps,
 } from 'antd';
-import { SetStateAction, useState } from 'react';
+import { SetStateAction, useContext, useState } from 'react';
 import { useFetchData } from '../../hooks';
 
 import { Candidate } from '../../types';
@@ -57,6 +57,22 @@ type FieldType = {
   endDate?: string;
 };
 
+interface ExamInformationFormValues {
+  title: string;
+  description: string;
+  instructions: string;
+  duration: string; // Initially a string because it comes from the input field
+  totalMarks: string; // Initially a string because it comes from the input field
+  passMarks: string; // Initially a string because it comes from the input field
+  organizationId?: string; // Optional field
+  'range-time-picker'?: [moment.Moment, moment.Moment]; // Optional field
+}
+
+import { NewExamContext } from '../../context/NewExamContext';
+
+
+import { createExam } from '../../api/services/exam';
+
 const { RangePicker } = DatePicker;
 
 const rangeConfig = {
@@ -67,6 +83,14 @@ const rangeConfig = {
 
 export const NewExamPage = () => {
   const [current, setCurrent] = useState(0);
+
+  const context = useContext(NewExamContext);
+
+  if (!context) {
+      throw new Error('ExamComponent must be used within a NewExamProvider');
+  }
+
+  const { newExamState } = context;
 
   const onFinishExamInformation = () => {
     // setFormData(values)
@@ -79,7 +103,7 @@ export const NewExamPage = () => {
         <title>Testify</title>
       </Helmet>
       <PageHeader
-        title={'New exam'}
+        title={newExamState.examName || 'New Exam'}
         breadcrumbs={[
           {
             title: (
@@ -135,8 +159,39 @@ export const NewExamPage = () => {
 
   // exm infomartion
   function ExamInformation({ onFinishFun = () => {} }) {
+
+
+    const submit = (values:ExamInformationFormValues) => {
+      const formattedValues = {
+        title: values.title,
+        description: values.description,
+        instructions: values.instructions,
+        duration: parseInt(values.duration, 10),
+        totalMarks: parseInt(values.totalMarks, 10),
+        passMarks: parseInt(values.passMarks, 10),
+        organizationId: values.organizationId ? parseInt(values.organizationId, 10) : 0,
+        startDatetime: values['range-time-picker'] ? values['range-time-picker'][0].toISOString() : '',
+        endDatetime: values['range-time-picker'] ? values['range-time-picker'][1].toISOString() : '',
+        private: true
+      };
+      console.log(formattedValues);
+
+      createExam(formattedValues).then((response) => {
+        console.log('Exam created successfully:', response);
+        message.success('Exam created successfully');
+        onFinishFun();
+      }).catch(error => {
+        console.error('Failed to create exam:', error);
+        message.error('Failed to create exam');
+      });
+      
+    };
+    
+
+
+
     return (
-      <Form name="basic" layout="vertical" onFinish={onFinishFun}>
+      <Form name="basic" layout="vertical" onFinish={submit}>
         <Row gutter={[24, 0]}>
           <Col sm={24} lg={12}>
             <Form.Item<FieldType>
@@ -250,7 +305,14 @@ export const NewExamPage = () => {
 
           <Col sm={24}>
             <Form.Item name="instructions" label="Instructions">
+            <Form.Item
+              name="instructions"
+              valuePropName="value"
+              getValueFromEvent={(e: any) => e}
+              noStyle
+            >
               <TextEditor />
+              </Form.Item>
             </Form.Item>
           </Col>
 
