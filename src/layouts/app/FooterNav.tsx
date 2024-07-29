@@ -2,7 +2,6 @@ import { Layout, Row, Col, Divider, Typography } from 'antd';
 import { useMediaQuery } from 'react-responsive';
 import { Logo } from '../../components';
 import { PATH_HOME } from '../../constants/routes.ts';
-import { Scheduled } from '../../../template/src/components/dashboard/shared/PostsCard/PostsCard.stories';
 import { Link } from 'react-router-dom';
 
 const { Footer } = Layout;

@@ -1,20 +1,20 @@
-import { Typography, Row, Col, Button, Menu} from 'antd';
-import { Container, Logo } from '../components';
+import { Typography, Row, Col, Button} from 'antd';
+import { Container } from '../components';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { PATH_AUTH } from '../constants';
-import { Header } from 'antd/es/layout/layout';
+// import { Link } from 'react-router-dom';
+// import { PATH_AUTH } from '../constants';
+// import { Header } from 'antd/es/layout/layout';
 import FooterNav from '../layouts/app/FooterNav';
 import HomeNav from '../components/HomeNav';
 
 const { Title, Paragraph} = Typography;
 
-const menuItems = [
-  { label: <Link to="/">Home</Link>, key: 'home' },
-  { label: <Link to="/about">about</Link>, key: 'corporate' },
-  { label: <Link to="/contact-us">contact us</Link>, key: 'profile' },
-  { label: <Link to={PATH_AUTH.signin}><Button type='primary' style={{borderRadius:'50px'}}>Login</Button></Link>, key: 'login' },
-];
+// const menuItems = [
+//   { label: <Link to="/">Home</Link>, key: 'home' },
+//   { label: <Link to="/about">about</Link>, key: 'corporate' },
+//   { label: <Link to="/contact-us">contact us</Link>, key: 'profile' },
+//   { label: <Link to={PATH_AUTH.signin}><Button type='primary' style={{borderRadius:'50px'}}>Login</Button></Link>, key: 'login' },
+// ];
 
 export const About = () => {
   const [showMore, setShowMore] = useState(false);

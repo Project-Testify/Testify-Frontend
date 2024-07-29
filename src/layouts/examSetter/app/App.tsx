@@ -2,12 +2,10 @@ import {
   Badge,
   Button,
   Card,
-  Col,
   Dropdown,
   Flex,
   FloatButton,
   Input,
-  Menu,
   Layout,
   MenuProps,
   message,
@@ -21,12 +19,10 @@ import {
 import { useLocation, useNavigate } from 'react-router-dom';
 import { ReactNode, useEffect, useRef, useState } from 'react';
 import {
-  HomeFilled,
   AppstoreOutlined,
   LogoutOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
-  PhoneFilled,
   MessageOutlined,
   QuestionOutlined,
   SettingOutlined,
@@ -43,8 +39,6 @@ import HeaderNav from './HeaderNav.tsx';
 import FooterNav from './FooterNav.tsx';
 import { NProgress } from '../../../components';
 import { PATH_LANDING } from '../../../constants';
-import { COLOR } from '../../../App.tsx';
-import { faL } from '@fortawesome/free-solid-svg-icons';
 
 const { Content } = Layout;
 
@@ -69,7 +63,7 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
   const organization = undefined;
 
 
-  const orgValue = undefined;
+  // const orgValue = undefined;
 
 
   const [selectedOrganization, setSelectedOrganization] = useState<number | null>(null);

@@ -34,7 +34,6 @@ import FooterNav from './FooterNav.tsx';
 import { NProgress, TogglerDarkTheme } from '../../components';
 import { PATH_LANDING } from '../../constants';
 import ThemeContext from '../../hooks/ThemeProvider.tsx';
-import { set } from 'lodash';
 
 
 const { Content } = Layout;
