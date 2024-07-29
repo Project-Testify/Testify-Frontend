@@ -1,6 +1,6 @@
-import { Flex, Typography } from 'antd';
+import { Button, Flex, Typography } from 'antd';
 import { useMediaQuery } from 'react-responsive';
-import { Link } from 'react-router-dom';  // Import Link from react-router-dom
+import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 
 import { Card } from '../../../components';
 
@@ -12,13 +12,15 @@ const { Text } = Typography;
 const TOPICS = [
   {
     title: 'Candidate',
-    image: UserOutlined,
+    image: '/public/candidate_img.png',
     to: 'candidate',
+    description : 'Join as a Candidate and Unlock Your Exam Potential',
   },
   {
     title: 'Organizations',
-    image: TeamOutlined,
+    image: '/public/aboutUs_image.png',
     to: 'organization',
+    description : 'Sign Up as an Organization to Design and Manage Exams',
   },
   // {
   //   title: 'ExamSetter',
@@ -26,6 +28,15 @@ const TOPICS = [
   //   to: 'examSetter',
   // },
 ];
+
+const cardStyle: React.CSSProperties = {
+  width: 620,
+};
+
+const imgStyle: React.CSSProperties = {
+  // display: 'block',
+  width: 280,
+};
 
 export const Select = () => {
   const isMobile = useMediaQuery({ maxWidth: 769 });
@@ -39,23 +50,37 @@ export const Select = () => {
       style={{ height: '100%', padding: '2rem' }}
     >
       {TOPICS.map((topic) => (
-        <Link to={topic.to} style={{ width: '100%' }}> {/* Make the Link full width */}
+        <Link to={topic.to}>
           <Card
             hoverable
-            style={{
-              width: isMobile ? '100%' : '25%',
-              textAlign: 'center',
-            }}
+            style={cardStyle}
+            styles={{ body: { padding: 0, overflow: 'hidden' } }}
           >
-            <Flex vertical gap="middle">
-              {createElement(topic.image, {
-                style: { fontSize: '1.5rem', margin: 'auto' },
-              })}
-              <Text style={{ textTransform: 'capitalize' }}>{topic.title}</Text>
+            <Flex justify="space-between">
+              <img
+                alt="avatar"
+                src={typeof topic.image === 'string' ? topic.image : ''}
+                style={imgStyle}
+              />
+              <Flex
+                vertical
+                align="flex-end"
+                justify="space-between"
+                style={{ padding: 32 }}
+              >
+                <Typography.Title level={3}>
+                  {topic.description}
+                </Typography.Title>
+                <Button
+                  type="primary"
+                >
+                  Register as {topic.title}
+                </Button>
+              </Flex>
             </Flex>
           </Card>
         </Link>
       ))}
     </Flex>
   );
-}
+};
