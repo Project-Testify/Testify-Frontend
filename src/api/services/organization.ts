@@ -1,6 +1,6 @@
 import api from '../config';
 import { AxiosResponse } from 'axios';
-import { InviteExamSetterRequest, GenericAddOrUpdateResponse, ExamRequest } from '../types';
+import { InviteExamSetterRequest, GenericAddOrUpdateResponse} from '../types';
 
 export const addExamSetterService = (
     organizationId: number,
