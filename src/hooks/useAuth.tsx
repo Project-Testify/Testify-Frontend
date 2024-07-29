@@ -1,11 +1,10 @@
 import { createContext, useContext, useMemo, ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
-import { useLocalStorage } from "./useLocalStorage";
+import { useSessionStorage } from "./useSessionStorage";  // Import the new hook
 
 import { PATH_ORG_ADMIN, PATH_TUTOR, PATH_CANDIDATE } from '../constants/routes';
 import { AuthResponse, UserRole, User } from '../api/types';
 import { getLoggedInUser } from "../utils/authUtils";
-
 
 // Define the AuthContext type
 interface AuthContextType {
@@ -24,13 +23,13 @@ interface AuthProviderProps {
 
 // AuthProvider component
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-  const [user, setUser] = useLocalStorage<User | null>('user', null);
+  const [user, setUser] = useSessionStorage<User | null>('user', null);
   const navigate = useNavigate();
 
   const login = async (data: AuthResponse) => {
-    // Save user data and token in local storage
+    // Save user data and token in session storage
     const { accessToken, ...userData } = data;
-    localStorage.setItem('accessToken', accessToken);
+    sessionStorage.setItem('accessToken', accessToken);
     setUser(userData);
     //print user data in console User date:{userdata}
     const loggedUser = getLoggedInUser();
@@ -47,7 +46,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   };
 
   const logout = () => {
-    localStorage.removeItem('accessToken'); // Remove token from local storage
+    sessionStorage.clear();
     setUser(null);
     navigate('/', { replace: true });
   };

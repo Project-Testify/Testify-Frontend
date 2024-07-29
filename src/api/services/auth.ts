@@ -15,6 +15,7 @@ export const registerExamSetter = (educator: ExamSetterRegister): Promise<AxiosR
 };
 
 export const registerOrganization = (organization: OrganizationRegister): Promise<AxiosResponse<AuthResponse>> => {
+    console.log('Organization:', organization);
     return api.post<AuthResponse>('/auth/register', organization);
 };
 
