@@ -8,8 +8,8 @@ import { Logo } from './Logo/Logo';
 const HomeNav = () => {
   const menuItems = [
     { label: <Link to="/">Home</Link>, key: 'home' },
-    { label: <Link to="#">about</Link>, key: 'corporate' },
-    { label: <Link to="#">contact us</Link>, key: 'profile' },
+    { label: <Link to="/about">About</Link>, key: 'corporate' },
+    { label: <Link to="/">Contact us</Link>, key: 'profile' },
     { label: <Link to={PATH_AUTH.signin}><Button type='primary' style={{borderRadius:'50px'}}>Login</Button></Link>, key: 'login' },
   ];
   
