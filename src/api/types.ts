@@ -62,7 +62,7 @@ export enum UserRole {
 
 export interface Exam {
     title: string;
-    description: string;
+    //description: string;
     instructions: string;
     duration: number;
     totalMarks: number;
