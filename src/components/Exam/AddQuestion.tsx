@@ -1,5 +1,8 @@
 import { CheckOutlined, CloseOutlined,OpenAIOutlined, PlusOutlined } from '@ant-design/icons';
-import { Button, Card, Form, FormInstance, Input, Switch, Radio, Collapse, Flex, Typography, message } from 'antd';
+import { Button, Card, Form, FormInstance, Input, Switch, Radio, Collapse, Flex, message } from 'antd';
+
+import { Button, Card, Form, FormInstance, Input, Switch, Radio, Collapse, Flex } from 'antd';
+
 
 import {generateEssayQuestion, generateMCQQuestion} from '../../api/services/AIAssistant';
 
@@ -108,8 +111,8 @@ const McqForm = ({ form } : {form: FormInstance}) => {
 
                 </Flex>
               ))}
-              <Button type="dashed" onClick={() => subOpt.add()} block>
-                + Add Answer
+              <Button type="dashed" onClick={() => subOpt.add()} block icon={<PlusOutlined />}>
+                Add Answer
               </Button>
             </div>
           )}
@@ -212,7 +215,7 @@ const EssayForm = ({ form } : {form: FormInstance}) => {
           </Flex>
         ))}
         <Button type="dashed" onClick={() => subOpt.add()} block icon={<PlusOutlined />}>
-          + Add Covering Point
+          Add Covering Point
         </Button>
       </div>
     )}
@@ -258,13 +261,13 @@ export const AddQuestion: React.FC<AddQuestionProps> = ({ form }) => {
       }}
     >
       {modelContent[activeTabKey1]}
-      <Form.Item noStyle shouldUpdate>
+      {/* <Form.Item noStyle shouldUpdate>
             {() => (
               <Typography>
-                <pre>{JSON.stringify(form.getFieldsValue(), null, 2)}</pre>
+                 <pre>{JSON.stringify(form.getFieldsValue(), null, 2)}</pre>
               </Typography>
             )}
-          </Form.Item>
+          </Form.Item> */}
     </Card>
   );
 };

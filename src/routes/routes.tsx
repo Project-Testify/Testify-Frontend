@@ -19,7 +19,7 @@ import {
   PasswordResetPage,
   VerifyEmailPage,
   WelcomePage,
-
+  ExamFeedback,
   OrgAdminExamPage,
   OrgAdminNewExamPage,
   OrgAdminExamSetters as OrgAdminExamSettersPage,
@@ -34,7 +34,7 @@ import {
   CandidateGrading,
   CandidateActivityHistory,
   CandidateOrganizations,
-  DignosticTestPage,
+  DiagnosticTestPage,
   // examSetter
   OrganizationDashBoard
 } from '../pages';
@@ -145,7 +145,7 @@ const router = createBrowserRouter([
   },
   {
     path: 'org-admin',
-    element: <PageWrapper children={<DashboardLayout />} />,
+    element: <AuthProvider><PageWrapper children={<DashboardLayout />} /></AuthProvider>,
     // element: (<AuthProvider><PageWrapper children={<DashboardLayout />} /></AuthProvider>)  ,
     errorElement: <ErrorPage />,
     children: [
@@ -299,13 +299,18 @@ const router = createBrowserRouter([
 
       },
       {
-        path: 'exam/dignostic-test',
-        element: <DignosticTestPage />,
+        path: 'exam/diagnostic-test',
+        element: <DiagnosticTestPage />,
         errorElement: <ErrorPage />,
       },
       {
         path: 'exam/view',
         element: <ExamViewPage />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: 'exam/feedback',
+        element: <ExamFeedback />,
         errorElement: <ErrorPage />,
       }
 
