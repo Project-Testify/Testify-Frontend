@@ -55,13 +55,13 @@ export const CandidateAllExams = () => {
           <Col xs={24} sm={12} md={8} lg={8} key={exam.id}>
             <div style={{
               borderRadius: '8px',
-              backgroundColor: 'white',
+              // backgroundColor: 'white',
               display: 'flex',
               flexDirection: 'column',
               height: '200px',
               padding: '16px',
               justifyContent: 'space-between',
-              boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+              // boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
             }}>
 
               {/* Section 1: Flexbox layout */}
