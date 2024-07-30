@@ -36,10 +36,10 @@ export const ThemeProvider = ({ children }: ThemeProviderProps) => {
           colorWarning: '#f0b84a',
         },
         components: {
-          Breadcrumb: {
-            linkColor: 'rgba(0,0,0,.8)',
-            itemColor: 'rgba(0,0,0,.8)',
-          },
+          // Breadcrumb: {
+          //   linkColor: 'rgba(0,0,0,.8)',
+          //   itemColor: 'rgba(0,0,0,.8)',
+          // },
           Calendar: {
             // colorBgContainer: 'none',
           },
