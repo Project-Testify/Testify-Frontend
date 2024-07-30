@@ -5,7 +5,7 @@
     "username": "johndoe",
     "firstName": "John",
     "lastName": "Doe",
-    "group": "A"
+    "group": "CS19"
   },
   {
     "id": 2,
@@ -13,7 +13,7 @@
     "username": "janesmith",
     "firstName": "Jane",
     "lastName": "Smith",
-    "group": "B"
+    "group": "IS20"
   },
   {
     "id": 3,
@@ -21,7 +21,7 @@
     "username": "alicejohnson",
     "firstName": "Alice",
     "lastName": "Johnson",
-    "group": "B"
+    "group": "IS20"
   },
   {
     "id": 4,
@@ -29,7 +29,7 @@
     "username": "bobace",
     "firstName": "Bob",
     "lastName": "Ace",
-    "group": "A"
+    "group": "CS19"
   },
   {
     "id": 5,
@@ -37,6 +37,6 @@
     "username": "charliewithar",
     "firstName": "Charlie",
     "lastName": "Withar",
-    "group": "C"
+    "group": "IS19"
   }
 ]
