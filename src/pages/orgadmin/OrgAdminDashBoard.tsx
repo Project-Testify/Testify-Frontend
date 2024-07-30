@@ -1,24 +1,18 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import {  Button, Col, Row, Space } from 'antd';
+import {  Col, Row } from 'antd';
 import {
-  Card,
-  // Loader,
   PageHeader,
   MarketingStatsCard,
   LogisticsStatsCard,
-  ExamsTable,
   LearningStatsCard,
-  // ExamsCard as ExamCards,
   ExamListCard,
 } from '../../components';
 
 // import { ExamsCard } from '../../components/dashboard/shared/ExamsCard/ExamsCard';
-import { Exams } from '../../types';
-import { useState } from 'react';
+
 import {
   HomeOutlined,
   PieChartOutlined,
-  PlusOutlined,
   FileTextOutlined,
 } from '@ant-design/icons';
 import { Helmet } from 'react-helmet-async';
@@ -134,27 +128,10 @@ import { getLoggedInUser } from '../../utils/authUtils';
 //   return <Column {...config} />;
 // };
 
-const EXAM_TABS = [
-  {
-    key: 'all',
-    label: 'All exams',
-  },
-  {
-    key: 'inProgress',
-    label: 'Active',
-  },
-  {
-    key: 'upcoming',
-    label: 'Upcoming',
-  },
-];
+
 
 export const OrgAdminDashBoard = () => {
-  const {
-    data: examsData,
-    // error: examsDataError,
-    // loading: examsDataLoading,
-  } = useFetchData('../mocks/ExamsMock.json');
+  
 
   const {
     data: tasksListData = [],
@@ -168,27 +145,7 @@ export const OrgAdminDashBoard = () => {
   //   loading: examCardDataLoading,
   // } = useFetchData('../mocks/Exams.json');
 
-  const [examTabsKey, setExamTabKey] = useState<string>('all');
-
-  const EXAM_TABS_CONTENT: Record<string, React.ReactNode> = {
-    all: <ExamsTable key="all-projects-table" data={examsData} />,
-    inProgress: (
-      <ExamsTable
-        key="in-progress-projects-table"
-        data={examsData.filter((_: Exams) => _.exam_status === 'Active')}
-      />
-    ),
-    upcoming: (
-      <ExamsTable
-        key="on-hold-projects-table"
-        data={examsData.filter((_: Exams) => _.exam_status === 'Upcoming')}
-      />
-    ),
-  };
-
-  const onProjectsTabChange = (key: string) => {
-    setExamTabKey(key);
-  };
+  
 
   //get user from getLoggedInUser
   const user = getLoggedInUser();
@@ -282,21 +239,7 @@ export const OrgAdminDashBoard = () => {
             />
           </Card>
         </Col> */}
-        <Col span={24}>
-          <Card
-            title="Exams"
-            extra={
-              <Space>
-                <Button icon={<PlusOutlined />}>New Exam</Button>
-              </Space>
-            }
-            tabList={EXAM_TABS}
-            activeTabKey={examTabsKey}
-            onTabChange={onProjectsTabChange}
-          >
-            {EXAM_TABS_CONTENT[examTabsKey]}
-          </Card>
-        </Col>
+        
       </Row>
     </div>
   );
