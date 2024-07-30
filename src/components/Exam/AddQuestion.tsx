@@ -1,9 +1,13 @@
 import { CheckOutlined, CloseOutlined,OpenAIOutlined, PlusOutlined } from '@ant-design/icons';
-import { Button, Card, Form, FormInstance, Input, Switch, Radio, Collapse, Flex } from 'antd';
+import { Button, Card, Form, FormInstance, Input, Switch, Radio, Collapse, Flex, message } from 'antd';
+
+
 
 import {generateEssayQuestion, generateMCQQuestion} from '../../api/services/AIAssistant';
 
-import { useState } from 'react';
+import { NewExamContext } from '../../context/NewExamContext';
+
+import { useContext, useState } from 'react';
 
 const tabList = [
   {
@@ -271,6 +275,20 @@ const GenerateEssayQuestion = ({ form ,setActiveKey}: {form: FormInstance,setAct
   const [loading, setLoading] = useState(false);
   const [prompt, setPrompt] = useState('');
 
+  const context = useContext(NewExamContext);
+
+  if (!context) {
+    throw new Error('useNewExamState must be used within a NewExamProvider');
+  }
+
+  const { newExamState } = context;
+
+  if (!newExamState.examId) {
+    message.error('Error: Exam ID is missing');
+
+    // throw new Error('Error: Exam ID is missing');
+  }
+
   const promptChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setPrompt(e.target.value);
   }
@@ -280,9 +298,9 @@ const GenerateEssayQuestion = ({ form ,setActiveKey}: {form: FormInstance,setAct
     try {
 
 
-      console.log('example-exam-id');
+      console.log('examid', newExamState.examId);
 
-      const response = await generateEssayQuestion({text: prompt, examid: 'example-exam-id'});
+      const response = await generateEssayQuestion({text: prompt, examid: newExamState.examId || 'example-exam-id'});
       if (response.data) {
         console.log(response.data);
         form.setFieldsValue({
@@ -331,6 +349,22 @@ const GenerateMCQQuestion = ({ form,setActiveKey }: {form: FormInstance,setActiv
   const [prompt, setPrompt] = useState('');
   const [choices, setChoices] = useState(4);
 
+
+  const context = useContext(NewExamContext);
+
+  if (!context) {
+    throw new Error('useNewExamState must be used within a NewExamProvider');
+  }
+
+  const { newExamState } = context;
+
+  if (!newExamState.examId) {
+    message.error('Error: Exam ID is missing');
+
+    // throw new Error('Error: Exam ID is missing');
+  }
+
+
   const promptChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setPrompt(e.target.value);
   }
@@ -341,7 +375,7 @@ const GenerateMCQQuestion = ({ form,setActiveKey }: {form: FormInstance,setActiv
   const handleGenerateClick = async () => {
     setLoading(true);
     try {
-      const response = await generateMCQQuestion({text: prompt, examid: 'example-exam-id', choices});
+      const response = await generateMCQQuestion({text: prompt, examid: newExamState.examId || 'example-exam-id', choices});
       if (response.data) {
         console.log(response.data);
         form.setFieldsValue({
