@@ -19,7 +19,7 @@ import {
   PasswordResetPage,
   VerifyEmailPage,
   WelcomePage,
-
+  ExamFeedback,
   OrgAdminExamPage,
   OrgAdminNewExamPage,
   OrgAdminExamSetters as OrgAdminExamSettersPage,
@@ -306,6 +306,11 @@ const router = createBrowserRouter([
       {
         path: 'exam/view',
         element: <ExamViewPage />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: 'exam/feedback',
+        element: <ExamFeedback />,
         errorElement: <ErrorPage />,
       }
 
