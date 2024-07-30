@@ -1,0 +1,31 @@
+.page-header {
+    margin-bottom: 24px;
+}
+/* 
+.feedback-card {
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+} */
+
+.success-icon {
+    font-size: 48px;
+    color: #52c41a;
+    margin-bottom: 16px;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 16px;
+}
+
+.text {
+    font-size: 16px;
+    margin-bottom: 16px;
+}
+
+.button {
+    margin-top: 24px;
+}

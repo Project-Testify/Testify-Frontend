@@ -2,7 +2,7 @@ import { User } from '../api/types';
 
 // Function to get the logged-in user data from local storage
 export const getLoggedInUser = (): User | null => {
-    const userJson = localStorage.getItem('user');
+    const userJson = sessionStorage.getItem('user');
     if (userJson) {
         try {
             return JSON.parse(userJson) as User;
@@ -16,7 +16,7 @@ export const getLoggedInUser = (): User | null => {
 
 // Function to get the access token from local storage
 export const getAccessToken = (): string | null => {
-    return localStorage.getItem('accessToken');
+    return sessionStorage.getItem('accessToken');
 };
 
 // Function to check if a user is logged in

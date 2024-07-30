@@ -1,6 +1,6 @@
 import { RouterProvider } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
-import { StylesContext,GlobalStateProvider } from './context';
+import { StylesContext, GlobalStateProvider } from './context';
 
 
 import routes from './routes/routes.tsx';
@@ -31,32 +31,32 @@ export const COLOR = {
 function App() {
 
   return (
-    <ThemeProvider>
-      <HelmetProvider>
-        <StylesContext.Provider
-          value={{
-            rowProps: {
-              gutter: [
-                { xs: 8, sm: 16, md: 24, lg: 32 },
-                { xs: 8, sm: 16, md: 24, lg: 32 },
-              ],
-            },
-            carouselProps: {
-              autoplay: true,
-              dots: true,
-              dotPosition: 'bottom',
-              infinite: true,
-              slidesToShow: 3,
-              slidesToScroll: 1,
-            },
-          }}
-        >
-          <GlobalStateProvider>
-          <RouterProvider router={routes} />
-          </GlobalStateProvider>
-        </StylesContext.Provider>
-      </HelmetProvider>
-    </ThemeProvider>
+      <ThemeProvider>
+        <HelmetProvider>
+          <StylesContext.Provider
+            value={{
+              rowProps: {
+                gutter: [
+                  { xs: 8, sm: 16, md: 24, lg: 32 },
+                  { xs: 8, sm: 16, md: 24, lg: 32 },
+                ],
+              },
+              carouselProps: {
+                autoplay: true,
+                dots: true,
+                dotPosition: 'bottom',
+                infinite: true,
+                slidesToShow: 3,
+                slidesToScroll: 1,
+              },
+            }}
+          >
+            <GlobalStateProvider>
+              <RouterProvider router={routes} />
+            </GlobalStateProvider>
+          </StylesContext.Provider>
+        </HelmetProvider>
+      </ThemeProvider>
   );
 }
 
