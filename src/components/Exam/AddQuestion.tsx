@@ -1,7 +1,6 @@
 import { CheckOutlined, CloseOutlined,OpenAIOutlined, PlusOutlined } from '@ant-design/icons';
 import { Button, Card, Form, FormInstance, Input, Switch, Radio, Collapse, Flex, message } from 'antd';
 
-import { Button, Card, Form, FormInstance, Input, Switch, Radio, Collapse, Flex } from 'antd';
 
 
 import {generateEssayQuestion, generateMCQQuestion} from '../../api/services/AIAssistant';
