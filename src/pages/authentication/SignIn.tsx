@@ -49,31 +49,28 @@ export const SignInPage = () => {
   const [loading, setLoading] = useState(false);
 
   const onFinish = (values: any) => {
-
-
-    loginService(values).then((res) => {
-
-      if (res.status === 200) {
-        console.log('Success:', res.data);
-        setLoading(true);
-        login(res.data);
-
-        message.open({
-          type: 'success',
-          content: 'Login successful',
-        });
-
-      } else {
-        message.open({
-          type: 'error',
-          content: 'Login failed',
-        });
-      }
-    }
-    ).catch((error) => {
-      console.log('Failed:', error);
-    });
-
+    setLoading(true);
+    loginService(values)
+      .then((res) => {
+        if (res.status === 200) {
+          console.log('Success:', res.data);
+          login(res.data);
+          message.success('Login successful');
+        } else {
+          message.error('Login failed');
+        }
+      })
+      .catch((error) => {
+        console.log('Failed:', error);
+        if (error.response && error.response.status === 400) {
+          message.error('Invalid credentials. Please try again.');
+        } else {
+          message.error('An error occurred. Please try again.');
+        }
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   const onFinishFailed = (errorInfo: any) => {

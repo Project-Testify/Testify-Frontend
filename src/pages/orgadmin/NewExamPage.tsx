@@ -787,7 +787,7 @@ export const NewExamPage = () => {
         <Form form={form} onFinish={handleSubmission}>
           <Row>
             <Col sm={12} lg={12}>
-              <Typography.Title level={5}>Feature 1</Typography.Title>
+              <Typography.Title level={5}>Camera Access</Typography.Title>
             </Col>
             <Col sm={12} lg={12}>
               <Form.Item name="feature1">
@@ -798,7 +798,7 @@ export const NewExamPage = () => {
 
           <Row>
             <Col sm={12} lg={12}>
-              <Typography.Title level={5}>Feature 2</Typography.Title>
+              <Typography.Title level={5}>Mic Access</Typography.Title>
             </Col>
             <Col sm={12} lg={12}>
               <Form.Item name="feature2">
@@ -809,7 +809,7 @@ export const NewExamPage = () => {
 
           <Row>
             <Col sm={12} lg={12}>
-              <Typography.Title level={5}>Feature 3</Typography.Title>
+              <Typography.Title level={5}>Browser Lockdown</Typography.Title>
             </Col>
             <Col sm={12} lg={12}>
               <Form.Item name="feature3">
