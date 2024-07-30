@@ -1,28 +1,32 @@
-
-
- [
-        {
-            "id": 1,
-            "group_name": "Group 1",
-            "description": "This is a test group",
-            "candidates": 10
-        },
-        {
-            "id": 2,
-            "group_name": "Group 2",
-            "description": "This is a test group",
-            "candidates": 20
-        },
-        {
-            "id": 3,
-            "group_name": "Group 3",
-            "description": "This is a test group",
-            "candidates": 30
-        },
-        {
-            "id": 4,
-            "group_name": "Group 4",
-            "description": "This is a test group",
-            "candidates": 40
-        }
-    ]
+[
+    {
+        "id": 1,
+        "group_name": "Computer Science Batch A",
+        "description": "CS Course A",
+        "candidates": 35
+    },
+    {
+        "id": 2,
+        "group_name": "Mathematics Batch B",
+        "description": "Math Course B",
+        "candidates": 25
+    },
+    {
+        "id": 3,
+        "group_name": "Biology Batch C",
+        "description": "Bio Course C",
+        "candidates": 30
+    },
+    {
+        "id": 4,
+        "group_name": "English Literature Batch D",
+        "description": "Eng Lit D",
+        "candidates": 20
+    },
+    {
+        "id": 5,
+        "group_name": "Physics Batch E",
+        "description": "Physics E",
+        "candidates": 40
+    }
+]
