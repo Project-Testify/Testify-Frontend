@@ -1,7 +1,8 @@
 // ExamDescription.tsx
 import React from 'react';
-import { Tag } from 'antd';
+import { Tag, Card } from 'antd';
 import { CSSProperties } from 'react';
+import './styles.css';
 
 interface ExamDescriptionProps {
     examName: string;
@@ -40,7 +41,7 @@ const insStyle: CSSProperties = {
 
 const ExamDescription: React.FC<ExamDescriptionProps> = ({ examName, description, topics, instructions }) => {
     return (
-        <div>
+        <Card>
             <span style={topicStyle}>{examName}</span>
             <p style={descriptionStyle}>{description}</p>
             <p  style={subtopicStyle}>Covered Topics:</p>
@@ -57,7 +58,7 @@ const ExamDescription: React.FC<ExamDescriptionProps> = ({ examName, description
                     <li key={index} style={insStyle}>{instruction}</li>
                 ))}
             </ul>
-        </div>
+        </Card>
     );
 };
 

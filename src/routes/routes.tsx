@@ -19,7 +19,7 @@ import {
   PasswordResetPage,
   VerifyEmailPage,
   WelcomePage,
-
+  ExamFeedback,
   OrgAdminExamPage,
   OrgAdminNewExamPage,
   OrgAdminExamSetters as OrgAdminExamSettersPage,
@@ -34,7 +34,7 @@ import {
   CandidateGrading,
   CandidateActivityHistory,
   CandidateOrganizations,
-  DignosticTestPage,
+  DiagnosticTestPage,
   // examSetter
   OrganizationDashBoard
 } from '../pages';
@@ -53,6 +53,7 @@ import React, { ReactNode, useEffect } from 'react';
 import { AuthProvider } from '../hooks/useAuth.tsx';
 import { ContactUs } from '../pages/ContactUs.tsx';
 import { About } from '../pages/About.tsx';
+import NewExamProvider from '../context/NewExamContext.tsx';
 
 
 // Custom scroll restoration function
@@ -144,7 +145,7 @@ const router = createBrowserRouter([
   },
   {
     path: 'org-admin',
-    element: <PageWrapper children={<DashboardLayout />} />,
+    element: <AuthProvider><PageWrapper children={<DashboardLayout />} /></AuthProvider>,
     // element: (<AuthProvider><PageWrapper children={<DashboardLayout />} /></AuthProvider>)  ,
     errorElement: <ErrorPage />,
     children: [
@@ -167,7 +168,11 @@ const router = createBrowserRouter([
       },
       {
         path: "new_exam",
-        element: <OrgAdminNewExamPage />,
+        element: (
+          <NewExamProvider>
+            <OrgAdminNewExamPage />
+          </NewExamProvider>
+        ),
         errorElement: <ErrorPage />
       },
       {
@@ -294,13 +299,18 @@ const router = createBrowserRouter([
 
       },
       {
-        path: 'exam/dignostic-test',
-        element: <DignosticTestPage />,
+        path: 'exam/diagnostic-test',
+        element: <DiagnosticTestPage />,
         errorElement: <ErrorPage />,
       },
       {
         path: 'exam/view',
         element: <ExamViewPage />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: 'exam/feedback',
+        element: <ExamFeedback />,
         errorElement: <ErrorPage />,
       }
 

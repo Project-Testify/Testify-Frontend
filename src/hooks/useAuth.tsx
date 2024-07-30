@@ -1,17 +1,18 @@
 import { createContext, useContext, useMemo, ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
-import { useLocalStorage } from "./useLocalStorage";
+import { useSessionStorage } from "./useSessionStorage";  // Import the new hook
 
 import { PATH_ORG_ADMIN, PATH_TUTOR, PATH_CANDIDATE } from '../constants/routes';
 import { AuthResponse, UserRole, User } from '../api/types';
 import { getLoggedInUser } from "../utils/authUtils";
-
 
 // Define the AuthContext type
 interface AuthContextType {
   user: User | null;
   login: (data: AuthResponse) => Promise<void>;
   logout: () => void;
+  saveOrganization: (organizationId: number) => void;
+  getOrganization: () => number | null;
 }
 
 // Create the AuthContext
@@ -24,13 +25,14 @@ interface AuthProviderProps {
 
 // AuthProvider component
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-  const [user, setUser] = useLocalStorage<User | null>('user', null);
+  const [user, setUser] = useSessionStorage<User | null>('user', null);
+  const [organizationId, setOrganizationId] = useSessionStorage<number | null>('organizationId', null);
   const navigate = useNavigate();
 
   const login = async (data: AuthResponse) => {
-    // Save user data and token in local storage
+    // Save user data and token in session storage
     const { accessToken, ...userData } = data;
-    localStorage.setItem('accessToken', accessToken);
+    sessionStorage.setItem('accessToken', accessToken);
     setUser(userData);
     //print user data in console User date:{userdata}
     const loggedUser = getLoggedInUser();
@@ -38,6 +40,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
     // Redirect based on user role
     if (userData.role === UserRole.ORGANIZATION) {
+      saveOrganization(userData.id);
       navigate(PATH_ORG_ADMIN.dashboard);
     } else if (userData.role === UserRole.CANDIDATE) {
       navigate(PATH_CANDIDATE.dashboard);
@@ -47,9 +50,20 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   };
 
   const logout = () => {
-    localStorage.removeItem('accessToken'); // Remove token from local storage
+    sessionStorage.removeItem('accessToken');
+    sessionStorage.removeItem('user');
+    sessionStorage.clear();
     setUser(null);
+    setOrganizationId(null); // Clear the organization ID on logout
     navigate('/', { replace: true });
+  };
+
+  const saveOrganization = (id: number) => {
+    setOrganizationId(id);
+  };
+
+  const getOrganization = () => {
+    return sessionStorage.getItem('organizationId') ? Number(sessionStorage.getItem('organizationId')) : null;
   };
 
   const value = useMemo(
@@ -57,8 +71,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       user,
       login,
       logout,
+      saveOrganization,
+      getOrganization,
     }),
-    [user]
+    [user, organizationId]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

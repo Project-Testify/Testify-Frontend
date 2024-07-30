@@ -2,6 +2,7 @@ import {CSSProperties} from 'react';
 import { Col, theme, Divider, Button } from 'antd';
 import { CountdownTimer } from './CountdownTimer';
 import { QuestionIndexes } from './QuestionIndexes';
+import { useNavigate } from 'react-router-dom';
 import './styles.css';
 
 interface TimeContainerProps {
@@ -13,6 +14,11 @@ interface TimeContainerProps {
 
 
 export const TimeContainer = ({ totalQuestions, answeredIndexes, skippedIndexes }: TimeContainerProps) => {
+
+    const navigate = useNavigate();
+    const handleSubmitExam = () => {
+        navigate('/candidate/exam/feedback');
+    };
 
     const {
         token: { colorBgContainer, borderRadiusLG },
@@ -50,14 +56,14 @@ export const TimeContainer = ({ totalQuestions, answeredIndexes, skippedIndexes 
                 <div style={timeContStyle}>
                     <div style={countdownStyle}>
                         <span style={topicStyle}>Time Remaining</span>
-                        <CountdownTimer initialHours={1} initialMinutes={30} initialSeconds={0} />
+                        <CountdownTimer initialHours={0} initialMinutes={60} initialSeconds={0} />
                     </div>
                     <Divider />
                     {/* <p>Question Indexes:</p> */}
                     <QuestionIndexes totalQuestions={totalQuestions} answeredIndexes={answeredIndexes} skippedIndexes={skippedIndexes} />
                     <Divider />
                     <div style={{textAlign: 'center', marginTop: '20px'}}>
-                        <Button type="primary" size={'large'} className="submit-button" >
+                        <Button type="primary" size={'large'} className="submit-button" onClick={handleSubmitExam} >
                                 Submit Exam
                         </Button>
                     </div>

@@ -4,7 +4,7 @@ import {
   DeleteOutlined,
   EditTwoTone,
 } from '@ant-design/icons';
-import { Card, Form, Input, Space, Switch, Radio, Typography } from 'antd';
+import { Card, Form, Input, Space, Switch, Radio } from 'antd';
 
 // import Question type
 import type { Question as QuestionCardType } from '../../types/questions';
@@ -198,15 +198,15 @@ export const Question: React.FC<QuestionProps> = ({
       <Form form={form} initialValues={question} onFieldsChange={updateChange}>
         <Form.Item name="id" hidden/>
         {modelContent[question.type.toLowerCase()]}
-        {/* {
-          <Form.Item noStyle shouldUpdate>
-            {() => (
-              <Typography>
-                <pre>{JSON.stringify(form.getFieldsValue(), null, 2)}</pre>
-              </Typography>
-            )}
-          </Form.Item>
-        } */}
+        {
+          // <Form.Item noStyle shouldUpdate>
+          //   {() => (
+          //     <Typography>
+          //       <pre>{JSON.stringify(form.getFieldsValue(), null, 2)}</pre>
+          //     </Typography>
+          //   )}
+          // </Form.Item>
+        }
       </Form>
     </Card>
   );

@@ -41,6 +41,9 @@ import { useFetchData } from '../../hooks';
 import { Candidate } from '../../types';
 import { Switch } from 'antd';
 import { uploadFiles } from '../../api/services/AIAssistant';
+import { saveExamInformation } from '../../api/services/ExamServices';
+import { ExamRequestForm, ExamRequest } from '../../api/types';
+import { useAuth } from '../../hooks/useAuth';
 
 const { Step } = Steps;
 
@@ -66,11 +69,44 @@ const rangeConfig = {
 };
 
 export const NewExamPage = () => {
+
+  const { getOrganization } = useAuth(); // Use the hook here
+
   const [current, setCurrent] = useState(0);
 
-  const onFinishExamInformation = () => {
-    // setFormData(values)
-    setCurrent(1);
+  const onFinishExamInformation = async (values: ExamRequestForm) => {
+
+    try {
+
+      //create exaRequest object
+      const examRequest: ExamRequest = {
+        title: values.title,
+        description: values.description,
+        duration: values.duration,
+        totalMarks: values.totalMarks,
+        passMarks: values.passMarks,
+        startDatetime: values.date[0].format('YYYY-MM-DDTHH:mm:ss'), // Updated format
+        endDatetime: values.date[1].format('YYYY-MM-DDTHH:mm:ss'), // Updated format
+        instructions: values.instructions,
+        organizationId: getOrganization() ?? 0,
+        private: false
+      };
+
+      console.log('Exam Request:', examRequest);
+
+      // Assuming ExamRequest is defined as an interface or type
+
+      const response = await saveExamInformation(examRequest);
+
+      if (response.data.success) { // Adjust this based on your actual API response structure
+        setCurrent(1);
+      } else {
+        message.error('Failed to save exam information');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      message.error('An error occurred while saving exam information');
+    }
   };
 
   return (
@@ -134,7 +170,7 @@ export const NewExamPage = () => {
   );
 
   // exm infomartion
-  function ExamInformation({ onFinishFun = () => {} }) {
+  function ExamInformation({ onFinishFun }: { onFinishFun: (values: ExamRequest) => void }) {
     return (
       <Form name="basic" layout="vertical" onFinish={onFinishFun}>
         <Row gutter={[24, 0]}>
@@ -240,7 +276,7 @@ export const NewExamPage = () => {
 
           <Col>
             <Form.Item
-              name="range-time-picker"
+              name="date"
               label="Start Date & End Date"
               {...rangeConfig}
             >
@@ -283,7 +319,7 @@ export const NewExamPage = () => {
       setContentModalOpen(true);
     }
 
-    
+
 
     const handleOk = () => {
       form.validateFields().then(() => {
@@ -307,7 +343,7 @@ export const NewExamPage = () => {
       console.log(info); // Log the file information for debugging
       setFileList(info.fileList.filter(file => !!file.originFileObj));
     };
-    
+
     const handleUpload = async () => {
       const files = fileList.map(file => file.originFileObj as File); // Type assertion as File
       const examId = 'example-exam-id'; // This should be dynamically fetched or set
@@ -324,7 +360,7 @@ export const NewExamPage = () => {
         });
       }
     };
-    
+
 
 
     return (
@@ -337,8 +373,8 @@ export const NewExamPage = () => {
               width: '100%',
             }}
           >
-              <Button type="primary" onClick={showContentModal}>
-                          Upload Content
+            <Button type="primary" onClick={showContentModal}>
+              Upload Content
             </Button>
 
             <Button type="primary" onClick={showModal}>
@@ -348,33 +384,33 @@ export const NewExamPage = () => {
             {/* Upload Content Modal */}
 
             <Modal
-    open={contentModalOpen}
-    title="Upload Content"
-    onOk={handleUpload}
-    onCancel={handleCancel}
-    footer={(_: any, { OkBtn, CancelBtn }: any) => (
-      <>
-        <CancelBtn  />
-        <OkBtn />
-      </>
-    )}
-  >
-    <Form form={form}>
-      <Form.Item name="upload" label="Upload">
-        <Upload
-          beforeUpload={() => false}
-          onChange={handleFiles}
-          fileList={fileList}
-          multiple={true}
-        >
-          <Button icon={<UploadOutlined />}>Click to Upload</Button>
-        </Upload>
-      </Form.Item>
-    </Form>
-  </Modal>
+              open={contentModalOpen}
+              title="Upload Content"
+              onOk={handleUpload}
+              onCancel={handleCancel}
+              footer={(_: any, { OkBtn, CancelBtn }: any) => (
+                <>
+                  <CancelBtn />
+                  <OkBtn />
+                </>
+              )}
+            >
+              <Form form={form}>
+                <Form.Item name="upload" label="Upload">
+                  <Upload
+                    beforeUpload={() => false}
+                    onChange={handleFiles}
+                    fileList={fileList}
+                    multiple={true}
+                  >
+                    <Button icon={<UploadOutlined />}>Click to Upload</Button>
+                  </Upload>
+                </Form.Item>
+              </Form>
+            </Modal>
 
 
-{/* New Question Modal */}
+            {/* New Question Modal */}
             <Modal
               width={1100}
               open={open}
@@ -710,21 +746,21 @@ export const NewExamPage = () => {
           <Row>
             <Space direction='vertical'>
 
-            <Col lg={24} style={{ flex: 1 }}>
-              <Flex justify="end" align="end" gap={10} >
-                <Button onClick={deleteSelected}>Delete</Button>
-              </Flex>
-            </Col>
-            <Col lg={24}>
-              <Table
-                dataSource={candidates}
-                columns={columns}
-                rowKey="id"
-                pagination={{ pageSize: 10 }}
-                rowSelection={rowSelection}
-                scroll={{ y: 300 }}
-              />
-            </Col>
+              <Col lg={24} style={{ flex: 1 }}>
+                <Flex justify="end" align="end" gap={10} >
+                  <Button onClick={deleteSelected}>Delete</Button>
+                </Flex>
+              </Col>
+              <Col lg={24}>
+                <Table
+                  dataSource={candidates}
+                  columns={columns}
+                  rowKey="id"
+                  pagination={{ pageSize: 10 }}
+                  rowSelection={rowSelection}
+                  scroll={{ y: 300 }}
+                />
+              </Col>
             </Space>
           </Row>
 

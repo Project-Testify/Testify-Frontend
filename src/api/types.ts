@@ -66,13 +66,12 @@ export interface Exam {
     instructions: string;
     duration: number;
     totalMarks: number;
-    //passMarks: number;
-    //examSetterId: number;
-    //organizationId: number;
-    startTime: string;
-    endTime: string;
-    //private: boolean;
-    organization: Organization;
+    passMarks: number;
+    // examSetterId: number;
+    // organizationId: number;
+    startDatetime: string;
+    endDatetime: string;
+    private: boolean;
 }
 
 export interface Response {
@@ -93,9 +92,30 @@ export interface InviteExamSetterRequest{
     email: string;
 }
 
-export interface Organization {
-    name: string;
-    email: string;
-    contactNo: string;
+export interface ExamRequestForm{
+    title: string;
+    description: string;
+    instructions: string;
+    duration: number;
+    totalMarks: number;
+    passMarks: number;
+    organizationId: number;
+    startDatetime: string;
+    endDatetime: string;
+    private: boolean;
+    date ?: any;
+}
+
+export interface ExamRequest{
+    title: string;
+    description: string;
+    instructions: string;
+    duration: number;
+    totalMarks: number;
+    passMarks: number;
+    organizationId: number;
+    startDatetime: string;
+    endDatetime: string;
+    private: boolean;
 }
 
