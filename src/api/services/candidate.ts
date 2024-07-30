@@ -1,8 +1,8 @@
-import api from "../config";
-import { AxiosResponse } from "axios";
+// import api from "../config";
+// import { AxiosResponse } from "axios";
 
-import { Response } from "../types";
+// import { Exam } from "../../types";
 
-export const getCandidate = (): Promise<AxiosResponse<Response>> => {
-    return api.get<Response>('/candidate/1', );
-};
+// export const getCandidateExams = (): Promise<AxiosResponse<Exam>> => {
+//     return api.get<Exam>('/candidate/candidateExams')
+// };

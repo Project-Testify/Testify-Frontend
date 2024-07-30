@@ -62,16 +62,17 @@ export enum UserRole {
 
 export interface Exam {
     title: string;
-    description: string;
+    //description: string;
     instructions: string;
     duration: number;
     totalMarks: number;
-    passMarks: number;
-    examSetterId: number;
-    organizationId: number;
-    startDatetime: string;
-    endDatetime: string;
-    private: boolean;
+    //passMarks: number;
+    //examSetterId: number;
+    //organizationId: number;
+    startTime: string;
+    endTime: string;
+    //private: boolean;
+    organization: Organization;
 }
 
 export interface Response {
@@ -90,5 +91,11 @@ export interface GenericAddOrUpdateResponse{
 
 export interface InviteExamSetterRequest{
     email: string;
+}
+
+export interface Organization {
+    name: string;
+    email: string;
+    contactNo: string;
 }
 
