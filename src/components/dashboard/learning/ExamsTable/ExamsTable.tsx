@@ -3,8 +3,6 @@ import {
   BadgeProps,
   Table,
   TableProps,
-  Tag,
-  TagProps,
   Typography,
 } from 'antd';
 import { Exams } from '../../../../types';
@@ -35,28 +33,7 @@ const COLUMNS = [
     key: 'exam_category',
     render: (_: any) => <span className="text-capitalize">{_}</span>,
   },
-  {
-    title: 'Priority',
-    dataIndex: 'exam_priority',
-    key: 'exam_priority',
-    render: (_: any) => {
-      let color: TagProps['color'];
-
-      if (_ === 'low') {
-        color = 'cyan';
-      } else if (_ === 'medium') {
-        color = 'geekblue';
-      } else {
-        color = 'magenta';
-      }
-
-      return (
-        <Tag color={color} className="text-capitalize">
-          {_}
-        </Tag>
-      );
-    },
-  },
+  
   {
     title: 'Status',
     dataIndex: 'exam_status',

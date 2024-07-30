@@ -1,7 +1,8 @@
-import { Layout, Row, Col, Divider } from 'antd';
+import { Layout, Row, Col, Divider, Typography } from 'antd';
 import { useMediaQuery } from 'react-responsive';
 import { Logo } from '../../components';
 import { PATH_HOME } from '../../constants/routes.ts';
+import { Link } from 'react-router-dom';
 
 const { Footer } = Layout;
 
@@ -27,24 +28,58 @@ const FooterNav = ({ ...others }: FooterNavProps) => {
           />
         </Col>
         <Col span={14} style={{ textAlign: 'center' }}>
-          <Row>
-            <Col span={8} style={{ textAlign: 'center' }}>
-              <Row>Help center</Row>
-              <Row>informations</Row>
-              <Row>Sitemap</Row>
-              <Row>Legal stuff</Row>
+          <Row style={{}}>
+            <Col
+              span={7}
+              style={{
+                textAlign: 'end',
+                display: 'flex',
+                flexDirection: 'column',
+              }}
+            >
+              <Link to={'/about'}>
+                {' '}
+                <Typography.Text>About</Typography.Text>
+              </Link>
+              <Link to={'/'}>
+                {' '}
+                <Typography.Text>Contact us</Typography.Text>
+              </Link>
+              <Link to={'/'}>
+                {' '}
+                <Typography.Text>Schedule a demo</Typography.Text>
+              </Link>
+              <Link to={'/auth/signin'}>
+                {' '}
+                <Typography.Text>Login</Typography.Text>
+              </Link>
             </Col>
-            <Col span={8} style={{ textAlign: 'center' }}>
-              <Row>Careers</Row>
-              <Row>Blog</Row>
-              <Row>Privacy policy</Row>
-              <Row>Contact</Row>
-            </Col>
-            <Col span={8} style={{ textAlign: 'center' }}>
-              <Row>Careers</Row>
-              <Row>Blog</Row>
-              <Row>Privacy policy</Row>
-              <Row>Contact</Row>
+
+            <Col
+              span={7}
+              style={{
+                textAlign: 'end',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'flex',
+              }}
+            >
+              <Link to={'/about'}>
+                {' '}
+                <Typography.Text>About</Typography.Text>
+              </Link>
+              <Link to={'/'}>
+                {' '}
+                <Typography.Text>Contact us</Typography.Text>
+              </Link>
+              <Link to={'/'}>
+                {' '}
+                <Typography.Text>Schedule a demo</Typography.Text>
+              </Link>
+              <Link to={'/auth/signin'}>
+                {' '}
+                <Typography.Text>Login</Typography.Text>
+              </Link>
             </Col>
           </Row>
         </Col>
@@ -56,7 +91,7 @@ const FooterNav = ({ ...others }: FooterNavProps) => {
         justify="center"
         align="middle"
       >
-       Testify © 2024 Created by Group 36
+        Testify © 2024 Created by Group 36
       </Row>
     </Footer>
   );

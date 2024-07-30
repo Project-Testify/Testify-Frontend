@@ -3,6 +3,7 @@ import { AxiosResponse } from 'axios';
 import { LoginCredentials, ExamSetterRegister, CandidateRegister ,OrganizationRegister, AuthResponse } from '../types';
 
 export const loginService = (credentials: LoginCredentials): Promise<AxiosResponse<AuthResponse>> => {
+    console.log('Credentials:', credentials);
     return api.post<AuthResponse>('/auth/authenticate', credentials);
 };
 
@@ -15,6 +16,7 @@ export const registerExamSetter = (educator: ExamSetterRegister): Promise<AxiosR
 };
 
 export const registerOrganization = (organization: OrganizationRegister): Promise<AxiosResponse<AuthResponse>> => {
+    console.log('Organization:', organization);
     return api.post<AuthResponse>('/auth/register', organization);
 };
 

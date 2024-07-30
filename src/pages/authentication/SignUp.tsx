@@ -1,9 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
-
   Col,
   Flex,
-
   Row,
   theme,
   Typography,
@@ -18,6 +16,7 @@ import { Organization } from './forms/Organization';
 import { Select } from './forms/Select';
 
 import { Route, Routes } from 'react-router-dom';
+// import { Flex } from '../../../template/src/components/Flex/Flex';
 
 
 const { Title, Text } = Typography;
@@ -65,6 +64,7 @@ export const SignUpPage = () => {
           <Route path="/organization" element={<Organization />} />
           {/* <Route path="/examSetter" element={<ExamSetter />} /> */}
         </Routes>
+
       </Col>
     </Row>
   );

@@ -1,36 +1,51 @@
 import React, { useEffect, useRef, useState, useContext } from 'react';
-import { ConfigProvider, Layout, Menu, MenuProps, SiderProps, Dropdown, Button, Flex } from 'antd';
 import {
-  UserOutlined,
-  BankOutlined,
-} from '@ant-design/icons';
+  ConfigProvider,
+  Layout,
+  Menu,
+  MenuProps,
+  SiderProps,
+  Dropdown,
+  Button,
+  Flex,
+} from 'antd';
+import { UserOutlined, BankOutlined } from '@ant-design/icons';
 
 import { Logo } from '../../../components';
 import { Link, useLocation } from 'react-router-dom';
-import { PATH_DASHBOARD, PATH_EXAM, PATH_USER_PROFILE } from '../../../constants';
+import {
+  PATH_DASHBOARD,
+  PATH_EXAM,
+  PATH_USER_PROFILE,
+} from '../../../constants';
 import { PATH_HOME } from '../../../constants/routes.ts';
 
 const { Sider } = Layout;
 
 import { GlobalStateContext } from '../../../context/GlobalContext.tsx';
+// import { or } from 'firebase/firestore';
 interface MenuItemType {
-  key: string;
+  key: number;
   label: string;
-  // Add other properties if necessary
+  // antd icon
+  // icon: any;
 }
 
 const items: MenuItemType[] = [
   {
-    key: '1',
-    label: 'Personal Account',
+    key: 1,
+    label: 'University of Colombo School of Computing',
+    // icon: BankOutlined,
   },
   {
-    key: '2',
-    label: 'Organization 1',
+    key: 2,
+    label: 'Institute of Java and Software Engineering',
+    // icon: BankOutlined,
   },
   {
-    key: '3',
-    label: 'Organization 2',
+    key: 3,
+    label: 'Ocean University of Sri Lanka',
+    // icon: BankOutlined,
   },
 ];
 
@@ -52,9 +67,6 @@ const getItem = (
   } as MenuItem;
 };
 
-
-
-
 // ExamSetter items
 const examSetterPersonal: MenuProps['items'] = [
   getItem(
@@ -67,8 +79,16 @@ const examSetterPersonal: MenuProps['items'] = [
   // ]),
   getItem('Exams', 'exams', <BankOutlined />, [
     getItem(<Link to={PATH_EXAM.exam}>All Exams</Link>, 'all_exams', null),
-    getItem(<Link to={PATH_EXAM.exam + '/new'}>New Exams</Link>, 'new_exam', null),
-    getItem(<Link to={PATH_EXAM.exam + '/grading'}>Grading</Link>, 'grading', null),
+    getItem(
+      <Link to={PATH_EXAM.exam + '/new'}>New Exams</Link>,
+      'new_exam',
+      null
+    ),
+    getItem(
+      <Link to={PATH_EXAM.exam + '/grading'}>Grading</Link>,
+      'grading',
+      null
+    ),
   ]),
   // getItem('Results', 'results', <BarChartOutlined />, [
   //   getItem(<Link to={PATH_EXAM.exam}>All Exams</Link>, 'all_exams', null),
@@ -76,14 +96,42 @@ const examSetterPersonal: MenuProps['items'] = [
   //   getItem(<Link to={PATH_EXAM.exam + '/grading'}>Grading</Link>, 'grading', null),
   // ]),
   getItem('User profile', 'user-profile', <UserOutlined />, [
-    getItem(<Link to={PATH_USER_PROFILE.details}>Details</Link>, 'details', null),
-    getItem(<Link to={PATH_USER_PROFILE.preferences}>Preferences</Link>, 'preferences', null),
-    getItem(<Link to={PATH_USER_PROFILE.personalInformation}>Information</Link>, 'information', null),
-    getItem(<Link to={PATH_USER_PROFILE.security}>Security</Link>, 'security', null),
-    getItem(<Link to={PATH_USER_PROFILE.activity}>Activity</Link>, 'activity', null),
-    getItem(<Link to={PATH_USER_PROFILE.action}>Actions</Link>, 'actions', null),
+    getItem(
+      <Link to={PATH_USER_PROFILE.details}>Details</Link>,
+      'details',
+      null
+    ),
+    getItem(
+      <Link to={PATH_USER_PROFILE.preferences}>Preferences</Link>,
+      'preferences',
+      null
+    ),
+    getItem(
+      <Link to={PATH_USER_PROFILE.personalInformation}>Information</Link>,
+      'information',
+      null
+    ),
+    getItem(
+      <Link to={PATH_USER_PROFILE.security}>Security</Link>,
+      'security',
+      null
+    ),
+    getItem(
+      <Link to={PATH_USER_PROFILE.activity}>Activity</Link>,
+      'activity',
+      null
+    ),
+    getItem(
+      <Link to={PATH_USER_PROFILE.action}>Actions</Link>,
+      'actions',
+      null
+    ),
     getItem(<Link to={PATH_USER_PROFILE.help}>Help</Link>, 'help', null),
-    getItem(<Link to={PATH_USER_PROFILE.feedback}>Feedback</Link>, 'feedback', null),
+    getItem(
+      <Link to={PATH_USER_PROFILE.feedback}>Feedback</Link>,
+      'feedback',
+      null
+    ),
   ]),
 ];
 
@@ -96,17 +144,24 @@ const ExamSetterOrganization: MenuProps['items'] = [
 
   getItem('Exams', 'exams', <BankOutlined />, [
     getItem(<Link to={PATH_EXAM.exam}>All Exams</Link>, 'all_exams', null),
-    getItem(<Link to={PATH_EXAM.exam + '/new'}>New Exams</Link>, 'new_exam', null),
-    getItem(<Link to={PATH_EXAM.exam + '/grading'}>Grading</Link>, 'grading', null),
+    getItem(
+      <Link to={PATH_EXAM.exam + '/new'}>New Exams</Link>,
+      'new_exam',
+      null
+    ),
+    getItem(
+      <Link to={PATH_EXAM.exam + '/grading'}>Grading</Link>,
+      'grading',
+      null
+    ),
   ]),
-
 ];
 
 const rootSubmenuKeys = ['dashboards', 'corporate', 'user-profile'];
 
 type SideNavProps = SiderProps;
 
-const SideNav = ({ ...others }: SideNavProps) => {
+const SideNav = ({ organization, ...others }: SideNavProps | any) => {
   const globalContext = useContext(GlobalStateContext);
 
   if (!globalContext) {
@@ -119,7 +174,21 @@ const SideNav = ({ ...others }: SideNavProps) => {
   const { pathname } = useLocation();
   const [openKeys, setOpenKeys] = useState(['']);
   const [current, setCurrent] = useState('');
-  const [selectedOption, setSelectedOption] = useState('Apps');
+  const [selectedOption, setSelectedOption] = useState(
+    organization ? organization : 'Select Organization'
+  );
+
+  useEffect(() => {
+    if (organization) {
+
+      // show only the first 10 characters of the organization name
+      if (organization.length > 10) {
+        organization = organization.substring(0, 10) + '...';
+      }
+
+      setSelectedOption(organization);
+    }
+  }, [organization]);
 
   // set the state of the role as either examSetter or orgadmin
   const [isRole, setIsRole] = useState('examSetter');
@@ -138,14 +207,21 @@ const SideNav = ({ ...others }: SideNavProps) => {
   };
 
   const handleMenuClick = (e: any) => {
-    // Assume items is of a certain type that has a key and label
-    const selectedItem = items.find((item) => item.key === e.key) as MenuItemType | undefined;
   
-    // Check if selectedItem is defined and has a label
+    const selectedItem = items.find((item) => item.key === parseInt(e.key)) as
+      | MenuItemType
+      | undefined;
+    
     if (selectedItem && 'label' in selectedItem) {
-      setSelectedOption(selectedItem.label as string);
+      let orgName = selectedItem.label;
+      if (orgName.length > 10) {
+        orgName = selectedItem.label.substring(0, 10) + '...';
+      }
+      setSelectedOption(orgName);
+
     }
-  
+
+    console.log('selectedItem', selectedItem);
     // setState of loginAs
     if (e.key === '1') {
       setState({ ...state, loginAs: 'Personal' });
@@ -153,11 +229,8 @@ const SideNav = ({ ...others }: SideNavProps) => {
       setState({ ...state, loginAs: 'Organization' });
     }
   };
-  
 
-  const menu = (
-    <Menu onClick={handleMenuClick} items={items} />
-  );
+  const menu = <Menu onClick={handleMenuClick} items={items} />;
 
   useEffect(() => {
     const paths = pathname.split('/');
@@ -173,7 +246,7 @@ const SideNav = ({ ...others }: SideNavProps) => {
     } else if (pathname.includes('candidate')) {
       setIsRole('candidate');
     }
-  }, [pathname,state]);
+  }, [pathname, state]);
 
   return (
     <Sider ref={nodeRef} breakpoint="lg" collapsedWidth="0" {...others}>
@@ -188,6 +261,7 @@ const SideNav = ({ ...others }: SideNavProps) => {
       />
       <ConfigProvider>
         <Flex align="center" justify="center">
+
           <Dropdown overlay={menu} placement="bottom">
             <Button>{selectedOption}</Button>
           </Dropdown>
@@ -215,7 +289,6 @@ const SideNav = ({ ...others }: SideNavProps) => {
             style={{ border: 'none' }}
           />
         )}
-
       </ConfigProvider>
     </Sider>
   );
