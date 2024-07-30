@@ -3,8 +3,6 @@ import {
   BadgeProps,
   Table,
   TableProps,
-  Tag,
-  TagProps,
   Typography,
 } from 'antd';
 import { Exams } from '../../../../types';
