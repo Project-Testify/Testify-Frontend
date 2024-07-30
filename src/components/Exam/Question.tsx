@@ -198,7 +198,7 @@ export const Question: React.FC<QuestionProps> = ({
       <Form form={form} initialValues={question} onFieldsChange={updateChange}>
         <Form.Item name="id" hidden/>
         {modelContent[question.type.toLowerCase()]}
-        {
+        {/* {
           <Form.Item noStyle shouldUpdate>
             {() => (
               <Typography>
@@ -206,7 +206,7 @@ export const Question: React.FC<QuestionProps> = ({
               </Typography>
             )}
           </Form.Item>
-        }
+        } */}
       </Form>
     </Card>
   );

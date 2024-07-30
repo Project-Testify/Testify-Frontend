@@ -8,11 +8,16 @@ import {
 } from '../constants';
 import { Link } from 'react-router-dom';
 import {
+  ClockCircleFilled,
   HourglassFilled,
+  LaptopOutlined,
   LoginOutlined,
+  MobileFilled,
   QuestionCircleFilled,
   SafetyCertificateFilled,
   SettingFilled,
+  SmileFilled,
+  StarFilled,
   TrophyFilled,
   VideoCameraFilled,
 } from '@ant-design/icons';
@@ -67,32 +72,32 @@ const CANDIDATE_FEATURES = [
   {
     title: 'Interactive Exams',
     description: ' Enjoy dynamic question types like drag-and-drop, coding challenges, and more to keep you engaged.',
-    icon: TrophyFilled
+    icon: LaptopOutlined
   },
   {
     title: 'Real-Time Support',
     description: 'Access live video and chat support for instant guidance during your exams.',
-    icon: TrophyFilled
+    icon: ClockCircleFilled
   },
   {
     title: 'Secure Testing Environment',
-    description: ' Benefit from browser lockdown, two-factor authentication (2FA), session timeouts, and IP restrictions for a safe exam experience.',
-    icon: TrophyFilled
+    description: 'Enhance security with browser lockdown, 2FA, session timeouts, and IP restrictions',
+    icon: SafetyCertificateFilled
   },
   {
     title: 'Digital Badges & Leaderboards',
     description: 'Stay motivated with achievements and see how you rank against others on the leaderboard.',
-    icon: TrophyFilled
+    icon: StarFilled
   },
   {
     title: 'Mobile-Friendly Experience',
     description: 'Take your exams on any device with our fully responsive mobile design.',
-    icon: TrophyFilled
+    icon: MobileFilled
   },
   {
     title: 'Smart Grading',
-    description: 'Get your answers graded quickly with AI-driven grading, custom parameters, and comprehensive plagiarism checks.',
-    icon: TrophyFilled,
+    description: 'Get fast AI-driven grading with custom parameters and thorough plagiarism checks.',
+    icon: SmileFilled,
   },
 ];
 
@@ -146,8 +151,9 @@ export const HomePage = () => {
           height: isTablet ? 600 : 800,
           width: '100%',
           // padding: isMobile ? '2rem 1rem' : '5rem 0',
-          backgroundColor: 'rgba(255, 255, 255, 0.85)'
-
+          backgroundColor: 'rgba(255, 255, 255, 0.85)',
+          //border: '1px solid red',
+          marginTop:'0px'
         }}
       >
 
@@ -156,7 +162,7 @@ export const HomePage = () => {
             <Col lg={12}>
               <Title
                 style={{
-                  fontSize: isMobile ? 36 : 40,
+                  fontSize: isMobile ? 36 : 50,
                   fontWeight: 900,
                   margin: '1.5rem 0',
                 }}
