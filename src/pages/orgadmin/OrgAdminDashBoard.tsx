@@ -83,9 +83,9 @@ export const OrgAdminDashBoard = () => {
         <Col xs={24} sm={12} lg={8}>
           <MarketingStatsCard
             data={[274, 337, 81, 497]}
-            title="Upcoming Exams"
+            title="Active Candidates"
             diff={12.5}
-            value={16826}
+            value={420}
             style={{ height: '100%' }}
           />
         </Col>

@@ -6,7 +6,7 @@ import {
   BarChartOutlined,
 } from '@ant-design/icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFilePen, faBuildingUser, faMedal, faRankingStar, faClockRotateLeft, faChartColumn } from '@fortawesome/free-solid-svg-icons';
+import { faFilePen, faBuildingUser, faMedal, faRankingStar, faClockRotateLeft, faChartColumn, faChalkboardUser, faGraduationCap } from '@fortawesome/free-solid-svg-icons';
 
 import { Logo } from '../../components';
 import { Link, useLocation } from 'react-router-dom';
@@ -102,13 +102,13 @@ const orgAdminItems: MenuProps['items'] = [
   ]),
 
   getItem('Exam Setters', 'examSetters', null, [], 'group'),
-  getItem('Exam Setters', 'examSettersList', <BankOutlined />, [
+  getItem('Exam Setters', 'examSettersList', <FontAwesomeIcon icon={faChalkboardUser} />, [
     getItem(<Link to={PATH_ORG_ADMIN.exam_setters}>All Exam Setters</Link>, 'exam', null),
   ]),
 
   getItem('Candidates', 'candidates', null, [], 'group'),
 
-  getItem('Candidates', 'candidatesList', <BankOutlined />, [
+  getItem('Candidates', 'candidatesList', <FontAwesomeIcon icon={faGraduationCap} />, [
     getItem(<Link to={PATH_ORG_ADMIN.groups}>Groups</Link>, 'all', null),
   ]),
 
