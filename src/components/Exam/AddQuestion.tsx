@@ -283,11 +283,11 @@ const GenerateEssayQuestion = ({ form ,setActiveKey}: {form: FormInstance,setAct
 
   const { newExamState } = context;
 
-  if (!newExamState.examId) {
-    message.error('Error: Exam ID is missing');
+  // if (!newExamState.examId) {
+  //   message.error('Error: Exam ID is missing');
 
-    // throw new Error('Error: Exam ID is missing');
-  }
+  //   // throw new Error('Error: Exam ID is missing');
+  // }
 
   const promptChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setPrompt(e.target.value);
@@ -358,11 +358,11 @@ const GenerateMCQQuestion = ({ form,setActiveKey }: {form: FormInstance,setActiv
 
   const { newExamState } = context;
 
-  if (!newExamState.examId) {
-    message.error('Error: Exam ID is missing');
+  // if (!newExamState.examId) {
+  //   message.error('Error: Exam ID is missing');
 
-    // throw new Error('Error: Exam ID is missing');
-  }
+  //   // throw new Error('Error: Exam ID is missing');
+  // }
 
 
   const promptChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
