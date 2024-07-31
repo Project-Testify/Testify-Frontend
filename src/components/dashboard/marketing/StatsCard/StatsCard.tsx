@@ -1,7 +1,6 @@
 import { CardProps, Col, Flex, Row,  Tag,  Typography } from 'antd';
 import { Card } from '../../../index.ts';
 import { TinyColumn } from '@ant-design/charts';
-import { values } from 'lodash';
 
 type ChartData = [number, number, number, number];
 
