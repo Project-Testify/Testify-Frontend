@@ -14,7 +14,7 @@ const FooterNav = ({ ...others }: FooterNavProps) => {
   return (
     <Footer {...others}>
       <Row
-        style={{ minHeight: isMobile ? 'auto' : '80px', overflow: 'hidden' }}
+        style={{ minHeight: isMobile ? 'auto' : '80px', overflow: 'hidden', alignItems: 'center' }}
       >
         <Col span={10} style={{ textAlign: 'center' }}>
           <Logo
@@ -30,11 +30,13 @@ const FooterNav = ({ ...others }: FooterNavProps) => {
         <Col span={14} style={{ textAlign: 'center' }}>
           <Row style={{}}>
             <Col
-              span={7}
+              span={24}
               style={{
                 textAlign: 'end',
                 display: 'flex',
-                flexDirection: 'column',
+                flexDirection: 'row',
+                gap: '20px',
+                alignContent :  "center"
               }}
             >
               <Link to={'/about'}>
@@ -55,7 +57,7 @@ const FooterNav = ({ ...others }: FooterNavProps) => {
               </Link>
             </Col>
 
-            <Col
+            {/* <Col
               span={7}
               style={{
                 textAlign: 'end',
@@ -80,7 +82,7 @@ const FooterNav = ({ ...others }: FooterNavProps) => {
                 {' '}
                 <Typography.Text>Login</Typography.Text>
               </Link>
-            </Col>
+            </Col> */}
           </Row>
         </Col>
 
