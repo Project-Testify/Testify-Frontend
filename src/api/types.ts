@@ -29,7 +29,7 @@ export interface ExamSetterRegister {
 }
 
 export interface OrganizationRegister {
-    firstName?: string;
+    name: string;
     email?: string;
     contactNo?: string;
     password?: string;

@@ -8,7 +8,7 @@ export const loginService = (credentials: LoginCredentials): Promise<AxiosRespon
 };
 
 export const registerCandidate = (candidate: CandidateRegister): Promise<AxiosResponse<AuthResponse>> => {
-    return api.post<AuthResponse>('/auth/register', candidate);
+    return api.post<AuthResponse>('/auth/register/candidate', candidate);
 };
 
 export const registerExamSetter = (educator: ExamSetterRegister): Promise<AxiosResponse<AuthResponse>> => {
@@ -17,7 +17,7 @@ export const registerExamSetter = (educator: ExamSetterRegister): Promise<AxiosR
 
 export const registerOrganization = (organization: OrganizationRegister): Promise<AxiosResponse<AuthResponse>> => {
     console.log('Organization:', organization);
-    return api.post<AuthResponse>('/auth/register', organization);
+    return api.post<AuthResponse>('/auth/register/organization', organization);
 };
 
 

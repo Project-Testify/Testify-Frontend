@@ -27,7 +27,7 @@ import {
   import { Link } from 'react-router-dom';
   
   type FieldType = {
-    firstName?: string;
+    name?: string;
     email?: string;
     contactNo?: string;
     password?: string;
@@ -138,7 +138,7 @@ export const Organization = () => {
               <Col xs={24}>
                 <Form.Item<FieldType>
                   label="Organization Name"
-                  name="firstName"
+                  name="name"
                   rules={[
                     {
                       required: true,
@@ -146,7 +146,7 @@ export const Organization = () => {
                     },
                   ]}
                 >
-                  <Input name="firstName"/>
+                  <Input name="name"/>
                 </Form.Item>
               </Col>
 
