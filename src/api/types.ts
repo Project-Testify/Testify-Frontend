@@ -119,3 +119,15 @@ export interface ExamRequest{
     private: boolean;
 }
 
+//admin organizationRequest 
+export interface OrganizationRequest{
+    id: number;
+    firstName: string;
+    addressLine1: string | null;
+    addressLine2: string | null;
+    city: string;
+    state: string;
+    bio: string | null;
+    website: string | null;
+} 
+

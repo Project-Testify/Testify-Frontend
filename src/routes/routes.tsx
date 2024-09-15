@@ -36,7 +36,7 @@ import {
   CandidateOrganizations,
   DiagnosticTestPage,
   // examSetter
-  OrganizationDashBoard
+  OrganizationDashBoard,
 } from '../pages';
 
 import {
@@ -46,7 +46,6 @@ import {
   CommonLayout,
 } from '../layouts';
 
-
 import React, { ReactNode, useEffect } from 'react';
 
 // import { ProtectedRoute } from './ProtectedRoutes';
@@ -54,7 +53,9 @@ import { AuthProvider } from '../hooks/useAuth.tsx';
 import { ContactUs } from '../pages/ContactUs.tsx';
 import { About } from '../pages/About.tsx';
 import NewExamProvider from '../context/NewExamContext.tsx';
-
+import { PATH_ADMIN } from '../constants/routes.ts';
+import { AdminDashBoard } from '../pages/admin/AdminDashBoard.tsx';
+import { OrganizationRequest } from '../pages/admin/OrganizationRequest.tsx';
 
 // Custom scroll restoration function
 export const ScrollToTop: React.FC = () => {
@@ -97,22 +98,22 @@ const router = createBrowserRouter([
   },
   {
     path: '/about', // Define the path for ContactUs page
-    element: (
-      <About />
-    ),
+    element: <About />,
     errorElement: <ErrorPage />,
   },
   {
     path: '/contact-us', // Define the path for ContactUs page
-    element: (
-      <ContactUs />
-    ),
+    element: <ContactUs />,
     errorElement: <ErrorPage />,
   },
 
   {
     path: '/auth',
-    element: (<AuthProvider><PageWrapper children={<CommonLayout />} /></AuthProvider>),
+    element: (
+      <AuthProvider>
+        <PageWrapper children={<CommonLayout />} />
+      </AuthProvider>
+    ),
     errorElement: <ErrorPage />,
     children: [
       {
@@ -122,7 +123,10 @@ const router = createBrowserRouter([
       {
         path: 'signin',
         element: (
-          <AuthProvider> <SignInPage /></AuthProvider>
+          <AuthProvider>
+            {' '}
+            <SignInPage />
+          </AuthProvider>
         ),
       },
       {
@@ -145,7 +149,11 @@ const router = createBrowserRouter([
   },
   {
     path: 'org-admin',
-    element: <AuthProvider><PageWrapper children={<DashboardLayout />} /></AuthProvider>,
+    element: (
+      <AuthProvider>
+        <PageWrapper children={<DashboardLayout />} />
+      </AuthProvider>
+    ),
     // element: (<AuthProvider><PageWrapper children={<DashboardLayout />} /></AuthProvider>)  ,
     errorElement: <ErrorPage />,
     children: [
@@ -159,26 +167,25 @@ const router = createBrowserRouter([
         // element: <ProtectedRoute roles={['ORGANIZATION']} children={<OrgAdminPage />} />,
         element: <OrgAdminPage />,
         errorElement: <ErrorPage />,
-
       },
       {
         path: 'exam',
         element: <OrgAdminExamPage />,
-        errorElement: <ErrorPage />
+        errorElement: <ErrorPage />,
       },
       {
-        path: "new_exam",
+        path: 'new_exam',
         element: (
           <NewExamProvider>
             <OrgAdminNewExamPage />
           </NewExamProvider>
         ),
-        errorElement: <ErrorPage />
+        errorElement: <ErrorPage />,
       },
       {
-        path: "exam-setters",
+        path: 'exam-setters',
         element: <OrgAdminExamSettersPage />,
-        errorElement: <ErrorPage />
+        errorElement: <ErrorPage />,
       },
       {
         path: 'groups',
@@ -189,8 +196,6 @@ const router = createBrowserRouter([
             index: true,
             element: <Groups />,
             errorElement: <ErrorPage />,
-
-
           },
 
           {
@@ -199,12 +204,11 @@ const router = createBrowserRouter([
             path: ':groupId/candidates',
             element: <Candidates />,
             errorElement: <ErrorPage />,
-          }
-        ]
+          },
+        ],
       },
     ],
   },
-
 
   {
     path: 'examSetter',
@@ -246,7 +250,8 @@ const router = createBrowserRouter([
         path: 'exam',
         element: <ExamSummaryPage />,
         errorElement: <ErrorPage />,
-      }, {
+      },
+      {
         path: 'dashboard',
         element: <CandidateDashboard />,
         errorElement: <ErrorPage />,
@@ -255,25 +260,21 @@ const router = createBrowserRouter([
         path: 'all-exams',
         element: <CandidateAllExams />,
         errorElement: <ErrorPage />,
-
       },
       {
         path: 'completed-exams',
         element: <CandidateCompletedExams />,
         errorElement: <ErrorPage />,
-
       },
       {
         path: 'ongoing-exams',
         element: <CandidateOngoingExams />,
         errorElement: <ErrorPage />,
-
       },
       {
         path: 'upcoming-exams',
         element: <CandidateUpcomingExams />,
         errorElement: <ErrorPage />,
-
       },
       {
         path: 'organizations',
@@ -284,19 +285,16 @@ const router = createBrowserRouter([
         path: 'badges',
         element: <CandidateBadges />,
         errorElement: <ErrorPage />,
-
       },
       {
         path: 'grading',
         element: <CandidateGrading />,
         errorElement: <ErrorPage />,
-
       },
       {
         path: 'activity-history',
         element: <CandidateActivityHistory />,
         errorElement: <ErrorPage />,
-
       },
       {
         path: 'exam/diagnostic-test',
@@ -312,11 +310,8 @@ const router = createBrowserRouter([
         path: 'exam/feedback',
         element: <ExamFeedback />,
         errorElement: <ErrorPage />,
-      }
-
-
+      },
     ],
-
   },
 
   {
@@ -368,8 +363,29 @@ const router = createBrowserRouter([
   {
     path: '/about',
     errorElement: <ErrorPage />,
-    element: <About/>,
-  }
+    element: <About />,
+  },
+
+  {
+    path: PATH_ADMIN.root,
+    errorElement: <ErrorPage />,
+    element: <PageWrapper children={<DashboardLayout />} />,
+    children: [
+      {
+        index: true,
+        element: <UserProfileDetailsPage />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: PATH_ADMIN.dashboard,
+        element : <AdminDashBoard />,
+      },
+      {
+        path: PATH_ADMIN.organizationRequest,
+        element: <OrganizationRequest />,
+      }
+    ],
+  },
 ]);
 
 export default router;

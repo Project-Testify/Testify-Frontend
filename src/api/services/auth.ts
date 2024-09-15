@@ -20,7 +20,4 @@ export const registerOrganization = (organization: OrganizationRegister): Promis
     return api.post<AuthResponse>('/auth/register', organization);
 };
 
-
-
-
 // export const registerStudent 

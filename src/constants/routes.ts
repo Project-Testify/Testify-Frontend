@@ -27,6 +27,7 @@ const ROOTS_ABOUT = '/about';
 const ROOTS_ORG_ADMIN = '/org-admin';
 const ROOTS_CANDIDATE = '/candidate';
 const ROOTS_TUTOR = '/examSetter';
+const ROOTS_ADMIN = '/admin'
 
 export const PATH_LANDING = {
   root: ROOTS_LANDING,
@@ -268,4 +269,11 @@ export const PATH_TUTOR = {
   root: ROOTS_TUTOR,
   dashboard: path(ROOTS_TUTOR, '/dashboard'),
   
+}
+
+export const PATH_ADMIN = {
+  root : ROOTS_ADMIN,
+  dashboard : path(ROOTS_ADMIN, "/dashboard"),
+  organizationRequest : path(ROOTS_ADMIN, "/organization-request"),
+
 }
