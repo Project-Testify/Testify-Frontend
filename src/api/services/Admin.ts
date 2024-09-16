@@ -9,3 +9,8 @@ import { AxiosResponse } from 'axios';
 export const getOrganizationRequestService = () : Promise<AxiosResponse<any>> => {
     return api.get<any>('/organization/getOrganizationRequests');
 }
+
+
+export const verifyOrganizationService = (id : number) : Promise<AxiosResponse<any>> => {
+    return api.patch<any>('/organization/verifyOrganization/'+id)
+}
