@@ -51,6 +51,7 @@ api.interceptors.response.use(
             }
         } else {
             console.log('Error:', error.message);
+            console.log('Error4:', error);
         }
 
         return Promise.reject(error);
@@ -103,6 +104,7 @@ assistantApi.interceptors.response.use(
             }
         } else {
             console.log('Error:', error.message);
+            console.log(error);
         }
 
         return Promise.reject(error);

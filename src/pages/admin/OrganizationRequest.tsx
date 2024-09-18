@@ -16,26 +16,27 @@ import { round } from 'lodash';
 export const OrganizationRequest = () => {
   const [tableData, setTableData] = useState([]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const orgRequestData = await getOrganizationRequestService();
-        console.log('Organization Request Data:', orgRequestData);
+  const fetchData = async () => {
+    try {
+      const orgRequestData = await getOrganizationRequestService();
+      console.log('Organization Request Data:', orgRequestData);
 
-        if (orgRequestData.status === 200) {
-          setTableData(orgRequestData.data); // Set the array directly
-        }
-      } catch (error) {
-        console.error('Failed to fetch organization requests:', error);
+      if (orgRequestData.status === 200) {
+        setTableData(orgRequestData.data); // Set the array directly
       }
-    };
+    } catch (error) {
+      console.error('Failed to fetch organization requests:', error);
+    }
+  };
+
+  useEffect(() => {
 
     fetchData();
-  }, [tableData]);
+  }, []);
 
   console.log(tableData);
 
-  const handleAccept = (id: number) => {
+  const handleAccept = async (id: number) => {
     console.log(`Accepted request with ID: ${id}`);
     // Logic to accept the request
 
@@ -50,6 +51,8 @@ export const OrganizationRequest = () => {
         }
       } catch (error) {
         console.error('Failed to verify organization:', error);
+      }finally{
+        fetchData();
       }
     };
 
@@ -70,10 +73,10 @@ export const OrganizationRequest = () => {
     {
       title: 'Name',
       key: 'firstName',
-      render: (record: { firstName: string; coverImage: string | null }) => (
+      render: (record: { firstName: string; profileImage: string | null }) => (
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <Avatar
-            src={record.coverImage ? record.coverImage : '/default-avatar.png'}
+            src={record.profileImage ? record.profileImage : '/orgnaization.png'}
             style={{ marginRight: 8 }}
           />
           <span>
@@ -108,13 +111,13 @@ export const OrganizationRequest = () => {
         <span>
           <Button
             onClick={() => handleAccept(record.id)}
-            style={{ marginRight: 16 }}
+            style={{ marginRight: 8 }}
           >
             Accept
           </Button>
           <Button
             onClick={() => handleReject(record.id)}
-            style={{ marginRight: 16 }}
+            style={{ marginRight: 8 }}
           >
             Reject
           </Button>

@@ -373,7 +373,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <UserProfileDetailsPage />,
+        element: <AdminDashBoard />,
         errorElement: <ErrorPage />,
       },
       {
