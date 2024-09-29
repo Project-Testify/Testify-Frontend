@@ -4,7 +4,7 @@ import { BankOutlined, HomeOutlined } from '@ant-design/icons';
 import { Helmet } from 'react-helmet-async';
 
 import { PATH_ADMIN } from '../../constants/routes';
-import { Avatar, Button, Card, Table } from 'antd';
+import { Avatar, Button, Card, Modal, Table } from 'antd';
 import {
   getOrganizationRequestService,
   verifyOrganizationService,
@@ -12,9 +12,23 @@ import {
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { round } from 'lodash';
+import { Organization } from '../authentication/forms/Organization';
+
+interface Organization{
+  firstName: string,
+  addressLine1 :string,
+  addressLine2 :string,
+  city :string,
+  state :string,
+  bio :string,
+  website :string,
+  profileImage :string,
+}
 
 export const OrganizationRequest = () => {
   const [tableData, setTableData] = useState([]);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalData, setModalData] = useState<Organization>()
 
   const fetchData = async () => {
     try {
@@ -67,6 +81,11 @@ export const OrganizationRequest = () => {
   const handleView = (id: number) => {
     console.log(`Viewing request with ID: ${id}`);
     // Logic to view the request details
+    const org = tableData.find((org: { id: number }) => org.id === id);
+    setModalData(org);
+    setModalVisible(true);
+
+
   };
 
   const columns = [
@@ -127,6 +146,10 @@ export const OrganizationRequest = () => {
     },
   ];
 
+  function handleClose() {
+    setModalVisible(false);
+  }
+
   return (
     <div>
       <Helmet>
@@ -162,6 +185,24 @@ export const OrganizationRequest = () => {
           rowKey="id"
           tableLayout="fixed"
         />
+        <Modal title="View Organization" open={modalVisible} onCancel={handleClose} okText={"Accept"} cancelText={"Reject"}>
+        {/* "firstName": "ucsc",
+        "addressLine1": null,
+        "addressLine2": null,
+        "city": "bandarawela",
+        "state": "dsa",
+        "bio": "Undergraduate",
+        "website": null,
+        "profileImage": null */}
+          <p>Organization Name : {modalData?.firstName}</p>
+          <p>Address Line 1 : {modalData?.addressLine1}</p>
+          <p>Address Line 2 : {modalData?.addressLine2}</p>
+          <p>City : {modalData?.city}</p>
+          <p>state : {modalData?.state} </p>
+          <p>bio : {modalData?.city}</p>
+          <p>website : {modalData?.website}</p>
+          <p>profile image : {modalData?.profileImage}</p>
+        </Modal>
       </Card>
     </div>
   );
