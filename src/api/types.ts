@@ -97,8 +97,6 @@ export interface ExamRequestForm{
     description: string;
     instructions: string;
     duration: number;
-    totalMarks: number;
-    passMarks: number;
     organizationId: number;
     startDatetime: string;
     endDatetime: string;
@@ -111,8 +109,6 @@ export interface ExamRequest{
     description: string;
     instructions: string;
     duration: number;
-    totalMarks: number;
-    passMarks: number;
     organizationId: number;
     startDatetime: string;
     endDatetime: string;

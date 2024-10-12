@@ -29,7 +29,7 @@ export const Logo = ({
 
   return asLink ? (
     <Link to={href || '#'} className="logo-link">
-      <Flex gap={others.gap || 'small'} align="center" {...others}>
+      <Flex gap={others.gap || 'small'} align="center" {...others} style={{border:'1px solid white'}}>
         <img
           src="/Testify-logo-black.png"
           alt="design sparx logo"
