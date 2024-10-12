@@ -1,31 +1,33 @@
 import { GroupTable, PageHeader } from '../../components';
 import { BankOutlined, HomeOutlined, PlusOutlined } from '@ant-design/icons';
 import { Button, Card, Col, Space, Modal, Form, Input, Upload, message, FormInstance } from 'antd';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { useFetchData } from '../../hooks';
 import { UploadOutlined } from '@ant-design/icons';
 import { UploadFile } from 'antd';
 
-import { createGroup } from '../../api/services/group';
+import { createGroup, getGroups } from '../../api/services/group';
 import {  UploadChangeParam } from 'antd/es/upload';
+import { Group } from '../../types';
+import  { AxiosResponse } from 'axios';
 
 export const Groups = () => {
   const [open, setOpen] = useState(false);
   const [form] = Form.useForm();
-  const { data: examsData } = useFetchData('../mocks/Groups.json');
+  const [groups, setGroups] = useState<Group[]>([]);
+  // const {  groupData } = groups;
   const [examTabsKey, setExamTabKey] = useState<string>('all');
   const [emails, setEmails] = useState<string[]>([]);
-
-
+  
   // file
   const [fileList, setFileList] = useState<UploadFile[]>([]);
   const [uploading, setUploading] = useState(false);
 
+  const organizationId = sessionStorage.getItem('organizationId');
 
-  const EXAM_TABS_CONTENT: Record<string, React.ReactNode> = {
-    all: <GroupTable key="all-groups-table" data={examsData} />,
-  };
+  // const EXAM_TABS_CONTENT: Record<string, React.ReactNode> = {
+  //   all: <GroupTable key="all-groups-table" data={groups} />,
+  // };
 
   const onTabChange = (key: string) => {
     setExamTabKey(key);
@@ -54,19 +56,19 @@ export const Groups = () => {
 
   const submit = (form: FormInstance) => {
     form.validateFields().then(values => {
-      console.log(values);
-      console.log(fileList);
+      //console.log(values);
+      //console.log(fileList);
       setUploading(true);
       const group = {
         name: values.name,
-        description: values.description,
         emails: emails
       }
-      createGroup(group).then(res => {
+      createGroup(group, Number(organizationId)).then(res => {
         console.log(res);
         message.success('Group created successfully');
         setUploading(false);
         setOpen(false);
+        fetchGroups();
       }).catch(err => {
         console.log(err);
         message.error('Failed to create group');
@@ -76,9 +78,21 @@ export const Groups = () => {
     }).catch(err => {
       console.log(err);
     })
-       
-
   }
+
+    const fetchGroups = async () => {
+      try{
+        const response : AxiosResponse =  await getGroups(Number(organizationId));
+        setGroups(response.data);
+      } catch(err){
+        console.log("error fetching candidate groups");
+      }
+    }
+
+    useEffect(() => {
+      fetchGroups();
+    }, [organizationId]);
+  
 
   return (
     <div>
@@ -120,7 +134,8 @@ export const Groups = () => {
           onTabChange={onTabChange}
           // style={{ backgroundColor: '#fff' }}
         >
-          {EXAM_TABS_CONTENT[examTabsKey]}
+          {/* {EXAM_TABS_CONTENT[examTabsKey]} */}
+          <GroupTable data={groups} fetchGroups={fetchGroups}/>
         </Card>
       </Col>
 
@@ -145,13 +160,6 @@ export const Groups = () => {
             rules={[{ required: true, message: 'Missing Name' }]}
           >
             <Input placeholder="Name" />
-          </Form.Item>
-          <Form.Item
-            name="description"
-            label="Description"
-            rules={[{ required: true, message: 'Missing Description' }]}
-          >
-            <Input placeholder="Description" />
           </Form.Item>
           <Form.Item
             name="email"
