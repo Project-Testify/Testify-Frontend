@@ -1,9 +1,9 @@
-import { CheckOutlined, CloseOutlined,OpenAIOutlined, PlusOutlined } from '@ant-design/icons';
+import { CheckOutlined, CloseOutlined, DeleteOutlined, OpenAIOutlined, PlusOutlined } from '@ant-design/icons';
 import { Button, Card, Form, FormInstance, Input, Switch, Radio, Collapse, Flex } from 'antd';
 
 
 
-import {generateEssayQuestion, generateMCQQuestion} from '../../api/services/AIAssistant';
+import { generateEssayQuestion, generateMCQQuestion } from '../../api/services/AIAssistant';
 
 import { NewExamContext } from '../../context/NewExamContext';
 
@@ -20,7 +20,7 @@ const tabList = [
   },
 ];
 
-const McqForm = ({ form } : {form: FormInstance}) => {
+const McqForm = ({ form }: { form: FormInstance }) => {
   const [activeKey, setActiveKey] = useState<string | string[]>('0');
 
   return (
@@ -29,7 +29,7 @@ const McqForm = ({ form } : {form: FormInstance}) => {
       <Form.Item name="type" hidden initialValue="MCQ" />
 
       <Collapse onChange={setActiveKey} activeKey={activeKey} style={{ marginBottom: 16 }}>
-        <Collapse.Panel header="Generate Question" key="1" style={{ border: 0, padding: 0 }} >
+        <Collapse.Panel header="Generate Question" key="1" style={{ border: 0, padding: 0 }}>
           <GenerateMCQQuestion form={form} setActiveKey={setActiveKey} />
         </Collapse.Panel>
       </Collapse>
@@ -45,69 +45,63 @@ const McqForm = ({ form } : {form: FormInstance}) => {
         />
       </Form.Item>
 
-      {/* add question levet easy, medium, hard */}
+      {/* add question level easy, medium, hard */}
       <Form.Item
         label="Difficulty"
         name={['difficulty']}
         rules={[{ required: true, message: 'Missing Difficulty' }]}
       >
         <Radio.Group buttonStyle="solid">
-          <Radio.Button value="easy">Easy</Radio.Button>
-          <Radio.Button value="medium">Medium</Radio.Button>
-          <Radio.Button value="hard">Hard</Radio.Button>
+          <Radio.Button value="EASY">Easy</Radio.Button>
+          <Radio.Button value="MEDIUM">Medium</Radio.Button>
+          <Radio.Button value="HARD">Hard</Radio.Button>
         </Radio.Group>
       </Form.Item>
-
 
       <Form.Item label="Answers">
         <Form.List name={['options']}>
           {(subFields, subOpt) => (
-            <div
-              style={{ display: 'flex', flexDirection: 'column', rowGap: 16 }}
-            >
+            <div style={{ display: 'flex', flexDirection: 'column', rowGap: 16 }}>
               {subFields.map((subField) => (
                 <Flex key={subField.key} style={{ display: 'flex', width: '100%', alignItems: 'center', marginBottom: 8 }}>
                   <Form.Item
                     name={[subField.name, 'optionText']}
                     rules={[{ required: true, message: 'Missing Answer' }]}
-                    style={{ flex: 1, marginRight: 8 , marginBottom:0  , width:'300px', justifySelf: 'center' }} // Make textarea flexible and occupy remaining space
-
+                    style={{ flex: 1, marginRight: 8, marginBottom: 0, width: '300px', justifySelf: 'center' }}
                   >
-                    <Input.TextArea placeholder="Answer" 
-                    autoSize={{ minRows: 2, maxRows: 6 }}
-                   // Control the width of the input for covering point
-                    style={{ flex: 1, marginRight: 8  }}  // Make textarea flexible and occupy remaining space
-
+                    <Input.TextArea
+                      placeholder="Answer"
+                      autoSize={{ minRows: 2, maxRows: 6 }}
+                      style={{ flex: 1, marginRight: 8 }}
                     />
                   </Form.Item>
 
                   <Form.Item
                     name={[subField.name, 'marks']}
                     rules={[{ required: true, message: 'Missing Marks' }]}
-                    style={{ flex: 1, marginRight: 8 , marginBottom:0  }}  // Make textarea flexible and occupy remaining space
-
+                    style={{ marginRight: 8, marginBottom: 0, width: '80px' }}
                   >
                     <Input placeholder="Marks" />
                   </Form.Item>
 
-                  <Form.Item name={[subField.name, 'isCorrect']}
-                      style={{  marginRight: 8, marginBottom:0   }}  // Make textarea flexible and occupy remaining space
-
+                  <Form.Item
+                    name={[subField.name, 'isCorrect']}
+                    rules={[{ required: true, message: 'Please select if correct or wrong' }]}
+                    style={{ marginRight: 8, marginBottom: 0 }}
+                    initialValue={true}
                   >
-                    <Switch
-                      defaultChecked={false}
-                      checkedChildren={<CheckOutlined />}
-                      unCheckedChildren={<CloseOutlined />}
-                    />
+                    <Radio.Group>
+                      <Radio value={true}>Correct</Radio>
+                      <Radio value={false}>Wrong</Radio>
+                    </Radio.Group>
                   </Form.Item>
 
                   <Button
-    type="text"
-    onClick={() => subOpt.remove(subField.name)}
-    style={{ marginLeft: 'auto', color: 'red', border: 'none', padding: 0 }} // Ensures button has no border or background
-    icon={<CloseOutlined />}
-  />
-
+                    type="text"
+                    onClick={() => subOpt.remove(subField.name)}
+                    style={{ marginLeft: 'auto', color: 'red', border: 'none', padding: 0 }}
+                    icon={<DeleteOutlined />} 
+                  />
                 </Flex>
               ))}
               <Button type="dashed" onClick={() => subOpt.add()} block icon={<PlusOutlined />}>
@@ -116,42 +110,28 @@ const McqForm = ({ form } : {form: FormInstance}) => {
             </div>
           )}
         </Form.List>
-        
       </Form.Item>
     </>
   );
 };
-const EssayForm = ({ form } : {form: FormInstance}) => {
-  // const [showPrompt, setShowPrompt] = useState(false);
+
+
+
+
+const EssayForm = ({ form }: { form: FormInstance }) => {
   const [activeKey, setActiveKey] = useState<string | string[]>('0');
 
-  // const handleGenerateClick = () => {
-  //   setShowPrompt(!showPrompt);
-  //   form.resetFields();  // Reset other fields when showing the prompt
-  // };
   return (
     <>
 
       <Form.Item name="questionType" hidden initialValue="ESSAY" />
       <Form.Item name="type" hidden initialValue="ESSAY" />
 
-{/* Button for AI generate  */}
-{/* end */}
-<Collapse onChange={setActiveKey} activeKey={activeKey} style={{ marginBottom: 16 }}>
+      <Collapse onChange={setActiveKey} activeKey={activeKey} style={{ marginBottom: 16 }}>
         <Collapse.Panel header="Generate Question" key="1" style={{ border: 0, padding: 0 }}>
-          <GenerateEssayQuestion form={form}  setActiveKey={setActiveKey} />
+          <GenerateEssayQuestion form={form} setActiveKey={setActiveKey} />
         </Collapse.Panel>
       </Collapse>
-
-
-{/* <Flex justify='end'>
-
-     <Button  style={{marginBottom: 16}} onClick={handleGenerateClick} 
-     ><OpenAIOutlined />  {showPrompt ? 'Hide Prompt' : 'Generate Prompt'}</Button>
-</Flex> */}
-
-{/* Prompt for question generate, hidden  */}
-
 
 
       <Form.Item
@@ -169,57 +149,58 @@ const EssayForm = ({ form } : {form: FormInstance}) => {
         label="Difficulty"
         name={['questionDifficulty']}
         rules={[{ required: true, message: 'Missing Difficulty' }]}
+        initialValue="EASY"
       >
         <Radio.Group buttonStyle="solid">
-          <Radio.Button value="easy">Easy</Radio.Button>
-          <Radio.Button value="medium">Medium</Radio.Button>
-          <Radio.Button value="hard">Hard</Radio.Button>
+          <Radio.Button value="EASY">Easy</Radio.Button>
+          <Radio.Button value="MEDIUM">Medium</Radio.Button>
+          <Radio.Button value="HARD">Hard</Radio.Button>
         </Radio.Group>
-      </Form.Item>         
+      </Form.Item>
 
 
       <Form.Item label="Covering Points">
-  <Form.List name={['coveringPoints']}>
-    {(subFields, subOpt) => (
-      <div
-        style={{ display: 'flex', flexDirection: 'column', rowGap: 16, width: '100%' }}
-      >
-        {subFields.map((subField) => (
-          <Flex key={subField.key} style={{ display: 'flex', width: '100%', alignItems: 'center', marginBottom: 8 }}>
-            <Form.Item
-              name={[subField.name, 'coveringPointText']}
-              rules={[{ required: true, message: 'Missing Covering Point' }]}
-              style={{ flex: 1, marginRight: 8 ,marginBottom:0 , width:'300px', justifySelf: 'center' }} // Make textarea flexible and occupy remaining space
+        <Form.List name={['coveringPoints']}>
+          {(subFields, subOpt) => (
+            <div
+              style={{ display: 'flex', flexDirection: 'column', rowGap: 16, width: '100%' }}
             >
-              <Input.TextArea
-                placeholder="Covering Point"
-                autoSize={{ minRows: 2, maxRows: 6 }}
-                style={{ flex: 1 }} // Control the width of the input for covering point
-              />
-            </Form.Item>
-            <Form.Item
-              name={[subField.name, 'marks']}
-              rules={[{ required: true, message: 'Missing Marks' }]}
-              style={{ flex: 1, marginRight: 8 , marginBottom:0  }}  // Make textarea flexible and occupy remaining space
-            >
-              <Input placeholder="Marks" />
-            </Form.Item>
+              {subFields.map((subField) => (
+                <Flex key={subField.key} style={{ display: 'flex', width: '100%', alignItems: 'center', marginBottom: 8 }}>
+                  <Form.Item
+                    name={[subField.name, 'coveringPointText']}
+                    rules={[{ required: true, message: 'Missing Covering Point' }]}
+                    style={{ flex: 1, marginRight: 8, marginBottom: 0, width: '300px', justifySelf: 'center' }} // Make textarea flexible and occupy remaining space
+                  >
+                    <Input.TextArea
+                      placeholder="Covering Point"
+                      autoSize={{ minRows: 2, maxRows: 6 }}
+                      style={{ flex: 1 }} // Control the width of the input for covering point
+                    />
+                  </Form.Item>
+                  <Form.Item
+                    name={[subField.name, 'marks']}
+                    rules={[{ required: true, message: 'Missing Marks' }]}
+                    style={{ flex: 1, marginRight: 8, marginBottom: 0 }}  // Make textarea flexible and occupy remaining space
+                  >
+                    <Input placeholder="Marks" />
+                  </Form.Item>
 
-            <Button
-    type="text"
-    onClick={() => subOpt.remove(subField.name)}
-    style={{ marginLeft: 'auto', color: 'red', border: 'none', padding: 0 }} // Ensures button has no border or background
-    icon={<CloseOutlined />}
-  />
-          </Flex>
-        ))}
-        <Button type="dashed" onClick={() => subOpt.add()} block icon={<PlusOutlined />}>
-          Add Covering Point
-        </Button>
-      </div>
-    )}
-  </Form.List>
-</Form.Item>
+                  <Button
+                    type="text"
+                    onClick={() => subOpt.remove(subField.name)}
+                    style={{ marginLeft: 'auto', color: 'red', border: 'none', padding: 0 }} // Ensures button has no border or background
+                    icon={<CloseOutlined />}
+                  />
+                </Flex>
+              ))}
+              <Button type="dashed" onClick={() => subOpt.add()} block icon={<PlusOutlined />}>
+                Add Covering Point
+              </Button>
+            </div>
+          )}
+        </Form.List>
+      </Form.Item>
 
 
     </>
@@ -235,7 +216,7 @@ export const AddQuestion: React.FC<AddQuestionProps> = ({ form }) => {
   const [activeTabKey1, setActiveTabKey1] = useState<string>('mcq');
 
   const modelContent: Record<string, React.ReactNode> = {
-    mcq: McqForm({form}),
+    mcq: McqForm({ form }),
     essay: EssayForm({ form }),
   };
 
@@ -271,7 +252,7 @@ export const AddQuestion: React.FC<AddQuestionProps> = ({ form }) => {
   );
 };
 
-const GenerateEssayQuestion = ({ form ,setActiveKey}: {form: FormInstance,setActiveKey: (key: string | string[]) => void }) => {
+const GenerateEssayQuestion = ({ form, setActiveKey }: { form: FormInstance, setActiveKey: (key: string | string[]) => void }) => {
   const [loading, setLoading] = useState(false);
   const [prompt, setPrompt] = useState('');
 
@@ -300,7 +281,7 @@ const GenerateEssayQuestion = ({ form ,setActiveKey}: {form: FormInstance,setAct
 
       console.log('examid', newExamState.examId);
 
-      const response = await generateEssayQuestion({text: prompt, examid: newExamState.examId || 'example-exam-id'});
+      const response = await generateEssayQuestion({ text: prompt, examid: newExamState.examId || 'example-exam-id' });
       if (response.data) {
         console.log(response.data);
         form.setFieldsValue({
@@ -344,7 +325,7 @@ const GenerateEssayQuestion = ({ form ,setActiveKey}: {form: FormInstance,setAct
 
 
 
-const GenerateMCQQuestion = ({ form,setActiveKey }: {form: FormInstance,setActiveKey: (key: string | string[]) => void }) => {
+const GenerateMCQQuestion = ({ form, setActiveKey }: { form: FormInstance, setActiveKey: (key: string | string[]) => void }) => {
   const [loading, setLoading] = useState(false);
   const [prompt, setPrompt] = useState('');
   const [choices, setChoices] = useState(4);
@@ -375,7 +356,7 @@ const GenerateMCQQuestion = ({ form,setActiveKey }: {form: FormInstance,setActiv
   const handleGenerateClick = async () => {
     setLoading(true);
     try {
-      const response = await generateMCQQuestion({text: prompt, examid: newExamState.examId || 'example-exam-id', choices});
+      const response = await generateMCQQuestion({ text: prompt, examid: newExamState.examId || 'example-exam-id', choices });
       if (response.data) {
         console.log(response.data);
         form.setFieldsValue({

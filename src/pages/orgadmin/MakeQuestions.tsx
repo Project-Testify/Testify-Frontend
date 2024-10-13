@@ -107,7 +107,7 @@ const MakeQuestions = () => {
       </Space>
 
       <Divider />
-      <QuestionsListCard />
+      {/* <QuestionsListCard /> */}
     </>
   );
 };
