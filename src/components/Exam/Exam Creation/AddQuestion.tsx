@@ -1,13 +1,10 @@
-import { CheckOutlined, CloseOutlined, DeleteOutlined, OpenAIOutlined, PlusOutlined } from '@ant-design/icons';
-import { Button, Card, Form, FormInstance, Input, Switch, Radio, Collapse, Flex } from 'antd';
-
-
-
-import { generateEssayQuestion, generateMCQQuestion } from '../../api/services/AIAssistant';
-
-import { NewExamContext } from '../../context/NewExamContext';
-
+import { CloseOutlined, DeleteOutlined, OpenAIOutlined, PlusOutlined } from '@ant-design/icons';
+import { Button, Card, Form, FormInstance, Input, Radio, Collapse, Flex, message } from 'antd';
+import { generateEssayQuestion, generateMCQQuestion } from '../../../api/services/AIAssistant';
+import { NewExamContext } from '../../../context/NewExamContext';
 import { useContext, useState } from 'react';
+import { MCQRequest } from '../../../api/types';
+import { addMCQ } from '../../../api/services/ExamServices';
 
 const tabList = [
   {
@@ -22,6 +19,44 @@ const tabList = [
 
 const McqForm = ({ form }: { form: FormInstance }) => {
   const [activeKey, setActiveKey] = useState<string | string[]>('0');
+
+
+  const handleAddQuestion = async () => {
+    try {
+      const values = await form.validateFields();
+
+      // const examId = sessionStorage.getItem('editingExamId');
+      const examId = 1;
+      if (!examId) {
+        message.error('Exam ID is missing. Please select or create an exam.');
+        return;
+      }
+
+      const mcqRequest: MCQRequest = {
+        examId: Number(examId), // Ensure examId is a number
+        questionText: values.questionText,
+        difficultyLevel: values.difficulty,
+        options: values.options.map((option: { optionText: any; marks: any; isCorrect: any; }) => ({
+          optionText: option.optionText,
+          marks: option.marks,
+          correct: option.correct,
+        })),
+        questionType: 'MCQ',
+      };
+
+      console.log('Submitting MCQ Data:', mcqRequest);
+      const response = await addMCQ(Number(examId), mcqRequest);
+      if (response.data.success) {
+        message.success('MCQ added successfully!');
+        form.resetFields();
+      } else {
+        message.error('Failed to add MCQ: ' + response.data.message);
+      }
+    } catch (error) {
+
+      message.error('Failed to add question. Please check your inputs.');
+    }
+  };
 
   return (
     <>
@@ -50,6 +85,7 @@ const McqForm = ({ form }: { form: FormInstance }) => {
         label="Difficulty"
         name={['difficulty']}
         rules={[{ required: true, message: 'Missing Difficulty' }]}
+        initialValue="EASY"
       >
         <Radio.Group buttonStyle="solid">
           <Radio.Button value="EASY">Easy</Radio.Button>
@@ -85,10 +121,10 @@ const McqForm = ({ form }: { form: FormInstance }) => {
                   </Form.Item>
 
                   <Form.Item
-                    name={[subField.name, 'isCorrect']}
+                    name={[subField.name, 'correct']}
                     rules={[{ required: true, message: 'Please select if correct or wrong' }]}
                     style={{ marginRight: 8, marginBottom: 0 }}
-                    initialValue={true}
+                    initialValue={true} // This can stay as true since it's a boolean
                   >
                     <Radio.Group>
                       <Radio value={true}>Correct</Radio>
@@ -100,7 +136,7 @@ const McqForm = ({ form }: { form: FormInstance }) => {
                     type="text"
                     onClick={() => subOpt.remove(subField.name)}
                     style={{ marginLeft: 'auto', color: 'red', border: 'none', padding: 0 }}
-                    icon={<DeleteOutlined />} 
+                    icon={<DeleteOutlined />}
                   />
                 </Flex>
               ))}
@@ -111,6 +147,13 @@ const McqForm = ({ form }: { form: FormInstance }) => {
           )}
         </Form.List>
       </Form.Item>
+
+      <Form.Item>
+        <Button type="primary" onClick={handleAddQuestion} block>
+          Add Question
+        </Button>
+      </Form.Item>
+
     </>
   );
 };

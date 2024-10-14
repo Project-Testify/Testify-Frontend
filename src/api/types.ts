@@ -115,3 +115,16 @@ export interface ExamRequest{
     private: boolean;
 }
 
+export interface MCQRequest {
+    examId: number;
+    questionText: string;
+    difficultyLevel: string;
+    options: {
+        optionText: string;
+        marks: number;
+        correct: boolean;
+    }[];
+    questionType: 'MCQ';
+}
+
+
