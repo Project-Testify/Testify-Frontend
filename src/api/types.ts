@@ -4,6 +4,7 @@ export interface LoginCredentials {
 }
 
 export interface User {
+    user: any;
     id: number;
     userName: string;
     firstName: string;
@@ -100,7 +101,7 @@ export interface ExamRequestForm{
     organizationId: number;
     startDatetime: string;
     endDatetime: string;
-    private: boolean;
+    isPrivate: boolean;
     date ?: any;
 }
 
@@ -110,9 +111,10 @@ export interface ExamRequest{
     instructions: string;
     duration: number;
     organizationId: number;
+    createdById: number;
     startDatetime: string;
     endDatetime: string;
-    private: boolean;
+    isPrivate: boolean;
 }
 
 export interface MCQRequest {

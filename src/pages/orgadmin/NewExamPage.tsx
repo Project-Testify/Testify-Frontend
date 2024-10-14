@@ -24,6 +24,7 @@ import AddGrading from './AddGrading';
 import AddProctors from './AddProctors';
 import AddCandidate from './AddCandidate';
 import AdditionalFeatures from './AdditionalFeatures';
+import { getLoggedInUser } from '../../utils/authUtils';
 
 const { Step } = Steps;
 
@@ -32,6 +33,8 @@ export const NewExamPage = () => {
   const { getOrganization } = useAuth(); // Use the hook here
   const [current, setCurrent] = useState(0);
   const [isExamInfoSaved, setIsExamInfoSaved] = useState(false); // Track if exam info is saved
+  const loggedInUser = getLoggedInUser();
+  const user = getLoggedInUser();
 
   const onFinishExamInformation = async (values: ExamRequestForm) => {
     try {
@@ -44,7 +47,8 @@ export const NewExamPage = () => {
         endDatetime: values.date[1].format('YYYY-MM-DDTHH:mm:ss'), // Updated format
         instructions: values.instructions,
         organizationId: getOrganization() ?? 0,
-        private: false
+        createdById: user?.id ?? 0,
+        isPrivate: false
       };
 
       console.log('Exam Request:', examRequest);
