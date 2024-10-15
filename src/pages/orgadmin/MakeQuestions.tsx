@@ -3,7 +3,8 @@ import { UploadFile, UploadProps, message, Space, Button, Modal, Upload, Divider
 import { useState } from "react";
 import { Form } from "antd";
 import { uploadFiles } from "../../api/services/AIAssistant";
-import { AddQuestion, QuestionsListCard } from "../../components";
+import { AddQuestion } from "./AddQuestion";
+
 
 const MakeQuestions = () => {
   const [form] = Form.useForm();
@@ -17,13 +18,6 @@ const MakeQuestions = () => {
 
   const showContentModal = () => {
     setContentModalOpen(true);
-  };
-
-  const handleOk = () => {
-    form.validateFields().then(() => {
-      setOpen(false);
-      // send to database http://localhost:8080/api/v1/exam/1/addQuestion
-    });
   };
 
   const handleCancel = () => {
@@ -96,7 +90,6 @@ const MakeQuestions = () => {
           width={1100}
           open={open}
           title="Add Question"
-          onOk={handleOk}
           onCancel={handleCancel}
           footer={null}
         >

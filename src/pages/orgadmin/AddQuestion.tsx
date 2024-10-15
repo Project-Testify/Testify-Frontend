@@ -1,10 +1,10 @@
 import { CloseOutlined, DeleteOutlined, OpenAIOutlined, PlusOutlined } from '@ant-design/icons';
 import { Button, Card, Form, FormInstance, Input, Radio, Collapse, Flex, message } from 'antd';
-import { generateEssayQuestion, generateMCQQuestion } from '../../../api/services/AIAssistant';
-import { NewExamContext } from '../../../context/NewExamContext';
+import { generateEssayQuestion, generateMCQQuestion } from '../../api/services/AIAssistant';
+import { NewExamContext } from '../../context/NewExamContext';
 import { useContext, useState } from 'react';
-import { MCQRequest } from '../../../api/types';
-import { addMCQ } from '../../../api/services/ExamServices';
+import { MCQRequest } from '../../api/types';
+import { addMCQ } from '../../api/services/ExamServices';
 
 const tabList = [
   {
@@ -36,7 +36,7 @@ const McqForm = ({ form }: { form: FormInstance }) => {
         examId: Number(examId), // Ensure examId is a number
         questionText: values.questionText,
         difficultyLevel: values.difficulty,
-        options: values.options.map((option: { optionText: any; marks: any; isCorrect: any; }) => ({
+        options: values.options.map((option: { optionText: any; marks: any; correct: any; }) => ({
           optionText: option.optionText,
           marks: option.marks,
           correct: option.correct,

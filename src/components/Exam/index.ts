@@ -1,6 +1,6 @@
 export {QuestionCard} from './QuestionCard.tsx';
 export {McqQuestion} from './McqQuestion.tsx';
-export {AddQuestion} from './Exam Creation/AddQuestion.tsx';
+export {AddQuestion} from '../../pages/orgadmin/AddQuestion.tsx';
 export {QuestionsListCard} from './QuestionsListCard.tsx';
 export {McqQuestionView} from './McqQuestionView.tsx';
 export {EssayQuestionView} from './EssayQuestionView.tsx';

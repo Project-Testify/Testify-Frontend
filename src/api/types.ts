@@ -130,3 +130,50 @@ export interface MCQRequest {
 }
 
 
+
+export interface ExamResponse {
+    id: number;
+    title: string;
+    description: string;
+    instructions: string;
+    duration: number;
+    startDatetime: string;
+    endDatetime: string;
+    isPrivate: boolean;
+    createdBy: UserResponse;
+    organization: OrganizationResponse;
+    moderator?: ExamSetterResponse; // Nullable
+    proctors: ExamSetterResponse[]; // Empty array if none
+    candidates: CandidateResponse[]; // Empty array if none
+    questionSequence: number[]; // List of question IDs
+}
+
+// Response object for the user who created the exam
+export interface UserResponse {
+    id: number;
+    email: string;
+}
+
+// Response object for the organization that owns the exam
+export interface OrganizationResponse {
+    id: number;
+    firstName: string;
+}
+
+// Response object for exam setters (moderator, proctors)
+export interface ExamSetterResponse {
+    id: number;
+    email: string;
+    firstName: string;
+    lastName: string;
+}
+
+// Response object for candidates
+export interface CandidateResponse {
+    id: number;
+    email: string;
+    firstName: string;
+    lastName: string;
+}
+
+

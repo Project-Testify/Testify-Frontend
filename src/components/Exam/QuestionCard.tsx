@@ -3,7 +3,7 @@ import { Card, FormInstance, Space } from 'antd';
 import { McqQuestion } from './McqQuestion';
 import { EditOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
-import { AddQuestion } from './Exam Creation/AddQuestion';
+import { AddQuestion } from '../../pages/orgadmin/AddQuestion';
 
 
 interface QuestionCardProps {
