@@ -3,7 +3,6 @@ import { AxiosResponse } from 'axios';
 import { LoginCredentials, ExamSetterRegister, CandidateRegister ,OrganizationRegister, AuthResponse } from '../types';
 
 export const loginService = (credentials: LoginCredentials): Promise<AxiosResponse<AuthResponse>> => {
-    console.log('Credentials:', credentials);
     return api.post<AuthResponse>('/auth/authenticate', credentials);
 };
 
@@ -19,8 +18,5 @@ export const registerOrganization = (organization: OrganizationRegister): Promis
     console.log('Organization:', organization);
     return api.post<AuthResponse>('/auth/register', organization);
 };
-
-
-
 
 // export const registerStudent 
