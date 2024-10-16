@@ -34,6 +34,7 @@ type FieldType = {
   addressLine1?: string;
   addressLine2?: string;
   website?: string;
+  verify?: boolean;
 };
 
 import { registerOrganization } from '../../../api/services/auth';

@@ -23,7 +23,7 @@ interface Organization{
   profileImage :string,
 }
 
-export const OrganizationRequest = () => {
+export const ExamReports = () => {
   const [tableData, setTableData] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [modalData, setModalData] = useState<Organization>()

@@ -4,8 +4,6 @@ import {
   UserOutlined,
   BankOutlined,
   BarChartOutlined,
-  HomeOutlined,
-  DashboardFilled,
   DashboardOutlined,
 } from '@ant-design/icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -29,7 +27,6 @@ import {
   PATH_CANDIDATE,
   PATH_ADMIN,
 } from '../../constants/routes.ts';
-import { addExamSetter } from '../../api/types';
 
 const { Sider } = Layout;
 
@@ -276,6 +273,12 @@ const adminItems: MenuProps['items'] = [
     'Org',
     <BankOutlined />,
   ),
+  // reports
+  getItem('Reports', 'reports', <BarChartOutlined />, [
+    getItem(<Link to={PATH_ADMIN.examReports}>Exam Reports</Link>, 'examReports', null),
+    getItem(<Link to={PATH_ADMIN.userReports}>User Reports</Link>, 'userReports', null),
+    getItem(<Link to={PATH_ADMIN.organizationReports}>Exam Setter Reports</Link>, 'organizationReports', null),
+  ]),
 ];
 
 const rootSubmenuKeys = ['dashboards', 'corporate', 'user-profile'];

@@ -275,5 +275,7 @@ export const PATH_ADMIN = {
   root : ROOTS_ADMIN,
   dashboard : path(ROOTS_ADMIN, "/dashboard"),
   organizationRequest : path(ROOTS_ADMIN, "/organization-request"),
-
+  examReports : path(ROOTS_ADMIN, "/exam-reports"),
+  userReports : path(ROOTS_ADMIN, "/user-reports"),
+  organizationReports : path(ROOTS_ADMIN, "/organization-reports"),
 }

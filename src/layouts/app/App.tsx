@@ -235,7 +235,7 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
           <Content
             style={{
               margin: `0 0 0 ${collapsed ? 0 : '200px'}`,
-              // background: '#ebedf0',
+              background: 'linear-gradient(91deg, hsl(245deg 78.07% 68.4% / 48%), transparent)',
               borderRadius: collapsed ? 0 : borderRadius,
               transition: 'all .25s',
               padding: '24px 32px',
@@ -258,7 +258,7 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
                   unmountOnExit
                 >
                   {() => (
-                    <div ref={nodeRef} style={{ background: 'none' }}>
+                    <div ref={nodeRef} style={{ background: "none"}}>
                       {children}
                     </div>
                   )}

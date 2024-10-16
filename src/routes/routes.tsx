@@ -56,6 +56,9 @@ import NewExamProvider from '../context/NewExamContext.tsx';
 import { PATH_ADMIN } from '../constants/routes.ts';
 import { AdminDashBoard } from '../pages/admin/AdminDashBoard.tsx';
 import { OrganizationRequest } from '../pages/admin/OrganizationRequest.tsx';
+import { ExamReports } from '../pages/admin/ExamReports.tsx';
+import { UserReports } from '../pages/admin/UserReports.tsx';
+import { OrganizationReports } from '../pages/admin/OrganizationReports.tsx';
 
 // Custom scroll restoration function
 export const ScrollToTop: React.FC = () => {
@@ -366,6 +369,8 @@ const router = createBrowserRouter([
     element: <About />,
   },
 
+  // Admin routes
+
   {
     path: PATH_ADMIN.root,
     errorElement: <ErrorPage />,
@@ -383,6 +388,18 @@ const router = createBrowserRouter([
       {
         path: PATH_ADMIN.organizationRequest,
         element: <OrganizationRequest />,
+      },
+      {
+        path: PATH_ADMIN.examReports,
+        element: <ExamReports />,
+      },
+      {
+        path: PATH_ADMIN.userReports,
+        element: <UserReports />,
+      },
+      {
+        path: PATH_ADMIN.organizationReports,
+        element: <OrganizationReports />,
       }
     ],
   },
