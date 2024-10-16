@@ -23,3 +23,9 @@ export {TextEditor} from './TextEditor/TextEditor.tsx'
 export { GroupTable } from './Tables/GroupTable.tsx';
 export {CandidatesTable} from './Tables/CandidatesTable.tsx';
 export {TogglerDarkTheme} from './TogglerDarkTheme/TogglerDarkTheme.tsx';
+
+export {ExamInformation} from './NewExam/ExamInformation.tsx';
+export {MakeQuestions} from './NewExam/MakeQuestions.tsx';
+export {GradingAndProctoring} from './NewExam/GradingAndProctoring.tsx';
+export {AddCandidate} from './NewExam/AddCandidate.tsx';
+export {AdditionalFeatures} from './NewExam/AdditionalFeatures.tsx';
