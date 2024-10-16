@@ -36,10 +36,10 @@ export const ThemeProvider = ({ children }: ThemeProviderProps) => {
           colorWarning: '#f0b84a',
         },
         components: {
-          Breadcrumb: {
-            // linkColor: 'rgba(0,0,0,.8)',
-            // itemColor: 'rgba(0,0,0,.8)',
-          },
+          // Breadcrumb: {
+          //   linkColor: 'rgba(0,0,0,.8)',
+          //   itemColor: 'rgba(0,0,0,.8)',
+          // },
           Calendar: {
             // colorBgContainer: 'none',
           },
@@ -52,7 +52,7 @@ export const ThemeProvider = ({ children }: ThemeProviderProps) => {
           
           Segmented: {
             borderRadius: 6,
-            colorTextLabel: '#000000',
+            // colorTextLabel: '#000000',
           },
           Table: { 
             // colorBgContainer: 'none',

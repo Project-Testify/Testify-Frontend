@@ -11,7 +11,7 @@ export type Exams = {
     exam_location: string;
     exam_category: ExamType;
     exam_priority: string;
-    exam_proctors: [string];
+    exam_proctors: string[];
     exam_start_date: string;
     exam_end_date: string;
   }
