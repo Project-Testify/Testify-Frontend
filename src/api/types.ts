@@ -89,6 +89,11 @@ export interface GenericAddOrUpdateResponse{
     id: any;
 }
 
+export interface GenericDeleteResponse{
+    success: boolean;
+    message: string;
+}
+
 export interface InviteExamSetterRequest{
     email: string;
 }
@@ -114,6 +119,7 @@ export interface ExamRequest{
     createdById: number;
     startDatetime: string;
     endDatetime: string;
+    orderType: string;
     isPrivate: boolean;
 }
 
@@ -129,6 +135,18 @@ export interface MCQRequest {
     questionType: 'MCQ';
 }
 
+export interface CoverPointRequest {
+    coverPointText: string; 
+    marks: number;         
+}
+
+
+export interface EssayRequest {
+    examId: number;                        
+    questionText: string;                  
+    difficultyLevel: string;                
+    coveringPoints: CoverPointRequest[];    
+}
 
 
 export interface ExamResponse {
@@ -174,6 +192,39 @@ export interface CandidateResponse {
     email: string;
     firstName: string;
     lastName: string;
+}
+
+
+// Define the interface for options in MCQs
+export interface Option {
+    optionId: number;
+    optionText: string;
+    correct: boolean;
+    marks: number;
+}
+
+// Define the interface for cover points in Essay questions
+export interface CoverPoint {
+    coverPointId: number;
+    coverPointText: string;
+    marks: number;
+}
+
+// Define the interface for questions
+export interface Question {
+    questionId: number;
+    questionText: string;
+    questionType: "MCQ" | "Essay"; // You can extend this if you have more question types
+    difficultyLevel: string | null; // Assuming difficulty level is optional
+    options?: Option[] | null; // Options for MCQ questions
+    coverPoints?: CoverPoint[] | null; // Cover points for Essay questions
+}
+
+// Define the response interface for fetching questions
+export interface FetchQuestionsResponse {
+    examId: number;
+    questions: Question[];
+    errorMessage: string | null;
 }
 
 

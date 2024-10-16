@@ -87,11 +87,12 @@ const ExamInformation: React.FC<ExamInformationProps> = ({ }) => {
                 description: values.description,
                 instructions: values.instructions,
                 duration: values.duration,
-                organizationId: organizationId ?? 0, // Set organization ID here, default to 0 if null
-                createdById: user?.id ?? 0, // Set user ID here, default to 0 if null
-                startDatetime: values.date[0].toISOString(), // Format date
-                endDatetime: values.date[1].toISOString(), // Format date
-                isPrivate: false, // Default value or change as needed
+                organizationId: organizationId ?? 0, 
+                createdById: user?.id ?? 0, 
+                startDatetime: values.date[0].toISOString(), 
+                endDatetime: values.date[1].toISOString(),
+                orderType: 'FIXED', 
+                isPrivate: false, 
             };
 
             setLoading(true);

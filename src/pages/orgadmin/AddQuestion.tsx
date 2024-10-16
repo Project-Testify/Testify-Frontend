@@ -3,8 +3,8 @@ import { Button, Card, Form, FormInstance, Input, Radio, Collapse, Flex, message
 import { generateEssayQuestion, generateMCQQuestion } from '../../api/services/AIAssistant';
 import { NewExamContext } from '../../context/NewExamContext';
 import { useContext, useState } from 'react';
-import { MCQRequest } from '../../api/types';
-import { addMCQ } from '../../api/services/ExamServices';
+import { MCQRequest, EssayRequest } from '../../api/types';
+import { addMCQ, addEssay } from '../../api/services/ExamServices';
 
 const tabList = [
   {
@@ -17,7 +17,7 @@ const tabList = [
   },
 ];
 
-const McqForm = ({ form }: { form: FormInstance }) => {
+const McqForm = ({ form, loadQuestions }: { form: FormInstance, loadQuestions: () => void }) => {
   const [activeKey, setActiveKey] = useState<string | string[]>('0');
 
 
@@ -25,8 +25,8 @@ const McqForm = ({ form }: { form: FormInstance }) => {
     try {
       const values = await form.validateFields();
 
-      // const examId = sessionStorage.getItem('editingExamId');
-      const examId = 1;
+      // const examId = sessionStorage.getItem('editingExa mId');
+      const examId = sessionStorage.getItem('examId');
       if (!examId) {
         message.error('Exam ID is missing. Please select or create an exam.');
         return;
@@ -48,6 +48,7 @@ const McqForm = ({ form }: { form: FormInstance }) => {
       const response = await addMCQ(Number(examId), mcqRequest);
       if (response.data.success) {
         message.success('MCQ added successfully!');
+        loadQuestions();
         form.resetFields();
       } else {
         message.error('Failed to add MCQ: ' + response.data.message);
@@ -161,12 +162,48 @@ const McqForm = ({ form }: { form: FormInstance }) => {
 
 
 
-const EssayForm = ({ form }: { form: FormInstance }) => {
+const EssayForm = ({ form, loadQuestions }: { form: FormInstance, loadQuestions: () => void }) => {
   const [activeKey, setActiveKey] = useState<string | string[]>('0');
+
+  // Define the handleAddEssay function
+  const handleAddEssay = async () => {
+    try {
+      const values = await form.validateFields();
+
+      const examId = sessionStorage.getItem('examId');
+      if (!examId) {
+        message.error('Exam ID is missing. Please select or create an exam.');
+        return;
+      }
+
+      // Build the essay request object
+      const essayRequest: EssayRequest = {
+        examId: Number(examId),
+        questionText: values.questionText,
+        difficultyLevel: values.questionDifficulty,
+        coveringPoints: values.coveringPoints.map((point: { coveringPointText: string; marks: number }) => ({
+          coverPointText: point.coveringPointText,
+          marks: point.marks,
+        })),
+      };
+
+      console.log('Submitting Essay Data:', essayRequest);
+
+      const response = await addEssay(Number(examId), essayRequest); // Assume `addEssay` is the API call function
+      if (response.data.success) {
+        message.success('Essay added successfully!');
+        loadQuestions();
+        form.resetFields();
+      } else {
+        message.error('Failed to add essay: ' + response.data.message);
+      }
+    } catch (error) {
+      message.error('Failed to add essay. Please check your inputs.');
+    }
+  };
 
   return (
     <>
-
       <Form.Item name="questionType" hidden initialValue="ESSAY" />
       <Form.Item name="type" hidden initialValue="ESSAY" />
 
@@ -176,21 +213,20 @@ const EssayForm = ({ form }: { form: FormInstance }) => {
         </Collapse.Panel>
       </Collapse>
 
-
       <Form.Item
         label="Question"
         name="questionText"
         rules={[{ required: true, message: 'Missing Question' }]}
       >
         <Input.TextArea
-          placeholder="Answer"
+          placeholder="Question"
           autoSize={{ minRows: 2, maxRows: 6 }}
         />
       </Form.Item>
 
       <Form.Item
         label="Difficulty"
-        name={['questionDifficulty']}
+        name="questionDifficulty"
         rules={[{ required: true, message: 'Missing Difficulty' }]}
         initialValue="EASY"
       >
@@ -201,30 +237,28 @@ const EssayForm = ({ form }: { form: FormInstance }) => {
         </Radio.Group>
       </Form.Item>
 
-
       <Form.Item label="Covering Points">
         <Form.List name={['coveringPoints']}>
           {(subFields, subOpt) => (
-            <div
-              style={{ display: 'flex', flexDirection: 'column', rowGap: 16, width: '100%' }}
-            >
+            <div style={{ display: 'flex', flexDirection: 'column', rowGap: 16, width: '100%' }}>
               {subFields.map((subField) => (
                 <Flex key={subField.key} style={{ display: 'flex', width: '100%', alignItems: 'center', marginBottom: 8 }}>
                   <Form.Item
                     name={[subField.name, 'coveringPointText']}
                     rules={[{ required: true, message: 'Missing Covering Point' }]}
-                    style={{ flex: 1, marginRight: 8, marginBottom: 0, width: '300px', justifySelf: 'center' }} // Make textarea flexible and occupy remaining space
+                    style={{ flex: 1, marginRight: 8, marginBottom: 0 }}
                   >
                     <Input.TextArea
                       placeholder="Covering Point"
                       autoSize={{ minRows: 2, maxRows: 6 }}
-                      style={{ flex: 1 }} // Control the width of the input for covering point
+                      style={{ flex: 1 }}
                     />
                   </Form.Item>
+
                   <Form.Item
                     name={[subField.name, 'marks']}
                     rules={[{ required: true, message: 'Missing Marks' }]}
-                    style={{ flex: 1, marginRight: 8, marginBottom: 0 }}  // Make textarea flexible and occupy remaining space
+                    style={{ flex: 1, marginRight: 8, marginBottom: 0 }}
                   >
                     <Input placeholder="Marks" />
                   </Form.Item>
@@ -232,7 +266,7 @@ const EssayForm = ({ form }: { form: FormInstance }) => {
                   <Button
                     type="text"
                     onClick={() => subOpt.remove(subField.name)}
-                    style={{ marginLeft: 'auto', color: 'red', border: 'none', padding: 0 }} // Ensures button has no border or background
+                    style={{ marginLeft: 'auto', color: 'red', border: 'none', padding: 0 }}
                     icon={<CloseOutlined />}
                   />
                 </Flex>
@@ -245,22 +279,29 @@ const EssayForm = ({ form }: { form: FormInstance }) => {
         </Form.List>
       </Form.Item>
 
-
+      <Form.Item>
+        <Button type="primary" onClick={handleAddEssay} block>
+          Add Essay
+        </Button>
+      </Form.Item>
     </>
   );
 };
+
+
 interface AddQuestionProps {
   // handleOk: () => void;
   form: FormInstance;
+  loadQuestions: () => void;
 }
 
-export const AddQuestion: React.FC<AddQuestionProps> = ({ form }) => {
+export const AddQuestion: React.FC<AddQuestionProps> = ({ form, loadQuestions }) => {
   // console.log(handleOk);
   const [activeTabKey1, setActiveTabKey1] = useState<string>('mcq');
 
   const modelContent: Record<string, React.ReactNode> = {
-    mcq: McqForm({ form }),
-    essay: EssayForm({ form }),
+    mcq: <McqForm form={form} loadQuestions={loadQuestions} />,
+    essay: <EssayForm form={form} loadQuestions={loadQuestions} />,
   };
 
   const onTab1Change = (key: string) => {
