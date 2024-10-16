@@ -13,11 +13,10 @@ import {
 import { useLocation, useNavigate } from 'react-router-dom';
 import { ReactNode, useContext, useEffect, useRef, useState } from 'react';
 import {
-  AppstoreOutlined,
+  BellOutlined,
   LogoutOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
-  MessageOutlined,
   QuestionOutlined,
   SettingOutlined,
   UserOutlined,
@@ -213,12 +212,12 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
             </Flex>
             <Flex align="center" gap="small">
               <TogglerDarkTheme />
-
+{/* 
               <Tooltip title="Apps">
                 <Button icon={<AppstoreOutlined />} type="text" size="large" />
-              </Tooltip>
+              </Tooltip> */}
               <Tooltip title="Messages">
-                <Button icon={<MessageOutlined />} type="text" size="large" />
+                <Button icon={<BellOutlined />} type="text" size="large" />
               </Tooltip>
               <Dropdown menu={{ items }} trigger={['click']}>
                 <Flex>
