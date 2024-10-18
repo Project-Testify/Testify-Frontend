@@ -1,6 +1,6 @@
 import api from '../config';
 import { AxiosResponse } from 'axios';
-import { LoginCredentials, ExamSetterRegister, CandidateRegister ,OrganizationRegister, AuthResponse } from '../types';
+import { LoginCredentials, ExamSetterRegister, CandidateRegister , AuthResponse } from '../types';
 
 export const loginService = (credentials: LoginCredentials): Promise<AxiosResponse<AuthResponse>> => {
     return api.post<AuthResponse>('/auth/authenticate', credentials);
