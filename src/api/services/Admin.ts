@@ -14,3 +14,7 @@ export const getOrganizationRequestService = () : Promise<AxiosResponse<any>> =>
 export const verifyOrganizationService = (id : number) : Promise<AxiosResponse<any>> => {
     return api.patch<any>('/organization/verifyOrganization/'+id)
 }
+
+export const rejectOrganizationService = (data : {id : number, rejectionReason : string}) : Promise<AxiosResponse<any>> => {
+    return api.patch<any>('/organization/rejectOrganization', data);
+}
