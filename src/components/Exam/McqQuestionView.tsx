@@ -80,10 +80,10 @@ export const McqQuestionView = ({
             <Button onClick={handleClearSelection} type="primary" size="large" className="clear-button button">
               Clear
             </Button>
-            <Button onClick={onPrevious} type="primary" icon={<LeftOutlined />} size="large" className="previous-button button">
+            <Button onClick={onPrevious} type="primary" icon={<LeftOutlined onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} />} size="large" className="previous-button button">
               Previous
             </Button>
-            <Button onClick={onNext} type="primary" icon={<RightOutlined />} size="large" className="next-button button">
+            <Button onClick={onNext} type="primary" icon={<RightOutlined onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} />} size="large" className="next-button button">
               Next
             </Button>
           </div>
