@@ -161,8 +161,8 @@ const MakeQuestions = () => {
         title={question.questionText}
         extra={
           <Space>
-            <Button icon={<EditOutlined />} onClick={() => handleEdit(question)} />
-            <Button icon={<DeleteOutlined />} onClick={() => handleDelete(question.questionId)} danger />
+            <Button icon={<EditOutlined onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} />} onClick={() => handleEdit(question)} />
+            <Button icon={<DeleteOutlined onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} />} onClick={() => handleDelete(question.questionId)} danger />
           </Space>
         }
       >
@@ -172,9 +172,9 @@ const MakeQuestions = () => {
               {option.optionText}
               <Space style={{ marginLeft: '8px' }}>
                 {option.correct ? (
-                  <CheckCircleOutlined style={{ color: 'green' }} />
+                  <CheckCircleOutlined style={{ color: 'green' }} onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} />
                 ) : (
-                  <CloseCircleOutlined style={{ color: 'red' }} />
+                  <CloseCircleOutlined style={{ color: 'red' }} onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} />
                 )}
                 <span>Marks: {option.marks}</span>
               </Space>
@@ -197,8 +197,8 @@ const MakeQuestions = () => {
         title={question.questionText}
         extra={
           <Space>
-            <Button icon={<EditOutlined />} onClick={() => handleEdit(question)} />
-            <Button icon={<DeleteOutlined />} onClick={() => handleDelete(question.questionId)} danger />
+            <Button icon={<EditOutlined onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} />} onClick={() => handleEdit(question)} />
+            <Button icon={<DeleteOutlined onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} />} onClick={() => handleDelete(question.questionId)} danger />
           </Space>
         }
       >
@@ -247,7 +247,7 @@ const MakeQuestions = () => {
                 fileList={fileList}
                 multiple={true}
               >
-                <Button icon={<UploadOutlined />}>Click to Upload</Button>
+                <Button icon={<UploadOutlined onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} />}>Click to Upload</Button>
               </Upload>
             </Form.Item>
           </Form>
