@@ -5,8 +5,10 @@ import { Form } from "antd";
 import { uploadFiles } from "../../api/services/AIAssistant";
 import { AddQuestion } from "./AddQuestion";
 import { useAuth } from "../../hooks/useAuth";
-import { fetchQuestions, deleteQuestion } from "../../api/services/ExamServices";
+import { fetchQuestions, deleteQuestion, getQuestionSequence, updateQuestionSequence } from "../../api/services/ExamServices";
 import { Question } from "../../api/types";
+import MCQUpdate from "./MCQUpdate";
+import EssayUpdate from "./EssayUpdate";
 
 const MakeQuestions = () => {
   const [form] = Form.useForm();
@@ -16,6 +18,18 @@ const MakeQuestions = () => {
   const { getOrganization } = useAuth();
   const [questions, setQuestions] = useState<Question[]>([]);
   const examId = sessionStorage.getItem('examId');
+
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [editingQuestion, setEditingQuestion] = useState<Question | null>(null);
+
+  const handleEdit = (question: Question) => {
+    setEditingQuestion(question);
+    setEditModalOpen(true);
+  };
+  const handleCancelEdit = () => {
+    setEditModalOpen(false);
+    setEditingQuestion(null); // Clear the question being edited
+  };
 
   const showModal = () => {
     setOpen(true);
@@ -52,17 +66,19 @@ const MakeQuestions = () => {
   };
 
   const loadQuestions = async () => {
-    const organizationId = getOrganization(); // Get the organization ID
-    if (organizationId && examId) {
-      try {
-        const response = await fetchQuestions(Number(examId));
-        const fetchedQuestions = response.data.questions || [];
-        setQuestions(fetchedQuestions); // Update state with fetched questions
-      } catch (error) {
-        message.error('Failed to load questions');
+    if (!examId) return;
+
+    try {
+      const response = await fetchQuestions(Number(examId));
+      const fetchedQuestions = response.data.questions || [];
+      if (fetchedQuestions.length === 0) {
+        setQuestions([]);
+        return;
       }
-    } else {
-      message.warning('No organization ID or exam ID found');
+
+      setQuestions(fetchedQuestions);
+    } catch (error) {
+      message.error('Failed to load questions');
     }
   };
 
@@ -71,9 +87,6 @@ const MakeQuestions = () => {
     loadQuestions();
   }, [examId, getOrganization]);
 
-  const handleEdit = (id: number) => {
-    message.info(`Editing question ${id}`);
-  };
 
   const handleDelete = (questionId: number) => {
     // Show confirmation modal before deleting
@@ -85,16 +98,18 @@ const MakeQuestions = () => {
       cancelText: 'Cancel',
       onOk: async () => {
         try {
-          // Call the backend API to delete the question
-          deleteQuestion(questionId);
 
-          // Show success message
+          await deleteQuestion(questionId);
+
           message.success('Question deleted successfully!');
 
-          // Reload the questions after deletion
-          loadQuestions();
+          const sequenceResponse = await getQuestionSequence(Number(examId));
+          const currentSequence = sequenceResponse.data.questionIds;
+          const updatedSequence = currentSequence.filter(id => id !== questionId);
+          await updateQuestionSequence(Number(examId), updatedSequence);
+
+          await loadQuestions();
         } catch (error) {
-          // Handle any errors from the delete request
           console.error('Failed to delete question:', error);
           message.error('Failed to delete the question. Please try again.');
         }
@@ -118,7 +133,7 @@ const MakeQuestions = () => {
         title={question.questionText}
         extra={
           <Space>
-            <Button icon={<EditOutlined />} onClick={() => handleEdit(question.questionId)} />
+            <Button icon={<EditOutlined />} onClick={() => handleEdit(question)} />
             <Button icon={<DeleteOutlined />} onClick={() => handleDelete(question.questionId)} danger />
           </Space>
         }
@@ -154,7 +169,7 @@ const MakeQuestions = () => {
         title={question.questionText}
         extra={
           <Space>
-            <Button icon={<EditOutlined />} onClick={() => handleEdit(question.questionId)} />
+            <Button icon={<EditOutlined />} onClick={() => handleEdit(question)} />
             <Button icon={<DeleteOutlined />} onClick={() => handleDelete(question.questionId)} danger />
           </Space>
         }
@@ -271,6 +286,20 @@ const MakeQuestions = () => {
           </List.Item>
         )}
       />
+
+      {/* Edit modal */}
+      <Modal
+        title="Edit Question"
+        open={editModalOpen}
+        onCancel={handleCancelEdit}  // Close modal on cancel
+        footer={null}
+      >
+        {editingQuestion && editingQuestion.questionType === 'MCQ' ? (
+          <MCQUpdate question={editingQuestion} handleCancelEdit={handleCancelEdit} loadQuestions={loadQuestions} />
+        ) : editingQuestion && editingQuestion.questionType === 'Essay' ? (
+          <EssayUpdate question={editingQuestion} handleCancelEdit={handleCancelEdit} loadQuestions={loadQuestions} />
+        ) : null}
+      </Modal>
     </>
   );
 };
