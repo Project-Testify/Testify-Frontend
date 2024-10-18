@@ -144,11 +144,11 @@ const McqForm = ({ form, loadQuestions }: { form: FormInstance, loadQuestions: (
                     type="text"
                     onClick={() => subOpt.remove(subField.name)}
                     style={{ marginLeft: 'auto', color: 'red', border: 'none', padding: 0 }}
-                    icon={<DeleteOutlined />}
+                    icon={<DeleteOutlined onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} />}
                   />
                 </Flex>
               ))}
-              <Button type="dashed" onClick={() => subOpt.add()} block icon={<PlusOutlined />}>
+              <Button type="dashed" onClick={() => subOpt.add()} block icon={<PlusOutlined onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} />}>
                 Add Answer
               </Button>
             </div>
@@ -281,11 +281,11 @@ const EssayForm = ({ form, loadQuestions }: { form: FormInstance, loadQuestions:
                     type="text"
                     onClick={() => subOpt.remove(subField.name)}
                     style={{ marginLeft: 'auto', color: 'red', border: 'none', padding: 0 }}
-                    icon={<DeleteOutlined />}
+                    icon={<DeleteOutlined onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} />}
                   />
                 </Flex>
               ))}
-              <Button type="dashed" onClick={() => subOpt.add()} block icon={<PlusOutlined />}>
+              <Button type="dashed" onClick={() => subOpt.add()} block icon={<PlusOutlined onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} />}>
                 Add Covering Point
               </Button>
             </div>
@@ -399,7 +399,7 @@ const GenerateEssayQuestion = ({ form, setActiveKey }: { form: FormInstance, set
       </Form.Item>
       <Form.Item>
         <Button type="primary" onClick={handleGenerateClick} loading={loading}>
-          Generate <RobotOutlined />
+          Generate <RobotOutlined onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} />
         </Button>
       </Form.Item>
     </Form>
@@ -475,7 +475,7 @@ const GenerateMCQQuestion = ({ form, setActiveKey }: { form: FormInstance, setAc
       </Form.Item>
       <Form.Item>
         <Button type="primary" onClick={handleGenerateClick} loading={loading}>
-          Generate <RobotOutlined />
+          Generate <RobotOutlined onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} />
         </Button>
       </Form.Item>
     </Form>
