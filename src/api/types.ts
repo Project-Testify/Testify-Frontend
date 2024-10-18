@@ -31,13 +31,17 @@ export interface ExamSetterRegister {
 
 export interface OrganizationRegister {
     firstName?: string;
-    email?: string;
-    contactNo?: string;
-    password?: string;
-    cPassword?: string;
-    terms?: boolean;
-    city?: string;
-    state?: string;
+  email?: string;
+  contactNo?: string;
+  password?: string;
+  cPassword?: string;
+  terms?: boolean;
+  city?: string;
+  state?: string;
+  addressLine1?: string;
+  addressLine2?: string;
+  website?: string;
+  verificationDocuments?: FileList;
 
 }
 

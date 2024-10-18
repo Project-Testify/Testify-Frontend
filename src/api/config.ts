@@ -20,7 +20,7 @@ api.interceptors.request.use(
         }
 
         config.headers['Access-Control-Allow-Origin'] = '*';
-        config.headers['Access-Control-Allow-Methods'] = 'GET,PUT,POST,DELETE,PATCH,OPTIONS';
+        // configN.headers['Access-Control-Allow-Methods'] = 'GET,PUT,POST,DELETE,PATCH,OPTIONS';
 
         return config;
     },

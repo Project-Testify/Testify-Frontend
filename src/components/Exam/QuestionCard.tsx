@@ -37,7 +37,9 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({ fieldName = null, fo
   };
 
   const modelContent : Record<string, React.ReactNode> = {
-    mcq: <AddQuestion form={form} />,
+    mcq: <AddQuestion form={form} loadQuestions={function (): void {
+      throw new Error('Function not implemented.');
+    } } />,
     structured: <p>content2</p>,
   };
 

@@ -50,7 +50,8 @@ export const NewExamPage = () => {
         instructions: values.instructions,
         organizationId: getOrganization() ?? 0,
         createdById: loggedInUser?.id ?? 0,
-        isPrivate: false
+        isPrivate: false,
+        orderType: ''
       };
 
       console.log('Exam Request:', examRequest);
