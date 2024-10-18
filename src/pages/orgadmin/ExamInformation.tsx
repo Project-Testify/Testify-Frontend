@@ -12,32 +12,13 @@ import {
     message,
     InputNumber,
 } from 'antd';
-import { ExamRequestForm, ExamRequest } from '../../api/types';
+import { ExamRequest } from '../../api/types';
 import { useAuth } from '../../hooks/useAuth';
 import { getLoggedInUser } from '../../utils/authUtils';
 import { useEffect, useState } from 'react';
 
 import { getExamInformation, saveExamInformation, updateExamInformation } from '../../api/services/ExamServices';
 import moment from 'moment';
-
-type FieldType = {
-    title?: string;
-    description?: string;
-    instructions?: string;
-    duration?: number;
-    examSetterId?: number;
-    organizationId?: number;
-    startDate?: string;
-    endDate?: string;
-};
-
-const { RangePicker } = DatePicker;
-
-const rangeConfig = {
-    rules: [
-        { type: 'array' as const, required: true, message: 'Please select time!' },
-    ],
-};
 
 type ExamInformationProps = {
     onFinishFun: (values: ExamRequest) => void;
