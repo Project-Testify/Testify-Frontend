@@ -1,4 +1,4 @@
-import { DeleteOutlined, OpenAIOutlined, PlusOutlined } from '@ant-design/icons';
+import { DeleteOutlined, RobotOutlined, PlusOutlined } from '@ant-design/icons';
 import { Button, Card, Form, FormInstance, Input, Radio, Collapse, Flex, message } from 'antd';
 import { generateEssayQuestion, generateMCQQuestion } from '../../api/services/AIAssistant';
 import { NewExamContext } from '../../context/NewExamContext';
@@ -399,7 +399,7 @@ const GenerateEssayQuestion = ({ form, setActiveKey }: { form: FormInstance, set
       </Form.Item>
       <Form.Item>
         <Button type="primary" onClick={handleGenerateClick} loading={loading}>
-          Generate <OpenAIOutlined />
+          Generate <RobotOutlined />
         </Button>
       </Form.Item>
     </Form>
@@ -475,7 +475,7 @@ const GenerateMCQQuestion = ({ form, setActiveKey }: { form: FormInstance, setAc
       </Form.Item>
       <Form.Item>
         <Button type="primary" onClick={handleGenerateClick} loading={loading}>
-          Generate <OpenAIOutlined />
+          Generate <RobotOutlined />
         </Button>
       </Form.Item>
     </Form>

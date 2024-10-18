@@ -9,6 +9,7 @@ import { fetchQuestions, deleteQuestion, getQuestionSequence, updateQuestionSequ
 import { Question } from "../../api/types";
 import MCQUpdate from "./MCQUpdate";
 import EssayUpdate from "./EssayUpdate";
+import { Reorder } from "framer-motion"
 
 const MakeQuestions = () => {
   const [form] = Form.useForm();
@@ -69,18 +70,32 @@ const MakeQuestions = () => {
     if (!examId) return;
 
     try {
+      // Fetch the questions for the exam
       const response = await fetchQuestions(Number(examId));
       const fetchedQuestions = response.data.questions || [];
+
+      // If no questions are fetched, set questions to an empty array
       if (fetchedQuestions.length === 0) {
         setQuestions([]);
         return;
       }
 
-      setQuestions(fetchedQuestions);
+      // Fetch the correct question sequence using getQuestionSequence
+      const sequenceResponse = await getQuestionSequence(Number(examId));
+      const correctSequence = sequenceResponse.data.questionIds || [];
+
+      // Reorder the fetchedQuestions based on the correct sequence
+      const orderedQuestions = correctSequence.map((id) =>
+        fetchedQuestions.find((q) => q.questionId === id)
+      );
+
+      // Set the reordered questions to the state
+      setQuestions(orderedQuestions.filter((q): q is Question => q !== undefined));
     } catch (error) {
-      message.error('Failed to load questions');
+      message.error('Failed to load questions or sequence');
     }
   };
+
 
   // Call loadQuestions on component mount
   useEffect(() => {
@@ -118,6 +133,19 @@ const MakeQuestions = () => {
         console.log('Cancel deletion');
       }
     });
+  };
+
+  const handleReorder = async (newOrder: Question[]) => {
+    // Extract question IDs from the reordered list
+    const updatedSequence = newOrder.map((question) => question.questionId);
+
+    try {
+      // Assuming you have an `examId` variable available in your component
+      await updateQuestionSequence(Number(examId), updatedSequence);
+      console.log('Question sequence updated successfully!');
+    } catch (error) {
+      console.error('Error updating question sequence:', error);
+    }
   };
 
   // MCQQuestion Component
@@ -273,19 +301,31 @@ const MakeQuestions = () => {
         </Badge>
       </Space>
 
-      <List
-        grid={{ gutter: 16, column: 1 }}
-        dataSource={questions}
-        renderItem={question => (
-          <List.Item>
-            {question.questionType === 'MCQ' ? (
-              <MCQQuestion question={question} />
-            ) : question.questionType === 'Essay' ? (
-              <EssayQuestion question={question} />
-            ) : null}
-          </List.Item>
-        )}
-      />
+      <Reorder.Group
+        values={questions}
+        onReorder={(newOrder) => {
+          setQuestions(newOrder); // Update the state with the new order
+          handleReorder(newOrder); // Call the function to update the question sequence
+        }}
+        style={{ listStyleType: 'none' }} // Remove default list styling (dot)
+      >
+        {questions.map((question, index) => (
+          <Reorder.Item key={question.questionId} value={question} style={{ marginBottom: '40px' }}>
+            <List.Item>
+              {/* Display "Question 01", "Question 02", etc. */}
+              <div >
+                Question {String(index + 1).padStart(2, '0')}
+              </div>
+              {question.questionType === 'MCQ' ? (
+                <MCQQuestion question={question} />
+              ) : question.questionType === 'Essay' ? (
+                <EssayQuestion question={question} />
+              ) : null}
+            </List.Item>
+          </Reorder.Item>
+        ))}
+      </Reorder.Group>
+
 
       {/* Edit modal */}
       <Modal
