@@ -13,7 +13,7 @@ import {
   Divider,
   message,
 } from 'antd';
-import { SetStateAction, useState } from 'react';
+import { useState } from 'react';
 
 import { saveExamInformation } from '../../api/services/ExamServices';
 import { ExamRequestForm, ExamRequest } from '../../api/types';
@@ -32,9 +32,6 @@ export const NewExamPage = () => {
 
   const { getOrganization } = useAuth(); // Use the hook here
   const [current, setCurrent] = useState(0);
-  const examId = sessionStorage.getItem('examId');
-  const [isUpdateMode, setIsUpdateMode] = useState(false); // Track if it's update mode
-  const [loading, setLoading] = useState(false); // For loading state
   const [isExamInfoSaved, setIsExamInfoSaved] = useState(false); // Track if exam info is saved
   const loggedInUser = getLoggedInUser();
 
@@ -50,7 +47,8 @@ export const NewExamPage = () => {
         instructions: values.instructions,
         organizationId: getOrganization() ?? 0,
         createdById: loggedInUser?.id ?? 0,
-        isPrivate: false
+        isPrivate: false,
+        orderType: 'FIXED'
       };
 
       console.log('Exam Request:', examRequest);
@@ -92,7 +90,7 @@ export const NewExamPage = () => {
           {
             title: (
               <>
-                <HomeOutlined />
+                <HomeOutlined onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} />
                 <span>home</span>
               </>
             ),
@@ -101,7 +99,7 @@ export const NewExamPage = () => {
           {
             title: (
               <>
-                <BankOutlined />
+                <BankOutlined onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} />
                 <span>Exams</span>
               </>
             ),

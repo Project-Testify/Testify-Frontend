@@ -1,5 +1,4 @@
-// AdditionalFeatures.tsx
-import React from 'react';
+
 
 const AdditionalFeatures = () => {
   return (

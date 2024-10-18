@@ -1,5 +1,4 @@
-// AddProctors.tsx
-import React from 'react';
+
 
 const AddProctors = () => {
   return (
