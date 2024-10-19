@@ -4,14 +4,29 @@ import {
   UserOutlined,
   BankOutlined,
   BarChartOutlined,
+  DashboardOutlined,
 } from '@ant-design/icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFilePen, faBuildingUser, faMedal, faRankingStar, faClockRotateLeft, faChartColumn, faChalkboardUser, faGraduationCap } from '@fortawesome/free-solid-svg-icons';
+import {
+  faFilePen,
+  faBuildingUser,
+  faMedal,
+  faRankingStar,
+  faClockRotateLeft,
+  faChartColumn,
+  faChalkboardUser,
+  faGraduationCap,
+} from '@fortawesome/free-solid-svg-icons';
 
 import { Logo } from '../../components';
 import { Link, useLocation } from 'react-router-dom';
 import { PATH_DASHBOARD, PATH_EXAM, PATH_USER_PROFILE } from '../../constants';
-import { PATH_HOME, PATH_ORG_ADMIN, PATH_CANDIDATE } from '../../constants/routes.ts';
+import {
+  PATH_HOME,
+  PATH_ORG_ADMIN,
+  PATH_CANDIDATE,
+  PATH_ADMIN,
+} from '../../constants/routes.ts';
 
 const { Sider } = Layout;
 
@@ -56,7 +71,7 @@ const candidateItems: MenuProps['items'] = [
       <Link to={PATH_CANDIDATE.upcoming_exams}>Upcoming</Link>,
       'upcomingExams',
       null
-    )
+    ),
   ]),
   getItem(
     <Link to={PATH_CANDIDATE.organizations}>Organizations </Link>,
@@ -80,8 +95,6 @@ const candidateItems: MenuProps['items'] = [
   ),
 ];
 
-
-
 // org admin items
 const orgAdminItems: MenuProps['items'] = [
   getItem(
@@ -102,16 +115,27 @@ const orgAdminItems: MenuProps['items'] = [
   ]),
 
   getItem('Exam Setters', 'examSetters', null, [], 'group'),
-  getItem('Exam Setters', 'examSettersList', <FontAwesomeIcon icon={faChalkboardUser} />, [
-    getItem(<Link to={PATH_ORG_ADMIN.exam_setters}>All Exam Setters</Link>, 'exam', null),
-  ]),
+  getItem(
+    'Exam Setters',
+    'examSettersList',
+    <FontAwesomeIcon icon={faChalkboardUser} />,
+    [
+      getItem(
+        <Link to={PATH_ORG_ADMIN.exam_setters}>All Exam Setters</Link>,
+        'exam',
+        null
+      ),
+    ]
+  ),
 
   getItem('Candidates', 'candidates', null, [], 'group'),
 
-  getItem('Candidates', 'candidatesList', <FontAwesomeIcon icon={faGraduationCap} />, [
-    getItem(<Link to={PATH_ORG_ADMIN.groups}>Groups</Link>, 'all', null),
-  ]),
-
+  getItem(
+    'Candidates',
+    'candidatesList',
+    <FontAwesomeIcon icon={faGraduationCap} />,
+    [getItem(<Link to={PATH_ORG_ADMIN.groups}>Groups</Link>, 'all', null)]
+  ),
 
   getItem('Account', 'pages', null, [], 'group'),
 
@@ -240,7 +264,22 @@ const examSetterItems: MenuProps['items'] = [
   ]),
 ];
 
+// admin items
+const adminItems: MenuProps['items'] = [
+  getItem(<Link to={PATH_ADMIN.dashboard}>DashBoard</Link>, 'projects', <DashboardOutlined />,),
 
+  getItem(
+    <Link to={PATH_ADMIN.organizationRequest}>Organization Requests</Link>,
+    'Org',
+    <BankOutlined />,
+  ),
+  // reports
+  getItem('Reports', 'reports', <BarChartOutlined />, [
+    getItem(<Link to={PATH_ADMIN.examReports}>Exam Reports</Link>, 'examReports', null),
+    getItem(<Link to={PATH_ADMIN.userReports}>User Reports</Link>, 'userReports', null),
+    getItem(<Link to={PATH_ADMIN.organizationReports}>Exam Setter Reports</Link>, 'organizationReports', null),
+  ]),
+];
 
 const rootSubmenuKeys = ['dashboards', 'corporate', 'user-profile'];
 
@@ -252,8 +291,8 @@ const SideNav = ({ ...others }: SideNavProps) => {
   const [openKeys, setOpenKeys] = useState(['']);
   const [current, setCurrent] = useState('');
 
-  // set the state of the role as either examSetter or orgadmin
-  const [isRole, setIsRole] = useState('');
+  // set the state of the items as empty menu items
+  const [items, setItems] = useState<MenuProps['items']>([]);
 
   const onClick: MenuProps['onClick'] = (e) => {
     console.log('click ', e);
@@ -276,11 +315,13 @@ const SideNav = ({ ...others }: SideNavProps) => {
 
   useEffect(() => {
     if (pathname.includes('org-admin')) {
-      setIsRole('org-admin');
+      setItems(orgAdminItems);
     } else if (pathname.includes('examSetter')) {
-      setIsRole('examSetter');
+      setItems(examSetterItems);
     } else if (pathname.includes('candidate')) {
-      setIsRole('candidate');
+      setItems(candidateItems);
+    } else if (pathname.includes('admin')) {
+      setItems(adminItems);
     }
   }, [pathname]);
 
@@ -307,7 +348,7 @@ const SideNav = ({ ...others }: SideNavProps) => {
       //   },
       // }}
       >
-        {isRole === 'org-admin' && (
+        {/* {isRole === 'org-admin' && (
           <Menu
             mode="inline"
             items={orgAdminItems}
@@ -341,7 +382,19 @@ const SideNav = ({ ...others }: SideNavProps) => {
             selectedKeys={[current]}
             style={{ border: 'none' }}
           />
-        )}
+        )} */}
+
+        {
+          <Menu
+            mode="inline"
+            items={items}
+            onClick={onClick}
+            openKeys={openKeys}
+            onOpenChange={onOpenChange}
+            selectedKeys={[current]}
+            style={{ border: 'none' }}
+          />
+        }
       </ConfigProvider>
     </Sider>
   );
