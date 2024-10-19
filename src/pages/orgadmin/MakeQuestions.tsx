@@ -5,11 +5,14 @@ import { Form } from "antd";
 import { uploadFiles } from "../../api/services/AIAssistant";
 import { AddQuestion } from "./AddQuestion";
 import { useAuth } from "../../hooks/useAuth";
-import { fetchQuestions, deleteQuestion, getQuestionSequence, updateQuestionSequence } from "../../api/services/ExamServices";
+import { fetchQuestions, deleteQuestion } from "../../api/services/ExamServices";
 import { Question } from "../../api/types";
+<<<<<<< HEAD
 import MCQUpdate from "./MCQUpdate";
 import EssayUpdate from "./EssayUpdate";
 import { Reorder } from "framer-motion"
+=======
+>>>>>>> parent of 915c9a8 (question updating is completed)
 
 const MakeQuestions = () => {
   const [form] = Form.useForm();
@@ -19,18 +22,6 @@ const MakeQuestions = () => {
   const { getOrganization } = useAuth();
   const [questions, setQuestions] = useState<Question[]>([]);
   const examId = sessionStorage.getItem('examId');
-
-  const [editModalOpen, setEditModalOpen] = useState(false);
-  const [editingQuestion, setEditingQuestion] = useState<Question | null>(null);
-
-  const handleEdit = (question: Question) => {
-    setEditingQuestion(question);
-    setEditModalOpen(true);
-  };
-  const handleCancelEdit = () => {
-    setEditModalOpen(false);
-    setEditingQuestion(null); // Clear the question being edited
-  };
 
   const showModal = () => {
     setOpen(true);
@@ -67,6 +58,7 @@ const MakeQuestions = () => {
   };
 
   const loadQuestions = async () => {
+<<<<<<< HEAD
     if (!examId) return;
 
     try {
@@ -93,6 +85,19 @@ const MakeQuestions = () => {
       setQuestions(orderedQuestions.filter((q): q is Question => q !== undefined));
     } catch (error) {
       message.error('Failed to load questions or sequence');
+=======
+    const organizationId = getOrganization(); // Get the organization ID
+    if (organizationId && examId) {
+      try {
+        const response = await fetchQuestions(Number(examId));
+        const fetchedQuestions = response.data.questions || [];
+        setQuestions(fetchedQuestions); // Update state with fetched questions
+      } catch (error) {
+        message.error('Failed to load questions');
+      }
+    } else {
+      message.warning('No organization ID or exam ID found');
+>>>>>>> parent of 915c9a8 (question updating is completed)
     }
   };
 
@@ -102,6 +107,9 @@ const MakeQuestions = () => {
     loadQuestions();
   }, [examId, getOrganization]);
 
+  const handleEdit = (id: number) => {
+    message.info(`Editing question ${id}`);
+  };
 
   const handleDelete = (questionId: number) => {
     // Show confirmation modal before deleting
@@ -113,18 +121,16 @@ const MakeQuestions = () => {
       cancelText: 'Cancel',
       onOk: async () => {
         try {
+          // Call the backend API to delete the question
+          deleteQuestion(questionId);
 
-          await deleteQuestion(questionId);
-
+          // Show success message
           message.success('Question deleted successfully!');
 
-          const sequenceResponse = await getQuestionSequence(Number(examId));
-          const currentSequence = sequenceResponse.data.questionIds;
-          const updatedSequence = currentSequence.filter(id => id !== questionId);
-          await updateQuestionSequence(Number(examId), updatedSequence);
-
-          await loadQuestions();
+          // Reload the questions after deletion
+          loadQuestions();
         } catch (error) {
+          // Handle any errors from the delete request
           console.error('Failed to delete question:', error);
           message.error('Failed to delete the question. Please try again.');
         }
@@ -161,8 +167,13 @@ const MakeQuestions = () => {
         title={question.questionText}
         extra={
           <Space>
+<<<<<<< HEAD
             <Button icon={<EditOutlined onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} />} onClick={() => handleEdit(question)} />
             <Button icon={<DeleteOutlined onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} />} onClick={() => handleDelete(question.questionId)} danger />
+=======
+            <Button icon={<EditOutlined />} onClick={() => handleEdit(question.questionId)} />
+            <Button icon={<DeleteOutlined />} onClick={() => handleDelete(question.questionId)} danger />
+>>>>>>> parent of 915c9a8 (question updating is completed)
           </Space>
         }
       >
@@ -197,8 +208,13 @@ const MakeQuestions = () => {
         title={question.questionText}
         extra={
           <Space>
+<<<<<<< HEAD
             <Button icon={<EditOutlined onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} />} onClick={() => handleEdit(question)} />
             <Button icon={<DeleteOutlined onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} />} onClick={() => handleDelete(question.questionId)} danger />
+=======
+            <Button icon={<EditOutlined />} onClick={() => handleEdit(question.questionId)} />
+            <Button icon={<DeleteOutlined />} onClick={() => handleDelete(question.questionId)} danger />
+>>>>>>> parent of 915c9a8 (question updating is completed)
           </Space>
         }
       >
@@ -301,6 +317,7 @@ const MakeQuestions = () => {
         </Badge>
       </Space>
 
+<<<<<<< HEAD
       <Reorder.Group
         values={questions}
         onReorder={(newOrder) => {
@@ -340,6 +357,21 @@ const MakeQuestions = () => {
           <EssayUpdate question={editingQuestion} handleCancelEdit={handleCancelEdit} loadQuestions={loadQuestions} />
         ) : null}
       </Modal>
+=======
+      <List
+        grid={{ gutter: 16, column: 1 }}
+        dataSource={questions}
+        renderItem={question => (
+          <List.Item>
+            {question.questionType === 'MCQ' ? (
+              <MCQQuestion question={question} />
+            ) : question.questionType === 'Essay' ? (
+              <EssayQuestion question={question} />
+            ) : null}
+          </List.Item>
+        )}
+      />
+>>>>>>> parent of 915c9a8 (question updating is completed)
     </>
   );
 };

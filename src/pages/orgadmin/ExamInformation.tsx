@@ -10,14 +10,13 @@ import {
     DatePicker,
     Form,
     message,
-    InputNumber,
 } from 'antd';
 import { ExamRequest } from '../../api/types';
 import { useAuth } from '../../hooks/useAuth';
 import { getLoggedInUser } from '../../utils/authUtils';
 import { useEffect, useState } from 'react';
 
-import { getExamInformation, saveExamInformation, updateExamInformation } from '../../api/services/ExamServices';
+import {getExamInformation, saveExamInformation, updateExamInformation} from '../../api/services/ExamServices';
 import moment from 'moment';
 
 type ExamInformationProps = {
@@ -69,12 +68,12 @@ const ExamInformation: React.FC<ExamInformationProps> = ({ }) => {
                 description: values.description,
                 instructions: values.instructions,
                 duration: values.duration,
-                organizationId: organizationId ?? 0,
-                createdById: user?.id ?? 0,
-                startDatetime: values.startDatetime.toISOString(),
-                endDatetime: values.endDatetime.toISOString(),
-                orderType: 'FIXED',
-                isPrivate: false,
+                organizationId: organizationId ?? 0, 
+                createdById: user?.id ?? 0, 
+                startDatetime: values.date[0].toISOString(), 
+                endDatetime: values.date[1].toISOString(),
+                orderType: 'FIXED', 
+                isPrivate: false, 
             };
 
             setLoading(true);
@@ -110,8 +109,7 @@ const ExamInformation: React.FC<ExamInformationProps> = ({ }) => {
     return (
         <Form form={form} name="examForm" layout="vertical" onFinish={handleFinish}>
             <Row gutter={[24, 0]}>
-                {/* Title in a single row */}
-                <Col sm={24}>
+                <Col sm={24} lg={12}>
                     <Form.Item
                         label="Title"
                         name="title"
@@ -121,8 +119,7 @@ const ExamInformation: React.FC<ExamInformationProps> = ({ }) => {
                     </Form.Item>
                 </Col>
 
-                {/* Description and Duration in the same row */}
-                <Col sm={18}>
+                <Col sm={24} lg={12}>
                     <Form.Item
                         label="Description"
                         name="description"
@@ -132,56 +129,42 @@ const ExamInformation: React.FC<ExamInformationProps> = ({ }) => {
                     </Form.Item>
                 </Col>
 
-                <Col sm={6}>
+                <Col sm={24} lg={12}>
                     <Form.Item
                         label="Duration"
                         name="duration"
                         rules={[{ required: true, message: 'Please input the duration!' }]}
                     >
-                        <InputNumber min={1} placeholder="Duration in minutes" style={{ width: '100%' }} />
+                        <Input />
                     </Form.Item>
                 </Col>
 
-                {/* Date inputs (Start Date and End Date) in the same row */}
-                <Col sm={12}>
+                <Col sm={24}>
                     <Form.Item
-                        label="Start Date & Time"
-                        name="startDatetime"
-                        rules={[{ required: true, message: 'Please select the start date and time!' }]}
+                        name="date"
+                        label="Start Date & End Date"
+                        rules={[{ required: true, message: 'Please select the date range!' }]}
                     >
-                        <DatePicker showTime format="YYYY-MM-DD HH:mm:ss" />
+                        <RangePicker showTime format="YYYY-MM-DD HH:mm:ss" />
                     </Form.Item>
                 </Col>
 
-                <Col sm={12}>
-                    <Form.Item
-                        label="End Date & Time"
-                        name="endDatetime"
-                        rules={[{ required: true, message: 'Please select the end date and time!' }]}
-                    >
-                        <DatePicker showTime format="YYYY-MM-DD HH:mm:ss" />
-                    </Form.Item>
-                </Col>
-
-                {/* Instructions */}
                 <Col sm={24}>
                     <Form.Item name="instructions" label="Instructions">
                         <TextEditor />
                     </Form.Item>
                 </Col>
 
-                {/* Submit Button */}
                 <Col sm={24} lg={24}>
                     <Form.Item>
                         <Button type="primary" htmlType="submit" loading={loading}>
-                            {isUpdateMode ? 'Update Exam' : 'Save Exam'}
+                            {isUpdateMode ? 'Update Exam' : 'Save Exam'} {/* Change button text */}
                         </Button>
                     </Form.Item>
                 </Col>
             </Row>
         </Form>
     );
-
 };
 
 // Export the component to be used in the main exam creation page

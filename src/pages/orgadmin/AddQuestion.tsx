@@ -1,10 +1,14 @@
+<<<<<<< HEAD
 import { DeleteOutlined, RobotOutlined, PlusOutlined } from '@ant-design/icons';
+=======
+import { CloseOutlined, DeleteOutlined, OpenAIOutlined, PlusOutlined } from '@ant-design/icons';
+>>>>>>> parent of 915c9a8 (question updating is completed)
 import { Button, Card, Form, FormInstance, Input, Radio, Collapse, Flex, message } from 'antd';
 import { generateEssayQuestion, generateMCQQuestion } from '../../api/services/AIAssistant';
 import { NewExamContext } from '../../context/NewExamContext';
 import { useContext, useState } from 'react';
 import { MCQRequest, EssayRequest } from '../../api/types';
-import { addMCQ, addEssay, getQuestionSequence, updateQuestionSequence } from '../../api/services/ExamServices';
+import { addMCQ, addEssay } from '../../api/services/ExamServices';
 
 const tabList = [
   {
@@ -48,13 +52,6 @@ const McqForm = ({ form, loadQuestions }: { form: FormInstance, loadQuestions: (
       const response = await addMCQ(Number(examId), mcqRequest);
       if (response.data.success) {
         message.success('MCQ added successfully!');
-
-        const sequenceResponse = await getQuestionSequence(Number(examId));
-        const currentSequence = sequenceResponse.data.questionIds;
-        const newQuestionId = response.data.id;
-        const updatedSequence = [...currentSequence, newQuestionId];
-        await updateQuestionSequence(Number(examId), updatedSequence);
-
         loadQuestions();
         form.resetFields();
       } else {
@@ -199,13 +196,6 @@ const EssayForm = ({ form, loadQuestions }: { form: FormInstance, loadQuestions:
       const response = await addEssay(Number(examId), essayRequest); // Assume `addEssay` is the API call function
       if (response.data.success) {
         message.success('Essay added successfully!');
-
-        const sequenceResponse = await getQuestionSequence(Number(examId));
-        const currentSequence = sequenceResponse.data.questionIds;
-        const newQuestionId = response.data.id;
-        const updatedSequence = [...currentSequence, newQuestionId];
-        await updateQuestionSequence(Number(examId), updatedSequence);
-        
         loadQuestions();
         form.resetFields();
       } else {
@@ -281,7 +271,11 @@ const EssayForm = ({ form, loadQuestions }: { form: FormInstance, loadQuestions:
                     type="text"
                     onClick={() => subOpt.remove(subField.name)}
                     style={{ marginLeft: 'auto', color: 'red', border: 'none', padding: 0 }}
+<<<<<<< HEAD
                     icon={<DeleteOutlined onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} />}
+=======
+                    icon={<CloseOutlined />}
+>>>>>>> parent of 915c9a8 (question updating is completed)
                   />
                 </Flex>
               ))}
@@ -310,6 +304,7 @@ interface AddQuestionProps {
 }
 
 export const AddQuestion: React.FC<AddQuestionProps> = ({ form, loadQuestions }) => {
+  // console.log(handleOk);
   const [activeTabKey1, setActiveTabKey1] = useState<string>('mcq');
 
   const modelContent: Record<string, React.ReactNode> = {
@@ -318,6 +313,7 @@ export const AddQuestion: React.FC<AddQuestionProps> = ({ form, loadQuestions })
   };
 
   const onTab1Change = (key: string) => {
+    // clear values of the form
     form.resetFields();
 
     form.setFieldsValue({ questionType: key.toUpperCase() });
@@ -337,6 +333,13 @@ export const AddQuestion: React.FC<AddQuestionProps> = ({ form, loadQuestions })
       }}
     >
       {modelContent[activeTabKey1]}
+      {/* <Form.Item noStyle shouldUpdate>
+            {() => (
+              <Typography>
+                 <pre>{JSON.stringify(form.getFieldsValue(), null, 2)}</pre>
+              </Typography>
+            )}
+          </Form.Item> */}
     </Card>
   );
 };
@@ -352,6 +355,12 @@ const GenerateEssayQuestion = ({ form, setActiveKey }: { form: FormInstance, set
   }
 
   const { newExamState } = context;
+
+  // if (!newExamState.examId) {
+  //   message.error('Error: Exam ID is missing');
+
+  //   // throw new Error('Error: Exam ID is missing');
+  // }
 
   const promptChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setPrompt(e.target.value);
@@ -421,6 +430,12 @@ const GenerateMCQQuestion = ({ form, setActiveKey }: { form: FormInstance, setAc
   }
 
   const { newExamState } = context;
+
+  // if (!newExamState.examId) {
+  //   message.error('Error: Exam ID is missing');
+
+  //   // throw new Error('Error: Exam ID is missing');
+  // }
 
 
   const promptChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {

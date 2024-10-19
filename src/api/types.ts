@@ -228,5 +228,3 @@ export interface FetchQuestionsResponse {
 }
 
 
-
-
