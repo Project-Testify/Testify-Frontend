@@ -1,7 +1,7 @@
 import React from 'react';
 import { useContext } from "react";
 import { Switch } from 'antd';
-import { MoonOutlined, SunFilled } from '@ant-design/icons';
+import { BulbOutlined  } from '@ant-design/icons';
 import ThemeContext from "../../hooks/ThemeProvider";
 
 
@@ -16,8 +16,8 @@ export const TogglerDarkTheme: React.FC = () => {
         <Switch
           id="switch"
           onChange={toggleTheme}
-          checkedChildren={<MoonOutlined />}
-          unCheckedChildren={<SunFilled  style={{color: "#434333"}}/>}
+          checkedChildren={<BulbOutlined />}
+          unCheckedChildren={<BulbOutlined  style={{color: "#434333"}}/>}
           className={"circle"}
         />
       </label>

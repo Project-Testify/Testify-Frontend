@@ -83,7 +83,7 @@ export const McqQuestionView = ({
             <Button onClick={onPrevious} type="primary" icon={<LeftOutlined />} size="large" className="previous-button button">
               Previous
             </Button>
-            <Button onClick={onNext} type="primary" icon={<RightOutlined />} size="large" className="next-button button">
+            <Button onClick={onNext} type="primary" icon={<RightOutlined  />} size="large" className="next-button button">
               Next
             </Button>
           </div>

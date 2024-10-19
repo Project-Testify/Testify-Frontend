@@ -33,7 +33,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     // Save user data and token in session storage
     const { accessToken, ...userData } = data;
     sessionStorage.setItem('accessToken', accessToken);
-    setUser(userData);
+    setUser({ user: userData, ...userData });
     //print user data in console User date:{userdata}
     const loggedUser = getLoggedInUser();
     console.log('User data:', loggedUser);

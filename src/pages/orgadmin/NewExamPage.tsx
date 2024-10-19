@@ -13,7 +13,7 @@ import {
   Divider,
   message,
 } from 'antd';
-import { SetStateAction, useState } from 'react';
+import { useState } from 'react';
 
 import { saveExamInformation } from '../../api/services/ExamServices';
 import { ExamRequestForm, ExamRequest } from '../../api/types';
@@ -32,10 +32,6 @@ export const NewExamPage = () => {
 
   const { getOrganization } = useAuth(); // Use the hook here
   const [current, setCurrent] = useState(0);
-  const examId = sessionStorage.getItem('examId');
-  const [isUpdateMode, setIsUpdateMode] = useState(false); // Track if it's update mode
-  const [loading, setLoading] = useState(false); // For loading state
-  const [isExamInfoSaved, setIsExamInfoSaved] = useState(false); // Track if exam info is saved
   const loggedInUser = getLoggedInUser();
 
   const onFinishExamInformation = async (values: ExamRequestForm) => {
@@ -51,7 +47,7 @@ export const NewExamPage = () => {
         organizationId: getOrganization() ?? 0,
         createdById: loggedInUser?.id ?? 0,
         isPrivate: false,
-        orderType: ''
+        orderType: 'FIXED'
       };
 
       console.log('Exam Request:', examRequest);
@@ -61,7 +57,6 @@ export const NewExamPage = () => {
       if (response.data.success) { // Adjust this based on your actual API response structure
         const examId = response.data.id;
         sessionStorage.setItem('examId', examId);
-        setIsExamInfoSaved(true); // Mark that exam info is saved
         setCurrent(1); // Move to the next step
         message.success('Exam information saved successfully!');
       } else {
@@ -93,7 +88,7 @@ export const NewExamPage = () => {
           {
             title: (
               <>
-                <HomeOutlined />
+                <HomeOutlined/>
                 <span>home</span>
               </>
             ),
