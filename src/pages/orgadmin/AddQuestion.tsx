@@ -144,7 +144,7 @@ const McqForm = ({ form, loadQuestions }: { form: FormInstance, loadQuestions: (
                     type="text"
                     onClick={() => subOpt.remove(subField.name)}
                     style={{ marginLeft: 'auto', color: 'red', border: 'none', padding: 0 }}
-                    icon={<DeleteOutlined onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} />}
+                    icon={<DeleteOutlined onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined}  />}
                   />
                 </Flex>
               ))}
