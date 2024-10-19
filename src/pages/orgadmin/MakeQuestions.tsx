@@ -5,8 +5,11 @@ import { Form } from "antd";
 import { uploadFiles } from "../../api/services/AIAssistant";
 import { AddQuestion } from "./AddQuestion";
 import { useAuth } from "../../hooks/useAuth";
-import { fetchQuestions, deleteQuestion } from "../../api/services/ExamServices";
+import { fetchQuestions, deleteQuestion, getQuestionSequence, updateQuestionSequence } from "../../api/services/ExamServices";
 import { Question } from "../../api/types";
+import MCQUpdate from "./MCQUpdate";
+import EssayUpdate from "./EssayUpdate";
+import { Reorder } from "framer-motion"
 
 const MakeQuestions = () => {
   const [form] = Form.useForm();
@@ -16,6 +19,18 @@ const MakeQuestions = () => {
   const { getOrganization } = useAuth();
   const [questions, setQuestions] = useState<Question[]>([]);
   const examId = sessionStorage.getItem('examId');
+
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [editingQuestion, setEditingQuestion] = useState<Question | null>(null);
+
+  const handleEdit = (question: Question) => {
+    setEditingQuestion(question);
+    setEditModalOpen(true);
+  };
+  const handleCancelEdit = () => {
+    setEditModalOpen(false);
+    setEditingQuestion(null); // Clear the question being edited
+  };
 
   const showModal = () => {
     setOpen(true);
@@ -52,17 +67,32 @@ const MakeQuestions = () => {
   };
 
   const loadQuestions = async () => {
-    const organizationId = getOrganization(); // Get the organization ID
-    if (organizationId && examId) {
-      try {
-        const response = await fetchQuestions(Number(examId));
-        const fetchedQuestions = response.data.questions || [];
-        setQuestions(fetchedQuestions); // Update state with fetched questions
-      } catch (error) {
-        message.error('Failed to load questions');
+    if (!examId) return;
+
+    try {
+      // Fetch the questions for the exam
+      const response = await fetchQuestions(Number(examId));
+      const fetchedQuestions = response.data.questions || [];
+
+      // If no questions are fetched, set questions to an empty array
+      if (fetchedQuestions.length === 0) {
+        setQuestions([]);
+        return;
       }
-    } else {
-      message.warning('No organization ID or exam ID found');
+
+      // Fetch the correct question sequence using getQuestionSequence
+      const sequenceResponse = await getQuestionSequence(Number(examId));
+      const correctSequence = sequenceResponse.data.questionIds || [];
+
+      // Reorder the fetchedQuestions based on the correct sequence
+      const orderedQuestions = correctSequence.map((id) =>
+        fetchedQuestions.find((q) => q.questionId === id)
+      );
+
+      // Set the reordered questions to the state
+      setQuestions(orderedQuestions.filter((q): q is Question => q !== undefined));
+    } catch (error) {
+      message.error('Failed to load questions or sequence');
     }
   };
 
@@ -72,9 +102,6 @@ const MakeQuestions = () => {
     loadQuestions();
   }, [examId, getOrganization]);
 
-  const handleEdit = (id: number) => {
-    message.info(`Editing question ${id}`);
-  };
 
   const handleDelete = (questionId: number) => {
     // Show confirmation modal before deleting
@@ -86,16 +113,18 @@ const MakeQuestions = () => {
       cancelText: 'Cancel',
       onOk: async () => {
         try {
-          // Call the backend API to delete the question
-          deleteQuestion(questionId);
 
-          // Show success message
+          await deleteQuestion(questionId);
+
           message.success('Question deleted successfully!');
 
-          // Reload the questions after deletion
-          loadQuestions();
+          const sequenceResponse = await getQuestionSequence(Number(examId));
+          const currentSequence = sequenceResponse.data.questionIds;
+          const updatedSequence = currentSequence.filter(id => id !== questionId);
+          await updateQuestionSequence(Number(examId), updatedSequence);
+
+          await loadQuestions();
         } catch (error) {
-          // Handle any errors from the delete request
           console.error('Failed to delete question:', error);
           message.error('Failed to delete the question. Please try again.');
         }
@@ -106,7 +135,19 @@ const MakeQuestions = () => {
     });
   };
 
- 
+  const handleReorder = async (newOrder: Question[]) => {
+    // Extract question IDs from the reordered list
+    const updatedSequence = newOrder.map((question) => question.questionId);
+
+    try {
+      // Assuming you have an `examId` variable available in your component
+      await updateQuestionSequence(Number(examId), updatedSequence);
+      console.log('Question sequence updated successfully!');
+    } catch (error) {
+      console.error('Error updating question sequence:', error);
+    }
+  };
+
   // MCQQuestion Component
   const MCQQuestion = ({ question }: { question: Question }) => {
     return (
@@ -120,8 +161,8 @@ const MakeQuestions = () => {
         title={question.questionText}
         extra={
           <Space>
-            <Button icon={<EditOutlined />} onClick={() => handleEdit(question.questionId)} />
-            <Button icon={<DeleteOutlined />} onClick={() => handleDelete(question.questionId)} danger />
+            <Button icon={<EditOutlined  />} onClick={() => handleEdit(question)} />
+            <Button icon={<DeleteOutlined  />} onClick={() => handleDelete(question.questionId)} danger />
           </Space>
         }
       >
@@ -131,9 +172,9 @@ const MakeQuestions = () => {
               {option.optionText}
               <Space style={{ marginLeft: '8px' }}>
                 {option.correct ? (
-                  <CheckCircleOutlined style={{ color: 'green' }} />
+                  <CheckCircleOutlined style={{ color: 'green' }}/>
                 ) : (
-                  <CloseCircleOutlined style={{ color: 'red' }} />
+                  <CloseCircleOutlined style={{ color: 'red' }}  />
                 )}
                 <span>Marks: {option.marks}</span>
               </Space>
@@ -156,7 +197,7 @@ const MakeQuestions = () => {
         title={question.questionText}
         extra={
           <Space>
-            <Button icon={<EditOutlined />} onClick={() => handleEdit(question.questionId)} />
+            <Button icon={<EditOutlined  />} onClick={() => handleEdit(question)} />
             <Button icon={<DeleteOutlined />} onClick={() => handleDelete(question.questionId)} danger />
           </Space>
         }
@@ -260,19 +301,45 @@ const MakeQuestions = () => {
         </Badge>
       </Space>
 
-      <List
-        grid={{ gutter: 16, column: 1 }}
-        dataSource={questions}
-        renderItem={question => (
-          <List.Item>
-            {question.questionType === 'MCQ' ? (
-              <MCQQuestion question={question} />
-            ) : question.questionType === 'Essay' ? (
-              <EssayQuestion question={question} />
-            ) : null}
-          </List.Item>
-        )}
-      />
+      <Reorder.Group
+        values={questions}
+        onReorder={(newOrder) => {
+          setQuestions(newOrder); // Update the state with the new order
+          handleReorder(newOrder); // Call the function to update the question sequence
+        }}
+        style={{ listStyleType: 'none' }} // Remove default list styling (dot)
+      >
+        {questions.map((question, index) => (
+          <Reorder.Item key={question.questionId} value={question} style={{ marginBottom: '40px' }}>
+            <List.Item>
+              {/* Display "Question 01", "Question 02", etc. */}
+              <div >
+                Question {String(index + 1).padStart(2, '0')}
+              </div>
+              {question.questionType === 'MCQ' ? (
+                <MCQQuestion question={question} />
+              ) : question.questionType === 'Essay' ? (
+                <EssayQuestion question={question} />
+              ) : null}
+            </List.Item>
+          </Reorder.Item>
+        ))}
+      </Reorder.Group>
+
+
+      {/* Edit modal */}
+      <Modal
+        title="Edit Question"
+        open={editModalOpen}
+        onCancel={handleCancelEdit}  // Close modal on cancel
+        footer={null}
+      >
+        {editingQuestion && editingQuestion.questionType === 'MCQ' ? (
+          <MCQUpdate question={editingQuestion} handleCancelEdit={handleCancelEdit} loadQuestions={loadQuestions} />
+        ) : editingQuestion && editingQuestion.questionType === 'Essay' ? (
+          <EssayUpdate question={editingQuestion} handleCancelEdit={handleCancelEdit} loadQuestions={loadQuestions} />
+        ) : null}
+      </Modal>
     </>
   );
 };
