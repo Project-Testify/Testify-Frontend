@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 import { DeleteOutlined, RobotOutlined, PlusOutlined } from '@ant-design/icons';
-=======
-import { CloseOutlined, DeleteOutlined, OpenAIOutlined, PlusOutlined } from '@ant-design/icons';
->>>>>>> parent of 915c9a8 (question updating is completed)
 import { Button, Card, Form, FormInstance, Input, Radio, Collapse, Flex, message } from 'antd';
 import { generateEssayQuestion, generateMCQQuestion } from '../../api/services/AIAssistant';
 import { NewExamContext } from '../../context/NewExamContext';
@@ -141,11 +137,11 @@ const McqForm = ({ form, loadQuestions }: { form: FormInstance, loadQuestions: (
                     type="text"
                     onClick={() => subOpt.remove(subField.name)}
                     style={{ marginLeft: 'auto', color: 'red', border: 'none', padding: 0 }}
-                    icon={<DeleteOutlined onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined}  />}
+                    icon={<DeleteOutlined   />}
                   />
                 </Flex>
               ))}
-              <Button type="dashed" onClick={() => subOpt.add()} block icon={<PlusOutlined onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} />}>
+              <Button type="dashed" onClick={() => subOpt.add()} block icon={<PlusOutlined  />}>
                 Add Answer
               </Button>
             </div>
@@ -271,15 +267,11 @@ const EssayForm = ({ form, loadQuestions }: { form: FormInstance, loadQuestions:
                     type="text"
                     onClick={() => subOpt.remove(subField.name)}
                     style={{ marginLeft: 'auto', color: 'red', border: 'none', padding: 0 }}
-<<<<<<< HEAD
-                    icon={<DeleteOutlined onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} />}
-=======
-                    icon={<CloseOutlined />}
->>>>>>> parent of 915c9a8 (question updating is completed)
+                    icon={<DeleteOutlined  />}
                   />
                 </Flex>
               ))}
-              <Button type="dashed" onClick={() => subOpt.add()} block icon={<PlusOutlined onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} />}>
+              <Button type="dashed" onClick={() => subOpt.add()} block icon={<PlusOutlined  />}>
                 Add Covering Point
               </Button>
             </div>
@@ -408,7 +400,7 @@ const GenerateEssayQuestion = ({ form, setActiveKey }: { form: FormInstance, set
       </Form.Item>
       <Form.Item>
         <Button type="primary" onClick={handleGenerateClick} loading={loading}>
-          Generate <RobotOutlined onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} />
+          Generate <RobotOutlined  />
         </Button>
       </Form.Item>
     </Form>
@@ -490,7 +482,7 @@ const GenerateMCQQuestion = ({ form, setActiveKey }: { form: FormInstance, setAc
       </Form.Item>
       <Form.Item>
         <Button type="primary" onClick={handleGenerateClick} loading={loading}>
-          Generate <RobotOutlined onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} />
+          Generate <RobotOutlined  />
         </Button>
       </Form.Item>
     </Form>

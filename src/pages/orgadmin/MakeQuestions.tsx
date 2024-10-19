@@ -7,12 +7,6 @@ import { AddQuestion } from "./AddQuestion";
 import { useAuth } from "../../hooks/useAuth";
 import { fetchQuestions, deleteQuestion } from "../../api/services/ExamServices";
 import { Question } from "../../api/types";
-<<<<<<< HEAD
-import MCQUpdate from "./MCQUpdate";
-import EssayUpdate from "./EssayUpdate";
-import { Reorder } from "framer-motion"
-=======
->>>>>>> parent of 915c9a8 (question updating is completed)
 
 const MakeQuestions = () => {
   const [form] = Form.useForm();
@@ -58,34 +52,6 @@ const MakeQuestions = () => {
   };
 
   const loadQuestions = async () => {
-<<<<<<< HEAD
-    if (!examId) return;
-
-    try {
-      // Fetch the questions for the exam
-      const response = await fetchQuestions(Number(examId));
-      const fetchedQuestions = response.data.questions || [];
-
-      // If no questions are fetched, set questions to an empty array
-      if (fetchedQuestions.length === 0) {
-        setQuestions([]);
-        return;
-      }
-
-      // Fetch the correct question sequence using getQuestionSequence
-      const sequenceResponse = await getQuestionSequence(Number(examId));
-      const correctSequence = sequenceResponse.data.questionIds || [];
-
-      // Reorder the fetchedQuestions based on the correct sequence
-      const orderedQuestions = correctSequence.map((id) =>
-        fetchedQuestions.find((q) => q.questionId === id)
-      );
-
-      // Set the reordered questions to the state
-      setQuestions(orderedQuestions.filter((q): q is Question => q !== undefined));
-    } catch (error) {
-      message.error('Failed to load questions or sequence');
-=======
     const organizationId = getOrganization(); // Get the organization ID
     if (organizationId && examId) {
       try {
@@ -97,7 +63,6 @@ const MakeQuestions = () => {
       }
     } else {
       message.warning('No organization ID or exam ID found');
->>>>>>> parent of 915c9a8 (question updating is completed)
     }
   };
 
@@ -141,19 +106,7 @@ const MakeQuestions = () => {
     });
   };
 
-  const handleReorder = async (newOrder: Question[]) => {
-    // Extract question IDs from the reordered list
-    const updatedSequence = newOrder.map((question) => question.questionId);
-
-    try {
-      // Assuming you have an `examId` variable available in your component
-      await updateQuestionSequence(Number(examId), updatedSequence);
-      console.log('Question sequence updated successfully!');
-    } catch (error) {
-      console.error('Error updating question sequence:', error);
-    }
-  };
-
+ 
   // MCQQuestion Component
   const MCQQuestion = ({ question }: { question: Question }) => {
     return (
@@ -167,13 +120,8 @@ const MakeQuestions = () => {
         title={question.questionText}
         extra={
           <Space>
-<<<<<<< HEAD
-            <Button icon={<EditOutlined onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} />} onClick={() => handleEdit(question)} />
-            <Button icon={<DeleteOutlined onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} />} onClick={() => handleDelete(question.questionId)} danger />
-=======
             <Button icon={<EditOutlined />} onClick={() => handleEdit(question.questionId)} />
             <Button icon={<DeleteOutlined />} onClick={() => handleDelete(question.questionId)} danger />
->>>>>>> parent of 915c9a8 (question updating is completed)
           </Space>
         }
       >
@@ -183,9 +131,9 @@ const MakeQuestions = () => {
               {option.optionText}
               <Space style={{ marginLeft: '8px' }}>
                 {option.correct ? (
-                  <CheckCircleOutlined style={{ color: 'green' }} onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} />
+                  <CheckCircleOutlined style={{ color: 'green' }} />
                 ) : (
-                  <CloseCircleOutlined style={{ color: 'red' }} onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} />
+                  <CloseCircleOutlined style={{ color: 'red' }} />
                 )}
                 <span>Marks: {option.marks}</span>
               </Space>
@@ -208,13 +156,8 @@ const MakeQuestions = () => {
         title={question.questionText}
         extra={
           <Space>
-<<<<<<< HEAD
-            <Button icon={<EditOutlined onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} />} onClick={() => handleEdit(question)} />
-            <Button icon={<DeleteOutlined onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} />} onClick={() => handleDelete(question.questionId)} danger />
-=======
             <Button icon={<EditOutlined />} onClick={() => handleEdit(question.questionId)} />
             <Button icon={<DeleteOutlined />} onClick={() => handleDelete(question.questionId)} danger />
->>>>>>> parent of 915c9a8 (question updating is completed)
           </Space>
         }
       >
@@ -263,7 +206,7 @@ const MakeQuestions = () => {
                 fileList={fileList}
                 multiple={true}
               >
-                <Button icon={<UploadOutlined onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} />}>Click to Upload</Button>
+                <Button icon={<UploadOutlined />}>Click to Upload</Button>
               </Upload>
             </Form.Item>
           </Form>
@@ -317,47 +260,6 @@ const MakeQuestions = () => {
         </Badge>
       </Space>
 
-<<<<<<< HEAD
-      <Reorder.Group
-        values={questions}
-        onReorder={(newOrder) => {
-          setQuestions(newOrder); // Update the state with the new order
-          handleReorder(newOrder); // Call the function to update the question sequence
-        }}
-        style={{ listStyleType: 'none' }} // Remove default list styling (dot)
-      >
-        {questions.map((question, index) => (
-          <Reorder.Item key={question.questionId} value={question} style={{ marginBottom: '40px' }}>
-            <List.Item>
-              {/* Display "Question 01", "Question 02", etc. */}
-              <div >
-                Question {String(index + 1).padStart(2, '0')}
-              </div>
-              {question.questionType === 'MCQ' ? (
-                <MCQQuestion question={question} />
-              ) : question.questionType === 'Essay' ? (
-                <EssayQuestion question={question} />
-              ) : null}
-            </List.Item>
-          </Reorder.Item>
-        ))}
-      </Reorder.Group>
-
-
-      {/* Edit modal */}
-      <Modal
-        title="Edit Question"
-        open={editModalOpen}
-        onCancel={handleCancelEdit}  // Close modal on cancel
-        footer={null}
-      >
-        {editingQuestion && editingQuestion.questionType === 'MCQ' ? (
-          <MCQUpdate question={editingQuestion} handleCancelEdit={handleCancelEdit} loadQuestions={loadQuestions} />
-        ) : editingQuestion && editingQuestion.questionType === 'Essay' ? (
-          <EssayUpdate question={editingQuestion} handleCancelEdit={handleCancelEdit} loadQuestions={loadQuestions} />
-        ) : null}
-      </Modal>
-=======
       <List
         grid={{ gutter: 16, column: 1 }}
         dataSource={questions}
@@ -371,7 +273,6 @@ const MakeQuestions = () => {
           </List.Item>
         )}
       />
->>>>>>> parent of 915c9a8 (question updating is completed)
     </>
   );
 };
