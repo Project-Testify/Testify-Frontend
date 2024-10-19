@@ -65,7 +65,7 @@ export const Organization = () => {
       formData.append('terms', values.terms ? 'true' : 'false');
 
       // Append files to formData
-      uploadedFiles.forEach((file, index) => {
+      uploadedFiles.forEach((file) => {
         formData.append('verificationDocuments', file);
       });
 
