@@ -32,7 +32,6 @@ export const NewExamPage = () => {
 
   const { getOrganization } = useAuth(); // Use the hook here
   const [current, setCurrent] = useState(0);
-  const [isExamInfoSaved, setIsExamInfoSaved] = useState(false); // Track if exam info is saved
   const loggedInUser = getLoggedInUser();
 
   const onFinishExamInformation = async (values: ExamRequestForm) => {
@@ -58,7 +57,6 @@ export const NewExamPage = () => {
       if (response.data.success) { // Adjust this based on your actual API response structure
         const examId = response.data.id;
         sessionStorage.setItem('examId', examId);
-        setIsExamInfoSaved(true); // Mark that exam info is saved
         setCurrent(1); // Move to the next step
         message.success('Exam information saved successfully!');
       } else {
@@ -90,7 +88,7 @@ export const NewExamPage = () => {
           {
             title: (
               <>
-                <HomeOutlined onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} />
+                <HomeOutlined/>
                 <span>home</span>
               </>
             ),
@@ -99,7 +97,7 @@ export const NewExamPage = () => {
           {
             title: (
               <>
-                <BankOutlined onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} />
+                <BankOutlined />
                 <span>Exams</span>
               </>
             ),
