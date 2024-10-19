@@ -145,7 +145,7 @@ const ExamInformation: React.FC<ExamInformationProps> = ({ }) => {
                         label="Start Date & End Date"
                         rules={[{ required: true, message: 'Please select the date range!' }]}
                     >
-                        <RangePicker showTime format="YYYY-MM-DD HH:mm:ss" />
+                        <DatePicker.RangePicker showTime format="YYYY-MM-DD HH:mm:ss" />
                     </Form.Item>
                 </Col>
 
