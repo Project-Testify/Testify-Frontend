@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { Col, Row } from 'antd';
+import { Col, message, Row } from 'antd';
 import {  
   PageHeader,
   MarketingStatsCard,
@@ -15,18 +15,44 @@ import {
   FileTextOutlined,
 } from '@ant-design/icons';
 import { Helmet } from 'react-helmet-async';
-import { useFetchData } from '../../hooks';
 import { getLoggedInUser } from '../../utils/authUtils';
-
-
+import { useEffect, useState } from 'react';
+import { ExamResponse } from '../../api/types';
+import { getExams } from '../../api/services/organization';
 
 export const OrgAdminDashBoard = () => {
+  const [exams, setExams] = useState<ExamResponse[]>([]);
+  const [upcomingExams, setUpcomingExams] = useState<ExamResponse[]>([]);
+  
+  const loggedInUser = getLoggedInUser();
+  if (!loggedInUser) {
+    message.error("You must be logged in to perform this action.");
+    return;
+  }
+  const organizationId = loggedInUser.id;
 
-  const {
-    data: tasksListData = [],
-    error: tasksListError,
-    loading: tasksListLoading,
-  } = useFetchData('../mocks/ExamsMock.json');
+
+  const fetchExams = async() => {
+    try{
+      const response  = await getExams(organizationId);
+      const exams = response.data;
+      console.log(response.data);
+      setExams(exams);
+      console.log("exams",exams);
+    }catch(error){
+      message.error("Error fetching exams");
+      console.log(error);
+    }
+  }
+
+  useEffect(()=>{
+    fetchExams();
+  },[organizationId])
+
+  useEffect(()=>{
+    const currentDate = new Date();
+    setUpcomingExams(exams.filter((exam)=>new Date(exam.startDatetime)>currentDate));
+  },[exams])
 
   // const {
   //   data: examCardData,
@@ -34,8 +60,6 @@ export const OrgAdminDashBoard = () => {
   //   loading: examCardDataLoading,
   // } = useFetchData('../mocks/Exams.json');
 
-  //get user from getLoggedInUser
-  const user = getLoggedInUser();
 
   return (
     <div>
@@ -43,7 +67,7 @@ export const OrgAdminDashBoard = () => {
         <title>Testify</title>
       </Helmet>
       <PageHeader
-        title={'Welcome ' + user?.firstName}
+        title={'Welcome ' + loggedInUser?.firstName}
         breadcrumbs={[
           {
             title: (
@@ -72,8 +96,8 @@ export const OrgAdminDashBoard = () => {
       >
         <Col xs={24} sm={12} lg={8}>
           <LearningStatsCard
-            title="Today Exams in Progress"
-            value={18}
+            title="Total Exams"
+            value={exams.length}
             icon={FileTextOutlined}
             color="#6f7ae8"
             progress={30}
@@ -99,11 +123,7 @@ export const OrgAdminDashBoard = () => {
         </Col>
 
         <Col span={24}>
-          <ExamListCard
-            data={tasksListData}
-            error={tasksListError}
-            loading={tasksListLoading}
-          />
+          <ExamListCard exams={upcomingExams} />
         </Col>
       </Row>
     </div>

@@ -38,7 +38,7 @@ export const Groups = () => {
     setFileList(info.fileList);
   
     // Process each file as it is uploaded
-    info.fileList.forEach((file) => {
+    info.fileList.forEach((file:any) => {
       if ( file.originFileObj) {
         const reader = new FileReader();
         reader.onload = (e: ProgressEvent<FileReader>) => {
@@ -55,7 +55,7 @@ export const Groups = () => {
   };
 
   const submit = (form: FormInstance) => {
-    form.validateFields().then(values => {
+    form.validateFields().then((values:Record<string,any>) => {
       //console.log(values);
       //console.log(fileList);
       setUploading(true);
@@ -75,9 +75,14 @@ export const Groups = () => {
         setUploading(false);
       })
 
-    }).catch(err => {
-      console.log(err);
-    })
+    }).catch((error: unknown) => {
+      if (error instanceof Error) {
+        console.log(error.message);
+      } else {
+        console.log("An unknown error occurred.");
+      }
+    });
+    
   }
 
     const fetchGroups = async () => {
@@ -144,7 +149,7 @@ export const Groups = () => {
         open={open}
         // onOk={() => submit(form)}
         onCancel={() => setOpen(false)}
-        footer={(_, {  CancelBtn }) => (
+        footer={(_:any, {  CancelBtn }) => (
           <>
             <CancelBtn />
             <Button loading={uploading} onClick={() => submit(form)} type="primary">

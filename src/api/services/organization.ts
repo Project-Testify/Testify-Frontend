@@ -1,6 +1,6 @@
 import api from '../config';
 import { AxiosResponse } from 'axios';
-import { InviteExamSetterRequest, GenericAddOrUpdateResponse} from '../types';
+import { InviteExamSetterRequest, GenericAddOrUpdateResponse, ExamResponse} from '../types';
 
 export const addExamSetterService = (
     organizationId: number,
@@ -16,4 +16,8 @@ export const getInvitations = (organizationId: number): Promise<AxiosResponse<an
 export const getExamSetters = (organizationId: number): Promise<AxiosResponse<any>> => {
     return api.get<any>(`/organization/${organizationId}/examSetters`);
 };
+
+export const getExams = (organizationId: number): Promise<AxiosResponse<ExamResponse[]>> => {
+    return api.get<ExamResponse[]>(`/organization/${organizationId}/exams`);
+}
 
