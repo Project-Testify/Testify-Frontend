@@ -1,11 +1,12 @@
-import React from 'react';
-import { CardProps, Flex, Progress, Typography } from 'antd';
+import { CardProps, Col, Flex, Row, Typography } from 'antd';
 import { Card } from '../../../index.ts';
 import CountUp from 'react-countup';
+import { UsergroupAddOutlined, UserOutlined } from '@ant-design/icons';
 
 type Props = {
   title: string;
-  value: number;
+  value1: number;
+  value2: number;
   icon: any;
   color: string;
   progress: number;
@@ -15,22 +16,42 @@ export const StatsCard = ({
   color,
   icon,
   title,
-  value,
+  value1,
+  value2,
   progress,
   ...others
 }: Props) => {
   return (
     <Card {...others}>
-      <Flex vertical gap="middle">
-        {React.createElement(icon, { style: { fontSize: 30 } })}
-        <Typography.Text className="m-0 text-capitalize">
-          {title}
-        </Typography.Text>
-        <Typography.Title level={2} className="m-0">
-          <CountUp end={value} />
-        </Typography.Title>
-        <Progress percent={progress} showInfo={false} strokeColor={color} />
-      </Flex>
+      <Row>
+        <Col lg={12}>
+        <Card style={{backgroundColor:'rgb(109 118 237 / 50%)'}}>
+          <Flex vertical>
+            <UserOutlined style={{fontSize:'30px'}}/>
+            <Typography.Title level={2} style={{margin:0}}>
+              <CountUp end={value1} />
+            </Typography.Title>
+            <Typography.Text style={{marginTop:0}}>
+              Registered Setters
+            </Typography.Text>
+          </Flex>
+          </Card>
+        </Col>
+        <Col lg={12}>
+        <Card style={{backgroundColor:'rgb(109 118 237 / 100%)'}}>
+          <Flex vertical>
+          <UsergroupAddOutlined style={{fontSize:'30px'}}/>
+          <Typography.Title level={2} style={{margin:0}}>
+              <CountUp end={value2} />
+            </Typography.Title>
+            <Typography.Text style={{marginTop:0}}>
+              Setters to Respond
+            </Typography.Text>
+            
+          </Flex>
+          </Card>
+        </Col>
+      </Row>
     </Card>
   );
 };
