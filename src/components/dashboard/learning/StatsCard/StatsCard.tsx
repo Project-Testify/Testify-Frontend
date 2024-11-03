@@ -25,30 +25,29 @@ export const StatsCard = ({
     <Card {...others}>
       <Row>
         <Col lg={12}>
-        <Card style={{backgroundColor:'rgb(109 118 237 / 50%)'}}>
-          <Flex vertical>
-            <UserOutlined style={{fontSize:'30px'}}/>
-            <Typography.Title level={2} style={{margin:0}}>
-              <CountUp end={value1} />
-            </Typography.Title>
-            <Typography.Text style={{marginTop:0}}>
-              Registered Setters
-            </Typography.Text>
-          </Flex>
+          <Card style={{ backgroundColor: 'rgb(109 118 237 / 50%)' }}>
+            <Flex vertical>
+              <UserOutlined style={{ fontSize: '30px' }} />
+              <Typography.Title level={2} style={{ margin: 0 }}>
+                <CountUp end={value1} />
+              </Typography.Title>
+              <Typography.Text style={{ marginTop: 0 }}>
+                Registered Setters
+              </Typography.Text>
+            </Flex>
           </Card>
         </Col>
         <Col lg={12}>
-        <Card style={{backgroundColor:'rgb(109 118 237 / 100%)'}}>
-          <Flex vertical>
-          <UsergroupAddOutlined style={{fontSize:'30px'}}/>
-          <Typography.Title level={2} style={{margin:0}}>
-              <CountUp end={value2} />
-            </Typography.Title>
-            <Typography.Text style={{marginTop:0}}>
-              Setters to Respond
-            </Typography.Text>
-            
-          </Flex>
+          <Card style={{ backgroundColor: 'rgb(109 118 237 / 100%)' }}>
+            <Flex vertical>
+              <UsergroupAddOutlined style={{ fontSize: '30px' }} />
+              <Typography.Title level={2} style={{ margin: 0 }}>
+                <CountUp end={value2} />
+              </Typography.Title>
+              <Typography.Text style={{ marginTop: 0 }}>
+                Setters to Respond
+              </Typography.Text>
+            </Flex>
           </Card>
         </Col>
       </Row>

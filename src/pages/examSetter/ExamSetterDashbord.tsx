@@ -4,7 +4,6 @@ import {
   Card,
   Loader,
   PageHeader,
-  MarketingStatsCard,
   LogisticsStatsCard,
   ExamsTable,
   // LearningStatsCard,
@@ -231,13 +230,13 @@ export const ExamSetterDashBoardPage = () => {
           />
         </Col> */}
         <Col xs={24} sm={12} lg={8}>
-          <MarketingStatsCard
+          {/* <MarketingStatsCard
             data={[274, 337, 81, 497]}
             title="Exams Taken"
             diff={12.5}
             value={16826}
             style={{ height: '100%' }}
-          />
+          /> */}
         </Col>
         <Col xs={24} sm={12} lg={8}>
           <LogisticsStatsCard

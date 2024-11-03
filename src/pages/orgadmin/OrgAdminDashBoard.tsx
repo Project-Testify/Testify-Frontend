@@ -102,13 +102,13 @@ export const OrgAdminDashBoard = () => {
       upcoming: upcomingExams.length,
       completed: completedExams.length
     })
-  },[exams])
+  },[exams]);
 
   const chartData = [
     {type:'Active', value: counts.active},
     {type:'Upcoming', value:counts.upcoming},
     {type:'Completed', value:counts.completed}
-  ]
+  ];
 
   // const {
   //   data: examCardData,

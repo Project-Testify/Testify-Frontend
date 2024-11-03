@@ -5,7 +5,7 @@ import {
   MarketingStatsCard,
   LogisticsStatsCard,
   LearningStatsCard,
-  ExamListCard,
+  // ExamListCard,
 } from '../../components';
 
 
@@ -15,18 +15,26 @@ import {
   FileTextOutlined,
 } from '@ant-design/icons';
 import { Helmet } from 'react-helmet-async';
-import { useFetchData } from '../../hooks';
+// import { useFetchData } from '../../hooks';
 import { getLoggedInUser } from '../../utils/authUtils';
 
 
 
 export const AdminDashBoard = () => {
 
-  const {
-    data: tasksListData = [],
-    error: tasksListError,
-    loading: tasksListLoading,
-  } = useFetchData('../mocks/ExamsMock.json');
+  // const {
+  //   data: tasksListData = [],
+  //   error: tasksListError,
+  //   loading: tasksListLoading,
+  // } = useFetchData('../mocks/ExamsMock.json');
+
+  const chartData = [
+    { type: 'Active', value: 274 },
+    { type: 'Upcoming', value: 337 },
+    { type: 'Completed', value: 81 },
+    { type: 'Other', value: 497 }
+  ];
+  
 
   // const {
   //   data: examCardData,
@@ -72,8 +80,9 @@ export const AdminDashBoard = () => {
       >
         <Col xs={24} sm={12} lg={8}>
           <LearningStatsCard
-            title="Today Exams in Progress"
-            value={18}
+            title="Total Exams"
+            value1= {6}
+            value2={7}
             icon={FileTextOutlined}
             color="#6f7ae8"
             progress={30}
@@ -82,10 +91,8 @@ export const AdminDashBoard = () => {
         </Col>
         <Col xs={24} sm={12} lg={8}>
           <MarketingStatsCard
-            data={[274, 337, 81, 497]}
-            title="Active Candidates"
-            diff={12.5}
-            value={420}
+            data={chartData}
+            title="Exam Status"
             style={{ height: '100%' }}
           />
         </Col>
@@ -99,11 +106,9 @@ export const AdminDashBoard = () => {
         </Col>
 
         <Col span={24}>
-          <ExamListCard
-            data={tasksListData}
-            error={tasksListError}
-            loading={tasksListLoading}
-          />
+          {/* <ExamListCard
+            exams={tasksListData}
+          /> */}
         </Col>
       </Row>
     </div>
