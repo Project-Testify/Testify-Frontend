@@ -2,7 +2,7 @@ import { createContext, useContext, useMemo, ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSessionStorage } from "./useSessionStorage";  // Import the new hook
 
-import { PATH_ORG_ADMIN, PATH_TUTOR, PATH_CANDIDATE } from '../constants/routes';
+import { PATH_ORG_ADMIN, PATH_TUTOR, PATH_CANDIDATE, PATH_ADMIN } from '../constants/routes';
 import { AuthResponse, UserRole, User } from '../api/types';
 import { getLoggedInUser } from "../utils/authUtils";
 
@@ -33,7 +33,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     // Save user data and token in session storage
     const { accessToken, ...userData } = data;
     sessionStorage.setItem('accessToken', accessToken);
-    setUser(userData);
+    setUser({ user: userData, ...userData });
     //print user data in console User date:{userdata}
     const loggedUser = getLoggedInUser();
     console.log('User data:', loggedUser);
@@ -46,6 +46,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       navigate(PATH_CANDIDATE.dashboard);
     } else if (userData.role === UserRole.EXAMSETTER) {
       navigate(PATH_TUTOR.dashboard);
+    } else if(userData.role === UserRole.ADMIN){
+      navigate(PATH_ADMIN.dashboard);
     }
   };
 

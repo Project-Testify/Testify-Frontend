@@ -14,6 +14,7 @@ export const getLoggedInUser = (): User | null => {
     return null;
 };
 
+
 // Function to get the access token from local storage
 export const getAccessToken = (): string | null => {
     return sessionStorage.getItem('accessToken');
