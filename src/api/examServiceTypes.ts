@@ -36,3 +36,26 @@ export interface QuestionSequenceRequest {
 export interface QuestionSequenceResponse {
     questionIds: number[]; // Adjust this according to your actual response structure
 }
+
+export interface GradeRequest {
+    gradingString: string; 
+    minMarks: number;      
+    maxMarks: number;     
+}
+
+export interface GradeResponse {
+    id: number;
+    gradingString: string; 
+    minMarks: number;      
+    maxMarks: number;     
+}
+
+export interface OrderChangeRequest {
+    orderType: string;
+    value: number;
+}
+
+export interface OrderResponse {
+    orderType: string;
+    value: number;
+}
