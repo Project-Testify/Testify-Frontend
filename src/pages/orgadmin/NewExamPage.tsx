@@ -25,6 +25,7 @@ import AddProctors from './AddProctors';
 import AddCandidate from './AddCandidate';
 import AdditionalFeatures from './AdditionalFeatures';
 import { getLoggedInUser } from '../../utils/authUtils';
+import SequenceHandling from './SequenceHandling';
 
 const { Step } = Steps;
 
@@ -69,11 +70,6 @@ export const NewExamPage = () => {
   };
 
   const onStepChange = (newStep: number) => {
-    // Block navigation if exam information is not saved and the user tries to go beyond step 0
-    // if (newStep > 0 && !isExamInfoSaved) {
-    //   message.warning('Please save exam information before proceeding to the next step.');
-    //   return;
-    // }
     setCurrent(newStep);
   };
 
@@ -114,6 +110,7 @@ export const NewExamPage = () => {
         >
           <Step title="Exam Information"></Step>
           <Step title="Make Questions"></Step>
+          <Step title="Question Sequence"></Step>
           <Step title="Grading"></Step>
           <Step title="Proctors"></Step>
           <Step title="Select Candidates"></Step>
@@ -126,10 +123,11 @@ export const NewExamPage = () => {
           <ExamInformation onFinishFun={onFinishExamInformation} />
         )}
         {current === 1 && <MakeQuestions />}
-        {current === 2 && <AddGrading />}
-        {current === 3 && <AddProctors />}
-        {current === 4 && <AddCandidate />}
-        {current === 5 && <AdditionalFeatures />}
+        {current === 2 && <SequenceHandling />}
+        {current === 3 && <AddGrading />}
+        {current === 4 && <AddProctors />}
+        {current === 5 && <AddCandidate />}
+        {current === 6 && <AdditionalFeatures />}
 
         <Divider />
       </Card>

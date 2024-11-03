@@ -153,7 +153,7 @@ const MakeQuestions = () => {
     return (
       <Card
         style={{
-          background: 'rgba(173, 216, 230, 0.2)', // Light blue glass effect
+          background: 'rgba(39, 174, 96, 0.2)', // Light blue glass effect
           backdropFilter: 'blur(10px)',
           marginBottom: '16px',
         }}
@@ -190,7 +190,7 @@ const MakeQuestions = () => {
     return (
       <Card
         style={{
-          background: 'rgba(173, 216, 230, 0.2)', // Light blue glass effect
+          background: 'rgba(41, 128, 185, 0.2)', // Light blue glass effectrgb(41, 128, 185)rgb(39, 174, 96)
           backdropFilter: 'blur(10px)',
           marginBottom: '16px',
         }}
