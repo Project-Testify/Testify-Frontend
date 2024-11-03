@@ -82,6 +82,10 @@
     accent-color: #6D76ED !important;
 }
 
+.radio-button:checked{
+    color: #6D76ED !important;
+}
+
 .button-container {
     margin: 10px;
     margin-top: 24px;
@@ -113,3 +117,35 @@
 .submit-button {
     width: 100%;
 }
+
+.camera-feed-container {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    z-index: 1000;
+    border: 2px solid #6d76ed;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    cursor: move;
+    height: auto;
+  }
+  
+  .camera-feed-video {
+    width: 200px;
+    height: 150px;
+    border-radius: 8px;
+    border: 1px solid #000000;
+    background-color: #000000;
+  }
+  
+  .camera-feed-alert {
+    margin-bottom: 10px;
+  }
+  
+  .camera-feed-close-btn {
+    margin-top: 10px;
+    width: 100%;
+  }
+  

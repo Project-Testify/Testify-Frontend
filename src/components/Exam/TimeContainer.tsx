@@ -34,7 +34,7 @@ export const TimeContainer = ({ totalQuestions, answeredIndexes, skippedIndexes 
         textAlign: 'center',
         padding: '12px 24px',
         background: colorBgContainer,
-        border: '2px solid #1890FF',
+        border: '2px solid #6D76ED',
         borderRadius: borderRadiusLG,
     };
 

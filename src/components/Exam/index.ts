@@ -7,3 +7,4 @@ export {EssayQuestionView} from './EssayQuestionView.tsx';
 export {CountdownTimer} from './CountdownTimer.tsx';
 export {TimeContainer} from './TimeContainer.tsx';
 export {QuestionIndexes} from './QuestionIndexes.tsx';
+export {CandidateCameraFeed} from './CandidateCameraFeed.tsx';
