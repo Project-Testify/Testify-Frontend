@@ -1,65 +1,68 @@
-import { CardProps, Col, Flex, Row,  Tag,  Typography } from 'antd';
+import { CardProps, Flex,Typography } from 'antd';
 import { Card } from '../../../index.ts';
-import { TinyColumn } from '@ant-design/charts';
+import { Pie } from '@ant-design/charts';
 
-type ChartData = [number, number, number, number];
+type ChartData = {type:string, value:number}[];
 
-type StatsColumnChartProps = {
+type StatsBarChartProps = {
   data: ChartData;
-  color?: string;
 };
 
-const ColumnChart = ({ data, color }: StatsColumnChartProps) => {
-  const brandColor = color || '#5B8FF9';
+// const ColumnChart = ({ data, color }: StatsColumnChartProps) => {
+//   const brandColor = color || '#5B8FF9';
+//   const config = {
+//     height: 64,
+//     autoFit: true,
+//     data,
+//     color: brandColor,
+//     tooltip: {
+//       customContent: function (x: any, data: any) {
+//         return `NO.${x}: ${data[0]?.data?.y.toFixed(2)}`;
+//       },
+//     },
+//   };
+//   return <TinyColumn {...config} />;
+// };
+
+const PieChart = ({data}: StatsBarChartProps)=>{
+
   const config = {
-    height: 64,
-    autoFit: true,
     data,
-    color: brandColor,
-    tooltip: {
-      customContent: function (x: any, data: any) {
-        return `NO.${x}: ${data[0]?.data?.y.toFixed(2)}`;
-      },
+    height:100,
+    autofit:true,
+    angleField: 'value',
+    colorField: 'type',
+    radius: 0.8,
+    label: {
+      type: 'spider',
+      labelHeight: 28,
+      content: '{percentage}',
     },
   };
-  return <TinyColumn {...config} />;
-};
+
+  return <Pie {...config}/>
+}
 
 type Props = {
   title: string;
-  value: number | string;
   data: ChartData;
-  diff: number;
   asCurrency?: boolean;
 } & CardProps;
 
 export const StatsCard = ({
   title,
-  diff,
   data,
-  value,
   ...others
 }: Props) => {
   return (
     <Card {...others}>
-      <Flex vertical>
-        <Typography.Text className="text-capitalize m-0">
+      <Flex vertical justify='space-between'>
+        <Typography.Title level={4} style={{marginTop:0}}>
           {title}
-        </Typography.Text>
-        <Row>
-          <Col span={14}>
-            <Typography.Title level={2}>
-              {value}
-            </Typography.Title>
-          </Col>
-          <Col span={10}>
-            <ColumnChart data={data} />
-          </Col>
-        </Row>
-        <Flex align="center">
-          <Tag color={diff < 0 ? 'red' : 'green'}>{diff}%</Tag>
-          <Typography.Text>compared to last month.</Typography.Text>
-        </Flex>
+        </Typography.Title>
+        
+        <PieChart data={data}/>
+         
       </Flex>
     </Card>
   );

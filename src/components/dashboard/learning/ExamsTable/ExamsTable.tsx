@@ -1,86 +1,78 @@
-import {
-  Badge,
-  BadgeProps,
-  Table,
-  TableProps,
-  Typography,
-} from 'antd';
-import { Exams } from '../../../../types';
-
-const COLUMNS = [
-  {
-    title: 'Name',
-    dataIndex: 'exam_name',
-    key: 'exam_name',
-    render: (_: any, { exam_name }: Exams) => (
-      <Typography.Paragraph
-        ellipsis={{ rows: 1 }}
-        className="text-capitalize"
-        style={{ marginBottom: 0 }}
-      >
-        {exam_name.substring(0, 20)}
-      </Typography.Paragraph>
-    ),
-  },
-  {
-    title: 'Code',
-    dataIndex: 'exam_code',
-    key: 'exam_code',
-  },
-  {
-    title: 'Category',
-    dataIndex: 'exam_category',
-    key: 'exam_category',
-    render: (_: any) => <span className="text-capitalize">{_}</span>,
-  },
-  
-  {
-    title: 'Status',
-    dataIndex: 'exam_status',
-    key: 'exam_status',
-    render: (_: any) => {
-      let status: BadgeProps['status'];
-
-      if (_ === 'Upcoming') {
-        status = 'default';
-      } else if (_ === 'Active') {
-        status = 'success';
-      } else {
-        status = 'processing';
-      }
-
-      return <Badge status={status} text={_} className="text-capitalize" />;
-    },
-  },
-  {
-    title: 'Start date',
-    dataIndex: 'exam_start_date',
-    key: 'exam_start_date',
-  },
-  {
-    title: 'End date',
-    dataIndex: 'exam_end_date',
-    key: 'exam_end_date',
-  },
-  {
-    title: 'No of proctors',
-    dataIndex: 'exam_proctors',
-    key: 'exam_proctors',
-    render: (_: any) => _.length,
-  },
-];
+import { Badge, BadgeProps, Button, Table, TableProps, Typography } from 'antd';
+import { ExamResponse } from '../../../../api/types';
+import { format } from 'date-fns';
+import { useNavigate } from 'react-router-dom';
 
 type Props = {
-  data: Exams[];
+  data: ExamResponse[];
 } & TableProps<any>;
 
-export const ExamsTable = ({ data, ...others }: Props) => {
+export const ExamsTable = ({ data}: Props) => {
+  const navigate = useNavigate();
+  const handleClick = (examId:any)=>{
+    sessionStorage.setItem('examId',examId);
+    navigate('/org-admin/new_exam');
+  }
+  
+  const COLUMNS = [
+    {
+      title: 'Name',
+      dataIndex: 'title',
+      key: 'title',
+      render: (_: any, { title }: ExamResponse) => (
+        <Typography.Paragraph
+          ellipsis={{ rows: 1 }}
+          className="text-capitalize"
+          style={{ marginBottom: 0 }}
+        >
+          {title}
+        </Typography.Paragraph>
+      ),
+    },
+    {
+      title: 'Status',
+      dataIndex: 'exam_status',
+      key: 'exam_status',
+      render: (status: string) => {
+        let badgeStatus: BadgeProps['status'];
+
+        if (status === 'Upcoming') {
+          badgeStatus = 'default';
+        } else if (status === 'Active') {
+          badgeStatus = 'success';
+        } else {
+          badgeStatus = 'processing';
+        }
+
+        return <Badge status={badgeStatus} text={status} className="text-capitalize" />;
+      },
+    },
+    {
+      title: 'Start Date',
+      dataIndex: 'startDatetime',
+      key: 'startDatetime',
+      render: (startDatetime: string) => format(new Date(startDatetime), 'MMMM dd, yyyy, HH:mm'),
+    },
+    {
+      title: 'End Date',
+      dataIndex: 'endDatetime',
+      key: 'endDatetime',
+      render: (endDatetime: string) => format(new Date(endDatetime), 'MMMM dd, yyyy, HH:mm'),
+    },
+    {
+      title : 'Actions',
+      dataIndex:'id',
+      key : 'id',
+      render: (examId:number)=>(
+        <Button type='primary' onClick={()=>handleClick(examId)}>View Exam</Button>
+      )
+    }
+  ];
+
   return (
     <Table
       dataSource={data}
       columns={COLUMNS}
-      className="overflow-scroll"
-      {...others}
     />
   );
 };

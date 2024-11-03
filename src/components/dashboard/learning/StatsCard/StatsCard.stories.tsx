@@ -18,7 +18,8 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     title: 'Courses in Progress',
-    value: 18,
+    value1: 18,
+    value2: 10, // or any other appropriate value
     icon: FileSyncOutlined,
     color: 'teal',
     progress: 30,

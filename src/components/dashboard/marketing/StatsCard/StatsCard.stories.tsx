@@ -25,7 +25,12 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     ...STATS,
-    data: [274, 337, 81, 497],
+    data: [
+      { type: 'Active', value: 274 },
+      { type: 'Upcoming', value: 337 },
+      { type: 'Completed', value: 81 },
+      { type: 'Other', value: 497 }
+    ],
     style: { width: 600 },
   },
 };
@@ -34,9 +39,13 @@ export const AsCurrency: Story = {
   args: {
     ...STATS,
     title: 'Revenue',
-    data: [274, 337, 81, 497],
+    data: [
+      { type: 'Active', value: 274 },
+      { type: 'Upcoming', value: 337 },
+      { type: 'Completed', value: 81 },
+      { type: 'Other', value: 497 }
+    ],
     asCurrency: true,
-    diff: -2.5,
     style: { width: 600 },
   },
 };
