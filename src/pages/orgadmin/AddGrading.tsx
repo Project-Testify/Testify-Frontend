@@ -13,6 +13,7 @@ const AddGrading = () => {
     try {
       setLoading(true);
       const response = await fetchGrades(Number(examId));
+      console.log(response);
       if (response.data) {
         form.setFieldsValue({ gradingLevels: response.data });
         setIsUpdating(true);
