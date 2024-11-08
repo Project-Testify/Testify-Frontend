@@ -1,109 +1,64 @@
-import {
-  Alert,
-  Badge,
-  Button,
-  Card as AntdCard,
-  CardProps,
-  Flex,
-  List,
-  Space,
-  Tag,
-  Typography,
-} from 'antd';
-import { Exams } from '../../../../types';
-import { CalendarOutlined, EnvironmentOutlined } from '@ant-design/icons';
-import { Card, Loader, UserAvatar } from '../../../index';
+import { Card, Button, Typography, Tooltip, Row, Col, Tag } from 'antd';
+import {ClockCircleOutlined, CalendarOutlined, EyeFilled } from '@ant-design/icons';
+import { ExamResponse } from '../../../../api/types';
+import { format } from 'date-fns';
+import { useNavigate } from 'react-router-dom';
 
-import './styles.css';
+const { Text } = Typography;
 
-type Props = {
-  data?: Exams[];
-  loading?: boolean;
-  error?: any;
-} & CardProps;
+interface ExamListCardProps {
+  exams: ExamResponse[];
+}
 
-export const ExamListCard = ({ data, error, loading, ...others }: Props) => {
+export const ExamListCard = ({ exams }: ExamListCardProps) => {
+  const navigate = useNavigate();
+  const handleClick = (examId:any)=>{
+    sessionStorage.setItem('examId',examId);
+    navigate('/org-admin/new_exam');
+  }
+  
   return (
-    <Card
-      title="Upcoming Exams"
-      extra={<Button>View all</Button>}
-      className="exams-list-card card"
-      {...others}
-    >
-      {error ? (
-        <Alert
-          message="Error"
-          description={error.toString()}
-          type="error"
-          showIcon
-        />
-      ) : loading ? (
-        <Loader />
-      ) : (
-        <List
-          grid={{
-            gutter: 16,
-            xs: 1,
-            sm: 1,
-            md: 2,
-            lg: 2,
-            xl: 3,
-            xxl: 4,
-          }}
-          pagination={{
-            onChange: (page) => {
-              console.log(page);
-            },
-            pageSize: 6,
-            align: 'center',
-          }}
-          dataSource={data}
-          renderItem={(item) => (
-            <List.Item key={item.exam_name} style={{ height: '100%' }}>
-              <AntdCard
+    <div>
+      <Card title="Upcoming Exams" bordered={false} style={{ marginBottom: '20px' }}>
+        <Row gutter={[24, 24]}>
+          {exams.map((exam: ExamResponse) => (
+            <Col xs={24} sm={24} md={12} lg={8} key={exam.id}>
+              <Card
+                title={exam.title}
+                bordered={true}
                 hoverable
-                bordered
-                type="inner"
-                style={{ height: '100%' }}
+                extra={
+                  <Tooltip title="View Exam">
+                    <Button type='primary' icon={<EyeFilled />} onClick={()=>handleClick(exam.id)}>View</Button>
+                  </Tooltip>
+                }
+                style={{ marginBottom: '20px', boxShadow: '0 4px 8px rgba(0,0,0,0.1)', height:'350px' }}
               >
-                <Flex vertical gap="middle">
-                  <Flex justify="space-between" align="center">
-                    <Typography.Text strong className="text-capitalize">
-                      {item.exam_name.slice(0, 20)}...
-                    </Typography.Text>
-                    <Tag className="text-capitalize">{item.exam_category}</Tag>
-                  </Flex>
-                  <Flex justify="space-between" align="center">
-                    <Tag
-                      icon={<EnvironmentOutlined />}
-                      color={item.exam_priority === 'high' ? 'red' : 'green'}
-                      style={{ textTransform: 'capitalize' }}
-                    >
-                      {item.exam_location}
-                    </Tag>
-                    <Badge
-                      className="text-capitalize"
-                      status={
-                        item.exam_status.toLowerCase() === 'active'
-                          ? 'success'
-                          : item.exam_status.toLowerCase() === 'in progress'
-                            ? 'processing'
-                            : 'warning'
-                      }
-                      text={item.exam_status}
-                    />
-                  </Flex>
-                  <Space>
-                    <CalendarOutlined />
-                    <Typography.Text>{item.exam_date}</Typography.Text>
-                  </Space>
-                  <UserAvatar fullName={item.exam_proctors[0]} size="middle" />
-                </Flex>
-              </AntdCard>
-            </List.Item>
-          )}
-        />
-      )}
-    </Card>
+                <Text>{exam.description}</Text>
+                <br /><br/>
+                <Text strong>
+                  <ClockCircleOutlined /> Duration: 
+                  <Tag bordered={false} color='magenta'>
+                    {exam.duration} minutes
+                  </Tag>
+                </Text>
+                <br />
+                <Text strong>
+                  <CalendarOutlined /> Start: <Tag bordered={false} color='green'>
+                    {format(new Date(exam.startDatetime), 'MMMM dd, yyyy, HH:mm')}
+                  </Tag>
+                </Text>
+                <br />
+                <Text strong>
+                  <CalendarOutlined /> End: <Tag bordered={false} color='volcano'>
+                    {format(new Date(exam.endDatetime), 'MMMM dd, yyyy, HH:mm')}
+                  </Tag>
+                </Text>
+              </Card>
+            </Col>
+          ))}
+        </Row>
+      </Card>
+    </div>
   );
 };

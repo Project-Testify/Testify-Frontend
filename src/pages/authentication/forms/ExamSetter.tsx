@@ -38,14 +38,20 @@ import {
 
 import { registerExamSetter } from '../../../api/services/auth';
 
-  
+type Props = {
+  token: string | null
+} 
 
-export const ExamSetter = () => {
+export const ExamSetter = ({token}:Props) => {
 
 
       const isMobile = useMediaQuery({ maxWidth: 769 });
       const navigate = useNavigate();
       const [loading, setLoading] = useState(false);
+
+      // const [searchParams] = useSearchParams();
+      // const token = searchParams.get('invitation');
+
     
       // const onFinish = (values: any) => {
       //   console.log('Success:', values);
@@ -67,6 +73,7 @@ export const ExamSetter = () => {
 
         // set role
         values.role = 'EXAMSETTER';
+        values.token = token;
     
         try {
           const response = await registerExamSetter(values);
@@ -85,6 +92,20 @@ export const ExamSetter = () => {
       const onFinishFailed = (errorInfo: any) => {
         console.log('Failed:', errorInfo);
       };
+
+      //verify the identity of the setter, because the invitation is sent by an organization, make the invitation accepeted flag=true
+      // useEffect(() => {
+      //   if (token) {
+      //     confirmExamSetterToken(token)
+      //       .then(response => {
+      //         console.log('Token verified:', response.data);
+      //         message.success("Access verified")
+      //       })
+      //       .catch(error => {
+      //         message.error('Invalid or expired invitation link');
+      //       });
+      //   }
+      // }, [token]);
 
 
 

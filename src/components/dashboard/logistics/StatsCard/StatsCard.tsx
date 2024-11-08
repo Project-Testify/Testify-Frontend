@@ -14,7 +14,7 @@ export const StatsCard = ({ icon, title, value, diff, ...others }: Props) => {
   return (
     <Card style={{ width: '100%', height: '100%' }} {...others}>
       <Flex vertical gap="middle" style={{ width: '100%', height: '100%' }}>
-        {React.createElement(icon, { style: { fontSize: 30 } })}
+        {React.createElement(icon, { style: { fontSize: 50, color:'rgb(109 118 237 / 100%)' } })}
         <Typography.Text style={{ textTransform: 'capitalize' }}>
           {title}
         </Typography.Text>

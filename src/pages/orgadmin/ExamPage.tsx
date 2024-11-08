@@ -6,13 +6,14 @@ import {
   // PieChartOutlined,
   PlusOutlined,
 } from '@ant-design/icons';
-import { Button, Card, Col, Space } from 'antd';
-import { useState } from 'react';
+import { Button, Card, Col, message, Space } from 'antd';
+import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Exams } from '../../types';
-import { useFetchData } from '../../hooks';
 import { Link } from 'react-router-dom';
 import { PATH_ORG_ADMIN } from '../../constants/routes';
+import { ExamResponse } from '../../api/types';
+import { getLoggedInUser } from '../../utils/authUtils';
+import { getExams } from '../../api/services/organization';
 
 const EXAM_TABS = [
   {
@@ -30,26 +31,77 @@ const EXAM_TABS = [
 ];
 
 export const ExamPage = () => {
-  const {
-    data: examsData,
-    // error: examsDataError,
-    // loading: examsDataLoading,
-  } = useFetchData('../mocks/ExamsMock.json');
+  const loggedInUser = getLoggedInUser();
+  if (!loggedInUser) {
+    message.error("You must be logged in to perform this action.");
+    return;
+  }
+  const organizationId = loggedInUser.id;
+  const currentDate = new Date();
+
+  const fetchExams = async() => {
+    try{
+      const response  = await getExams(organizationId);
+      const exams = response.data;
+      console.log(response.data);
+      setExams(exams);
+      console.log("exams",exams);
+    }catch(error){
+      message.error("Error fetching exams");
+      console.log(error);
+    }
+  }
+
+  useEffect(()=>{
+    fetchExams();
+  },[organizationId])
 
   const [examTabsKey, setExamTabKey] = useState<string>('all');
+  const [examsData, setExams] = useState<ExamResponse[]>([]);
+
+  const calculateExamStatus = (exam: ExamResponse, currentDate: Date) => {
+    const start = new Date(exam.startDatetime);
+    const end = new Date(exam.endDatetime);
+  
+    if (currentDate < start) {
+      return 'Upcoming';
+    } else if (currentDate >= start && currentDate <= end) {
+      return 'Active';
+    } else {
+      return 'Completed';
+    }
+  };
 
   const EXAM_TABS_CONTENT: Record<string, React.ReactNode> = {
-    all: <ExamsTable key="all-projects-table" data={examsData} />,
+    all: (
+      <ExamsTable
+        key="all-projects-table"
+        data={examsData.map((exam) => ({
+          ...exam,
+          exam_status: calculateExamStatus(exam, currentDate),
+        }))}
+      />
+    ),
     inProgress: (
       <ExamsTable
         key="in-progress-projects-table"
-        data={examsData.filter((_: Exams) => _.exam_status === 'Active')}
+        data={examsData
+          .filter((exam) => new Date(exam.startDatetime) <= currentDate && currentDate <= new Date(exam.endDatetime))
+          .map((exam) => ({
+            ...exam,
+            exam_status: 'Active',
+          }))}
       />
     ),
     upcoming: (
       <ExamsTable
-        key="on-hold-projects-table"
-        data={examsData.filter((_: Exams) => _.exam_status === 'Upcoming')}
+        key="upcoming-projects-table"
+        data={examsData
+          .filter((exam) => new Date(exam.startDatetime) > currentDate)
+          .map((exam) => ({
+            ...exam,
+            exam_status: 'Upcoming',
+          }))}
       />
     ),
   };

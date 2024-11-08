@@ -4,12 +4,8 @@ import {
   Card,
   // Loader,
   PageHeader,
-  MarketingStatsCard,
-  LogisticsStatsCard,
   ExamsTable,
-  LearningStatsCard,
   ExamsCard as ExamCards,
-  ExamListCard,
 } from '../../components';
 
 // import { ExamsCard } from '../../components/dashboard/shared/ExamsCard/ExamsCard';
@@ -20,7 +16,6 @@ import {
   HomeOutlined,
   PieChartOutlined,
   PlusOutlined,
-  FileTextOutlined,
 } from '@ant-design/icons';
 import { Helmet } from 'react-helmet-async';
 import { useFetchData } from '../../hooks';
@@ -156,11 +151,11 @@ export const OrganizationDashBoard = () => {
     // loading: examsDataLoading,
   } = useFetchData('../mocks/ExamsMock.json');
 
-  const {
-    data: tasksListData = [],
-    error: tasksListError,
-    loading: tasksListLoading,
-  } = useFetchData('../mocks/ExamsMock.json');
+  // const {
+  //   data: tasksListData = [],
+  //   error: tasksListError,
+  //   loading: tasksListLoading,
+  // } = useFetchData('../mocks/ExamsMock.json');
 
   const {
     data: examCardData,
@@ -229,7 +224,7 @@ export const OrganizationDashBoard = () => {
         ]}
       >
         <Col xs={24} sm={12} lg={8}>
-          <LearningStatsCard
+          {/* <LearningStatsCard
             title="Exams in Progress"
             value={18}
             icon={FileTextOutlined}
@@ -261,7 +256,7 @@ export const OrganizationDashBoard = () => {
             data={tasksListData}
             error={tasksListError}
             loading={tasksListLoading}
-          />
+          /> */}
         </Col>
         <Col xs={24} sm={12} xl={16}>
           <Card

@@ -27,6 +27,7 @@ export interface ExamSetterRegister {
     password: string;
     firstName: string;
     lastName: string;
+    token: string;
 }
 
 export interface OrganizationRegister {

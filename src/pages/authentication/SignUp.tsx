@@ -12,15 +12,14 @@ import { useMediaQuery } from 'react-responsive';
 
 import { Candidate } from './forms/Candidate';
 import { Organization } from './forms/Organization';
-// import { ExamSetter } from './forms/ExamSetter';
+import { ExamSetter } from './forms/ExamSetter';
 import { Select } from './forms/Select';
 
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useSearchParams } from 'react-router-dom';
 // import { Flex } from '../../../template/src/components/Flex/Flex';
 
 
 const { Title, Text } = Typography;
-
 
 
 export const SignUpPage = () => {
@@ -29,7 +28,8 @@ export const SignUpPage = () => {
   } = theme.useToken();
   const isMobile = useMediaQuery({ maxWidth: 769 });
 
-
+  const [searchParams] = useSearchParams();
+  const token = searchParams.get('invitation');
 
   return (
     <Row style={{ minHeight: isMobile ? 'auto' : '100vh', overflow: 'hidden' }}>
@@ -62,7 +62,7 @@ export const SignUpPage = () => {
           <Route path="/" element={<Select />} />
           <Route path="/candidate" element={<Candidate />} />
           <Route path="/organization" element={<Organization />} />
-          {/* <Route path="/examSetter" element={<ExamSetter />} /> */}
+          <Route path="/examSetter" element={<ExamSetter token={token} />} />
         </Routes>
 
       </Col>
