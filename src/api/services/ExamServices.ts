@@ -1,7 +1,7 @@
 import api from '../config';
 import { AxiosResponse } from 'axios';
 import { GenericAddOrUpdateResponse, ExamRequest, MCQRequest, ExamResponse, FetchQuestionsResponse, EssayRequest, GenericDeleteResponse } from '../types';
-import { EssayUpdateRequest, MCQUpdateRequest, QuestionSequenceRequest, QuestionSequenceResponse } from '../examServiceTypes'; 
+import { EssayUpdateRequest, MCQUpdateRequest, QuestionSequenceRequest, QuestionSequenceResponse, GradeRequest, OrderChangeRequest, OrderResponse } from '../examServiceTypes'; 
 
 
 export const saveExamInformation = (examRequest: ExamRequest): Promise<AxiosResponse<GenericAddOrUpdateResponse>> => {
@@ -49,3 +49,23 @@ export const updateQuestionSequence = (examId: number, questionIds: number[]): P
 export const getQuestionSequence = (examId: number): Promise<AxiosResponse<QuestionSequenceResponse>> => {
     return api.get<QuestionSequenceResponse>(`/exam/${examId}/questionSequence`);
 };
+
+export const saveGrades = (examId: number, grades: GradeRequest[]): Promise<AxiosResponse<GenericAddOrUpdateResponse>> => {
+    return api.post<GenericAddOrUpdateResponse>(`/exam/${examId}/grades`, grades);
+};
+
+export const fetchGrades = (examId: number): Promise<AxiosResponse<GradeRequest[]>> => {
+    return api.get<GradeRequest[]>(`/exam/${examId}/grades`);
+}
+
+export const updateGrades = (examId: number, gradeRequests: GradeRequest[]): Promise<AxiosResponse<GenericAddOrUpdateResponse>> => {
+    return api.put<GenericAddOrUpdateResponse>(`/exam/${examId}/grades`, gradeRequests);
+};
+
+export const updateOrder = (examId: number, orderChangeRequest:OrderChangeRequest): Promise<AxiosResponse<GenericAddOrUpdateResponse>> => {
+    return api.post<GenericAddOrUpdateResponse>(`/exam/${examId}/order`, orderChangeRequest);
+}
+
+export const getExamOrder = (examId: number): Promise<AxiosResponse<OrderResponse>> => {
+    return api.get<OrderResponse>(`/exam/${examId}/order`);
+}

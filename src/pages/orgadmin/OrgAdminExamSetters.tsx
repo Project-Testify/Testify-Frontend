@@ -3,29 +3,28 @@ import { Button, Card, Col, Input, message, Modal, Space, Table, Tabs } from "an
 import { Helmet } from "react-helmet-async";
 import { PageHeader } from "../../components";
 import {  useEffect, useState } from "react";
-import { addExamSetterService } from "../../api/services/organization";
+import { addExamSetterService, getExamSetters, getInvitations } from "../../api/services/organization";
 import { getLoggedInUser } from "../../utils/authUtils";
 import TabPane from "antd/es/tabs/TabPane";
+import { AxiosResponse } from "axios";
 
 export const OrgAdminExamSetters = () => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [examSetterEmail, setExamSetterEmail] = useState("");
-  const [invitations, setInvitations] = useState<{ email: string; invitationLink: string; accepted: boolean }[]>([]);
-  const [examSetters, setExamSetters] = useState<{ name: string; email: string; }[]>([]);
+  const [invitations, setInvitations] = useState([]);
+  const [examSetters, setExamSetters] = useState([]);
 
+  const loggedInUser = getLoggedInUser();
+  if (!loggedInUser) {
+    message.error("You must be logged in to perform this action.");
+    setLoading(false);
+    return;
+  }
+  const organizationId = loggedInUser.id;
+  
   const handleAddExamSetter = async () => {
     setLoading(true);
-    const loggedInUser = getLoggedInUser();
-
-    if (!loggedInUser) {
-      message.error("You must be logged in to perform this action.");
-      setLoading(false);
-      return;
-    }
-
-    const organizationId = loggedInUser.id;
-
     try {
       const response = await addExamSetterService(organizationId, { email: examSetterEmail });
       console.log(response.data);
@@ -43,26 +42,51 @@ export const OrgAdminExamSetters = () => {
     }
   };
 
-  useEffect(() => {
-    setInvitations([
-      { email: 'invite1@example.com', invitationLink: 'http://invite.link/1', accepted: false },
-      { email: 'invite2@example.com', invitationLink: 'http://invite.link/2', accepted: true },
-    ]);
+  const fetchExamSetters = async () =>{
+    try{
+      const response : AxiosResponse = await getExamSetters(organizationId);
+      setExamSetters(response.data);
+    }catch{
+      console.log('Error fetching Exam Setters');
+    }
+  }
 
-    setExamSetters([
-      { name: 'John Doe', email: 'john.doe@example.com' },
-      { name: 'Jane Smith', email: 'jane.smith@example.com' },
-    ]);
-  }, []);
+  const fetchInvitations = async () =>{
+    try{
+      const response : AxiosResponse = await getInvitations(organizationId);
+      setInvitations(response.data);
+    }catch{
+      console.log("Error fetching Exam setter invitations");
+    }
+  }
+
+  useEffect(()=>{
+    fetchExamSetters()
+    fetchInvitations()
+  },[organizationId]);
+
+
+
+  // useEffect(() => {
+  //   setInvitations([
+  //     { email: 'invite1@example.com', invitationLink: 'http://invite.link/1', accepted: false },
+  //     { email: 'invite2@example.com', invitationLink: 'http://invite.link/2', accepted: true },
+  //   ]);
+
+  //   setExamSetters([
+  //     { name: 'John Doe', email: 'john.doe@example.com' },
+  //     { name: 'Jane Smith', email: 'jane.smith@example.com' },
+  //   ]);
+  // }, []);
 
   const columnsInvitations = [
     { title: 'Email', dataIndex: 'email', key: 'email' },
     { title: 'Invitation Link', dataIndex: 'invitationLink', key: 'invitationLink', render: (text: string ) => <a href={text}>{text}</a> },
-    { title: 'Accepted', dataIndex: 'accepted', key: 'accepted', render: (accepted: any) => (accepted ? "Yes" : "No") },
+    { title: 'Accepted', dataIndex: 'isAccepted', key: 'isAccepted', render: (accepted: any) => (accepted ? "Yes" : "No") },
   ];
 
   const columnsExamSetters = [
-    { title: 'Name', dataIndex: 'name', key: 'name' },
+    { title: 'Name', render: (record: any) => `${record.firstName} ${record.lastName}`, key: 'name' },
     { title: 'Email', dataIndex: 'email', key: 'email' },
   ];
 
