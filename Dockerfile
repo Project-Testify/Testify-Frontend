@@ -17,7 +17,11 @@ RUN pnpm install
 COPY . .
 
 # Build the app with Vite
-RUN pnpm run build
+
+# Environment --max-old-space-size=4096 is required for building the app
+RUN NODE_OPTIONS=--max-old-space-size=4096 pnpm run build
+
+# RUN pnpm run build
 
 # Stage 2: Serve the build with a lightweight web server
 FROM nginx:alpine AS production
