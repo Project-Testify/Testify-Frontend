@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Row } from 'antd';
-import { EssayQuestionView, McqQuestionView, TimeContainer, PageHeader } from '../../components';
+import { EssayQuestionView, McqQuestionView, TimeContainer, PageHeader , CandidateCameraFeed} from '../../components';
 import { McqQuestion, EssayQuestion, Question } from '../../types/questiontypes';
 import { HomeOutlined, ContainerOutlined } from '@ant-design/icons';
 import { Helmet } from 'react-helmet-async';
@@ -90,6 +90,26 @@ export const ExamViewPage = () => {
   const currentQuestion = questions[currentQuestionIndex];
   const selectedAnswer = answers[currentQuestionIndex] || '';
 
+  const [cameraStream, setCameraStream] = useState<MediaStream | null>(null);
+  const [alertMessage, setAlertMessage] = useState<string | null>(null);
+
+  useEffect(() => {
+    navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
+      setCameraStream(stream);
+    });
+
+    // Example to trigger an alert message
+    setTimeout(() => {
+      setAlertMessage("You are looking away from the screen.");
+    }, 5000);
+
+    return () => {
+      if (cameraStream) {
+        cameraStream.getTracks().forEach(track => track.stop());
+      }
+    };
+  }, []);
+
   return (
     <div style={{ padding: '20px' }}>
       <Helmet>
@@ -125,6 +145,7 @@ export const ExamViewPage = () => {
           answeredIndexes={answeredIndexes}
           skippedIndexes={skippedIndexes}
         />
+        <CandidateCameraFeed cameraStream={cameraStream} alertMessage={alertMessage} />
 
         {isMcqQuestion(currentQuestion) ? (
           <McqQuestionView

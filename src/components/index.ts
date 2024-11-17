@@ -23,3 +23,4 @@ export {TextEditor} from './TextEditor/TextEditor.tsx'
 export { GroupTable } from './Tables/GroupTable.tsx';
 export {CandidatesTable} from './Tables/CandidatesTable.tsx';
 export {TogglerDarkTheme} from './TogglerDarkTheme/TogglerDarkTheme.tsx';
+export {CandidateCameraFeed} from './Exam/CandidateCameraFeed.tsx';
