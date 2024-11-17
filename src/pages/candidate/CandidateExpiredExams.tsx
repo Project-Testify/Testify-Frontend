@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Typography, Row, Col, Card, message } from 'antd';
 const { Title } = Typography;
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faClock} from '@fortawesome/free-solid-svg-icons';
+import { faTimesCircle} from '@fortawesome/free-solid-svg-icons';
 import { Helmet } from 'react-helmet-async';
 import { PageHeader } from '../../components';
 import {SortingComponent} from '../../components';
@@ -13,19 +13,19 @@ import axios from 'axios';
 
 const StatusComponent = ({ status }: { status: string }) => {
   switch (status) {
-    case "UPCOMING":
-      return <UpcomingStatus />;
+    case "EXPIRED":
+      return <ExpiredStatus />;
     default:
       return null;
   }
 };
 
-const UpcomingStatus = () => (
-  <div style={{ color: 'orange', display: 'flex', alignItems: 'center' }}>
-    <FontAwesomeIcon icon={faClock} style={{ marginRight: '8px' }} />
-    <Title level={5} style={{ margin: 0 }}>Upcoming</Title>
-  </div>
-);
+const ExpiredStatus = () => (
+    <div style={{ color: 'red', display: 'flex', alignItems: 'center' }}>
+      <FontAwesomeIcon icon={faTimesCircle} style={{ marginRight: '8px' }} />
+      <Title level={5} style={{ margin: 0 }}>Expired</Title>
+    </div>
+  );
 
 const formatDateTime = (dateTime: any) => {
   const date = new Date(dateTime);
@@ -50,7 +50,7 @@ type Exam = {
   duration: number;
 };
 
-export const CandidateUpcomingExams = () => {
+export const CandidateExpiredExams = () => {
   const navigate = useNavigate();
   const [exams, setExams] = useState<Exam[]>([]);
   const [sortedExams, setSortedExams] = useState<Exam[]>([]);
@@ -61,7 +61,7 @@ export const CandidateUpcomingExams = () => {
     const fetchExams = async () => {
       try {
         const token = sessionStorage.getItem('accessToken');
-        const response = await axios.get('http://localhost:8080/api/v1/candidate/exams?status=upcoming', {
+        const response = await axios.get('http://localhost:8080/api/v1/candidate/exams?status=expired', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
