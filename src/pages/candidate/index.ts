@@ -7,6 +7,7 @@ export { CandidateAllExams } from './CandidateAllExams.tsx';
 export { CandidateCompletedExams } from './CandidateCompletedExams.tsx';
 export { CandidateOngoingExams } from './CandidateOngoingExams.tsx';
 export { CandidateUpcomingExams } from './CandidateUpcomingExams.tsx';
+export {CandidateExpiredExams} from './CandidateExpiredExams.tsx';
 export { CandidateOrganizations } from './CandidateOrganizations.tsx';
 export { CandidateBadges } from './CandidateBadges.tsx';
 export { CandidateGrading } from './CandidateGrading.tsx';

@@ -38,6 +38,18 @@ const UpcomingStatus = () => (
   </div>
 );
 
+const formatDateTime = (dateTime: any) => {
+  const date = new Date(dateTime);
+  
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  const hours = String(date.getHours()).padStart(2, '0');
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+  
+  return `${year}-${month}-${day}  ${hours}:${minutes}`;
+};
+
 const StatusComponent = ({ status }: { status: string }) => {
   switch (status) {
     case "COMPLETED":
@@ -136,6 +148,19 @@ export const CandidateAllExams = () => {
       <div>
         {loading ? (
           <div>Loading...</div>
+        ) : sortedExams.length === 0 ? (
+          <Card
+            style={{
+              borderRadius: '8px',
+              boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+              margin: '16px 0',
+              padding: '24px',
+              textAlign: 'center',
+            }}
+          >
+            <Title level={3}>No exams available at the moment.</Title>
+            <p>Please check back later for available exams.</p>
+          </Card>
         ) : (
           <Row gutter={[24, 24]}>
             {sortedExams.map((exam: Exam) => (
@@ -163,10 +188,14 @@ export const CandidateAllExams = () => {
                     </Row>
                     <Row justify="space-between">
                       <Col>
-                        <Title level={5} style={{ margin: 0, fontSize: '12px', opacity: 0.6 }}>Start: {exam.startTime}</Title>
+                        <Title level={5} style={{ margin: 0, fontSize: '12px', opacity: 0.6 }}>
+                          Start: {formatDateTime(exam.startTime)}
+                        </Title>
                       </Col>
                       <Col>
-                        <Title level={5} style={{ margin: 0, fontSize: '12px', opacity: 0.6 }}>End: {exam.endTime}</Title>
+                        <Title level={5} style={{ margin: 0, fontSize: '12px', opacity: 0.6 }}>
+                          End: {formatDateTime(exam.endTime)}
+                        </Title>
                       </Col>
                     </Row>
                   </div>
