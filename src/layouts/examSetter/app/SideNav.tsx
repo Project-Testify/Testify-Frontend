@@ -17,6 +17,7 @@ import {
   PATH_DASHBOARD,
   PATH_EXAM,
   PATH_USER_PROFILE,
+  PATH_EXAM_SETTER
 } from '../../../constants';
 import { PATH_HOME } from '../../../constants/routes.ts';
 
@@ -85,7 +86,7 @@ const examSetterPersonal: MenuProps['items'] = [
       null
     ),
     getItem(
-      <Link to={PATH_EXAM.exam + '/grading'}>Grading</Link>,
+      <Link to={'/examSetter/exam/grading'}>Grading</Link>,
       'grading',
       null
     ),
@@ -150,7 +151,7 @@ const ExamSetterOrganization: MenuProps['items'] = [
       null
     ),
     getItem(
-      <Link to={PATH_EXAM.exam + '/grading'}>Grading</Link>,
+      <Link to={PATH_EXAM_SETTER.exam + '/grading'}>Grading</Link>,
       'grading',
       null
     ),

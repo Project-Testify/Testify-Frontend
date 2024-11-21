@@ -26,6 +26,7 @@ import {
   PATH_SOCIALS,
   PATH_ABOUT,
   PATH_EXAM,
+  PATH_EXAM_SETTER,
 } from './routes.ts';
 
 const DASHBOARD_ITEMS = [
@@ -110,4 +111,5 @@ export {
   ERROR_ITEMS,
   PATH_ABOUT,
   PATH_EXAM,
+  PATH_EXAM_SETTER,
 };
