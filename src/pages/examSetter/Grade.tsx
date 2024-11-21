@@ -5,7 +5,10 @@ interface GradingQuestion {
   id: number;
   questionText: string;
   userAnswer: string;
-  validAnswers: string[];
+  feedback: {
+    correct_points: string[];
+    incorrect_points: string[];
+  };
   marks: number;
   maxMarks: number;
 }
@@ -15,9 +18,14 @@ const { Option } = Select;
 const initialData: GradingQuestion[] = [
   {
     id: 1,
-    questionText: "What is the capital of France?",
-    userAnswer: "Paris",
-    validAnswers: ["Paris"],
+    questionText: "List five Linux distributions?",
+    userAnswer: "Ubuntu , Fedora, macOS, Arch Linux ",
+    feedback: {
+      correct_points: [ "Ubuntu",
+        "Fedora",
+        "Arch Linux"],
+      incorrect_points: [ "macOS"],
+    },
     marks: 0,
     maxMarks: 5,
   },
@@ -25,13 +33,83 @@ const initialData: GradingQuestion[] = [
     id: 2,
     questionText: "Explain Newton's first law of motion.",
     userAnswer: "An object remains in motion unless acted upon by an external force.",
-    validAnswers: [
-      "An object at rest stays at rest, and an object in motion stays in motion unless acted upon by an external force.",
-    ],
+    feedback: {
+      correct_points: [
+        "An object remains in motion unless acted upon by an external force",
+      ],
+      incorrect_points: [
+        "An object at rest stays at rest",
+        "An object in motion stays in motion unless acted upon by an external force",
+      ],
+    },
     marks: 0,
     maxMarks: 10,
   },
 ];
+
+const highlightTextWithFeedback = (
+  text: string,
+  feedback: GradingQuestion['feedback']
+) => {
+  const correctPatterns = feedback.correct_points.map((point) => new RegExp(`\\b${point}\\b`, "gi"));
+  const incorrectPatterns = feedback.incorrect_points.map((point) => new RegExp(`\\b${point}\\b`, "gi"));
+
+  // Avoid overlapping matches by tracking used ranges
+  const matchedRanges: { start: number; end: number; style: "correct" | "incorrect" }[] = [];
+
+  correctPatterns.forEach((pattern) => {
+    let match;
+    while ((match = pattern.exec(text)) !== null) {
+      matchedRanges.push({
+        start: match.index,
+        end: match.index + match[0].length,
+        style: "correct",
+      });
+    }
+  });
+
+  incorrectPatterns.forEach((pattern) => {
+    let match;
+    while ((match = pattern.exec(text)) !== null) {
+      matchedRanges.push({
+        start: match.index,
+        end: match.index + match[0].length,
+        style: "incorrect",
+      });
+    }
+  });
+
+  // Sort ranges to process text sequentially
+  matchedRanges.sort((a, b) => a.start - b.start);
+
+  let lastIndex = 0;
+  const result: React.ReactNode[] = [];
+
+  matchedRanges.forEach(({ start, end, style }, index) => {
+    // Add plain text before the match
+    if (lastIndex < start) {
+      result.push(<span key={`plain-${index}`}>{text.slice(lastIndex, start)}</span>);
+    }
+
+    // Add highlighted text
+    const highlightStyle = style === "correct" ? { backgroundColor: "green", color: "white" } : { backgroundColor: "red", color: "white" };
+    result.push(
+      <span key={`highlight-${index}`} style={highlightStyle}>
+        {text.slice(start, end)}
+      </span>
+    );
+
+    lastIndex = end;
+  });
+
+  // Add remaining plain text
+  if (lastIndex < text.length) {
+    result.push(<span key="plain-end">{text.slice(lastIndex)}</span>);
+  }
+
+  return result;
+};
+
 
 const ExamSetterGrade = () => {
   const [data, setData] = useState<GradingQuestion[]>(initialData);
@@ -44,7 +122,6 @@ const ExamSetterGrade = () => {
   };
 
   const handleSubmit = () => {
-    // Simulate submitting the grading data
     console.log("Graded Data Submitted: ", data);
     message.success("Grading submitted successfully!");
   };
@@ -60,18 +137,10 @@ const ExamSetterGrade = () => {
       title: "User Answer",
       dataIndex: "userAnswer",
       key: "userAnswer",
-      render: (text: string) => <Input.TextArea value={text} readOnly autoSize />,
-    },
-    {
-      title: "Valid Answers",
-      dataIndex: "validAnswers",
-      key: "validAnswers",
-      render: (answers: string[]) => (
-        <ul>
-          {answers.map((answer, index) => (
-            <li key={index}>{answer}</li>
-          ))}
-        </ul>
+      render: (text: string, record: GradingQuestion) => (
+        <div style={{ whiteSpace: "pre-wrap" }}>
+          {highlightTextWithFeedback(text, record.feedback)}
+        </div>
       ),
     },
     {
@@ -114,4 +183,4 @@ const ExamSetterGrade = () => {
   );
 };
 
-export  {ExamSetterGrade};
+export { ExamSetterGrade };
