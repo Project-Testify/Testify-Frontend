@@ -38,6 +38,8 @@ import {
   // examSetter
   OrganizationDashBoard,
   CandidateExpiredExams,
+  OrgAdminCompleteExamPage,
+  OrgAdminViewCompleteExamPage,
 } from '../pages';
 
 import {
@@ -175,6 +177,16 @@ const router = createBrowserRouter([
       {
         path: 'exam',
         element: <OrgAdminExamPage />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: 'complete_exam',
+        element: <OrgAdminCompleteExamPage />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: 'view_complete_exam',
+        element: <OrgAdminViewCompleteExamPage />,
         errorElement: <ErrorPage />,
       },
       {
