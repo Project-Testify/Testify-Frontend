@@ -108,9 +108,10 @@ export const CandidateAllExams = () => {
     setSortedExams(sorted);
   };
 
-  const handleCardClick = (id: number) => {
-    navigate(`/candidate/exam?id=${id}`);
+  const handleCardClick = (exam: Exam) => {
+    navigate(`/candidate/exam?id=${exam.id}`, { state: { exam } });
   };
+  
 
   return (
     <div>
@@ -167,7 +168,7 @@ export const CandidateAllExams = () => {
               <Col xs={24} sm={12} md={8} lg={8} key={exam.id}>
                 <Card
                   style={{ borderRadius: '8px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', cursor: 'pointer' }}
-                  onClick={() => handleCardClick(exam.id)}
+                  onClick={() => handleCardClick(exam)}
                 >
                   <div style={{ display: 'flex', flexDirection: 'column', height: '130px', justifyContent: 'space-between' }}>
                     <Row justify="space-between" align="middle">
