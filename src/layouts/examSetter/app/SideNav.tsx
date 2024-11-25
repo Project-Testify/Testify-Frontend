@@ -88,8 +88,8 @@ const examSetterPersonal: MenuProps['items'] = [
     
   ]),
 
-  getItem(<Link to={PATH_TUTOR.dashboard}>Grading</Link>,'Grading',<FontAwesomeIcon icon={faClipboard}/>),
-  getItem(<Link to={PATH_TUTOR.dashboard}>Proctoring</Link>,'Grading',<FontAwesomeIcon icon={faEye}/>),
+  getItem(<Link to={PATH_TUTOR.grading}>Grading</Link>,'Grading',<FontAwesomeIcon icon={faClipboard}/>),
+  getItem(<Link to={PATH_TUTOR.proctoring}>Proctoring</Link>,'Grading',<FontAwesomeIcon icon={faEye}/>),
   // getItem('Results', 'results', <BarChartOutlined />, [
   //   getItem(<Link to={PATH_EXAM.exam}>All Exams</Link>, 'all_exams', null),
   //   getItem(<Link to={PATH_EXAM.exam + '/new'}>New Exams</Link>, 'new_exam', null),

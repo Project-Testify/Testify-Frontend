@@ -29,13 +29,13 @@ export const ExamsCard = (props: Props) => {
     exams: {
       // exam_id,
       exam_name,
-      exam_type,
+      // exam_type,
       exam_date,
       exam_duration,
       // exam_status,
       // exam_subject,
       exam_description,
-      exam_location,
+      // exam_location,
       exam_category,
       // exam_priority,
       // exam_proctors,
@@ -54,12 +54,12 @@ export const ExamsCard = (props: Props) => {
       ),
       span: 24,
     },
-    {
-      key: 'exam_type',
-      label: 'Exam Type',
-      children: exam_type,
-      span: 24,
-    },
+    // {
+    //   key: 'exam_type',
+    //   label: 'Exam Type',
+    //   // children: exam_type,
+    //   span: 24,
+    // },
     {
       key: 'exam_date',
       label: 'Exam Date',
@@ -72,12 +72,12 @@ export const ExamsCard = (props: Props) => {
       children: <span className="text-capitalize">{exam_duration}</span>,
       span: 24,
     },
-    {
-      key: 'exam_location',
-      label: 'Location',
-      children: exam_location,
-      span: 24,
-    },
+    // {
+    //   key: 'exam_location',
+    //   label: 'Location',
+    //   children: exam_location,
+    //   span: 24,
+    // },
     // {
     //   key: 'project_priority',
     //   label: 'Priority',
@@ -141,9 +141,9 @@ export const ExamsCard = (props: Props) => {
         <Text>
           Type: <b>{exam_category},</b>
         </Text>
-        <Text>
+        {/* <Text>
           Location: <b>{exam_location}</b>
-        </Text>
+        </Text> */}
       </Flex>
     </AntdCard>
   ) : (

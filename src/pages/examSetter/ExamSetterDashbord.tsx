@@ -290,7 +290,7 @@ export const ExamSetterDashBoardPage = () => {
           </Card>
         </Col>
         <Col xs={24} sm={12} xl={8}>
-          <Card title="Top clients">
+          <Card>
             <ExamCards
               data={examCardData}
               loading={examCardDataLoading}
