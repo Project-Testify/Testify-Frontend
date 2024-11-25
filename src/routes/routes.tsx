@@ -38,7 +38,7 @@ import {
   // examSetter
   OrganizationDashBoard,
   CandidateExpiredExams,
-  Proctoring,
+  Proctoring
 } from '../pages';
 
 import {
@@ -422,3 +422,4 @@ const router = createBrowserRouter([
 ]);
 
 export default router;
+ 
