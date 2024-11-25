@@ -270,7 +270,8 @@ export const PATH_CANDIDATE = {
 export const PATH_TUTOR = {
   root: ROOTS_TUTOR,
   dashboard: path(ROOTS_TUTOR, '/dashboard'),
-  
+  proctoring: path(ROOTS_TUTOR, '/proctoring'),
+  grading: path(ROOTS_TUTOR, '/grading')
 }
 
 export const PATH_ADMIN = {

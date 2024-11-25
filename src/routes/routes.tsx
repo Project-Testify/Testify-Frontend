@@ -40,6 +40,8 @@ import {
   CandidateExpiredExams,
   OrgAdminCompleteExamPage,
   OrgAdminViewCompleteExamPage,
+  Proctoring
+
 } from '../pages';
 
 import {
@@ -62,6 +64,7 @@ import { OrganizationRequest } from '../pages/admin/OrganizationRequest.tsx';
 import { ExamReports } from '../pages/admin/ExamReports.tsx';
 import { UserReports } from '../pages/admin/UserReports.tsx';
 import { OrganizationReports } from '../pages/admin/OrganizationReports.tsx';
+import {GradingSection} from '../pages/examSetter/Grading.tsx';
 
 // Custom scroll restoration function
 export const ScrollToTop: React.FC = () => {
@@ -250,6 +253,14 @@ const router = createBrowserRouter([
         path: 'exams',
         element: <OrgAdminPage />,
       },
+      {
+        path: 'proctoring',
+        element: <Proctoring/>
+      },
+      {
+        path: 'grading',
+        element: <GradingSection/>
+      }
     ],
   },
   {
@@ -424,3 +435,4 @@ const router = createBrowserRouter([
 ]);
 
 export default router;
+ 

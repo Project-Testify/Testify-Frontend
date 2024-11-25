@@ -5,7 +5,6 @@ import {
   Loader,
   PageHeader,
   LogisticsStatsCard,
-  ExamsTable,
   // LearningStatsCard,
   ExamsCard as ExamCards,
 } from '../../components';
@@ -162,21 +161,21 @@ export const ExamSetterDashBoardPage = () => {
 
   const [examTabsKey, setExamTabKey] = useState<string>('all');
 
-  const EXAM_TABS_CONTENT: Record<string, React.ReactNode> = {
-    all: <ExamsTable key="all-projects-table" data={examsData} />,
-    inProgress: (
-      <ExamsTable
-        key="in-progress-projects-table"
-        data={examsData.filter((_: Exams) => _.exam_status === 'Active')}
-      />
-    ),
-    upcoming: (
-      <ExamsTable
-        key="on-hold-projects-table"
-        data={examsData.filter((_: Exams) => _.exam_status === 'Upcoming')}
-      />
-    ),
-  };
+  // const EXAM_TABS_CONTENT: Record<string, React.ReactNode> = {
+  //   all: <ExamsTable key="all-projects-table" data={examsData} />,
+  //   inProgress: (
+  //     <ExamsTable
+  //       key="in-progress-projects-table"
+  //       data={examsData.filter((_: Exams) => _.exam_status === 'Active')}
+  //     />
+  //   ),
+  //   upcoming: (
+  //     <ExamsTable
+  //       key="on-hold-projects-table"
+  //       data={examsData.filter((_: Exams) => _.exam_status === 'Upcoming')}
+  //     />
+  //   ),
+  // };
 
   const onProjectsTabChange = (key: string) => {
     setExamTabKey(key);
@@ -291,7 +290,7 @@ export const ExamSetterDashBoardPage = () => {
           </Card>
         </Col>
         <Col xs={24} sm={12} xl={8}>
-          <Card title="Top clients">
+          <Card>
             <ExamCards
               data={examCardData}
               loading={examCardDataLoading}
@@ -311,7 +310,8 @@ export const ExamSetterDashBoardPage = () => {
             activeTabKey={examTabsKey}
             onTabChange={onProjectsTabChange}
           >
-            {EXAM_TABS_CONTENT[examTabsKey]}
+            {/* {EXAM_TABS_CONTENT[examTabsKey]} */}
+            <h1>hi</h1>
           </Card>
         </Col>
       </Row>
