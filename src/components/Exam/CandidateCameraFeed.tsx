@@ -14,7 +14,7 @@ export const CandidateCameraFeed: React.FC<CandidateCameraFeedProps> = ({ camera
   const [dragging, setDragging] = useState(false);
   const [startDragOffset, setStartDragOffset] = useState({ x: 0, y: 0 });
 
-  // Assign the camera stream to the video element when the component mounts
+  // Assign the camera stream to the video element when the component mountss
   useEffect(() => {
     if (videoRef.current && cameraStream) {
       videoRef.current.srcObject = cameraStream;
