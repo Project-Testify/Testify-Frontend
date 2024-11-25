@@ -1,39 +1,60 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Input, Button, List, Card, message, Tag, Row, Col } from 'antd';
-import { SearchOutlined, CloseOutlined } from '@ant-design/icons';
+import { SearchOutlined } from '@ant-design/icons';
+import { getExamSettersForSearch, getProctors, addOrUpdateProctors } from '../../api/services/ExamServices';
 
 const AddProctors = () => {
-  const [filteredProctors, setFilteredProctors] = useState<any[]>([]); // Filtered proctors based on search
-  const [selectedProctors, setSelectedProctors] = useState<any[]>([]); // Selected proctors to be assigned
-  const [searchTerm, setSearchTerm] = useState(''); // Search term
+  const [examSetters, setExamSetters] = useState<any[]>([]);
+  const [filteredProctors, setFilteredProctors] = useState<any[]>([]);
+  const [selectedProctors, setSelectedProctors] = useState<any[]>([]);
+  const [searchTerm, setSearchTerm] = useState('');
 
-  // Sample proctors data for testing
-  const sampleProctors = [
-    { name: 'John Doe', email: 'john.doe@example.com' },
-    { name: 'Jane Smith', email: 'jane.smith@example.com' },
-    { name: 'Alice Johnson', email: 'alice.johnson@example.com' },
-    { name: 'Bob Brown', email: 'bob.brown@example.com' },
-  ];
+  const organizationId = sessionStorage.getItem('organizationId') ? Number(sessionStorage.getItem('organizationId')) : null;
+  const examId = sessionStorage.getItem('examId') ? Number(sessionStorage.getItem('examId')) : null;
 
-  // Handle search input change
+  useEffect(() => {
+    if (organizationId) {
+      getExamSettersForSearch(organizationId)
+        .then((response: any) => {
+          setExamSetters(response.data);
+        })
+        .catch((error) => {
+          message.error('Failed to fetch exam setters');
+          console.error(error);
+        });
+    }
+    if (examId) {
+      fetchExistingProctors(examId);
+    }
+  }, [organizationId, examId]);
+
+  const fetchExistingProctors = (examId: number) => {
+    getProctors(examId)
+      .then((response: any) => {
+        console.log('Existing proctors:', response.data);
+        setSelectedProctors(response.data);
+      })
+      .catch((error) => {
+        message.error('Failed to fetch existing proctors');
+        console.error(error);
+      });
+  };
+
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearchTerm(value);
-
-    // Filter proctors based on search term
     if (value.trim()) {
-      const filtered = sampleProctors.filter(
+      const filtered = examSetters.filter(
         (proctor) =>
-          proctor.name.toLowerCase().includes(value.toLowerCase()) ||
+          `${proctor.firstName} ${proctor.lastName}`.toLowerCase().includes(value.toLowerCase()) ||
           proctor.email.toLowerCase().includes(value.toLowerCase())
       );
       setFilteredProctors(filtered);
     } else {
-      setFilteredProctors([]); // Clear filtered list if search term is empty
+      setFilteredProctors([]);
     }
   };
 
-  // Handle adding a proctor to the selected list
   const handleSelectProctor = (proctor: any) => {
     if (selectedProctors.find((selected) => selected.email === proctor.email)) {
       message.error('This proctor has already been added.');
@@ -42,15 +63,28 @@ const AddProctors = () => {
     setSelectedProctors([...selectedProctors, proctor]);
   };
 
-  // Handle removing a proctor from the selected list
   const handleRemoveProctor = (email: string) => {
     setSelectedProctors(selectedProctors.filter((proctor) => proctor.email !== email));
   };
 
+  const handleSubmit = () => {
+    const emails = selectedProctors.map((proctor) => proctor.email);
+    console.log('Proctors to add:', emails);
+    addOrUpdateProctors(Number(examId), emails)
+      .then((response) => {
+        message.success(response.data.message || 'Proctors updated successfully.');
+        fetchExistingProctors(Number(examId));
+      })
+      .catch((error) => {
+        message.error('Failed to update proctors');
+        console.error(error);
+      });
+  };
+
   return (
     <div style={{ maxWidth: 600, margin: '0 auto' }}>
-      <h2>Add Proctors</h2>
-      
+      <h2>Update Proctors</h2>
+
       <Input
         placeholder="Search by name or email"
         prefix={<SearchOutlined />}
@@ -63,7 +97,7 @@ const AddProctors = () => {
         <Card title="Search Results" style={{ marginBottom: '20px' }}>
           <List
             dataSource={filteredProctors}
-            renderItem={(proctor) => (
+            renderItem={(proctor: any) => (
               <List.Item
                 actions={[
                   <Button type="primary" onClick={() => handleSelectProctor(proctor)}>
@@ -72,7 +106,7 @@ const AddProctors = () => {
                 ]}
               >
                 <List.Item.Meta
-                  title={proctor.name}
+                  title={`${proctor.firstName} ${proctor.lastName}`}
                   description={proctor.email}
                 />
               </List.Item>
@@ -91,14 +125,18 @@ const AddProctors = () => {
               onClose={() => handleRemoveProctor(proctor.email)}
               style={{ cursor: 'pointer' }}
             >
-              {proctor.name} ({proctor.email})
+              {`${proctor.firstName} ${proctor.lastName}`} ({proctor.email})
             </Tag>
           </Col>
         ))}
       </Row>
 
-      <Button type="primary" style={{ marginTop: '20px', width: '100%' }} disabled={selectedProctors.length === 0}>
-        Submit
+      <Button
+        type="primary"
+        style={{ marginTop: '20px', width: '100%' }}
+        onClick={handleSubmit}
+      >
+        Update Proctors
       </Button>
     </div>
   );

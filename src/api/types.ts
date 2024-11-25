@@ -99,6 +99,11 @@ export interface GenericDeleteResponse{
     message: string;
 }
 
+export interface GenericResponse{
+    success: boolean;
+    message: string;
+}
+
 export interface InviteExamSetterRequest{
     email: string;
 }

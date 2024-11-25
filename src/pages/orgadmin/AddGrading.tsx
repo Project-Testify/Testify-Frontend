@@ -59,7 +59,7 @@ const AddGrading = () => {
     <Card title="Add Grading Levels" style={{ margin: '20px auto', width: '100%' }}>
       <Form form={form} name="grading-form" onFinish={onFinish} autoComplete="off">
         <Form.List name="gradingLevels">
-          {(fields, { add, remove }) => (
+          {(fields: any[], { add, remove }: { add: () => void; remove: (name: number) => void }) => (
             <>
               {fields.map(({ key, name, fieldKey, ...restField }) => (
                 <Space key={key} style={{ display: 'flex', marginBottom: 8 }} align="baseline">

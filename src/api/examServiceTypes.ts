@@ -1,3 +1,5 @@
+import { CandidateResponse } from "./types";
+
 // MCQ Option Request Interface
 export interface MCQOptionRequest {
     optionText: string; // Text of the option
@@ -59,3 +61,52 @@ export interface OrderResponse {
     orderType: string;
     value: number;
 }
+
+export interface ProctorResponse{
+    id: number;
+    firstName: string;
+    lastName: string;
+    email: string;
+}
+
+export interface ExamSetterSearchResponse{
+    id: number;
+    firstName: string;
+    lastName: string;
+    email: string;
+}
+
+export interface CandidateGroupSearchResponse{
+    id: number;
+    name: string;
+    candidates: CandidateResponse[];
+}
+
+export interface CandidateEmailListRequest{
+    emails: string[];
+}
+
+export interface ConflictExamResponse {
+    id: number;
+    title: string;
+    description: string;
+    instructions: string;
+    duration: number;
+    startDatetime: string;
+    endDatetime: string;
+}
+
+export interface CandidateConflictExamResponse {
+    studentId: number;            
+    firstName: string;
+    lastName: string;   
+    examId: number;             
+    title: string;
+    description: string;
+    instructions: string;
+    duration: number;             
+    startDatetime: string;        
+    endDatetime: string;         
+  }
+
+    
