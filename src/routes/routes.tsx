@@ -38,6 +38,7 @@ import {
   // examSetter
   OrganizationDashBoard,
   Proctoring,
+  CandidateExpiredExams,
 } from '../pages';
 
 import {
@@ -287,6 +288,11 @@ const router = createBrowserRouter([
       {
         path: 'upcoming-exams',
         element: <CandidateUpcomingExams />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: 'expired-exams',
+        element: <CandidateExpiredExams />,
         errorElement: <ErrorPage />,
       },
       {

@@ -1,41 +1,119 @@
-import { Row, Col, Button } from 'antd';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Row, Col, Button, Spin, message } from 'antd';
 import ExamDetailCard from '../../components/Card/ExamDetailCard';
 import ExamStatusCard from '../../components/Card/ExamStatusCard';
 import ExamDescription from '../../components/Exam/ExamDescription';
 import { PageHeader } from '../../components';
 import { Helmet } from 'react-helmet-async';
-import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import { HomeOutlined, ContainerOutlined, FileTextOutlined, ClockCircleOutlined, BarChartOutlined, SafetyCertificateOutlined } from '@ant-design/icons';
 
-const topics = ['Supervised Learning', 'Unsupervised Learning', 'Reinforcement Learning', 'Algorithm Selection', 'Practical Applications', 'Feature Engineering'];
-
-const instructions = [
-    'Read each question carefully before answering.',
-    'No additional time will be given.',
-    'Ensure you have a stable internet connection.',
-    'Do not refresh the browser during the quiz.',
-    'The quiz is proctored, so ensure your camera and microphone are working.'
-];
-
 export const ExamSummaryPage = () => {
-    const remainingAttempts = 3; 
-    const availabilityDuration = '24/07/30 09:00 AM - 24/07/30 10:00 AM'; 
-    const isExamAvailable = true;
+    const navigate = useNavigate();
 
+    // Extract id from query parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const id = urlParams.get('id');  // Get the 'id' parameter from the query string
 
-    // Determine if the "Start Test" button should be disabled
+    const [examData, setExamData] = useState<{
+        title: string;
+        description: string;
+        duration: number;
+        topics: string;
+        instructions: string;
+        startTime: string;
+        endTime: string;
+        status: string;
+    } | null>(null);
+    
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchExamDetails = async () => {
+            if (!id) {
+                console.error('Exam ID is missing from the URL.');
+                message.error('Exam ID is missing.');
+                return;
+            }
+
+            try {
+                // Get the JWT token from sessionStorage
+                const token = sessionStorage.getItem('accessToken');
+        
+                // Ensure the token is available
+                if (!token) {
+                    console.error('No JWT token found. Please log in.');
+                    message.error('You need to log in to view the exam details.');
+                    return;
+                }
+        
+                // Construct the full URL for the exam details endpoint
+                const url = `http://localhost:8080/api/v1/candidate/exams/${id}`;
+        
+                // Make the GET request using axios with the Authorization header
+                const response = await axios.get(url, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+                    },
+                });
+        
+                // Set the fetched exam data in the state
+                setExamData(response.data);
+            } catch (error) {
+                console.error('Error fetching exam details:', error);
+                message.error('Failed to load exam details. Please try again.');
+            } finally {
+                setLoading(false); // Set loading state to false after the request completes
+            }
+        };
+
+        fetchExamDetails();
+    }, [id]);
+
+    const handleStartExam = () => {
+        navigate(`/candidate/exam/start/${id}`);
+    };
+
+    if (loading) {
+        return <Spin size="large" style={{ display: 'block', margin: '50px auto' }} />;
+    }
+
+    if (!examData) {
+        return <div>Exam not found</div>;
+    }
+
+    const {
+        title,
+        description,
+        duration,
+        topics,
+        instructions,
+        startTime,
+        endTime,
+        status,
+    } = examData;
+
+    const isExamAvailable = status === 'ONGOING';
+    const remainingAttempts = isExamAvailable ? 1 : 0;
     const isButtonDisabled = !isExamAvailable || remainingAttempts <= 0;
 
-    const navigate = useNavigate();
-    const handleStartExam = () => {
-        navigate('/candidate/exam/diagnostic-test');
+    const formatDateTime = (dateTime: any) => {
+        const date = new Date(dateTime);
+        
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        
+        return `${year}-${month}-${day}  ${hours}:${minutes}`;
     };
-    
 
     return (
         <div style={{ padding: '20px' }}>
             <Helmet>
-                <title>Testify | Machine Learning - Quiz 3</title>
+                <title>Testify | {title}</title>
             </Helmet>
             <PageHeader
                 title="Exam Summary"
@@ -53,11 +131,11 @@ export const ExamSummaryPage = () => {
                         title: (
                             <>
                                 <ContainerOutlined />
-                                <span>Machine Learning - Quiz 3</span>
+                                <span>{title}</span>
                             </>
                         ),
-                        path: '/',
-                    }
+                        path: `/candidate/exams/${id}`,
+                    },
                 ]}
             />
             <Row gutter={[16, 16]}>
@@ -74,7 +152,7 @@ export const ExamSummaryPage = () => {
                             <ExamDetailCard
                                 icon={<ClockCircleOutlined />}
                                 title="Time"
-                                content="60 minutes"
+                                content={`${duration} minutes`}
                             />
                         </Col>
                         <Col span={11}>
@@ -94,7 +172,7 @@ export const ExamSummaryPage = () => {
                         <Col span={22}>
                             <ExamStatusCard
                                 remainingAttempts={remainingAttempts}
-                                availabilityDuration={availabilityDuration}
+                                availabilityDuration={`${formatDateTime(startTime)} - ${formatDateTime(endTime)}`}
                                 isExamAvailable={isExamAvailable}
                             />
                         </Col>
@@ -111,9 +189,9 @@ export const ExamSummaryPage = () => {
                     <Row gutter={[16, 16]} justify="center">
                         <Col span={24}>
                             <ExamDescription
-                                examName="Machine Learning - Quiz 3"
-                                description="This quiz assesses your understanding of the fundamental concepts in machine learning, including algorithms, model evaluation, and practical applications. The quiz is designed to test both theoretical knowledge and practical skills."
-                                topics={topics}
+                                examName={title}
+                                description={description}
+                                topics={typeof topics === 'string' ? topics.split(',') : []}
                                 instructions={instructions}
                             />
                         </Col>
@@ -123,5 +201,3 @@ export const ExamSummaryPage = () => {
         </div>
     );
 };
-
-export default ExamSummaryPage;
