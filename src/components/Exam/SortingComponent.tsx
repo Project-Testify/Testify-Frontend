@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, {  useEffect } from 'react';
 import { Select } from 'antd';
 const { Option } = Select;
 
@@ -21,14 +21,14 @@ type SortingComponentProps = {
 const sortByStatusOrder = ["ONGOING", "UPCOMING", "COMPLETED", "EXPIRED"];
 
 export const SortingComponent: React.FC<SortingComponentProps> = ({ exams, onSortedExamsChange }) => {
-  const [sortedExams, setSortedExams] = useState<Exam[]>([]);
+  // const [sortedExams, setSortedExams] = useState<Exam[]>([]);
 
   useEffect(() => {
     // Default sort by status on load
     const sortedByDefault = [...exams].sort(
       (a, b) => sortByStatusOrder.indexOf(a.status) - sortByStatusOrder.indexOf(b.status)
     );
-    setSortedExams(sortedByDefault);
+    // setSortedExams(sortedByDefault);
     onSortedExamsChange(sortedByDefault);
   }, [exams]);
 
@@ -58,7 +58,7 @@ export const SortingComponent: React.FC<SortingComponentProps> = ({ exams, onSor
       default:
         sorted = [...exams];
     }
-    setSortedExams(sorted);
+    // setSortedExams(sorted);
     onSortedExamsChange(sorted);
   };
 
