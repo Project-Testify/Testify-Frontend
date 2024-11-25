@@ -259,6 +259,7 @@ export const PATH_CANDIDATE = {
   upcoming_exams: path(ROOTS_CANDIDATE, '/upcoming-exams'),
   ongoing_exams: path(ROOTS_CANDIDATE, '/ongoing-exams'),
   completed_exams: path(ROOTS_CANDIDATE, '/completed-exams'),
+  expired_exams: path(ROOTS_CANDIDATE, '/expired-exams'),
   organizations: path(ROOTS_CANDIDATE, '/organizations'),
   badges: path(ROOTS_CANDIDATE, '/badges'),
   grading: path(ROOTS_CANDIDATE, '/grading'),
@@ -268,7 +269,8 @@ export const PATH_CANDIDATE = {
 export const PATH_TUTOR = {
   root: ROOTS_TUTOR,
   dashboard: path(ROOTS_TUTOR, '/dashboard'),
-  
+  proctoring: path(ROOTS_TUTOR, '/proctoring'),
+  grading: path(ROOTS_TUTOR, '/grading')
 }
 
 export const PATH_ADMIN = {

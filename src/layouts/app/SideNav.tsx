@@ -72,6 +72,11 @@ const candidateItems: MenuProps['items'] = [
       'upcomingExams',
       null
     ),
+    getItem(
+      <Link to={PATH_CANDIDATE.expired_exams}>Expired</Link>,
+      'expiredExams',
+      null
+    ),
   ]),
   getItem(
     <Link to={PATH_CANDIDATE.organizations}>Organizations </Link>,
