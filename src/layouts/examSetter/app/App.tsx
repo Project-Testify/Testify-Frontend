@@ -1,5 +1,4 @@
 import {
-  Badge,
   Button,
   Card,
   Dropdown,
@@ -13,7 +12,6 @@ import {
   theme,
   Typography,
   Tooltip,
-  Image,
   Space,
 } from 'antd';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -39,6 +37,12 @@ import HeaderNav from './HeaderNav.tsx';
 import FooterNav from './FooterNav.tsx';
 import { NProgress } from '../../../components';
 import { PATH_LANDING } from '../../../constants';
+import { getLoggedInUser } from '../../../utils/authUtils.ts';
+import { OrganizationResponse } from '../../../api/types.ts';
+import { AxiosResponse } from 'axios';
+import { getExamSetterOrganizations } from '../../../api/services/ExamSetter.ts';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSchool } from '@fortawesome/free-solid-svg-icons';
 
 const { Content } = Layout;
 
@@ -61,20 +65,31 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
 
   // const organization = getOrganaization();
   const organization = undefined;
+  const loggedInUser = getLoggedInUser();
+  if (!loggedInUser) {
+    message.error("You must be logged in to perform this action.");
+    return;
+  }
+  const setterId = loggedInUser.id;
 
-
-  // const orgValue = undefined;
-
-
-  const [selectedOrganization, setSelectedOrganization] = useState<number | null>(null);
-
-
+  const [selectedOrganization, setSelectedOrganization] = useState<OrganizationResponse | null>(null);
+  const [setterOrganizations, setSetterOrganizations] = useState<OrganizationResponse[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const getSetterOrganizations = async() => {
+    try{
+      const response: AxiosResponse<OrganizationResponse[], any> = await getExamSetterOrganizations(setterId);
+      setSetterOrganizations(response.data);
+    }catch{
+      console.log('error fetching setter organizations');
+    }
+  }
 
   useEffect(() => {
     if (organization === undefined) {
       setIsModalOpen(true);
     }
+    getSetterOrganizations();
   }, []);
 
   const items: MenuProps['items'] = [
@@ -114,27 +129,7 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
     },
   ];
 
-  const organizations = [
-    {
-      key: 1,
-      name: 'University of Colombo School of Computing',
-      img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSjh8HCAzjZbfXikaInHueqXzhxl9UzKtQhWw&s',
-      verified: true,
-    },
-    {
-      key: 2,
-      name: 'Institute of Java and Software Engineering',
-      img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5LccFPVcf9Hh3tb_YCTkki_UlFoe-N4rj2Q&s',
-    },
-    {
-      key: 3,
-      name: 'Ocean University of Sri Lanka',
-      img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRV2-DHBPr2I-QGhnWSnqW1LFlINkS98DCENA&s',
-      verified: true,
-    },
-  ];
-
-  const handleOrganizationClick = (org: any) => {
+  const handleOrganizationClick = (org: OrganizationResponse) => {
     // setOrganization(org);
     setSelectedOrganization(org);
     
@@ -179,7 +174,8 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
             border: 'none',
             transition: 'all .2s',
           }}
-          organization={selectedOrganization}
+          organization={selectedOrganization?.firstName}
+          organizations={setterOrganizations}
         />
         <Layout
           style={{
@@ -296,55 +292,35 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
             title="Please Select Organization"
             open={isModalOpen}
             onCancel={() => setIsModalOpen(false)}
-            width="80vw"
+            width="30vw"
           >
             <Flex justify="center">
               <Space direction="vertical">
-                {organizations.map((org) => (
+                {setterOrganizations.map((org) => (
                   <>
                     <div
-                      key={org.key}
-                      onClick={() => handleOrganizationClick(org.name)}
+                      key={org.id}
+                      onClick={() => handleOrganizationClick(org)}
                       style={{ cursor: 'pointer', scale: '0.8'}}
                     >
-                      {org.verified && (
-                        <Badge.Ribbon
-                          text="Verified"
-                          color="green"
-                          style={{ fontSize: '12px' }}
-                        >
-                          <Card key={org.name} hoverable>
+                      
+                        
+                          <Card key={org.id} hoverable>
                             <Flex
                               align="center"
                               style={{ marginBottom: '20px' }}
                             >
-                              <Image
+                              {/* <Image
                                 src={org.img}
                                 style={{ width: '50%' }}
                                 preview={false}
-                              />
-                              <Typography.Title level={4}>
-                                {org.name}
+                              /> */}
+                              <FontAwesomeIcon icon={faSchool} fontSize={'40px'} style={{margin:'10px'}} color='#6f7ae8'></FontAwesomeIcon>
+                              <Typography.Title level={3}>
+                                {org.firstName}
                               </Typography.Title>
                             </Flex>
                           </Card>
-                        </Badge.Ribbon>
-                      )}
-
-                      {!org.verified && (
-                        <Card key={org.name} hoverable>
-                          <Flex align="center" style={{ marginBottom: '20px' }}>
-                            <Image
-                              src={org.img}
-                              style={{ width: '50%' }}
-                              preview={false}
-                            />
-                            <Typography.Title level={4}>
-                              {org.name}
-                            </Typography.Title>
-                          </Flex>
-                        </Card>
-                      )}
                     </div>
                   </>
                 ))}
