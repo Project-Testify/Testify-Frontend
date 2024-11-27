@@ -25,6 +25,79 @@ const mcqQuestions: McqQuestion[] = [
       'Linear Regression',
     ],
   },
+    {
+      question: '3. What is the main goal of unsupervised learning?',
+      options: [
+        'To predict labels for new data points',
+        'To cluster data into groups based on similarities',
+        'To minimize the cost function',
+        'To optimize the parameters of a model',
+      ],
+    },
+    {
+      question: '4. Which of the following is a common activation function used in neural networks?',
+      options: [
+        'ReLU (Rectified Linear Unit)',
+        'Euclidean Distance',
+        'Softmax Regression',
+        'Gradient Descent',
+      ],
+    },
+    {
+      question: '5. What does overfitting in machine learning mean?',
+      options: [
+        'The model performs well on unseen data but poorly on training data',
+        'The model performs poorly on both training and test data',
+        'The model performs exceptionally well on training data but poorly on unseen data',
+        'The model fits perfectly to unseen data',
+      ],
+    },
+    {
+      question: '6. What is the purpose of the learning rate in gradient descent?',
+      options: [
+        'To determine the complexity of the model',
+        'To specify the number of features used',
+        'To control the step size during optimization',
+        'To evaluate the accuracy of the model',
+      ],
+    },
+    {
+      question: '7. Which of the following techniques is used to reduce dimensionality?',
+      options: [
+        'Principal Component Analysis (PCA)',
+        'Decision Trees',
+        'Support Vector Machines (SVM)',
+        'K-Nearest Neighbors (KNN)',
+      ],
+    },
+    {
+      question: '8. What is a hyperparameter in the context of machine learning?',
+      options: [
+        'A parameter that is learned from the training data',
+        'A parameter set before training the model',
+        'A parameter adjusted during backpropagation',
+        'A parameter used for evaluating model accuracy',
+      ],
+    },
+    {
+      question: '9. Which of the following methods is commonly used for handling imbalanced datasets?',
+      options: [
+        'Oversampling the minority class',
+        'Reducing the number of features',
+        'Increasing the learning rate',
+        'Adding noise to the data',
+      ],
+    },
+    {
+      question: '10. What is the role of a cost function in machine learning?',
+      options: [
+        'To split data into training and test sets',
+        'To minimize errors during training',
+        'To evaluate the performance of a model on unseen data',
+        'To optimize the architecture of a neural network',
+      ],
+    },
+  
 ];
 
 const essayQuestions: EssayQuestion[] = [
@@ -35,6 +108,18 @@ const essayQuestions: EssayQuestion[] = [
   {
     question: '2. Explain the concept of gradient descent and how it is used in training machine learning models.',
     length: 300,
+  },
+  {
+    question: '3. Discuss the differences between supervised, unsupervised, and reinforcement learning, and provide examples for each type.',
+    length: 400,
+  },
+  {
+    question: '4. Describe the bias-variance tradeoff in machine learning and explain how it affects model performance.',
+    length: 350,
+  },
+  {
+    question: '5. Explain the concept of feature scaling and its importance in machine learning algorithms such as SVM and KNN.',
+    length: 250,
   },
 ];
 
@@ -53,7 +138,7 @@ export const ExamViewPage = () => {
   const [answers, setAnswers] = useState<{ [key: number]: string }>({});
   const [examType] = useState<'mcq' | 'essay'>('mcq');
 
-  const questions: Question[] = examType === 'mcq' ? mcqQuestions : essayQuestions;
+  const questions: Question[] = examType === 'essay' ? mcqQuestions : essayQuestions;
 
   const handleNext = () => {
     if (currentQuestionIndex < questions.length - 1) {
@@ -145,7 +230,7 @@ export const ExamViewPage = () => {
           answeredIndexes={answeredIndexes}
           skippedIndexes={skippedIndexes}
         />
-        <CandidateCameraFeed cameraStream={cameraStream} alertMessage={alertMessage} />
+        {/* <CandidateCameraFeed cameraStream={cameraStream} alertMessage={alertMessage} /> */}
 
         {isMcqQuestion(currentQuestion) ? (
           <McqQuestionView

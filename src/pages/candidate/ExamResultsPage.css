@@ -1,0 +1,143 @@
+.question-card {
+    padding: 16px;
+  }
+  
+  .question-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .question-title {
+    margin: 0;
+    font-size: 18px;
+  }
+  
+  .marks-display {
+    font-size: 14px;
+    color: #555;
+  }
+  
+  .option-list {
+    list-style: none;
+    padding: 0;
+    margin: 16px 0 0;
+  }
+  
+  .option-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+    margin: 4px 0;
+    background-color: #f0f0f0;
+    border-radius: 4px;
+  }
+  
+  .option-item.correct {
+    background-color: #d4edda; 
+  }
+  
+  .option-item.incorrect {
+    background-color: #f8d7da;
+  }
+  
+  .option-icon {
+    font-size: 20px;
+    margin-left: 8px;
+  }
+  
+  .correct-icon {
+    color: #52c41a;
+  }
+  
+  .incorrect-icon {
+    color: #ff4d4f;
+  }
+
+  .summary-card {
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    background-color: #f7f9fc;
+    padding: 0px 16px;
+  }
+  
+  .summary-title {
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 16px;
+    margin-top: -10px;
+    color: #333; 
+  }
+  
+  .summary-text {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    display: block;
+  }
+  
+  .highlight {
+    font-size: 24px;
+  }
+  
+  .details-container {
+    text-align: center;
+  }
+  
+  .details-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .details-text {
+    font-size: 18px;
+    margin-bottom: 12px;
+  }
+  
+  .details-label {
+    font-weight: bold;
+  }
+  
+  .correct-text {
+    color: #28a745; 
+  }
+  
+  .incorrect-text {
+    color: #dc3545; 
+  }
+  
+  .skipped-text {
+    color: #424242; 
+  }
+  
+  .dashboard-btn {
+    margin-top: 20px;
+    display: block;
+    margin-inline: auto;
+    padding: 0 24px;
+    font-size: 18px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 220px;
+  }
+  
+  @media (max-width: 768px) {
+    .summary-card {
+      padding: 20px;
+    }
+    .summary-title {
+      font-size: 24px;
+    }
+    .summary-text {
+      font-size: 20px;
+    }
+    .details-text {
+      font-size: 16px;
+    }
+  }
+  

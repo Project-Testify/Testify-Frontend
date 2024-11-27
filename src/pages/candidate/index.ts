@@ -12,4 +12,5 @@ export { CandidateOrganizations } from './CandidateOrganizations.tsx';
 export { CandidateBadges } from './CandidateBadges.tsx';
 export { CandidateGrading } from './CandidateGrading.tsx';
 export { CandidateActivityHistory } from './CandidateActivityHistory.tsx';
+export {ExamMcqResults} from './ExamMcqResults.tsx';
 

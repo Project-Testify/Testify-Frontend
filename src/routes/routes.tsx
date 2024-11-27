@@ -38,10 +38,10 @@ import {
   // examSetter
   OrganizationDashBoard,
   CandidateExpiredExams,
+  ExamMcqResults,
   OrgAdminCompleteExamPage,
   OrgAdminViewCompleteExamPage,
   Proctoring
-
 } from '../pages';
 
 import {
@@ -341,6 +341,11 @@ const router = createBrowserRouter([
       {
         path: 'exam/feedback',
         element: <ExamFeedback />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: 'exam/mcq-results',
+        element: <ExamMcqResults />,
         errorElement: <ErrorPage />,
       },
     ],
