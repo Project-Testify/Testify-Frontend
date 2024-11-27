@@ -62,7 +62,7 @@ export const SignUpPage = () => {
           <Route path="/" element={<Select />} />
           <Route path="/candidate" element={<Candidate />} />
           <Route path="/organization" element={<Organization />} />
-          <Route path="/examSetter" element={<ExamSetter token={token} />} />
+          <Route path="/examSetter" element={<ExamSetter token={token||''} />} />
         </Routes>
 
       </Col>

@@ -10,6 +10,7 @@ import {
     Form,
     Input,
     message,
+    Modal,
     Row,
   
     Typography,
@@ -20,7 +21,7 @@ import {
   import { useMediaQuery } from 'react-responsive';
   import { PATH_AUTH} from '../../../constants';
   import { useNavigate } from 'react-router-dom';
-  import { useState } from 'react';
+  import { useEffect, useState } from 'react';
   
   const { Title, Text } = Typography;
 
@@ -37,17 +38,63 @@ import {
   };
 
 import { registerExamSetter } from '../../../api/services/auth';
+import { addExamSetter, checkSetterRegistration, getExamSetterOrganizations } from '../../../api/services/ExamSetter';
+import { OrganizationResponse } from '../../../api/types';
+import { AxiosResponse } from 'axios';
 
 type Props = {
-  token: string | null
+  token: string 
 } 
 
 export const ExamSetter = ({token}:Props) => {
 
-
+      
       const isMobile = useMediaQuery({ maxWidth: 769 });
       const navigate = useNavigate();
       const [loading, setLoading] = useState(false);
+      const [setterId, setSetterId] = useState(0);
+      const [setterOrganizations, setSetterOrganizations] = useState<OrganizationResponse[]>([]);
+      const [showModal, setShowModal] = useState(false);
+
+      const SetterRegistration = async() => {
+          try{
+            const response = await checkSetterRegistration(token);
+            setSetterId(response.data);
+          }catch{
+            console.log('error fetching from checkSetterRegistration');
+          }
+      }
+
+      const getSetterOrganizations = async() => {
+        try{
+          const response: AxiosResponse<OrganizationResponse[], any> = await getExamSetterOrganizations(setterId);
+          setSetterOrganizations(response.data);
+        }catch{
+          console.log('error fetching setter organizations');
+        }
+      }
+      
+      useEffect(() => {
+        SetterRegistration();
+      }, [token]);
+    
+      useEffect(() => {
+        if (setterId !== 0) {
+          getSetterOrganizations();
+          setShowModal(true);
+        }
+      }, [setterId]);
+
+      const handleAddOrganization = async() => {
+        try{
+          await addExamSetter(token);
+          setShowModal(false);
+          message.success('You were added to organization');
+          navigate(`${PATH_AUTH.signin}`);
+        } catch{
+          console.log("setter cannot add");
+        }
+      }
 
       // const [searchParams] = useSearchParams();
       // const token = searchParams.get('invitation');
@@ -110,6 +157,24 @@ export const ExamSetter = ({token}:Props) => {
 
 
     return (
+      <div>
+        <Modal
+        title="Existing Organizations"
+        visible={showModal}
+        onOk={handleAddOrganization}
+        onCancel={() => setShowModal(false)}
+        okText="Add New Organization"
+      >
+        <p>You are already registered with the following organizations:</p>
+        <ul>
+          {setterOrganizations.map((org) => (
+            <li>{org.firstName}</li>
+          ))}
+        </ul>
+        <p>Would you like to add this new organization to your account?</p>
+      </Modal>
+
+        
         <Flex
           vertical
           align={isMobile ? 'center' : 'flex-start'}
@@ -244,5 +309,6 @@ export const ExamSetter = ({token}:Props) => {
           </Form>
           
         </Flex>
+      </div>
     )
     }

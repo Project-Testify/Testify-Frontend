@@ -3,8 +3,8 @@
     "exam_id": "1",
     "exam_name": "Information Security Systems",
     "exam_code": "ISS1233",
-    "exam_type": "Test",
-    "exam_date": "2024-09-01",
+    
+    "exam_date": "2024-11-25",
     "exam_duration": "1 hour",
     "exam_status": "Active",
     "exam_subject": "Information Security",
@@ -14,15 +14,15 @@
     "exam_priority": "High",
     "exam_proctors": ["Dr. Williams", "Ms. Kaur"],
 
-    "exam_start_date": "2024-09-01",
-    "exam_end_date": "2024-09-03"
+    "exam_start_date": "2024-11-25",
+    "exam_end_date": "2024-11-27"
   },
   {
     "exam_id": "2",
     "exam_name": "Human Computer Interaction",
     "exam_code": "HCI1234",
     "exam_type": "Test",
-    "exam_date": "2024-09-31",
+    "exam_date": "2024-11-26",
     "exam_duration": "1 hour",
     "exam_status": "Active",
     "exam_subject": "Human Computer Interaction",
@@ -32,15 +32,15 @@
     "exam_priority": "High",
     "exam_proctors": ["Prof. Johnson", "Dr. Yu"],
 
-    "exam_start_date": "2024-09-31",
-    "exam_end_date": "2024-10-01"
+    "exam_start_date": "2024-11-26",
+    "exam_end_date": "2024-11-26"
   },
   {
     "exam_id": "3",
     "exam_name": "Enterprise Systems",
     "exam_code": "ES1245",
     "exam_type": "Test",
-    "exam_date": "2024-10-21",
+    "exam_date": "2024-12-21",
     "exam_duration": "1 hour",
     "exam_status": "Upcoming",
     "exam_subject": "Enterprise Systems",
@@ -50,7 +50,7 @@
     "exam_priority": "High",
     "exam_proctors": ["Dr. Edwards", "Ms. Ford"],
 
-    "exam_start_date": "2024-10-21",
+    "exam_start_date": "2024-12-21",
     "exam_end_date": "2025-01-10"
   },
   {

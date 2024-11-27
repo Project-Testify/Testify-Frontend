@@ -117,6 +117,11 @@ const orgAdminItems: MenuProps['items'] = [
       'new_exam',
       null
     ),
+    getItem(
+      <Link to={PATH_ORG_ADMIN.complete_exam}>Completed Exams</Link>,
+      'completed_exam',
+      null
+    ),
   ]),
 
   getItem('Exam Setters', 'examSetters', null, [], 'group'),
@@ -127,7 +132,7 @@ const orgAdminItems: MenuProps['items'] = [
     [
       getItem(
         <Link to={PATH_ORG_ADMIN.exam_setters}>All Exam Setters</Link>,
-        'exam',
+        'ExamSetters',
         null
       ),
     ]
