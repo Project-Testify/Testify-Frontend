@@ -9,6 +9,7 @@ import {
 import { McqQuestion, EssayQuestion, Question } from '../../types/questiontypes';
 import { HomeOutlined, ContainerOutlined } from '@ant-design/icons';
 import { Helmet } from 'react-helmet-async';
+import { useLocation } from 'react-router-dom';
 import './ExamView.css';
 
 const isMcqQuestion = (question: Question): question is McqQuestion => {
@@ -27,6 +28,8 @@ export const ExamViewPage = () => {
   const [examType, setExamType] = useState<'mcq' | 'essay' | null>(null);
   const [questions, setQuestions] = useState<Question[]>([]);
   const [loading, setLoading] = useState(true);
+  const location = useLocation();
+  const {id, name} = location.state || {};
 
   const handleNext = () => {
     if (currentQuestionIndex < questions.length - 1) {
@@ -71,7 +74,7 @@ export const ExamViewPage = () => {
     const fetchQuestions = async () => {
       setLoading(true);
       try {
-        const response = await fetch(`http://localhost:8080/api/v1/exam/1/questions`);
+        const response = await fetch(`http://localhost:8080/api/v1/exam/${id}/questions`);
         const data = await response.json();
         if (data.questions) {
           setQuestions(data.questions);
@@ -109,7 +112,7 @@ export const ExamViewPage = () => {
         <title>Testify | Machine Learning - Quiz 3</title>
       </Helmet>
       <PageHeader
-        title="Machine Learning - Quiz 3"
+        title={name}
         breadcrumbs={[
           {
             title: (
@@ -124,7 +127,7 @@ export const ExamViewPage = () => {
             title: (
               <>
                 <ContainerOutlined />
-                <span>Machine Learning - Quiz 3</span>
+                <span>{name}</span>
               </>
             ),
             path: '/',
