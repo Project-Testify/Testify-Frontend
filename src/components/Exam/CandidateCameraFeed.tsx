@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Alert, Button } from 'antd';
+
 import './styles.css';
 
 interface CandidateCameraFeedProps {
@@ -7,14 +7,14 @@ interface CandidateCameraFeedProps {
   alertMessage: string | null;
 }
 
-export const CandidateCameraFeed: React.FC<CandidateCameraFeedProps> = ({ cameraStream, alertMessage }) => {
+export const CandidateCameraFeed: React.FC<CandidateCameraFeedProps> = ({ cameraStream }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const feedContainerRef = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [dragging, setDragging] = useState(false);
   const [startDragOffset, setStartDragOffset] = useState({ x: 0, y: 0 });
 
-  // Assign the camera stream to the video element when the component mounts
+  // Assign the camera stream to the video element when the component mountss
   useEffect(() => {
     if (videoRef.current && cameraStream) {
       videoRef.current.srcObject = cameraStream;
