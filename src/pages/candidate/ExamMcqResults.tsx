@@ -1,4 +1,4 @@
-import { Typography, Row, Col, Card, Button } from 'antd';
+import { Progress, Typography, Row, Col, Card, Button } from 'antd';
 import {
   HomeOutlined,
   CheckCircleOutlined,
@@ -70,6 +70,9 @@ export const ExamMcqResults = () => {
       q.userAnswer.length > 0
   ).length;
   const skippedQuestions = mockExamResults.filter((q) => q.userAnswer.length === 0).length;
+  const maxMarks = mockExamResults.length * 10;
+  const percentage = Math.round((totalMarks / maxMarks) * 100);
+  const examName = 'Machine Learning - Quiz 2';
 
 
   return (
@@ -111,35 +114,64 @@ export const ExamMcqResults = () => {
       />
       <Row justify="center">
         <Col xs={24} sm={22} md={20} lg={18}>
-        <Card className="summary-card">
-          <Title level={2} className="summary-title">
-            Exam Results
-          </Title>
-          <Row gutter={[16, 16]} align="middle" justify="space-between">
-            <Col xs={24} sm={12} className="summary-col">
-              <Text className="summary-text">
-                Total Marks: <span className="highlight">{totalMarks}</span> / {mockExamResults.length * 10}
-              </Text>
-              <Button
-                type="primary"
-                size="large"
-                className="dashboard-btn"
-                onClick={handleDashboard}
-              >
-                Go to Dashboard
-              </Button>
+        <Card className="results-summary-card">
+          <Row justify="center">
+            <Col span={24}>
+              <Title level={2} className="exam-results-title">
+                {examName} - Results
+              </Title>
             </Col>
-            <Col xs={24} sm={12} className="details-col">
-              <div className="details-container">
-                <Text className="details-text correct-text">
-                  <span className="details-label">Correct Answers:</span> {correctAnswers}
-                </Text><br/>
-                <Text className="details-text incorrect-text">
-                  <span className="details-label">Incorrect Answers:</span> {incorrectAnswers}
-                </Text><br/>
-                <Text className="details-text skipped-text">
-                  <span className="details-label">Skipped Questions:</span> {skippedQuestions}
-                </Text>
+          </Row>
+          <Row gutter={[16, 16]} align="middle" justify="space-around">
+            <Col xs={24} sm={12} md={8} className="progress-container">
+              <Progress
+                type="circle"
+                percent={percentage}
+                strokeColor="#6D76ED"
+                strokeWidth={14}
+                width={180}
+                format={(percent) => (
+                  <span
+                    style={{
+                      color: '#6D76ED',
+                      fontSize: '24px',
+                      fontWeight: 'bold',
+                    }}
+                  >
+                    {percent}%
+                  </span>
+                )}
+              />
+              <Text
+                className="progress-label">
+                Scored {totalMarks} out of {maxMarks}
+              </Text>
+            </Col>
+
+            
+            <Col xs={24} sm={12} md={14}>
+              <div className="stats-container">
+                <Title level={3} className="stats-title">Exam Statistics</Title>
+                <div className="stats-item">
+                  <Text className="stats-label">Correct Answers:</Text>
+                  <Text className="stats-value correct-text">{correctAnswers}</Text>
+                </div>
+                <div className="stats-item">
+                  <Text className="stats-label">Incorrect Answers:</Text>
+                  <Text className="stats-value incorrect-text">{incorrectAnswers}</Text>
+                </div>
+                <div className="stats-item">
+                  <Text className="stats-label">Skipped Questions:</Text>
+                  <Text className="stats-value skipped-text">{skippedQuestions}</Text>
+                </div>
+                <Button
+                  type="primary"
+                  size="large"
+                  className="dashboard-btn"
+                  onClick={handleDashboard}
+                >
+                  Go to Dashboard
+                </Button>
               </div>
             </Col>
           </Row>

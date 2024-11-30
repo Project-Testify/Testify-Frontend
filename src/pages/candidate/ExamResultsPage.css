@@ -79,52 +79,88 @@
     margin-bottom: 20px;
     display: block;
   }
+
+  /* Card Styling */
+.results-summary-card {
+    padding: 24px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    margin-bottom: 24px;
+  }
   
-  .highlight {
+  /* Circle Progress Bar Container */
+ /* Progress Bar Container */
+.progress-container {
+  text-align: center;
+  margin-top: 24px;
+}
+
+/* Text below Progress Bar */
+.progress-label {
+    margin-top: 16px;
+    display: block;
+    font-size: 20px;
+    color: #424242;
+    font-weight: 500;
+}
+  
+  /* Statistics Section */
+  .stats-container {
+    padding: 0 16px;
+  }
+  
+  .stats-title {
     font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 16px;
+    text-align: left;
   }
   
-  .details-container {
-    text-align: center;
-  }
-  
-  .details-col {
+  .stats-item {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .details-text {
-    font-size: 18px;
+    justify-content: space-between;
     margin-bottom: 12px;
   }
   
-  .details-label {
+  .stats-label {
+    font-size: 16px;
+    font-weight: 500;
+    color: #424242;
+  }
+  
+  .stats-value {
+    font-size: 16px;
     font-weight: bold;
   }
   
   .correct-text {
-    color: #28a745; 
+    color: #28a745; /* Green for correct */
   }
   
   .incorrect-text {
-    color: #dc3545; 
+    color: #dc3545; /* Red for incorrect */
   }
   
   .skipped-text {
-    color: #424242; 
+    color: #ff9800; /* Orange for skipped */
   }
   
+  /* Button Styling */
   .dashboard-btn {
-    margin-top: 20px;
-    display: block;
-    margin-inline: auto;
-    padding: 0 24px;
-    font-size: 18px;
-    border-radius: 8px;
+    margin-top: 24px;
     width: 100%;
-    max-width: 220px;
+    max-width: 200px;
   }
+
+  .exam-results-title {
+    font-weight: bold;
+    font-size: 24px;
+    color: #000; 
+    margin-top: -10px;
+  }
+  
+  
   
   @media (max-width: 768px) {
     .summary-card {
