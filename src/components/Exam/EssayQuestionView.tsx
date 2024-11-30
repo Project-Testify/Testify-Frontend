@@ -11,6 +11,9 @@ interface EssayQuestionViewProps {
     onPrevious: () => void;
     onAnswer: (answer: string) => void;
     onClearSelection: () => void;
+    disableNext: boolean;
+    disablePrevious: boolean;
+    disableClear: boolean;
 }
 
 export const EssayQuestionView = ({
@@ -21,6 +24,9 @@ export const EssayQuestionView = ({
     onPrevious,
     onAnswer,
     onClearSelection,
+    disableNext,
+    disablePrevious,
+    disableClear,
 }: EssayQuestionViewProps) => {
     
     const { TextArea } = Input;
@@ -61,13 +67,13 @@ export const EssayQuestionView = ({
                         value={content}
                     />
                     <div className="button-container">
-                        <Button onClick={handleClearContent} type="primary" size="large" className="clear-button button">
+                        <Button onClick={handleClearContent} type="primary" size="large" className="clear-button button" disabled={disableClear}>
                             Clear
                         </Button>
-                        <Button onClick={onPrevious} type="primary" icon={<LeftOutlined  />} size="large" className="previous-button button">
+                        <Button onClick={onPrevious} type="primary" icon={<LeftOutlined  />} size="large" className="previous-button button" disabled={disablePrevious}>
                             Previous
                         </Button>
-                        <Button onClick={onNext} type="primary" icon={<RightOutlined  />} size="large" className="next-button button">
+                        <Button onClick={onNext} type="primary" icon={<RightOutlined  />} size="large" className="next-button button" disabled={disableNext}>
                             Next
                         </Button>
                     </div>
