@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Row, Col, Button, Spin, message } from 'antd';
 import ExamDetailCard from '../../components/Card/ExamDetailCard';
 import ExamStatusCard from '../../components/Card/ExamStatusCard';
@@ -8,13 +8,14 @@ import { PageHeader } from '../../components';
 import { Helmet } from 'react-helmet-async';
 import axios from 'axios';
 import { HomeOutlined, ContainerOutlined, FileTextOutlined, ClockCircleOutlined, BarChartOutlined, SafetyCertificateOutlined } from '@ant-design/icons';
+// import { Organization } from '../authentication/forms/Organization';
 
 export const ExamSummaryPage = () => {
     const navigate = useNavigate();
 
     // Extract id from query parameters
-    const urlParams = new URLSearchParams(window.location.search);
-    const id = urlParams.get('id');  // Get the 'id' parameter from the query string
+    const location = useLocation();
+    const {id} = location.state || {};
 
     const [examData, setExamData] = useState<{
         title: string;
@@ -54,7 +55,7 @@ export const ExamSummaryPage = () => {
                 // Make the GET request using axios with the Authorization header
                 const response = await axios.get(url, {
                     headers: {
-                        'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+                        'Authorization': `Bearer ${token}`, 
                     },
                 });
         
@@ -71,8 +72,13 @@ export const ExamSummaryPage = () => {
         fetchExamDetails();
     }, [id]);
 
-    const handleStartExam = () => {
-        navigate(`/candidate/exam/start/${id}`);
+    const handleStartExam = (examName : string) => {
+        navigate(`/candidate/exam/view`, {
+            state: {
+                id: id,
+                name: examName,
+            },
+        });
     };
 
     if (loading) {
@@ -178,7 +184,7 @@ export const ExamSummaryPage = () => {
                         </Col>
                         <Col span={24}>
                             <div style={{ marginTop: '8px', textAlign: 'center' }}>
-                                <Button type="primary" size="large" style={{ width: '150px' }} disabled={isButtonDisabled} onClick={handleStartExam}>
+                                <Button type="primary" size="large" style={{ width: '150px' }} disabled={isButtonDisabled} onClick={() => handleStartExam(title)}>
                                     Start Exam
                                 </Button>
                             </div>

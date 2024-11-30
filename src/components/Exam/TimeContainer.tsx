@@ -39,7 +39,7 @@ export const TimeContainer = ({
             answeredIndexes={answeredIndexes}
             skippedIndexes={skippedIndexes}
             currentQuestionIndex={currentQuestionIndex}
-            onSelectQuestion={setCurrentQuestionIndex} // Pass the setter here
+            onSelectQuestion={setCurrentQuestionIndex}
           />
           <Divider />
           <div className="submit-button-container">
