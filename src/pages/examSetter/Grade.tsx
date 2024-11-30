@@ -1,4 +1,4 @@
-import { Card, Table, Select, Input, Button, message } from 'antd';
+import { Card, Table, Select, Button, message } from 'antd';
 import { useState } from 'react';
 
 interface GradingQuestion {
@@ -16,36 +16,99 @@ interface GradingQuestion {
 const { Option } = Select;
 
 const initialData: GradingQuestion[] = [
-  {
-    id: 1,
-    questionText: "List five Linux distributions?",
-    userAnswer: "Ubuntu , Fedora, macOS, Arch Linux ",
-    feedback: {
-      correct_points: [ "Ubuntu",
-        "Fedora",
-        "Arch Linux"],
-      incorrect_points: [ "macOS"],
-    },
-    marks: 0,
-    maxMarks: 5,
-  },
+  // {
+  //   id: 1,
+  //   questionText: "List five Linux distributions?",
+  //   userAnswer: "Ubuntu , Fedora, macOS, Arch Linux ",
+  //   feedback: {
+  //     correct_points: [ "Ubuntu",
+  //       "Fedora",
+  //       "Arch Linux"],
+  //     incorrect_points: [ "macOS"],
+  //   },
+  //   marks: 0,
+  //   maxMarks: 5,
+  // },
   {
     id: 2,
-    questionText: "Explain Newton's first law of motion.",
-    userAnswer: "An object remains in motion unless acted upon by an external force.",
+    questionText: "What were main reasons for the start of World War II?",
+    userAnswer: "Germany's invasion of Poland, The United States' attack on Japan",
     feedback: {
       correct_points: [
-        "An object remains in motion unless acted upon by an external force",
+        "Germany's invasion of Poland",
       ],
       incorrect_points: [
-        "An object at rest stays at rest",
-        "An object in motion stays in motion unless acted upon by an external force",
+        "The United States' attack on Japan",
       ],
     },
     marks: 0,
     maxMarks: 10,
   },
+  {
+    "id": 4,
+    "questionText": "What were two causes of the American Civil War?",
+    "userAnswer": "The issue of slavery, The Southern states' belief in the necessity of a strong central government",
+    "feedback": {
+      "correct_points": [
+        "The issue of slavery"
+      ],
+      "incorrect_points": [
+        "The Southern states' belief in the necessity of a strong central government"
+      ]
+    },
+    "marks": 5,
+    "maxMarks": 10
+  },
+  {
+    "id": 5,
+    "questionText": "What were two significant achievements of Napoleon Bonaparte during his rule?",
+    "userAnswer": "The establishment of the Napoleonic Code, His successful invasion and permanent conquest of Russia",
+    "feedback": {
+      "correct_points": [
+        "The establishment of the Napoleonic Code"
+      ],
+      "incorrect_points": [
+        "His successful invasion and permanent conquest of Russia"
+      ]
+    },
+    "marks": 5,
+    "maxMarks": 10
+  },
+  {
+    "id": 6,
+    "questionText": "Which of the following was a primary cause of the French Revolution?",
+    "userAnswer": "The effects of the industrial revolution on French factories, The severe hunger and economic problems faced by ordinary French citizens, Foreign countries invading France and causing rebellion.",
+    "feedback": {
+      "correct_points": ["The severe hunger and economic problems faced by ordinary French citizens"],
+      "incorrect_points": [
+        "The effects of the industrial revolution on French factories",
+        "Foreign countries invading France and causing rebellion"
+      ]
+    },
+    "marks": 0,
+    "maxMarks": 10
+  },
+  {
+    "id": 7,
+    "questionText": "Which of the following was a major reason for the Revolt of 1857 in India?",
+    "userAnswer": "The introduction of Western-style education, The discontent among Indian soldiers due to cultural insensitivity, The establishment of the Indian National Congress.",
+    "feedback": {
+      "correct_points": ["The discontent among Indian soldiers due to cultural insensitivity"],
+      "incorrect_points": [
+        "The introduction of Western-style education",
+        "The establishment of the Indian National Congress"
+      ]
+    },
+    "marks": 0,
+    "maxMarks": 10
+  }
+  
+  
+  
+  
+  
 ];
+
 
 const highlightTextWithFeedback = (
   text: string,
@@ -92,8 +155,11 @@ const highlightTextWithFeedback = (
     }
 
     // Add highlighted text
-    const highlightStyle = style === "correct" ? { backgroundColor: "green", color: "white" } : { backgroundColor: "red", color: "white" };
-    result.push(
+    const highlightStyle = style === "correct" 
+    ? { backgroundColor: "#d4f7d4", color: "green" }  // Lighter green background, green text
+    : { backgroundColor: "#f7d4d4", color: "red" };  // Lighter red background, red text
+
+      result.push(
       <span key={`highlight-${index}`} style={highlightStyle}>
         {text.slice(start, end)}
       </span>
@@ -134,7 +200,7 @@ const ExamSetterGrade = () => {
       render: (text: string) => <span>{text}</span>,
     },
     {
-      title: "User Answer",
+      title: "Submited Answer",
       dataIndex: "userAnswer",
       key: "userAnswer",
       render: (text: string, record: GradingQuestion) => (
@@ -165,7 +231,7 @@ const ExamSetterGrade = () => {
   return (
     <Card
       style={{ width: "100%", marginTop: 16 }}
-      title="Grading Page"
+      title="Grading Exam"
       extra={
         <Button type="primary" onClick={handleSubmit}>
           Submit Grades
