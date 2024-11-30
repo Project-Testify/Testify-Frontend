@@ -38,7 +38,8 @@ import {
   // examSetter
   OrganizationDashBoard,
   CandidateExpiredExams,
-  Proctoring
+  Proctoring,
+  ExamSetterNewExamPage,
 } from '../pages';
 
 import {
@@ -62,6 +63,7 @@ import { ExamReports } from '../pages/admin/ExamReports.tsx';
 import { UserReports } from '../pages/admin/UserReports.tsx';
 import { OrganizationReports } from '../pages/admin/OrganizationReports.tsx';
 import {GradingSection} from '../pages/examSetter/Grading.tsx';
+// import { ExamRequest } from '../api/types.ts';
 
 // Custom scroll restoration function
 export const ScrollToTop: React.FC = () => {
@@ -237,8 +239,13 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage />,
       },
       {
-        path: 'exams',
-        element: <OrgAdminPage />,
+        path: 'new_exam',
+        element: (
+          <NewExamProvider>
+            <ExamSetterNewExamPage/>
+          </NewExamProvider>
+        ),
+        errorElement: <ErrorPage />,
       },
       {
         path: 'proctoring',

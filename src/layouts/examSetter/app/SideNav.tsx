@@ -81,7 +81,7 @@ const examSetterPersonal: MenuProps['items'] = [
   getItem('Exams', 'exams', <FontAwesomeIcon icon={faBook}></FontAwesomeIcon>, [
     getItem(<Link to={PATH_EXAM.exam}>All Exams</Link>, 'all_exams', null),
     getItem(
-      <Link to={PATH_EXAM.exam + '/new'}>New Exams</Link>,
+      <Link to={PATH_TUTOR.new_exam}>New Exams</Link>,
       'new_exam',
       null
     ),
@@ -210,6 +210,7 @@ const SideNav = ({ organization, organizations, ...others }: SideNavProps | any)
     const selectedItem = organizations.find((item:OrganizationResponse) => item.id === parseInt(e.key));
     if (selectedItem) {
       let orgName = selectedItem.firstName;
+      sessionStorage.setItem('orgId',selectedItem.id);
       if (orgName.length > 15) {
         orgName = orgName.substring(0, 15) + '...';
       }
