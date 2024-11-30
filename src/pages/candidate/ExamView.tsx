@@ -138,7 +138,7 @@ export const ExamViewPage = () => {
   const [answers, setAnswers] = useState<{ [key: number]: string }>({});
   const [examType] = useState<'mcq' | 'essay'>('mcq');
 
-  const questions: Question[] = examType === 'essay' ? mcqQuestions : essayQuestions;
+  const questions: Question[] = examType === 'mcq' ? mcqQuestions : essayQuestions;
 
   const handleNext = () => {
     if (currentQuestionIndex < questions.length - 1) {
