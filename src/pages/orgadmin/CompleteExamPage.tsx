@@ -160,37 +160,11 @@ export const CompleteExamPage = () => {
             {
               id: 4,
               name: 'Software Engineering Exam',
-              startDatetime: '2021-12-15T13:00:00Z',
-              endDatetime: '2021-12-15T15:00:00Z',
-              duration: 120,
-              totalMarks: 200,
-              passingMarks: 100,
-              organizationId: 4,
-              organization: {
-                id: 4,
-                name: 'Carnegie Mellon University',
-                address: '5000 Forbes Ave, Pittsburgh, PA',
-                phone: '4122682000',
-                email: 'admissions@cmu.edu',
-                website: 'www.cmu.edu',
-              },
-              examSetters: [
-                {
-                  id: 4,
-                  name: 'Emily Davis',
-                  email: 'emily@cmu.edu',
-                  phone: '4129876543',
-                  organizationId: 4,
-                },
-              ],
               examStats: [
                 {
                   totalCandidates: 25,
                   totalPassed: 18,
                   totalFailed: 7,
-                  averageScore: 90,
-                  highestScore: 110,
-                  lowestScore: 60,
                 },
               ],
             },         
@@ -292,10 +266,7 @@ export const CompleteExamPage = () => {
 
   function handleClick(examId: number) {
     // navigate to view complete exm page
-
     navigate('/org-admin/view_complete_exam', { state: { examId } });
-
-
   }
 
   return (
