@@ -40,6 +40,7 @@ import {
   CandidateExpiredExams,
   Proctoring,
   ExamSetterNewExamPage,
+  ExamPage,
 } from '../pages';
 
 import {
@@ -246,6 +247,10 @@ const router = createBrowserRouter([
           </NewExamProvider>
         ),
         errorElement: <ErrorPage />,
+      },
+      {
+        path: 'all_exams',
+        element: <ExamPage/>
       },
       {
         path: 'proctoring',

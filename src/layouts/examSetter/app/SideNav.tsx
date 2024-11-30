@@ -14,7 +14,6 @@ import {
 import { Logo } from '../../../components';
 import { Link, useLocation } from 'react-router-dom';
 import {
-  PATH_EXAM,
   PATH_USER_PROFILE,
 } from '../../../constants';
 import { PATH_HOME, PATH_TUTOR } from '../../../constants/routes.ts';
@@ -79,7 +78,7 @@ const examSetterPersonal: MenuProps['items'] = [
   //   getItem(<Link to={'organization'}>Organization 1</Link>, 'Org', null),
   // ]),
   getItem('Exams', 'exams', <FontAwesomeIcon icon={faBook}></FontAwesomeIcon>, [
-    getItem(<Link to={PATH_EXAM.exam}>All Exams</Link>, 'all_exams', null),
+    getItem(<Link to={PATH_TUTOR.all_exams}>All Exams</Link>, 'all_exams', null),
     getItem(
       <Link to={PATH_TUTOR.new_exam}>New Exams</Link>,
       'new_exam',
