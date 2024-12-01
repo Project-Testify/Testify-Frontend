@@ -113,7 +113,14 @@ const orgAdminItems: MenuProps['items'] = [
   getItem('Exams', 'examList', <BankOutlined />, [
     getItem(<Link to={PATH_ORG_ADMIN.exam}>All Exams</Link>, 'allExams', null),
     getItem(
-      <Link to={PATH_ORG_ADMIN.new_exam}>New Exams</Link>,
+      <Link
+        to={PATH_ORG_ADMIN.new_exam}
+        onClick={() => {
+          sessionStorage.removeItem('examId'); // Clear examId from sessionStorage
+        }}
+      >
+        New Exams
+      </Link>,
       'new_exam',
       null
     ),
