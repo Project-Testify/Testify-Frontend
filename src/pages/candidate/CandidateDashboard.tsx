@@ -53,11 +53,7 @@ export const CandidateDashboard = () => {
     setData(datatable);
   }, [exams]);
 
-  // const examData = [
-  //   { type: 'Ongoing', value: 5 },
-  //   { type: 'Upcoming', value: 3 },
-  //   { type: 'Completed', value: 10 },
-  // ];
+
   // get the data for the exam stat card
   const examData = [
     { type: 'Ongoing', value: exams.filter((exam: any) => toLower(exam.status) === 'ongoing').length },
