@@ -38,11 +38,12 @@ import {
   // examSetter
   OrganizationDashBoard,
   CandidateExpiredExams,
-  Proctoring,
+  ExamMcqResults,
   Moderating,
   ModeratingExam,
   OrgAdminCompleteExamPage,
-  OrgAdminViewCompleteExamPage 
+  OrgAdminViewCompleteExamPage,
+  Proctoring
 } from '../pages';
 
 import {
@@ -290,7 +291,7 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage />,
       },
       {
-        path: 'exam',
+        path: 'exam-summary',
         element: <ExamSummaryPage />,
         errorElement: <ErrorPage />,
       },
@@ -357,6 +358,11 @@ const router = createBrowserRouter([
       {
         path: 'exam/feedback',
         element: <ExamFeedback />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: 'exam/mcq-results',
+        element: <ExamMcqResults />,
         errorElement: <ErrorPage />,
       },
     ],
