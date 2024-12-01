@@ -139,7 +139,7 @@ export const ExamSummaryPage = () => {
         status,
     } = examData;
 
-    const isExamAvailable = status === 'ONGOING';
+    const isExamAvailable = status === 'ONGOING' || status === 'AVAILABLE';
     const remainingAttempts = isExamAvailable ? 1 : 0;
     const isButtonDisabled = !isExamAvailable || remainingAttempts <= 0;
 
