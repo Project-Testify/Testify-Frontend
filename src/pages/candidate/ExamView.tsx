@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Row, Spin } from 'antd';
+import axios from 'axios';
 import {
   EssayQuestionView,
   McqQuestionView,
@@ -13,11 +14,11 @@ import { useLocation } from 'react-router-dom';
 import './ExamView.css';
 
 const isMcqQuestion = (question: Question): question is McqQuestion => {
-  return (question as McqQuestion).options !== undefined;
+  return (question as McqQuestion).questionType === "MCQ";
 };
 
 const isEssayQuestion = (question: Question): question is EssayQuestion => {
-  return (question as EssayQuestion).length !== undefined;
+  return (question as EssayQuestion).questionType === "Essay";
 };
 
 export const ExamViewPage = () => {
@@ -29,7 +30,7 @@ export const ExamViewPage = () => {
   const [questions, setQuestions] = useState<Question[]>([]);
   const [loading, setLoading] = useState(true);
   const location = useLocation();
-  const {id, name} = location.state || {};
+  const { id, name } = location.state || {};
 
   const handleNext = () => {
     if (currentQuestionIndex < questions.length - 1) {
@@ -66,19 +67,21 @@ export const ExamViewPage = () => {
   const currentQuestion = questions[currentQuestionIndex];
   const selectedAnswer = answers[currentQuestionIndex] || '';
 
-  /* <CandidateCameraFeed cameraStream={cameraStream} alertMessage={alertMessage} /> 
-   const [cameraStream, setCameraStream] = useState<MediaStream | null>(null);
-   const [alertMessage, setAlertMessage] = useState<string | null>(null);*/
-
   useEffect(() => {
     const fetchQuestions = async () => {
       setLoading(true);
       try {
-        const response = await fetch(`http://localhost:8080/api/v1/exam/${id}/questions`);
-        const data = await response.json();
+        const token = sessionStorage.getItem('accessToken');
+        const response = await axios.get(`http://localhost:8080/api/v1/exam/${id}/questions`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+      
+        const data = response.data;
         if (data.questions) {
           setQuestions(data.questions);
-          setExamType(data.questions[0]?.questionType?.toLowerCase() || 'mcq');
+          setExamType(data.examType?.toLowerCase() as 'mcq' | 'essay');
         }
       } catch (error) {
         console.error('Error fetching questions:', error);
@@ -88,7 +91,7 @@ export const ExamViewPage = () => {
     };
 
     fetchQuestions();
-  }, []);
+  }, [id]);
 
   if (loading) {
     return (
@@ -98,18 +101,14 @@ export const ExamViewPage = () => {
     );
   }
 
-  const mcqOptions = isMcqQuestion(currentQuestion)
-    ? currentQuestion.options.map((option) => option.optionText)
-    : [];
-
   const isFirstQuestion = currentQuestionIndex === 0;
   const isLastQuestion = currentQuestionIndex === questions.length - 1;
-  const isUnanswered = !answeredIndexes.includes(currentQuestionIndex+1);
+  const isUnanswered = !answeredIndexes.includes(currentQuestionIndex + 1);
 
   return (
     <div style={{ padding: '20px' }}>
       <Helmet>
-        <title>Testify | Machine Learning - Quiz 3</title>
+        <title>Testify | Exam</title>
       </Helmet>
       <PageHeader
         title={name}
@@ -147,7 +146,7 @@ export const ExamViewPage = () => {
           <McqQuestionView
             question={currentQuestion.questionText}
             questionNumber={currentQuestionIndex + 1}
-            options={mcqOptions}
+            options={currentQuestion.options.map((option) => option.optionText)}
             selectedAnswer={answers[currentQuestionIndex]}
             onNext={handleNext}
             onPrevious={handlePrevious}
@@ -160,7 +159,7 @@ export const ExamViewPage = () => {
         ) : isEssayQuestion(currentQuestion) ? (
           <EssayQuestionView
             question={currentQuestion.questionText}
-            length={currentQuestion.length}
+            length={500}
             onNext={handleNext}
             onPrevious={handlePrevious}
             onAnswer={(answer) => handleAnswered(answer)}
