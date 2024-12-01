@@ -39,6 +39,8 @@ import {
   OrganizationDashBoard,
   CandidateExpiredExams,
   ExamMcqResults,
+  Moderating,
+  ModeratingExam,
   OrgAdminCompleteExamPage,
   OrgAdminViewCompleteExamPage,
   Proctoring
@@ -260,7 +262,22 @@ const router = createBrowserRouter([
       {
         path: 'grading',
         element: <GradingSection/>
-      }
+      },
+      {
+        path: 'moderating',
+        children: [
+          {
+            index: true,
+            element: <Moderating />,
+            errorElement: <ErrorPage />,
+          },
+          {
+            path: 'review', 
+            element: <ModeratingExam />, 
+            errorElement: <ErrorPage />,
+          },
+        ], 
+      }, 
     ],
   },
   {
