@@ -42,8 +42,7 @@ import {
   Moderating,
   ModeratingExam,
   OrgAdminCompleteExamPage,
-  OrgAdminViewCompleteExamPage,
-  Proctoring
+  OrgAdminViewCompleteExamPage
 } from '../pages';
 
 import {
