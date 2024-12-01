@@ -81,7 +81,7 @@ export const ExamSummaryPage = () => {
             message.error('You need to log in to start or continue the exam.');
             return;
         }
-
+    
         if (sessionExists) {
             // Navigate to continue exam
             navigate(`/candidate/exam/view`, {
@@ -95,10 +95,16 @@ export const ExamSummaryPage = () => {
                     { examId: id },
                     { headers: { 'Authorization': `Bearer ${token}` } }
                 );
-
+    
                 if (response.status === 200 || response.status === 201) {
                     message.success('Session started successfully.');
                     setSessionExists(true);
+    
+                    // Store the sessionId in sessionStorage
+                    const sessionId = response.data.sessionId;  // Assuming the response structure contains the sessionId
+                    sessionStorage.setItem('sessionId', sessionId);
+    
+                    // Navigate to the exam view page
                     navigate(`/candidate/exam/view`, {
                         state: { id, name: examName },
                     });
@@ -111,6 +117,7 @@ export const ExamSummaryPage = () => {
             }
         }
     };
+    
 
     if (loading) {
         return <Spin size="large" style={{ display: 'block', margin: '50px auto' }} />;

@@ -50,11 +50,72 @@ export const ExamViewPage = () => {
     }
   };
 
-  const handleAnswered = (answer: string) => {
-    setAnsweredIndexes([...answeredIndexes, currentQuestionIndex + 1]);
-    setSkippedIndexes(skippedIndexes.filter((index) => index !== currentQuestionIndex + 1));
-    setAnswers({ ...answers, [currentQuestionIndex]: answer });
+  const token = sessionStorage.getItem('accessToken');
+  const sessionId = sessionStorage.getItem('sessionId');
+
+  const handleAnswered = (answer: string, questionId: number) => {
+    // Find the question by questionId
+    const question = questions.find((question) => question.questionId === questionId);
+  
+    if (question) {
+      if (question.questionType === "MCQ") {
+        // Handle MCQ question type
+        const selectedOption = question.options?.find((option) => option.optionText === answer);
+  
+        if (selectedOption) {
+          // Save the optionId along with the questionId
+          setAnsweredIndexes([...answeredIndexes, currentQuestionIndex + 1]);
+          setSkippedIndexes(skippedIndexes.filter((index) => index !== currentQuestionIndex + 1));
+          setAnswers({ ...answers, [questionId]: selectedOption.optionId });
+          
+          
+          const payload = {
+            sessionId: sessionId, 
+            questionId,
+            optionId: selectedOption.optionId, 
+            answerText: "" 
+          };
+  
+          axios.post('http://localhost:8080/api/v1/exam/save-answer', payload, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          })
+          .then(() => {
+            console.log("Answer saved successfully!");
+          })
+          .catch((error) => {
+            console.error("Error saving answer:", error);
+          });
+        }
+      } else if (question.questionType === "Essay") {
+        // Handle Essay question type (just save the answer text)
+        setAnsweredIndexes([...answeredIndexes, currentQuestionIndex + 1]);
+        setSkippedIndexes(skippedIndexes.filter((index) => index !== currentQuestionIndex + 1));
+        setAnswers({ ...answers, [questionId]: answer });
+
+        const payload = {
+          sessionId: sessionId,
+          questionId,
+          optionId: null, 
+          answerText: answer 
+        };
+  
+        axios.post('http://localhost:8080/api/v1/exam/save-answer', payload, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then(() => {
+          console.log("Answer saved successfully!");
+        })
+        .catch((error) => {
+          console.error("Error saving answer:", error);
+        });
+      }
+    }
   };
+  
 
   const handleClearSelection = () => {
     setAnsweredIndexes(answeredIndexes.filter((index) => index !== currentQuestionIndex + 1));
@@ -66,12 +127,11 @@ export const ExamViewPage = () => {
 
   const currentQuestion = questions[currentQuestionIndex];
   const selectedAnswer = answers[currentQuestionIndex] || '';
-
   useEffect(() => {
     const fetchQuestions = async () => {
       setLoading(true);
       try {
-        const token = sessionStorage.getItem('accessToken');
+        
         const response = await axios.get(`http://localhost:8080/api/v1/exam/${id}/questions`, {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -150,7 +210,7 @@ export const ExamViewPage = () => {
             selectedAnswer={answers[currentQuestionIndex]}
             onNext={handleNext}
             onPrevious={handlePrevious}
-            onAnswer={handleAnswered}
+            onAnswer={(answer: string) => handleAnswered(answer, currentQuestion.questionId)}
             onClearSelection={handleClearSelection}
             disableNext={isLastQuestion}
             disablePrevious={isFirstQuestion}
@@ -162,7 +222,7 @@ export const ExamViewPage = () => {
             length={500}
             onNext={handleNext}
             onPrevious={handlePrevious}
-            onAnswer={(answer) => handleAnswered(answer)}
+            onAnswer={(answer: string) => handleAnswered(answer, currentQuestion.questionId)} // Pass both answer and questionId
             onClearSelection={handleClearSelection}
             selectedAnswer={selectedAnswer}
             disableNext={isLastQuestion}
