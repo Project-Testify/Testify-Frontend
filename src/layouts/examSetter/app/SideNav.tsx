@@ -24,7 +24,8 @@ const { Sider } = Layout;
 import { GlobalStateContext } from '../../../context/GlobalContext.tsx';
 import { OrganizationResponse } from '../../../api/types.ts';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBook, faChartSimple, faClipboard, faEye, faUserLarge } from '@fortawesome/free-solid-svg-icons';
+
+import { faBook, faChartSimple, faClipboard, faEye, faUserLarge, faClipboardList  } from '@fortawesome/free-solid-svg-icons';
 // import { or } from 'firebase/firestore';
 // interface MenuItemType {
 //   key: number;
@@ -90,6 +91,8 @@ const examSetterPersonal: MenuProps['items'] = [
 
   getItem(<Link to={PATH_TUTOR.grading}>Grading</Link>,'Grading',<FontAwesomeIcon icon={faClipboard}/>),
   getItem(<Link to={PATH_TUTOR.proctoring}>Proctoring</Link>,'Grading',<FontAwesomeIcon icon={faEye}/>),
+  getItem(<Link to={PATH_TUTOR.moderating}>Moderating</Link>,'Moderating',<FontAwesomeIcon icon={faClipboardList}/>),
+
   // getItem('Results', 'results', <BarChartOutlined />, [
   //   getItem(<Link to={PATH_EXAM.exam}>All Exams</Link>, 'all_exams', null),
   //   getItem(<Link to={PATH_EXAM.exam + '/new'}>New Exams</Link>, 'new_exam', null),

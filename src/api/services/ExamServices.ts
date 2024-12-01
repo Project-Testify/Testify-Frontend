@@ -14,7 +14,14 @@ import {
     CandidateGroupSearchResponse,
     CandidateEmailListRequest,
     ConflictExamResponse,
-    CandidateConflictExamResponse
+    CandidateConflictExamResponse,
+    RealTimeMonitoringRequest,
+    RealTimeMonitoringResponse,
+    BrowserLockdownResponse,
+    ModeratorResponse,
+    HostedResponse,
+    ModeratorRequest
+
 } from '../examServiceTypes';
 
 
@@ -119,4 +126,63 @@ export const getConflictingExams = (examId: number): Promise<AxiosResponse<Confl
 
 export const getCandidateConflictingExams = (examId: number): Promise<AxiosResponse<CandidateConflictExamResponse[]>> => {
     return api.get<CandidateConflictExamResponse[]>(`/exam/${examId}/conflicting-candidates`);
+};
+
+export const updateRealTimeMonitoring = (
+    examId: number,
+    dto: RealTimeMonitoringRequest
+): Promise<AxiosResponse<GenericResponse>> => {
+    return api.put<GenericResponse>(`/exam/${examId}/real-time-monitoring`, dto);
+};
+
+export const getRealTimeMonitoringStatus = (
+    examId: number
+): Promise<AxiosResponse<RealTimeMonitoringResponse>> => {
+    return api.get<RealTimeMonitoringResponse>(`/exam/${examId}/real-time-monitoring`);
+};
+
+export const updateBrowserLockdown = (
+    examId: number,
+    browserLockdown: boolean
+): Promise<AxiosResponse<GenericResponse>> => {
+    return api.put<GenericResponse>(`/exam/${examId}/browser-lockdown`, null, {
+        params: { browserLockdown },
+    });
+};
+
+export const getBrowserLockdownStatus = (
+    examId: number
+): Promise<AxiosResponse<BrowserLockdownResponse>> => {
+    return api.get<BrowserLockdownResponse>(`/exam/${examId}/browser-lockdown`);
+};
+
+export const updateHostedStatus = (
+    examId: number,
+    hosted: boolean
+): Promise<AxiosResponse<GenericResponse>> => {
+    return api.put<GenericResponse>(`/exam/${examId}/hosted`, null, {
+        params: { hosted },
+    });
+};
+
+export const getHostedStatus = (
+    examId: number
+): Promise<AxiosResponse<HostedResponse>> => {
+    return api.get<HostedResponse>(`/exam/${examId}/hosted`);
+};
+
+export const setModerator = (
+    examId: number,
+    email: string
+): Promise<AxiosResponse<string>> => {
+    const moderatorRequest: ModeratorRequest = {
+        moderatorEmail: email,
+    };
+    return api.post<string>(`/exam/${examId}/set-moderator`, moderatorRequest);
+};
+
+export const getModerator = (
+    examId: number
+): Promise<AxiosResponse<ModeratorResponse>> => {
+    return api.get<ModeratorResponse>(`/exam/${examId}/moderator`);
 };

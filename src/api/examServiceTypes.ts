@@ -40,16 +40,16 @@ export interface QuestionSequenceResponse {
 }
 
 export interface GradeRequest {
-    gradingString: string; 
-    minMarks: number;      
-    maxMarks: number;     
+    gradingString: string;
+    minMarks: number;
+    maxMarks: number;
 }
 
 export interface GradeResponse {
     id: number;
-    gradingString: string; 
-    minMarks: number;      
-    maxMarks: number;     
+    gradingString: string;
+    minMarks: number;
+    maxMarks: number;
 }
 
 export interface OrderChangeRequest {
@@ -62,27 +62,27 @@ export interface OrderResponse {
     value: number;
 }
 
-export interface ProctorResponse{
+export interface ProctorResponse {
     id: number;
     firstName: string;
     lastName: string;
     email: string;
 }
 
-export interface ExamSetterSearchResponse{
+export interface ExamSetterSearchResponse {
     id: number;
     firstName: string;
     lastName: string;
     email: string;
 }
 
-export interface CandidateGroupSearchResponse{
+export interface CandidateGroupSearchResponse {
     id: number;
     name: string;
     candidates: CandidateResponse[];
 }
 
-export interface CandidateEmailListRequest{
+export interface CandidateEmailListRequest {
     emails: string[];
 }
 
@@ -97,16 +97,49 @@ export interface ConflictExamResponse {
 }
 
 export interface CandidateConflictExamResponse {
-    studentId: number;            
+    studentId: number;
     firstName: string;
-    lastName: string;   
-    examId: number;             
+    lastName: string;
+    examId: number;
     title: string;
     description: string;
     instructions: string;
-    duration: number;             
-    startDatetime: string;        
-    endDatetime: string;         
-  }
+    duration: number;
+    startDatetime: string;
+    endDatetime: string;
+}
 
-    
+export interface RealTimeMonitoring {
+    realTimeMonitoring: boolean;
+    zoomLink: string;
+}
+
+export interface RealTimeMonitoringRequest{
+    realTimeMonitoring: boolean;
+    zoomLink: string;
+}
+
+export interface RealTimeMonitoringResponse{
+    realTimeMonitoring: boolean;
+    zoomLink: string;
+}
+
+export interface BrowserLockdownResponse{
+    browserLockdown: boolean;
+}
+
+export interface HostedResponse{
+    hosted: boolean;
+}
+
+export interface ModeratorResponse{
+    email: string;
+    firstName: string;
+    lastName: string;
+}
+
+export interface ModeratorRequest{
+    moderatorEmail: string;
+}
+
+

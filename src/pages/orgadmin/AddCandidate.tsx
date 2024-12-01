@@ -37,15 +37,15 @@ const AddCandidate = () => {
 
   useEffect(() => {
     const examId = sessionStorage.getItem('examId');
-    if (!examId) {
-      message.error('Exam ID is missing');
-      return;
+    if (examId) {
+      loadCandidateGroups();
+      loadIndividualCandidates();
+      loadExamCandidates(Number(examId)); // Fetch candidates for the given exam
+      checkForConflicts(Number(examId)); // Check for conflicts on page load
+
     }
 
-    loadCandidateGroups();
-    loadIndividualCandidates();
-    loadExamCandidates(Number(examId)); // Fetch candidates for the given exam
-    checkForConflicts(Number(examId)); // Check for conflicts on page load
+
   }, []);
 
   const loadCandidateGroups = async () => {
@@ -103,8 +103,8 @@ const AddCandidate = () => {
       !searchTerm
         ? candidateGroups
         : candidateGroups.filter((group) =>
-            group.name.toLowerCase().includes(searchTerm.toLowerCase())
-          )
+          group.name.toLowerCase().includes(searchTerm.toLowerCase())
+        )
     );
   };
 
@@ -113,10 +113,10 @@ const AddCandidate = () => {
       !searchTerm
         ? individualCandidates
         : individualCandidates.filter(
-            (candidate) =>
-              `${candidate.firstName} ${candidate.lastName}`.toLowerCase().includes(searchTerm.toLowerCase()) ||
-              candidate.email.toLowerCase().includes(searchTerm.toLowerCase())
-          )
+          (candidate) =>
+            `${candidate.firstName} ${candidate.lastName}`.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            candidate.email.toLowerCase().includes(searchTerm.toLowerCase())
+        )
     );
   };
 
