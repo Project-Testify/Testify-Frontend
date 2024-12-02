@@ -37,14 +37,16 @@ import {
   CandidateOrganizations,
   DiagnosticTestPage,
   // examSetter
-  OrganizationDashBoard,
+  //OrganizationDashBoard,
   CandidateExpiredExams,
   ExamMcqResults,
   Moderating,
   ModeratingExam,
   OrgAdminCompleteExamPage,
   OrgAdminViewCompleteExamPage,
-  Proctoring
+  Proctoring,
+  ExamSetterNewExamPage,
+  ExamPage,
 } from '../pages';
 
 import {
@@ -68,6 +70,7 @@ import { ExamReports } from '../pages/admin/ExamReports.tsx';
 import { UserReports } from '../pages/admin/UserReports.tsx';
 import { OrganizationReports } from '../pages/admin/OrganizationReports.tsx';
 import {GradingSection} from '../pages/examSetter/Grading.tsx';
+// import { ExamRequest } from '../api/types.ts';
 
 // Custom scroll restoration function
 export const ScrollToTop: React.FC = () => {
@@ -247,14 +250,23 @@ const router = createBrowserRouter([
         element: <ExamSetterDashBoardPage />,
         errorElement: <ErrorPage />,
       },
+      // {
+      //   path: 'organization',
+      //   element: <OrganizationDashBoard />,
+      //   errorElement: <ErrorPage />,
+      // },
       {
-        path: 'organization',
-        element: <OrganizationDashBoard />,
+        path: 'new_exam',
+        element: (
+          <NewExamProvider>
+            <ExamSetterNewExamPage/>
+          </NewExamProvider>
+        ),
         errorElement: <ErrorPage />,
       },
       {
-        path: 'exams',
-        element: <OrgAdminPage />,
+        path: 'all_exams',
+        element: <ExamPage/>
       },
       {
         path: 'proctoring',

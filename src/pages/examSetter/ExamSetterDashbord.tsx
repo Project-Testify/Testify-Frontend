@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { Alert, Button, Col, Row, Segmented, Space } from 'antd';
+import { Alert, Button, Col, message, Row, Segmented, Space } from 'antd';
 import {
   Card,
   Loader,
@@ -21,6 +21,7 @@ import {
 } from '@ant-design/icons';
 import { Helmet } from 'react-helmet-async';
 import { useFetchData } from '../../hooks';
+import { getLoggedInUser } from '../../utils/authUtils';
 // import { or } from 'firebase/firestore';
 
 const RevenueColumnChart = () => {
@@ -160,6 +161,11 @@ export const ExamSetterDashBoardPage = () => {
   } = useFetchData('../mocks/Exams.json');
 
   const [examTabsKey, setExamTabKey] = useState<string>('all');
+  const loggedInUser = getLoggedInUser();
+  if (!loggedInUser) {
+    message.error("You must be logged in to perform this action.");
+    return;
+  }
 
   // const EXAM_TABS_CONTENT: Record<string, React.ReactNode> = {
   //   all: <ExamsTable key="all-projects-table" data={examsData} />,
@@ -182,8 +188,9 @@ export const ExamSetterDashBoardPage = () => {
   };
 
   // const [ExamSetterName, SetExamSetterName] = useState('ExamSetter Name');
-  const ExamSetterName = 'ExamSetter Name';
-  // SetExamSetterName('Org Admin Name');
+  
+  const ExamSetterName = loggedInUser.firstName;
+  const selectedOrgId = sessionStorage.getItem('orgId');
 
   return (
     <div>
@@ -218,34 +225,6 @@ export const ExamSetterDashBoardPage = () => {
           { xs: 8, sm: 16, md: 24, lg: 32 },
         ]}
       >
-        {/* <Col xs={24} sm={12} lg={8}>
-          <LearningStatsCard
-            title="Exams in Progress"
-            value={18}
-            icon={FileTextOutlined}
-            color="#6f7ae8"
-            progress={30}
-            style={{ height: '100%' }}
-          />
-        </Col> */}
-        <Col xs={24} sm={12} lg={8}>
-          {/* <MarketingStatsCard
-            data={[274, 337, 81, 497]}
-            title="Exams Taken"
-            diff={12.5}
-            value={16826}
-            style={{ height: '100%' }}
-          /> */}
-        </Col>
-        <Col xs={24} sm={12} lg={8}>
-          <LogisticsStatsCard
-            icon={FileTextOutlined}
-            value={234}
-            title="Exams Completed"
-            diff={12.5}
-          />
-        </Col>
-
         <Col span={24}>
           <Card
             title="Recently added Exams"

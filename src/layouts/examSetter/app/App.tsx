@@ -132,6 +132,7 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
   const handleOrganizationClick = (org: OrganizationResponse) => {
     // setOrganization(org);
     setSelectedOrganization(org);
+    sessionStorage.setItem('orgId',org.id.toString());
     
     setIsModalOpen(false);
   };
