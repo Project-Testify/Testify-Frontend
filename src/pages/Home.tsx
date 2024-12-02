@@ -22,7 +22,7 @@ import {
   VideoCameraFilled,
 } from '@ant-design/icons';
 import { Card, Container} from '../components';
-import { createElement, useState, useEffect} from 'react';
+import { createElement, useState} from 'react';
 import { COLOR } from '../App';
 import FooterNav from '../layouts/app/FooterNav';
 import HomeNav from '../components/HomeNav';
@@ -101,18 +101,39 @@ const CANDIDATE_FEATURES = [
   },
 ];
 
+const PRICING_PLANS = [
+  {
+    title: 'Basic',
+    price: '$49/month',
+    features: ['50 Candidates', 'Standard Features', 'Basic Reporting'],
+    icon: SmileFilled,
+  },
+  {
+    title: 'Pro',
+    price: '$99/month',
+    features: ['500 Candidates', 'AI Qustion Generation', 'AI Grading', 'Email Support'],
+    icon: StarFilled,
+  },
+  {
+    title: 'Enterprise',
+    price: 'Custom Pricing',
+    features: ['Unlimited Candidates', 'All Features', 'Dedicated Account Manager', 'Priority Support'],
+    icon: TrophyFilled,
+  },
+];
+
 export const HomePage = () => {
   
   const [showOrgFeatures, setShowOrgFeatures] = useState(true);
   const features = showOrgFeatures ? ORG_FEATURES : CANDIDATE_FEATURES;
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setShowOrgFeatures((prev) => !prev);
-    }, 50000);
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     setShowOrgFeatures((prev) => !prev);
+  //   }, 50000);
 
-    return () => clearInterval(interval);
-  }, []);
+  //   return () => clearInterval(interval);
+  // }, []);
 
   const selectedOrgStyle = {
     //outline: '2px solid ' + COLOR['500'],
@@ -309,6 +330,31 @@ export const HomePage = () => {
             </div>
           </Flex>
         </Card>
+      </Container>
+
+      <Container>
+        <Title level={2} className="text-center" style={{ marginBottom: '2rem', color: COLOR['500'] }}>
+          Pricing Plans
+        </Title>
+        <Row gutter={[16, 16]}>
+          {PRICING_PLANS.map((plan) => (
+            <Col key={plan.title} xs={24} sm={12} md={8}>
+              <Card style={{ textAlign: 'center', borderRadius: '10px', boxShadow: '0px 4px 6px rgba(0,0,0,0.1)', height:"400px"}}>
+                {createElement(plan.icon, { style: { fontSize: 50, color: COLOR['700'] } })}
+                <Title level={3} style={{ marginTop: '1rem' }}>{plan.title}</Title>
+                <Text style={{ fontSize: 20, fontWeight: 600 }}>{plan.price}</Text>
+                <ul style={{ marginTop: '1rem', textAlign: 'left' }}>
+                  {plan.features.map((feature) => (
+                    <li key={feature}>{feature}</li>
+                  ))}
+                </ul>
+                <Button type="primary" style={{ marginTop: '1rem' }}>
+                  Choose Plan
+                </Button>
+              </Card>
+            </Col>
+          ))}
+        </Row>
       </Container>
 
       <Container style={{marginBottom:'20px'}}>

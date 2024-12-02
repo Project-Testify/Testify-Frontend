@@ -39,6 +39,12 @@ import {
   // examSetter
   OrganizationDashBoard,
   CandidateExpiredExams,
+  ExamMcqResults,
+  Moderating,
+  ModeratingExam,
+  OrgAdminCompleteExamPage,
+  OrgAdminViewCompleteExamPage,
+  Proctoring
 } from '../pages';
 
 import {
@@ -61,6 +67,7 @@ import { OrganizationRequest } from '../pages/admin/OrganizationRequest.tsx';
 import { ExamReports } from '../pages/admin/ExamReports.tsx';
 import { UserReports } from '../pages/admin/UserReports.tsx';
 import { OrganizationReports } from '../pages/admin/OrganizationReports.tsx';
+import {GradingSection} from '../pages/examSetter/Grading.tsx';
 
 // Custom scroll restoration function
 export const ScrollToTop: React.FC = () => {
@@ -179,6 +186,16 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage />,
       },
       {
+        path: 'complete_exam',
+        element: <OrgAdminCompleteExamPage />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: 'view_complete_exam',
+        element: <OrgAdminViewCompleteExamPage />,
+        errorElement: <ErrorPage />,
+      },
+      {
         path: 'new_exam',
         element: (
           <NewExamProvider>
@@ -240,6 +257,29 @@ const router = createBrowserRouter([
         element: <OrgAdminPage />,
       },
       {
+        path: 'proctoring',
+        element: <Proctoring/>
+      },
+      {
+        path: 'grading',
+        element: <GradingSection/>
+      },
+      {
+        path: 'moderating',
+        children: [
+          {
+            index: true,
+            element: <Moderating />,
+            errorElement: <ErrorPage />,
+          },
+          {
+            path: 'review', 
+            element: <ModeratingExam />, 
+            errorElement: <ErrorPage />,
+          },
+        ], 
+      }, 
+      {
         path: 'exam/grading',
         element: <ExamSetterGrade />,
       }
@@ -256,7 +296,7 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage />,
       },
       {
-        path: 'exam',
+        path: 'exam-summary',
         element: <ExamSummaryPage />,
         errorElement: <ErrorPage />,
       },
@@ -323,6 +363,11 @@ const router = createBrowserRouter([
       {
         path: 'exam/feedback',
         element: <ExamFeedback />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: 'exam/mcq-results',
+        element: <ExamMcqResults />,
         errorElement: <ErrorPage />,
       },
     ],
@@ -417,3 +462,4 @@ const router = createBrowserRouter([
 ]);
 
 export default router;
+ 

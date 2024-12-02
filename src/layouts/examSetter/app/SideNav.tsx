@@ -9,46 +9,49 @@ import {
   Button,
   Flex,
 } from 'antd';
-import { UserOutlined, BankOutlined } from '@ant-design/icons';
+
 
 import { Logo } from '../../../components';
 import { Link, useLocation } from 'react-router-dom';
 import {
-  PATH_DASHBOARD,
   PATH_EXAM,
   PATH_USER_PROFILE,
   PATH_EXAM_SETTER
 } from '../../../constants';
-import { PATH_HOME } from '../../../constants/routes.ts';
+import { PATH_HOME, PATH_TUTOR } from '../../../constants/routes.ts';
 
 const { Sider } = Layout;
 
 import { GlobalStateContext } from '../../../context/GlobalContext.tsx';
-// import { or } from 'firebase/firestore';
-interface MenuItemType {
-  key: number;
-  label: string;
-  // antd icon
-  // icon: any;
-}
+import { OrganizationResponse } from '../../../api/types.ts';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const items: MenuItemType[] = [
-  {
-    key: 1,
-    label: 'University of Colombo School of Computing',
-    // icon: BankOutlined,
-  },
-  {
-    key: 2,
-    label: 'Institute of Java and Software Engineering',
-    // icon: BankOutlined,
-  },
-  {
-    key: 3,
-    label: 'Ocean University of Sri Lanka',
-    // icon: BankOutlined,
-  },
-];
+import { faBook, faChartSimple, faClipboard, faEye, faUserLarge, faClipboardList  } from '@fortawesome/free-solid-svg-icons';
+// import { or } from 'firebase/firestore';
+// interface MenuItemType {
+//   key: number;
+//   label: string;
+//   // antd icon
+//   // icon: any;
+// }
+
+// const items: MenuItemType[] = [
+//   {
+//     key: 1,
+//     label: 'University of Colombo School of Computing',
+//     // icon: BankOutlined,
+//   },
+//   {
+//     key: 2,
+//     label: 'Institute of Java and Software Engineering',
+//     // icon: BankOutlined,
+//   },
+//   {
+//     key: 3,
+//     label: 'Ocean University of Sri Lanka',
+//     // icon: BankOutlined,
+//   },
+// ];
 
 type MenuItem = Required<MenuProps>['items'][number];
 
@@ -71,20 +74,26 @@ const getItem = (
 // ExamSetter items
 const examSetterPersonal: MenuProps['items'] = [
   getItem(
-    <Link to={PATH_DASHBOARD.org_admin}>DashBoard</Link>,
-    'projects',
-    null
+    <Link to={PATH_TUTOR.dashboard}>DashBoard</Link>,
+    'projects', <FontAwesomeIcon icon={faChartSimple}/>
   ),
   // getItem('Organizations', 'organizations', <BankOutlined />, [
   //   getItem(<Link to={'organization'}>Organization 1</Link>, 'Org', null),
   // ]),
-  getItem('Exams', 'exams', <BankOutlined />, [
+  getItem('Exams', 'exams', <FontAwesomeIcon icon={faBook}></FontAwesomeIcon>, [
     getItem(<Link to={PATH_EXAM.exam}>All Exams</Link>, 'all_exams', null),
     getItem(
       <Link to={PATH_EXAM.exam + '/new'}>New Exams</Link>,
       'new_exam',
       null
     ),
+    
+  
+
+  getItem(<Link to={PATH_TUTOR.grading}>Grading</Link>,'Grading',<FontAwesomeIcon icon={faClipboard}/>),
+  getItem(<Link to={PATH_TUTOR.proctoring}>Proctoring</Link>,'Grading',<FontAwesomeIcon icon={faEye}/>),
+  getItem(<Link to={PATH_TUTOR.moderating}>Moderating</Link>,'Moderating',<FontAwesomeIcon icon={faClipboardList}/>),
+
     getItem(
       <Link to={'/examSetter/exam/grading'}>Grading</Link>,
       'grading',
@@ -96,7 +105,7 @@ const examSetterPersonal: MenuProps['items'] = [
   //   getItem(<Link to={PATH_EXAM.exam + '/new'}>New Exams</Link>, 'new_exam', null),
   //   getItem(<Link to={PATH_EXAM.exam + '/grading'}>Grading</Link>, 'grading', null),
   // ]),
-  getItem('User profile', 'user-profile', <UserOutlined />, [
+  getItem('User profile', 'user-profile', <FontAwesomeIcon icon={faUserLarge}/>, [
     getItem(
       <Link to={PATH_USER_PROFILE.details}>Details</Link>,
       'details',
@@ -136,12 +145,12 @@ const examSetterPersonal: MenuProps['items'] = [
   ]),
 ];
 
-const ExamSetterOrganization: MenuProps['items'] = [
-  getItem(
-    <Link to={PATH_DASHBOARD.org_admin}>DashBoard</Link>,
-    'projects',
-    null
-  ),
+// const ExamSetterOrganization: MenuProps['items'] = [
+//   getItem(
+//     <Link to={PATH_ORG_ADMIN.dashboard}>DashBoard</Link>,
+//     'projects',
+//     null
+//   ),
 
   getItem('Exams', 'exams', <BankOutlined />, [
     getItem(<Link to={PATH_EXAM.exam}>All Exams</Link>, 'all_exams', null),
@@ -162,14 +171,14 @@ const rootSubmenuKeys = ['dashboards', 'corporate', 'user-profile'];
 
 type SideNavProps = SiderProps;
 
-const SideNav = ({ organization, ...others }: SideNavProps | any) => {
+const SideNav = ({ organization, organizations, ...others }: SideNavProps | any) => {
   const globalContext = useContext(GlobalStateContext);
 
   if (!globalContext) {
     throw new Error('useGlobalState must be used within a GlobalStateProvider');
   }
 
-  const { state, setState } = globalContext;
+  // const { state, setState } = globalContext;
 
   const nodeRef = useRef(null);
   const { pathname } = useLocation();
@@ -183,7 +192,7 @@ const SideNav = ({ organization, ...others }: SideNavProps | any) => {
     if (organization) {
 
       // show only the first 10 characters of the organization name
-      if (organization.length > 10) {
+      if (organization.length > 15) {
         organization = organization.substring(0, 10) + '...';
       }
 
@@ -192,7 +201,7 @@ const SideNav = ({ organization, ...others }: SideNavProps | any) => {
   }, [organization]);
 
   // set the state of the role as either examSetter or orgadmin
-  const [isRole, setIsRole] = useState('examSetter');
+  // const [isRole, setIsRole] = useState('examSetter');
 
   const onClick: MenuProps['onClick'] = (e) => {
     console.log('click ', e);
@@ -208,30 +217,31 @@ const SideNav = ({ organization, ...others }: SideNavProps | any) => {
   };
 
   const handleMenuClick = (e: any) => {
-  
-    const selectedItem = items.find((item) => item.key === parseInt(e.key)) as
-      | MenuItemType
-      | undefined;
-    
-    if (selectedItem && 'label' in selectedItem) {
-      let orgName = selectedItem.label;
-      if (orgName.length > 10) {
-        orgName = selectedItem.label.substring(0, 10) + '...';
+    const selectedItem = organizations.find((item:OrganizationResponse) => item.id === parseInt(e.key));
+    if (selectedItem) {
+      let orgName = selectedItem.firstName;
+      if (orgName.length > 15) {
+        orgName = orgName.substring(0, 15) + '...';
       }
       setSelectedOption(orgName);
-
     }
-
     console.log('selectedItem', selectedItem);
-    // setState of loginAs
-    if (e.key === '1') {
-      setState({ ...state, loginAs: 'Personal' });
-    } else {
-      setState({ ...state, loginAs: 'Organization' });
-    }
   };
 
-  const menu = <Menu onClick={handleMenuClick} items={items} />;
+  useEffect(()=>{
+    console.log('organizations:', organizations)
+  },[organizations])
+
+  const menu = (
+    <Menu onClick={handleMenuClick}>
+      {organizations.map((org:OrganizationResponse) => (
+        <Menu.Item key={org.id}>
+          {org.firstName.length > 15 ? org.firstName.substring(0, 15) + '...' : org.firstName}
+        </Menu.Item>
+      ))}
+    </Menu>
+  );
+  
 
   useEffect(() => {
     const paths = pathname.split('/');
@@ -239,15 +249,15 @@ const SideNav = ({ organization, ...others }: SideNavProps | any) => {
     setCurrent(paths[paths.length - 1]);
   }, [pathname]);
 
-  useEffect(() => {
-    if (pathname.includes('org-admin')) {
-      setIsRole('org-admin');
-    } else if (pathname.includes('examSetter')) {
-      setIsRole('examSetter');
-    } else if (pathname.includes('candidate')) {
-      setIsRole('candidate');
-    }
-  }, [pathname, state]);
+  // useEffect(() => {
+  //   if (pathname.includes('org-admin')) {
+  //     setIsRole('org-admin');
+  //   } else if (pathname.includes('examSetter')) {
+  //     setIsRole('examSetter');
+  //   } else if (pathname.includes('candidate')) {
+  //     setIsRole('candidate');
+  //   }
+  // }, [pathname, state]);
 
   return (
     <Sider ref={nodeRef} breakpoint="lg" collapsedWidth="0" {...others}>
@@ -268,7 +278,7 @@ const SideNav = ({ organization, ...others }: SideNavProps | any) => {
           </Dropdown>
         </Flex>
 
-        {isRole === 'examSetter' && state.loginAs === 'Personal' && (
+        {/* {isRole === 'examSetter' && state.loginAs === 'Personal' && ( */}
           <Menu
             mode="inline"
             items={examSetterPersonal}
@@ -278,8 +288,8 @@ const SideNav = ({ organization, ...others }: SideNavProps | any) => {
             selectedKeys={[current]}
             style={{ border: 'none' }}
           />
-        )}
-        {isRole === 'examSetter' && state.loginAs === 'Organization' && (
+        {/* )} */}
+        {/* {isRole === 'examSetter' && state.loginAs === 'Organization' && (
           <Menu
             mode="inline"
             items={ExamSetterOrganization}
@@ -289,7 +299,7 @@ const SideNav = ({ organization, ...others }: SideNavProps | any) => {
             selectedKeys={[current]}
             style={{ border: 'none' }}
           />
-        )}
+        )} */}
       </ConfigProvider>
     </Sider>
   );

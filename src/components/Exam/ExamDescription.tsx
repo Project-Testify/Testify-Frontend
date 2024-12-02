@@ -8,7 +8,7 @@ interface ExamDescriptionProps {
     examName: string;
     description: string;
     topics: string[];
-    instructions: string[];
+    instructions: string;
 }
 
 const topicStyle: CSSProperties = {
@@ -53,9 +53,9 @@ const ExamDescription: React.FC<ExamDescriptionProps> = ({ examName, description
                 ))}
             </div>
             <p style={subtopicStyle}>Instructions:</p>
-            <ul>
-                {instructions.map((instruction, index) => (
-                    <li key={index} style={insStyle}>{instruction}</li>
+            <ul style={insStyle}>
+                {instructions.split('\n').map((instruction, index) => (
+                    <li key={index} style={insStyle} dangerouslySetInnerHTML={{ __html: instruction }} />
                 ))}
             </ul>
         </Card>

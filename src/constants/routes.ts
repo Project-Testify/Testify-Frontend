@@ -256,6 +256,7 @@ export const PATH_ORG_ADMIN = {
   dashboard: path(ROOTS_ORG_ADMIN, '/dashboard'),
   exam: path(ROOTS_ORG_ADMIN, '/exam'),
   new_exam: path(ROOTS_ORG_ADMIN, '/new_exam'),
+  complete_exam: path(ROOTS_ORG_ADMIN, '/complete_exam'),
   groups: path(ROOTS_ORG_ADMIN, '/groups'),
   exam_setters: path(ROOTS_ORG_ADMIN, '/exam-setters'),
 };
@@ -277,7 +278,9 @@ export const PATH_CANDIDATE = {
 export const PATH_TUTOR = {
   root: ROOTS_TUTOR,
   dashboard: path(ROOTS_TUTOR, '/dashboard'),
-  
+  proctoring: path(ROOTS_TUTOR, '/proctoring'),
+  grading: path(ROOTS_TUTOR, '/grading'),
+  moderating: path(ROOTS_TUTOR, '/moderating'),
 }
 
 export const PATH_ADMIN = {

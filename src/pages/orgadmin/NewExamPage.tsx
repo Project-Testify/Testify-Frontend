@@ -12,6 +12,8 @@ import {
   Steps,
   Divider,
   message,
+  Row,
+  Col,
 } from 'antd';
 import { useState } from 'react';
 
@@ -31,19 +33,18 @@ const { Step } = Steps;
 
 export const NewExamPage = () => {
 
-  const { getOrganization } = useAuth(); // Use the hook here
+  const { getOrganization } = useAuth();
   const [current, setCurrent] = useState(0);
   const loggedInUser = getLoggedInUser();
 
   const onFinishExamInformation = async (values: ExamRequestForm) => {
     try {
-      // Create examRequest object
       const examRequest: ExamRequest = {
         title: values.title,
         description: values.description,
         duration: values.duration,
-        startDatetime: values.date[0].format('YYYY-MM-DDTHH:mm:ss'), // Updated format
-        endDatetime: values.date[1].format('YYYY-MM-DDTHH:mm:ss'), // Updated format
+        startDatetime: values.date[0].format('YYYY-MM-DDTHH:mm:ss'),
+        endDatetime: values.date[1].format('YYYY-MM-DDTHH:mm:ss'),
         instructions: values.instructions,
         organizationId: getOrganization() ?? 0,
         createdById: loggedInUser?.id ?? 0,
@@ -51,14 +52,12 @@ export const NewExamPage = () => {
         orderType: 'FIXED'
       };
 
-      console.log('Exam Request:', examRequest);
-
       const response = await saveExamInformation(examRequest);
 
-      if (response.data.success) { // Adjust this based on your actual API response structure
+      if (response.data.success) {
         const examId = response.data.id;
         sessionStorage.setItem('examId', examId);
-        setCurrent(1); // Move to the next step
+        setCurrent(1);
         message.success('Exam information saved successfully!');
       } else {
         message.error('Failed to save exam information');
@@ -102,33 +101,37 @@ export const NewExamPage = () => {
       />
 
       <Card>
-        <Steps
-          onChange={onStepChange} // Handle step change with validation
-          current={current}
-          labelPlacement="vertical"
-          type="default"
-        >
-          <Step title="Exam Information"></Step>
-          <Step title="Make Questions"></Step>
-          <Step title="Question Sequence"></Step>
-          <Step title="Grading"></Step>
-          <Step title="Proctors"></Step>
-          <Step title="Select Candidates"></Step>
-          <Step title="Additional Features"></Step>
-        </Steps>
+        <Row gutter={16}>
+          {/* Left Column: Steps List */}
+          <Col span={6}>
+            <Steps
+              direction="vertical"
+              onChange={onStepChange}
+              current={current}
+            >
+              <Step title="Exam Information" />
+              <Step title="Make Questions" />
+              <Step title="Question Sequence" />
+              <Step title="Grading" />
+              <Step title="Proctors" />
+              <Step title="Select Candidates" />
+              <Step title="Additional Features" />
+            </Steps>
+          </Col>
 
-        <Divider />
-
-        {current === 0 && (
-          <ExamInformation onFinishFun={onFinishExamInformation} />
-        )}
-        {current === 1 && <MakeQuestions />}
-        {current === 2 && <SequenceHandling />}
-        {current === 3 && <AddGrading />}
-        {current === 4 && <AddProctors />}
-        {current === 5 && <AddCandidate />}
-        {current === 6 && <AdditionalFeatures />}
-
+          {/* Right Column: Content */}
+          <Col span={18}>
+            {current === 0 && (
+              <ExamInformation onFinishFun={onFinishExamInformation} />
+            )}
+            {current === 1 && <MakeQuestions />}
+            {current === 2 && <SequenceHandling />}
+            {current === 3 && <AddGrading />}
+            {current === 4 && <AddProctors />}
+            {current === 5 && <AddCandidate />}
+            {current === 6 && <AdditionalFeatures />}
+          </Col>
+        </Row>
         <Divider />
       </Card>
     </div>

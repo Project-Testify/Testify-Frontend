@@ -5,6 +5,7 @@ import {
   BankOutlined,
   BarChartOutlined,
   DashboardOutlined,
+  FundOutlined,
 } from '@ant-design/icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -113,8 +114,20 @@ const orgAdminItems: MenuProps['items'] = [
   getItem('Exams', 'examList', <BankOutlined />, [
     getItem(<Link to={PATH_ORG_ADMIN.exam}>All Exams</Link>, 'allExams', null),
     getItem(
-      <Link to={PATH_ORG_ADMIN.new_exam}>New Exams</Link>,
+      <Link
+        to={PATH_ORG_ADMIN.new_exam}
+        onClick={() => {
+          sessionStorage.removeItem('examId'); // Clear examId from sessionStorage
+        }}
+      >
+        New Exams
+      </Link>,
       'new_exam',
+      null
+    ),
+    getItem(
+      <Link to={PATH_ORG_ADMIN.complete_exam}>Completed Exams</Link>,
+      'completed_exam',
       null
     ),
   ]),
@@ -127,7 +140,7 @@ const orgAdminItems: MenuProps['items'] = [
     [
       getItem(
         <Link to={PATH_ORG_ADMIN.exam_setters}>All Exam Setters</Link>,
-        'exam',
+        'ExamSetters',
         null
       ),
     ]
@@ -278,12 +291,17 @@ const adminItems: MenuProps['items'] = [
     'Org',
     <BankOutlined />,
   ),
+  getItem(
+    <Link to={PATH_ADMIN.userReports}>Insights</Link>,
+    'insights',
+    <FundOutlined />,
+  ),
   // reports
-  getItem('Reports', 'reports', <BarChartOutlined />, [
-    getItem(<Link to={PATH_ADMIN.examReports}>Exam Reports</Link>, 'examReports', null),
-    getItem(<Link to={PATH_ADMIN.userReports}>User Reports</Link>, 'userReports', null),
-    getItem(<Link to={PATH_ADMIN.organizationReports}>Exam Setter Reports</Link>, 'organizationReports', null),
-  ]),
+  // getItem('Reports', 'reports', <BarChartOutlined />, [
+  //   getItem(<Link to={PATH_ADMIN.examReports}>Exam Reports</Link>, 'examReports', null),
+  //   getItem(<Link to={PATH_ADMIN.userReports}>User Reports</Link>, 'userReports', null),
+  //   getItem(<Link to={PATH_ADMIN.organizationReports}>Exam Setter Reports</Link>, 'organizationReports', null),
+  // ]),
 ];
 
 const rootSubmenuKeys = ['dashboards', 'corporate', 'user-profile'];

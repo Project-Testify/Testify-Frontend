@@ -109,8 +109,9 @@ export const CandidateAllExams = () => {
   };
 
   const handleCardClick = (id: number) => {
-    navigate(`/candidate/exam?id=${id}`);
+    navigate(`/candidate/exam-summary`, { state: { id } });
   };
+  
 
   return (
     <div>
