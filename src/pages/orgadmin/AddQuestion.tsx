@@ -3,8 +3,10 @@ import { Button, Card, Form, FormInstance, Input, Radio, Collapse, Flex, message
 import { generateEssayQuestion, generateMCQQuestion } from '../../api/services/AIAssistant';
 import { NewExamContext } from '../../context/NewExamContext';
 import { useContext, useState } from 'react';
-import { MCQRequest, EssayRequest, CoverPointRequest } from '../../api/types';
+import { MCQRequest, EssayRequest } from '../../api/types';
 import { addMCQ, addEssay, getQuestionSequence, updateQuestionSequence } from '../../api/services/ExamServices';
+
+import {generateMCQQuestionList,generateEssayQuestionList} from '../../api/services/AIAssistant';
 
 const tabList = [
   {
@@ -32,33 +34,33 @@ const McqForm = ({ form, loadQuestions }: { form: FormInstance, loadQuestions: (
 
       setIsGenerating(true);
 
-      const response = {
-        data: {
-          success: true,
-          questions: [
-            {
-              questionText: "What is the capital of France?",
-              difficultyLevel: "EASY",
-              options: [
-                { optionText: "Paris", marks: 1, correct: true },
-                { optionText: "London", marks: 0, correct: false },
-                { optionText: "Berlin", marks: 0, correct: false },
-                { optionText: "Rome", marks: 0, correct: false },
-              ],
-            },
-            {
-              questionText: "Which planet is known as the Red Planet?",
-              difficultyLevel: "MEDIUM",
-              options: [
-                { optionText: "Mars", marks: 1, correct: true },
-                { optionText: "Venus", marks: 0, correct: false },
-                { optionText: "Jupiter", marks: 0, correct: false },
-                { optionText: "Saturn", marks: 0, correct: false },
-              ],
-            },
-          ],
-        },
-      };
+      // const response = {
+      //   data: {
+      //     success: true,
+      //     questions: [
+      //       {
+      //         questionText: "What is the capital of France?",
+      //         difficultyLevel: "EASY",
+      //         options: [
+      //           { optionText: "Paris", marks: 1, correct: true },
+      //           { optionText: "London", marks: 0, correct: false },
+      //           { optionText: "Berlin", marks: 0, correct: false },
+      //           { optionText: "Rome", marks: 0, correct: false },
+      //         ],
+      //       },
+      //       {
+      //         questionText: "Which planet is known as the Red Planet?",
+      //         difficultyLevel: "MEDIUM",
+      //         options: [
+      //           { optionText: "Mars", marks: 1, correct: true },
+      //           { optionText: "Venus", marks: 0, correct: false },
+      //           { optionText: "Jupiter", marks: 0, correct: false },
+      //           { optionText: "Saturn", marks: 0, correct: false },
+      //         ],
+      //       },
+      //     ],
+      //   },
+      // };
 
       // Uncomment the line below for actual API call after testing
       // const response = await axios.post('/api/generate-mcq', {
@@ -67,6 +69,13 @@ const McqForm = ({ form, loadQuestions }: { form: FormInstance, loadQuestions: (
       //   numOptions: values.numOptions,
       //   numQuestions: values.numQuestionsToGenerate,
       // });
+
+      const response = await generateMCQQuestionList({
+        text: values.generatePrompt,
+        examid: examId || 'ct',
+        choices: values.numOptions,
+        num_questions: values.numQuestionsToGenerate,
+      });
 
       if (response.data.success) {
         const generatedQuestions = response.data.questions;
@@ -327,28 +336,28 @@ const EssayForm = ({ form, loadQuestions }: { form: FormInstance, loadQuestions:
     try {
       const values = await form.validateFields([
         'generatePrompt',
-        'numCoverPoints',
+        // 'numCoverPoints',
         'numQuestionsToGenerate',
       ]);
 
       setIsGenerating(true);
 
-      const response = {
-        data: {
-          success: true,
-          questions: [
-            {
-              questionText: 'Discuss the impact of technology on education in the 21st century.',
-              difficultyLevel: 'MEDIUM',
-              coveringPoints: [
-                { coveringPointText: 'Role of online learning platforms', marks: 5 },
-                { coveringPointText: 'Accessibility improvements due to technology', marks: 5 },
-                { coveringPointText: 'Challenges such as digital divide', marks: 5 },
-              ],
-            }
-          ],
-        },
-      };
+      // const response = {
+      //   data: {
+      //     success: true,
+      //     questions: [
+      //       {
+      //         questionText: 'Discuss the impact of technology on education in the 21st century.',
+      //         difficultyLevel: 'MEDIUM',
+      //         coveringPoints: [
+      //           { coveringPointText: 'Role of online learning platforms', marks: 5 },
+      //           { coveringPointText: 'Accessibility improvements due to technology', marks: 5 },
+      //           { coveringPointText: 'Challenges such as digital divide', marks: 5 },
+      //         ],
+      //       }
+      //     ],
+      //   },
+      // };
 
       // Uncomment the line below for actual API call after testing
       // const response = await axios.post('/api/generate-mcq', {
@@ -357,6 +366,12 @@ const EssayForm = ({ form, loadQuestions }: { form: FormInstance, loadQuestions:
       //   numOptions: values.numOptions,
       //   numQuestions: values.numQuestionsToGenerate,
       // });
+
+      const response = await generateEssayQuestionList({
+        text: values.generatePrompt,
+        examid: examId || 'ct',
+        num_questions: values.numQuestionsToGenerate,
+      });
 
 
       if (response.data.success) {
@@ -485,13 +500,13 @@ const EssayForm = ({ form, loadQuestions }: { form: FormInstance, loadQuestions:
             <Input.TextArea placeholder="Enter a base idea for the questions" />
           </Form.Item>
 
-          <Form.Item
+          {/* <Form.Item
             label="Number of cover points per Question"
             name="numCoverPoints"
             rules={[{ required: true, message: 'Please specify the number of cover points' }]}
           >
             <Input type="number" min={2} max={10} />
-          </Form.Item>
+          </Form.Item> */}
 
           <Form.Item
             label="Number of Questions to Generate"
