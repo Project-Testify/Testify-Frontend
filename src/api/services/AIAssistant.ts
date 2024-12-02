@@ -27,6 +27,56 @@ export interface MCQQuestionResponse {
     correct_answer: string;
 }
 
+export interface GenerateMCQQuestionListRequest {
+    text: string;
+    examid: string;
+    choices: number;
+    num_questions: number;
+}
+
+interface Option {
+    optionText: string;
+    marks: number;
+    correct: boolean;
+  }
+  
+  interface Question {
+    questionText: string;
+    difficultyLevel: string;
+    options: Option[];
+  }
+  
+  interface MCQQuestionListResponse {
+    success: boolean;
+    questions: Question[];
+  }
+
+
+//   eassy list
+export interface GenerateEssayQuestionListRequest {
+    text: string;
+    examid: string;
+    num_questions: number;
+}
+
+interface CoveringPoints {
+    coveringPointText: string;
+    marks: number;
+}
+interface Question {
+    questionText: string;
+    difficultyLevel: string;
+    coveringPoints: CoveringPoints[];
+  }
+  
+  interface EssayQuestionListResponse {
+    success: boolean;
+    questions: Question[];  
+
+}
+
+  
+
 // upload file to AI assistant
 export const uploadFiles = (files: File[], examId: string): Promise<AxiosResponse<Response>> => {
     const formData = new FormData();
@@ -52,3 +102,14 @@ export const generateEssayQuestion = (data: GenerateEssayQuestionRequest): Promi
 export const generateMCQQuestion = (data: GenerateMCQQuestionRequest): Promise<AxiosResponse<MCQQuestionResponse>> => {
     return assistantApi.post<MCQQuestionResponse>('/generate-question/mcq/', data);
 };
+
+
+// mcq question list generation
+export const generateMCQQuestionList = (data: GenerateMCQQuestionListRequest): Promise<AxiosResponse<MCQQuestionListResponse>> => {
+    return assistantApi.post<MCQQuestionListResponse>('/generate-questions/mcq/', data);
+};
+
+
+export const generateEssayQuestionList = (data: GenerateEssayQuestionListRequest): Promise<AxiosResponse<EssayQuestionListResponse>> => {
+    return assistantApi.post<EssayQuestionListResponse>('/generate-questions/essay/', data);
+}
