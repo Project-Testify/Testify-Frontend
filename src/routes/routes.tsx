@@ -38,6 +38,9 @@ import {
   // examSetter
   OrganizationDashBoard,
   CandidateExpiredExams,
+  ExamMcqResults,
+  OrgAdminCompleteExamPage,
+  OrgAdminViewCompleteExamPage,
   Proctoring,
   ExamSetterNewExamPage,
   ExamPage,
@@ -180,6 +183,16 @@ const router = createBrowserRouter([
       {
         path: 'exam',
         element: <OrgAdminExamPage />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: 'complete_exam',
+        element: <OrgAdminCompleteExamPage />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: 'view_complete_exam',
+        element: <OrgAdminViewCompleteExamPage />,
         errorElement: <ErrorPage />,
       },
       {
@@ -340,6 +353,11 @@ const router = createBrowserRouter([
       {
         path: 'exam/feedback',
         element: <ExamFeedback />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: 'exam/mcq-results',
+        element: <ExamMcqResults />,
         errorElement: <ErrorPage />,
       },
     ],

@@ -1,0 +1,179 @@
+.question-card {
+    padding: 16px;
+  }
+  
+  .question-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .question-title {
+    margin: 0;
+    font-size: 18px;
+  }
+  
+  .marks-display {
+    font-size: 14px;
+    color: #555;
+  }
+  
+  .option-list {
+    list-style: none;
+    padding: 0;
+    margin: 16px 0 0;
+  }
+  
+  .option-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+    margin: 4px 0;
+    background-color: #f0f0f0;
+    border-radius: 4px;
+  }
+  
+  .option-item.correct {
+    background-color: #d4edda; 
+  }
+  
+  .option-item.incorrect {
+    background-color: #f8d7da;
+  }
+  
+  .option-icon {
+    font-size: 20px;
+    margin-left: 8px;
+  }
+  
+  .correct-icon {
+    color: #52c41a;
+  }
+  
+  .incorrect-icon {
+    color: #ff4d4f;
+  }
+
+  .summary-card {
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    background-color: #f7f9fc;
+    padding: 0px 16px;
+  }
+  
+  .summary-title {
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 16px;
+    margin-top: -10px;
+    color: #333; 
+  }
+  
+  .summary-text {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    display: block;
+  }
+
+  /* Card Styling */
+.results-summary-card {
+    padding: 24px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    margin-bottom: 24px;
+  }
+  
+  /* Circle Progress Bar Container */
+ /* Progress Bar Container */
+.progress-container {
+  text-align: center;
+  margin-top: 24px;
+}
+
+/* Text below Progress Bar */
+.progress-label {
+    margin-top: 16px;
+    display: block;
+    font-size: 20px;
+    color: #424242;
+    font-weight: 500;
+}
+  
+  /* Statistics Section */
+  .stats-container {
+    padding: 0 16px;
+  }
+  
+  .stats-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 16px;
+    text-align: left;
+  }
+  
+  .stats-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+  }
+  
+  .stats-label {
+    font-size: 16px;
+    font-weight: 500;
+    color: #424242;
+  }
+  
+  .stats-value {
+    font-size: 16px;
+    font-weight: bold;
+  }
+  
+  .correct-text {
+    color: #28a745; /* Green for correct */
+  }
+  
+  .incorrect-text {
+    color: #dc3545; /* Red for incorrect */
+  }
+  
+  .skipped-text {
+    color: #ff9800; /* Orange for skipped */
+  }
+  
+  /* Button Styling */
+  .dashboard-btn {
+    margin-top: 24px;
+    width: 100%;
+    max-width: 200px;
+  }
+
+  .exam-results-title {
+    font-weight: bold;
+    font-size: 24px;
+    color: #000; 
+    margin-top: -10px;
+  }
+  
+  
+  
+  @media (max-width: 768px) {
+    .summary-card {
+      padding: 20px;
+    }
+    .summary-title {
+      font-size: 24px;
+    }
+    .summary-text {
+      font-size: 20px;
+    }
+    .details-text {
+      font-size: 16px;
+    }
+  }
+  
