@@ -164,8 +164,8 @@ const examSetterPersonal: MenuProps['items'] = [
       'grading',
       null
     ),
-  ]),
-];
+  ])
+
 
 const rootSubmenuKeys = ['dashboards', 'corporate', 'user-profile'];
 
