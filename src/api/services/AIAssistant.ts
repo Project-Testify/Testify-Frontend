@@ -124,6 +124,7 @@ export const generateMCQQuestionList = (data: GenerateMCQQuestionListRequest): P
 
 export const generateEssayQuestionList = (data: GenerateEssayQuestionListRequest): Promise<AxiosResponse<EssayQuestionListResponse>> => {
     return assistantApi.post<EssayQuestionListResponse>('/generate-questions/essay/', data);
+}
 
 export const gradeQuestion = (data: GradeQuestionRequest): Promise<AxiosResponse<GradeQuestionResponse>> => {
     return assistantApi.post<GradeQuestionResponse>('/grade/', data);  // Send the data to the backend

@@ -17,7 +17,7 @@ import {
   PATH_USER_PROFILE,
   PATH_EXAM_SETTER
 } from '../../../constants';
-import { PATH_HOME, PATH_TUTOR } from '../../../constants/routes.ts';
+import { PATH_EXAM, PATH_HOME, PATH_TUTOR } from '../../../constants/routes.ts';
 
 const { Sider } = Layout;
 
@@ -26,6 +26,7 @@ import { OrganizationResponse } from '../../../api/types.ts';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { faBook, faChartSimple, faClipboard, faEye, faUserLarge, faClipboardList  } from '@fortawesome/free-solid-svg-icons';
+import { BankOutlined } from '@ant-design/icons';
 // import { or } from 'firebase/firestore';
 // interface MenuItemType {
 //   key: number;
