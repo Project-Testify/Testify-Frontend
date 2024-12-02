@@ -7,5 +7,5 @@ export * from './errors';
 export * from './orgadmin';
 export * from './candidate/index.ts';
 export * from './orgadmin/index.ts';
-export * from './examSetter';
+export * from './examSetter/index.ts';
 

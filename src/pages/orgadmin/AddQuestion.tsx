@@ -72,7 +72,7 @@ const McqForm = ({ form, loadQuestions }: { form: FormInstance, loadQuestions: (
 
       const response = await generateMCQQuestionList({
         text: values.generatePrompt,
-        examid: examId || 'ct',
+        examid:'ct',
         choices: values.numOptions,
         num_questions: values.numQuestionsToGenerate,
       });
@@ -369,7 +369,7 @@ const EssayForm = ({ form, loadQuestions }: { form: FormInstance, loadQuestions:
 
       const response = await generateEssayQuestionList({
         text: values.generatePrompt,
-        examid: examId || 'ct',
+        examid: 'ct',
         num_questions: values.numQuestionsToGenerate,
       });
 

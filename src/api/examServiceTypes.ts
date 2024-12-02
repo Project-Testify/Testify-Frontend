@@ -143,3 +143,7 @@ export interface ModeratorRequest{
 }
 
 
+export interface QuestionCommentRequest{
+    questionId: number;
+    comment: string;
+}
