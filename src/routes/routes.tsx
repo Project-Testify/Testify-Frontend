@@ -43,7 +43,6 @@ import {
   ModeratingExam,
   OrgAdminCompleteExamPage,
   OrgAdminViewCompleteExamPage,
-  Proctoring
 } from '../pages';
 
 import {
