@@ -20,7 +20,8 @@ import {
     BrowserLockdownResponse,
     ModeratorResponse,
     HostedResponse,
-    ModeratorRequest
+    ModeratorRequest,
+    QuestionCommentRequest
 
 } from '../examServiceTypes';
 
@@ -185,4 +186,10 @@ export const getModerator = (
     examId: number
 ): Promise<AxiosResponse<ModeratorResponse>> => {
     return api.get<ModeratorResponse>(`/exam/${examId}/moderator`);
+};
+
+export const updateQuestionComment = (
+    request: QuestionCommentRequest
+): Promise<AxiosResponse<GenericAddOrUpdateResponse>> => {
+    return api.post<GenericAddOrUpdateResponse>("/exam/question/comment", request);
 };

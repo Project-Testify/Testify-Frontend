@@ -226,6 +226,7 @@ export interface CoverPoint {
 
 // Define the interface for questions
 export interface Question {
+    comment: string;
     questionId: number;
     questionText: string;
     questionType: "MCQ" | "Essay"; // You can extend this if you have more question types
