@@ -99,6 +99,11 @@ export interface GenericDeleteResponse{
     message: string;
 }
 
+export interface GenericResponse{
+    success: boolean;
+    message: string;
+}
+
 export interface InviteExamSetterRequest{
     email: string;
 }
@@ -169,6 +174,10 @@ export interface ExamResponse {
     proctors: ExamSetterResponse[]; // Empty array if none
     candidates: CandidateResponse[]; // Empty array if none
     questionSequence: number[]; // List of question IDs
+    browserLockdown: boolean;
+    realTimeMonitoring: boolean;
+    zoomLink: string;
+    hosted: boolean;
 }
 
 // Response object for the user who created the exam

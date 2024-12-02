@@ -9,12 +9,14 @@ interface McqOption {
 
   export interface McqQuestion {
     questionText: string;
+    questionType: string;
     options: McqOption[];
   }
 
 export interface EssayQuestion {
     questionText: string;
-    length: number;
+    questionType: string;
+    coverPoints: Array<string>;
 }
 
 // A union type for the questions

@@ -11,96 +11,135 @@ import {
   Card,
   Flex,
   Image,
+  Tooltip,
 } from 'antd';
 
 import { getLoggedInUser } from '../../utils/authUtils';
+import { useEffect, useState } from 'react';
+import { getCandidateExams } from '../../api/services/candidate';
+import { Exam } from '../../types';
+import moment from 'moment';
+import { render } from 'react-dom';
+import { toLower } from 'lodash';
 
 export const CandidateDashboard = () => {
-  
+  const [exams, setExams] = useState<any>([]);
+  const [data, setData] = useState<any>([]);
   const user = getLoggedInUser();
   const candidateName = user?.firstName;
-  
+
+
+
+  // Fetch candidate exams
+  useEffect(() => {
+    const fetchCandidateExams = async () => {
+      const response = await getCandidateExams();
+      if (response.status === 200) {
+        setExams(response.data);
+      }
+    };
+    fetchCandidateExams();
+  }, []);
+
+  // Transform exams into table data
+  useEffect(() => {
+    const datatable = exams.map((exam: any) => ({
+      key: exam.id,
+      title: exam.title,
+      orgName: exam.organization.name,
+      startDate: moment(exam.startTime).format('YYYY-MM-DD'),
+      status: exam.status, // Uncomment or update logic as needed
+    }));
+    setData(datatable);
+  }, [exams]);
+
+
+  // get the data for the exam stat card
   const examData = [
-    { type: 'Ongoing', value: 5 },
-    { type: 'Upcoming', value: 3 },
-    { type: 'Completed', value: 10 },
+    { type: 'Ongoing', value: exams.filter((exam: any) => toLower(exam.status) === 'ongoing').length },
+    { type: 'Upcoming', value: exams.filter((exam: any) => toLower(exam.status) === 'upcoming').length },
+    { type: 'Completed', value: exams.filter((exam: any) => toLower(exam.status) === 'complete').length },
   ];
 
-  const participationData = [
-    { date: '2023-07-01', count: 5 },
-    { date: '2023-07-02', count: 3 },
-    { date: '2023-07-03', count: 7 },
-    { date: '2023-07-04', count: 6 },
-    { date: '2023-07-05', count: 8 },
-    { date: '2023-07-06', count: 4 },
-    { date: '2023-07-07', count: 9 },
-  ];
 
-  //exam table
+
+
+  console.log(data);
+  console.log(exams);
+
+  const dateCellRender = (value: moment.Moment) => {
+    const dateString = value.format('YYYY-MM-DD');
+    const examOnDate = exams.filter(
+      (exam) => moment(exam.startTime).format('YYYY-MM-DD') === dateString
+    );
+    //"2024-12-16T02:30" === "2024-12-16" do the convertion
+
+    if (examOnDate.length > 0) {
+      return (
+        <Tooltip
+          title={
+            <ul style={{ margin: 0, padding: 0 }}>
+              {examOnDate.map((exam) => (
+                <li key={exam.name} style={{ listStyle: 'none' }}>
+                  {exam.title}
+                </li>
+              ))}
+            </ul>
+          }
+        >
+          <div
+            style={{
+              backgroundColor: '#6d76ed',
+              borderRadius: '4px',
+              padding: '2px',
+              textAlign: 'center',
+            }}
+          ></div>
+        </Tooltip>
+      );
+    }
+
+    return null;
+  };
+
   const columns = [
     {
       title: 'Exam Name',
-      dataIndex: 'name',
+      dataIndex: 'title',
       key: 'name',
       render: (text: string) => <a>{text}</a>,
     },
     {
       title: 'Organization Name',
-      dataIndex: 'orgName',
+      dataIndex: 'organization',
       key: 'orgName',
+      render: (orgName: any) => orgName.name,
     },
     {
       title: 'Start Date',
-      dataIndex: 'startDate',
+      dataIndex: 'startTime',
       key: 'startDate',
+      render: (startTime: any) => moment(startTime).format('YYYY-MM-DD'),
     },
     {
       title: 'Status',
       key: 'status',
       dataIndex: 'status',
-      render: (status: any) => (
-        <>
-          {status.map((tag: string) => {
-            let color = 'green';
-            if (tag === 'upcoming') {
-              color = 'volcano';
-            } else if (tag === 'ongoing') {
-              color = 'geekblue';
-            } else if (tag === 'complete') {
-              color = 'green';
-            }
-            return (
-              <Tag color={color} key={tag}>
-                {tag.toUpperCase()}
-              </Tag>
-            );
-          })}
-        </>
-      ),
-    },
-  ];
-
-  const data = [
-    {
-      key: '1',
-      name: 'John Brown',
-      orgName: 'UCSC',
-      startDate: '2024-07-01',
-      status: ['ongoing'],
-    },
-    {
-      key: '2',
-      name: 'Jim Green',
-      orgName: 'SLIIT',
-      startDate: '2024-07-01',
-      status: ['upcoming'],
-    },
-    {
-      key: '3',
-      name: 'Joe Black',
-      orgName: 'NSBM',
-      startDate: '2024-07-01',
-      status: ['complete'],
+      render: (status: any) => {
+        let color = 'green';
+        if (status === 'upcoming') {
+          color = 'volcano';
+        } else if (status === 'ongoing') {
+          color = 'geekblue';
+        } else if (status === 'complete') {
+          color = 'green';
+        }
+        return (
+          <Tag color={color} key={status}>
+            {status.toUpperCase()}
+          </Tag>
+        );
+      },
     },
   ];
 
@@ -137,16 +176,12 @@ export const CandidateDashboard = () => {
           <ExamStatCard data={examData} chartType={'bar'} />
         </Col>
 
-        <Col xs={24} sm={12} lg={8}>
-          <ExamStatCard data={participationData} chartType={'line'} />
-        </Col>
-
-        <Col xs={24} sm={12} lg={8}>
-          <Calendar fullscreen={false} />
+        <Col xs={24} sm={12} lg={16}>
+          <Calendar fullscreen={false} dateCellRender={dateCellRender} />
         </Col>
 
         <Col lg={16}>
-          <Table columns={columns} dataSource={data} />
+          <Table columns={columns} dataSource={exams} />
         </Col>
 
         <Col xs={24} sm={12} lg={8}>
@@ -155,7 +190,7 @@ export const CandidateDashboard = () => {
               <Typography.Title level={5}>Your Badges</Typography.Title>
               <Typography.Title level={4}>3</Typography.Title>
             </Flex>
-            <Flex justify="space-berween" align="center">
+            <Flex justify="space-between" align="center">
               <Image src={assets.badge} preview={false} />
               <Image src={assets.badge} preview={false} />
               <Image src={assets.badge} preview={false} />

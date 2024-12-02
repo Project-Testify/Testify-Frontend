@@ -273,7 +273,8 @@ export const PATH_TUTOR = {
   proctoring: path(ROOTS_TUTOR, '/proctoring'),
   grading: path(ROOTS_TUTOR, '/grading'),
   new_exam: path(ROOTS_TUTOR, '/new_exam'),
-  all_exams: path(ROOTS_TUTOR, '/all_exams')
+  all_exams: path(ROOTS_TUTOR, '/all_exams'),
+  moderating: path(ROOTS_TUTOR, '/moderating'),
 }
 
 export const PATH_ADMIN = {

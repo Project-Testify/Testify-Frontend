@@ -1,10 +1,11 @@
 import { DeleteOutlined, RobotOutlined, PlusOutlined } from '@ant-design/icons';
-import { Button, Card, Form, FormInstance, Input, Radio, Collapse, Flex, message } from 'antd';
+import { Button, Card, Form, FormInstance, Input, Radio, Collapse, Flex, message, InputNumber } from 'antd';
 import { generateEssayQuestion, generateMCQQuestion } from '../../api/services/AIAssistant';
 import { NewExamContext } from '../../context/NewExamContext';
 import { useContext, useState } from 'react';
-import { MCQRequest, EssayRequest, CoverPointRequest } from '../../api/types';
+import { MCQRequest, EssayRequest } from '../../api/types';
 import { addMCQ, addEssay, getQuestionSequence, updateQuestionSequence } from '../../api/services/ExamServices';
+import axios from 'axios';
 
 const tabList = [
   {
@@ -20,7 +21,6 @@ const tabList = [
 const McqForm = ({ form, loadQuestions }: { form: FormInstance, loadQuestions: () => void }) => {
   const [activeKey, setActiveKey] = useState<string | string[]>('0');
   const [isGenerating, setIsGenerating] = useState<boolean>(false);
-  const examId = sessionStorage.getItem('examId');
 
   const handleGenerateQuestions = async () => {
     try {
@@ -62,7 +62,6 @@ const McqForm = ({ form, loadQuestions }: { form: FormInstance, loadQuestions: (
 
       // Uncomment the line below for actual API call after testing
       // const response = await axios.post('/api/generate-mcq', {
-      //   examId: Number(examId),
       //   prompt: values.generatePrompt,
       //   numOptions: values.numOptions,
       //   numQuestions: values.numQuestionsToGenerate,
@@ -72,7 +71,7 @@ const McqForm = ({ form, loadQuestions }: { form: FormInstance, loadQuestions: (
         const generatedQuestions = response.data.questions;
 
         for (const question of generatedQuestions) {
-          const mcqRequest: MCQRequest = {
+          const mcqRequest = {
             examId: Number(sessionStorage.getItem('examId')), // Ensure examId is a number
             questionText: question.questionText,
             difficultyLevel: 'MEDIUM', // Or handle difficulty dynamically if required
@@ -84,8 +83,7 @@ const McqForm = ({ form, loadQuestions }: { form: FormInstance, loadQuestions: (
             questionType: 'MCQ',
           };
 
-          await handleAddQuestionWithParameters({ ...mcqRequest, questionType: 'MCQ' });
-
+          await handleAddQuestion(mcqRequest);
         }
 
         message.success('Questions generated and added successfully!');
@@ -99,96 +97,27 @@ const McqForm = ({ form, loadQuestions }: { form: FormInstance, loadQuestions: (
     }
   };
 
-  const handleAddQuestionWithParameters = async (generatedMCQ: MCQRequest) => {
+  const handleAddQuestion = async (mcqRequest: any) => {
     try {
-
-      const examId = sessionStorage.getItem('examId');
-      if (!examId) {
-        message.error('Exam ID is missing. Please select or create an exam.');
-        return;
-      }
-
-      const mcqRequest: MCQRequest = {
-        examId: Number(examId), // Ensure examId is a number
-        questionText: generatedMCQ.questionText,
-        difficultyLevel: generatedMCQ.difficultyLevel,
-        options: generatedMCQ.options,
-        questionType: 'MCQ',
-      };
-
-      console.log('Submitting MCQ Data:', mcqRequest);
-      const response = await addMCQ(Number(examId), mcqRequest);
+      const response = await addMCQ(mcqRequest.examId, mcqRequest);
       if (response.data.success) {
-        message.success('MCQ added successfully!');
-
-        const sequenceResponse = await getQuestionSequence(Number(examId));
+        const sequenceResponse = await getQuestionSequence(mcqRequest.examId);
         const currentSequence = sequenceResponse.data.questionIds;
         const newQuestionId = response.data.id;
         const updatedSequence = [...currentSequence, newQuestionId];
-        await updateQuestionSequence(Number(examId), updatedSequence);
+        await updateQuestionSequence(mcqRequest.examId, updatedSequence);
 
         loadQuestions();
-        form.resetFields();
       } else {
-        message.error('Failed to add MCQ: ' + response.data.message);
+        message.error('Failed to add question: ' + response.data.message);
       }
     } catch (error) {
-
-      message.error('Failed to add question. Please check your inputs.');
-    }
-  };
-
-
-  const handleAddQuestion = async () => {
-    try {
-      const values = await form.validateFields();
-
-      // const examId = sessionStorage.getItem('editingExa mId');
-      const examId = sessionStorage.getItem('examId');
-      if (!examId) {
-        message.error('Exam ID is missing. Please select or create an exam.');
-        return;
-      }
-
-      const mcqRequest: MCQRequest = {
-        examId: Number(examId), // Ensure examId is a number
-        questionText: values.questionText,
-        difficultyLevel: values.difficulty,
-        options: values.options.map((option: { optionText: any; marks: any; correct: any; }) => ({
-          optionText: option.optionText,
-          marks: option.marks,
-          correct: option.correct,
-        })),
-        questionType: 'MCQ',
-      };
-
-      console.log('Submitting MCQ Data:', mcqRequest);
-      const response = await addMCQ(Number(examId), mcqRequest);
-      if (response.data.success) {
-        message.success('MCQ added successfully!');
-
-        const sequenceResponse = await getQuestionSequence(Number(examId));
-        const currentSequence = sequenceResponse.data.questionIds;
-        const newQuestionId = response.data.id;
-        const updatedSequence = [...currentSequence, newQuestionId];
-        await updateQuestionSequence(Number(examId), updatedSequence);
-
-        loadQuestions();
-        form.resetFields();
-      } else {
-        message.error('Failed to add MCQ: ' + response.data.message);
-      }
-    } catch (error) {
-
-      message.error('Failed to add question. Please check your inputs.');
+      message.error('Failed to add question.');
     }
   };
 
   return (
     <>
-      <Form.Item name="questionType" hidden initialValue="MCQ" />
-      <Form.Item name="type" hidden initialValue="MCQ" />
-
       <Collapse onChange={setActiveKey} activeKey={activeKey} style={{ marginBottom: 16 }}>
         <Collapse.Panel header="Generate Questions" key="1" style={{ border: 0, padding: 0 }}>
           <Form.Item
@@ -226,18 +155,21 @@ const McqForm = ({ form, loadQuestions }: { form: FormInstance, loadQuestions: (
         </Collapse.Panel>
       </Collapse>
 
+      <Form.Item name="questionType" hidden initialValue="MCQ" />
+      <Form.Item name="type" hidden initialValue="MCQ" />
+
+      {/* Existing Fields for Adding a Question */}
       <Form.Item
         label="Question"
         name="questionText"
         rules={[{ required: true }]}
       >
         <Input.TextArea
-          placeholder="Answer"
+          placeholder="Enter question"
           autoSize={{ minRows: 2, maxRows: 6 }}
         />
       </Form.Item>
 
-      {/* add question level easy, medium, hard */}
       <Form.Item
         label="Difficulty"
         name={['difficulty']}
@@ -251,37 +183,36 @@ const McqForm = ({ form, loadQuestions }: { form: FormInstance, loadQuestions: (
         </Radio.Group>
       </Form.Item>
 
+      {/* Options List */}
       <Form.Item label="Answers">
         <Form.List name={['options']}>
-          {(subFields, subOpt) => (
+          {(fields, { add, remove }) => (
             <div style={{ display: 'flex', flexDirection: 'column', rowGap: 16 }}>
-              {subFields.map((subField) => (
-                <Flex key={subField.key} style={{ display: 'flex', width: '100%', alignItems: 'center', marginBottom: 8 }}>
+              {fields.map((field) => (
+                <div
+                  key={field.key}
+                  style={{ display: 'flex', alignItems: 'center', marginBottom: 8 }}
+                >
                   <Form.Item
-                    name={[subField.name, 'optionText']}
+                    name={[field.name, 'optionText']}
                     rules={[{ required: true, message: 'Missing Answer' }]}
-                    style={{ flex: 1, marginRight: 8, marginBottom: 0, width: '300px', justifySelf: 'center' }}
+                    style={{ flex: 1, marginRight: 8 }}
                   >
-                    <Input.TextArea
-                      placeholder="Answer"
-                      autoSize={{ minRows: 2, maxRows: 6 }}
-                      style={{ flex: 1, marginRight: 8 }}
-                    />
+                    <Input placeholder="Answer" />
                   </Form.Item>
 
                   <Form.Item
-                    name={[subField.name, 'marks']}
+                    name={[field.name, 'marks']}
                     rules={[{ required: true, message: 'Missing Marks' }]}
-                    style={{ marginRight: 8, marginBottom: 0, width: '80px' }}
+                    style={{ width: '80px', marginRight: 8 }}
                   >
                     <Input placeholder="Marks" />
                   </Form.Item>
 
                   <Form.Item
-                    name={[subField.name, 'correct']}
+                    name={[field.name, 'correct']}
                     rules={[{ required: true, message: 'Please select if correct or wrong' }]}
-                    style={{ marginRight: 8, marginBottom: 0 }}
-                    initialValue={true} // This can stay as true since it's a boolean
+                    style={{ marginRight: 8 }}
                   >
                     <Radio.Group>
                       <Radio value={true}>Correct</Radio>
@@ -291,13 +222,13 @@ const McqForm = ({ form, loadQuestions }: { form: FormInstance, loadQuestions: (
 
                   <Button
                     type="text"
-                    onClick={() => subOpt.remove(subField.name)}
-                    style={{ marginLeft: 'auto', color: 'red', border: 'none', padding: 0 }}
+                    onClick={() => remove(field.name)}
+                    style={{ color: 'red' }}
                     icon={<DeleteOutlined />}
                   />
-                </Flex>
+                </div>
               ))}
-              <Button type="dashed" onClick={() => subOpt.add()} block icon={<PlusOutlined />}>
+              <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
                 Add Answer
               </Button>
             </div>
@@ -310,7 +241,6 @@ const McqForm = ({ form, loadQuestions }: { form: FormInstance, loadQuestions: (
           Add Question
         </Button>
       </Form.Item>
-
     </>
   );
 };
@@ -318,24 +248,45 @@ const McqForm = ({ form, loadQuestions }: { form: FormInstance, loadQuestions: (
 
 
 
-const EssayForm = ({ form, loadQuestions }: { form: FormInstance, loadQuestions: () => void }) => {
+const EssayForm = ({
+  form,
+  loadQuestions,
+}: {
+  form: FormInstance;
+  loadQuestions: () => void;
+}) => {
   const [activeKey, setActiveKey] = useState<string | string[]>('0');
-  const [isGenerating, setIsGenerating] = useState<boolean>(false);
-  const examId = sessionStorage.getItem('examId');
+  const [isGenerating, setIsGenerating] = useState(false);
 
-  const handleGenerateQuestions = async () => {
+  // Function to handle essay question generation
+  const handleGenerateEssayQuestions = async () => {
     try {
       const values = await form.validateFields([
         'generatePrompt',
-        'numCoverPoints',
-        'numQuestionsToGenerate',
+        'numCoveringPoints',
+        'numQuestions',
       ]);
 
+      const examId = sessionStorage.getItem('examId');
+      if (!examId) {
+        message.error('Exam ID is missing. Please select or create an exam.');
+        return;
+      }
+
+      const generateRequest = {
+        examId: Number(examId),
+        prompt: values.generatePrompt,
+        coveringOptions: values.numCoveringPoints,
+        numQuestions: values.numQuestions,
+      };
+
+      console.log('Generating Essay Questions:', generateRequest);
       setIsGenerating(true);
 
+      // Simulated API response
       const response = {
+        success: true,
         data: {
-          success: true,
           questions: [
             {
               questionText: 'Discuss the impact of technology on education in the 21st century.',
@@ -345,128 +296,57 @@ const EssayForm = ({ form, loadQuestions }: { form: FormInstance, loadQuestions:
                 { coveringPointText: 'Accessibility improvements due to technology', marks: 5 },
                 { coveringPointText: 'Challenges such as digital divide', marks: 5 },
               ],
-            }
+            },
+            // Add more sample questions as needed
           ],
         },
       };
 
-      // Uncomment the line below for actual API call after testing
-      // const response = await axios.post('/api/generate-mcq', {
-      //   examId: Number(examId),
-      //   prompt: values.generatePrompt,
-      //   numOptions: values.numOptions,
-      //   numQuestions: values.numQuestionsToGenerate,
-      // });
-
-
-      if (response.data.success) {
+      if (response.success) {
         const generatedQuestions = response.data.questions;
 
         for (const question of generatedQuestions) {
-          const essayRequest: EssayRequest = {
-            examId: Number(sessionStorage.getItem('examId')), // Ensure examId is a number
+          const essayRequest = {
+            examId: Number(examId),
             questionText: question.questionText,
-            difficultyLevel: 'MEDIUM', // Or handle difficulty dynamically if required
-            coveringPoints: question.coveringPoints.map((coverPoint: any) => ({
-              coverPointText: coverPoint.coveringPointText,
-              marks: coverPoint.marks
+            difficultyLevel: question.difficultyLevel,
+            coveringPoints: question.coveringPoints.map((point: any) => ({
+              coverPointText: point.coveringPointText,
+              marks: point.marks,
             })),
           };
 
-          await handleAddEssayWithParameters(essayRequest);
-
+          await handleAddEssay(essayRequest);
         }
 
-        message.success('Questions generated and added successfully!');
+        message.success('All essay questions generated and added successfully!');
+        form.resetFields(['generatePrompt', 'numCoveringPoints', 'numQuestions']);
+        loadQuestions();
       } else {
-        message.error('Failed to generate questions: ');
+        message.error('Failed to generate essay questions.');
       }
     } catch (error) {
-      message.error('Failed to generate questions. Please try again.');
+      message.error('Failed to generate essay questions. Please check your inputs.');
     } finally {
       setIsGenerating(false);
     }
   };
 
-  const handleAddEssayWithParameters = async (question: any) => {
+  // Function to add a single essay question
+  const handleAddEssay = async (essayRequest: any) => {
     try {
-      const examId = sessionStorage.getItem('examId');
-      if (!examId) {
-        message.error('Exam ID is missing. Please select or create an exam.');
-        return;
-      }
+      console.log('Adding Essay:', essayRequest);
+      // Simulate backend success response
+      const response = { data: { success: true, id: 123 } };
 
-      // Build the essay request object
-      const essayRequest: EssayRequest = {
-        examId: Number(examId),
-        questionText: question.questionText,
-        difficultyLevel: question.difficultyLevel,
-        coveringPoints: question.coveringPoints
-      };
-
-      console.log('Submitting Essay Data:', essayRequest);
-
-      const response = await addEssay(Number(examId), essayRequest); // Assume `addEssay` is the API call function
       if (response.data.success) {
-        message.success('Essay added successfully!');
-
-        const sequenceResponse = await getQuestionSequence(Number(examId));
-        const currentSequence = sequenceResponse.data.questionIds;
-        const newQuestionId = response.data.id;
-        const updatedSequence = [...currentSequence, newQuestionId];
-        await updateQuestionSequence(Number(examId), updatedSequence);
-
-        loadQuestions();
-        form.resetFields();
+        message.success('Essay question added successfully.');
       } else {
-        message.error('Failed to add essay: ' + response.data.message);
+        throw new Error('Error adding essay question.');
       }
     } catch (error) {
-      message.error('Failed to add essay. Please check your inputs.');
-    }
-  };
-
-  // Define the handleAddEssay function
-  const handleAddEssay = async () => {
-    try {
-      const values = await form.validateFields();
-
-      const examId = sessionStorage.getItem('examId');
-      if (!examId) {
-        message.error('Exam ID is missing. Please select or create an exam.');
-        return;
-      }
-
-      // Build the essay request object
-      const essayRequest: EssayRequest = {
-        examId: Number(examId),
-        questionText: values.questionText,
-        difficultyLevel: values.questionDifficulty,
-        coveringPoints: values.coveringPoints.map((point: { coveringPointText: string; marks: number }) => ({
-          coverPointText: point.coveringPointText,
-          marks: point.marks,
-        })),
-      };
-
-      console.log('Submitting Essay Data:', essayRequest);
-
-      const response = await addEssay(Number(examId), essayRequest); // Assume `addEssay` is the API call function
-      if (response.data.success) {
-        message.success('Essay added successfully!');
-
-        const sequenceResponse = await getQuestionSequence(Number(examId));
-        const currentSequence = sequenceResponse.data.questionIds;
-        const newQuestionId = response.data.id;
-        const updatedSequence = [...currentSequence, newQuestionId];
-        await updateQuestionSequence(Number(examId), updatedSequence);
-
-        loadQuestions();
-        form.resetFields();
-      } else {
-        message.error('Failed to add essay: ' + response.data.message);
-      }
-    } catch (error) {
-      message.error('Failed to add essay. Please check your inputs.');
+      console.error('Failed to add essay:', error);
+      message.error('Failed to add essay.');
     }
   };
 
@@ -477,37 +357,44 @@ const EssayForm = ({ form, loadQuestions }: { form: FormInstance, loadQuestions:
 
       <Collapse onChange={setActiveKey} activeKey={activeKey} style={{ marginBottom: 16 }}>
         <Collapse.Panel header="Generate Questions" key="1" style={{ border: 0, padding: 0 }}>
+          {/* Question Prompt */}
           <Form.Item
             label="Question Prompt"
             name="generatePrompt"
-            rules={[{ required: true, message: 'Please enter a question prompt' }]}
+            rules={[{ required: true, message: 'Please enter a question prompt.' }]}
           >
-            <Input.TextArea placeholder="Enter a base idea for the questions" />
+            <Input.TextArea
+              placeholder="Enter question prompt"
+              autoSize={{ minRows: 2, maxRows: 6 }}
+            />
           </Form.Item>
 
+          {/* Number of Covering Points */}
           <Form.Item
-            label="Number of cover points per Question"
-            name="numCoverPoints"
-            rules={[{ required: true, message: 'Please specify the number of cover points' }]}
+            label="Number of Covering Points"
+            name="numCoveringPoints"
+            rules={[{ required: true, message: 'Please specify the number of covering points.' }]}
           >
-            <Input type="number" min={2} max={10} />
+            <InputNumber min={1} placeholder="Enter number of covering points" style={{ width: '100%' }} />
           </Form.Item>
 
+          {/* Number of Essay Questions */}
           <Form.Item
-            label="Number of Questions to Generate"
-            name="numQuestionsToGenerate"
-            rules={[{ required: true, message: 'Please specify the number of questions' }]}
+            label="Number of Essay Questions"
+            name="numQuestions"
+            rules={[{ required: true, message: 'Please specify the number of questions.' }]}
           >
-            <Input type="number" min={1} />
+            <InputNumber min={1} placeholder="Enter number of questions" style={{ width: '100%' }} />
           </Form.Item>
 
+          {/* Generate Button */}
           <Button
             type="primary"
-            onClick={handleGenerateQuestions}
-            loading={isGenerating}
+            onClick={handleGenerateEssayQuestions}
             block
+            loading={isGenerating}
           >
-            Generate Questions
+            Generate Essay Questions
           </Button>
         </Collapse.Panel>
       </Collapse>
@@ -517,10 +404,7 @@ const EssayForm = ({ form, loadQuestions }: { form: FormInstance, loadQuestions:
         name="questionText"
         rules={[{ required: true, message: 'Missing Question' }]}
       >
-        <Input.TextArea
-          placeholder="Question"
-          autoSize={{ minRows: 2, maxRows: 6 }}
-        />
+        <Input.TextArea placeholder="Question" autoSize={{ minRows: 2, maxRows: 6 }} />
       </Form.Item>
 
       <Form.Item
@@ -537,49 +421,40 @@ const EssayForm = ({ form, loadQuestions }: { form: FormInstance, loadQuestions:
       </Form.Item>
 
       <Form.Item label="Covering Points">
-        <Form.List name={['coveringPoints']}>
-          {(subFields, subOpt) => (
-            <div style={{ display: 'flex', flexDirection: 'column', rowGap: 16, width: '100%' }}>
-              {subFields.map((subField) => (
-                <Flex key={subField.key} style={{ display: 'flex', width: '100%', alignItems: 'center', marginBottom: 8 }}>
+        <Form.List name="coveringPoints">
+          {(fields, { add, remove }) => (
+            <>
+              {fields.map((field) => (
+                <div key={field.key} style={{ display: 'flex', alignItems: 'center', marginBottom: 8 }}>
                   <Form.Item
-                    name={[subField.name, 'coveringPointText']}
+                    {...field}
+                    name={[field.name, 'coveringPointText']}
                     rules={[{ required: true, message: 'Missing Covering Point' }]}
-                    style={{ flex: 1, marginRight: 8, marginBottom: 0 }}
+                    style={{ flex: 1, marginRight: 8 }}
                   >
-                    <Input.TextArea
-                      placeholder="Covering Point"
-                      autoSize={{ minRows: 2, maxRows: 6 }}
-                      style={{ flex: 1 }}
-                    />
+                    <Input.TextArea placeholder="Covering Point" autoSize={{ minRows: 2, maxRows: 6 }} />
                   </Form.Item>
-
                   <Form.Item
-                    name={[subField.name, 'marks']}
+                    {...field}
+                    name={[field.name, 'marks']}
                     rules={[{ required: true, message: 'Missing Marks' }]}
-                    style={{ flex: 1, marginRight: 8, marginBottom: 0 }}
+                    style={{ width: '100px', marginRight: 8 }}
                   >
-                    <Input placeholder="Marks" />
+                    <InputNumber min={0} placeholder="Marks" />
                   </Form.Item>
-
-                  <Button
-                    type="text"
-                    onClick={() => subOpt.remove(subField.name)}
-                    style={{ marginLeft: 'auto', color: 'red', border: 'none', padding: 0 }}
-                    icon={<DeleteOutlined />}
-                  />
-                </Flex>
+                  <DeleteOutlined onClick={() => remove(field.name)} style={{ color: 'red' }} />
+                </div>
               ))}
-              <Button type="dashed" onClick={() => subOpt.add()} block icon={<PlusOutlined />}>
+              <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
                 Add Covering Point
               </Button>
-            </div>
+            </>
           )}
         </Form.List>
       </Form.Item>
 
       <Form.Item>
-        <Button type="primary" onClick={handleAddEssay} block>
+        <Button type="primary" onClick={form.submit} block>
           Add Essay
         </Button>
       </Form.Item>

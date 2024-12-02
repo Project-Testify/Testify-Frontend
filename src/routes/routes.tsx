@@ -36,9 +36,11 @@ import {
   CandidateOrganizations,
   DiagnosticTestPage,
   // examSetter
-  OrganizationDashBoard,
+  //OrganizationDashBoard,
   CandidateExpiredExams,
   ExamMcqResults,
+  Moderating,
+  ModeratingExam,
   OrgAdminCompleteExamPage,
   OrgAdminViewCompleteExamPage,
   Proctoring,
@@ -247,11 +249,11 @@ const router = createBrowserRouter([
         element: <ExamSetterDashBoardPage />,
         errorElement: <ErrorPage />,
       },
-      {
-        path: 'organization',
-        element: <OrganizationDashBoard />,
-        errorElement: <ErrorPage />,
-      },
+      // {
+      //   path: 'organization',
+      //   element: <OrganizationDashBoard />,
+      //   errorElement: <ErrorPage />,
+      // },
       {
         path: 'new_exam',
         element: (
@@ -272,7 +274,22 @@ const router = createBrowserRouter([
       {
         path: 'grading',
         element: <GradingSection/>
-      }
+      },
+      {
+        path: 'moderating',
+        children: [
+          {
+            index: true,
+            element: <Moderating />,
+            errorElement: <ErrorPage />,
+          },
+          {
+            path: 'review', 
+            element: <ModeratingExam />, 
+            errorElement: <ErrorPage />,
+          },
+        ], 
+      }, 
     ],
   },
   {
@@ -286,7 +303,7 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage />,
       },
       {
-        path: 'exam',
+        path: 'exam-summary',
         element: <ExamSummaryPage />,
         errorElement: <ErrorPage />,
       },

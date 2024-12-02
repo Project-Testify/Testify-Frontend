@@ -72,6 +72,7 @@ const MakeQuestions = () => {
     try {
       // Fetch the questions for the exam
       const response = await fetchQuestions(Number(examId));
+      console.log('Fetched questions:', response);
       const fetchedQuestions = response.data.questions || [];
 
       // If no questions are fetched, set questions to an empty array

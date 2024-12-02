@@ -413,11 +413,6 @@ export const OrganizationRequest = () => {
                     value: modalData?.state,
                   },
                   {
-                    key: '6',
-                    label: 'Bio',
-                    value: modalData?.bio,
-                  },
-                  {
                     key: '7',
                     label: 'Website',
                     value: modalData?.website,
