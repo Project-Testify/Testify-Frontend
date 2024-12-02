@@ -34,24 +34,62 @@
     color: #000;
 }
 
-
-/* .question-container{
-    padding: '1px 24px';
-    background: #FFF;
-    border-radius: 4;
-}; */
-
-/* MCQ Question View */
-.question-container {
-    padding: 1px 24px;
-    background: #FFF;
-    border-radius: 8px;
+/* Highlight the current question with a blue border */
+.question-box.current {
+    border: 2px solid #000000;
 }
-.question-style{
+
+/* Optional: Hover effect for current question */
+.question-box.current:hover {
+    background-color: #e6f1ff;
+}
+
+/* Time Container Styles */
+.time-container {
+    padding: 24px;
+    background: #f7f7f7; /* Light background */
+    border-radius: 8px;
+  }
+  
+  .time-content {
+    padding: 24px;
+    background: #fff;
+    border-radius: 8px;
+  }
+  
+  .countdown-timer {
+    text-align: center;
+    padding: 12px 24px;
+    background: #f0f0f0;
+    border: 2px solid #6D76ED;
+    border-radius: 8px;
+  }
+  
+  .topic {
+    display: block;
+    margin-bottom: 8px;
     font-size: 16px;
     font-weight: bold;
-    margin-top: 0px;
-}
+    text-align: center;
+  }
+  
+  .submit-button-container {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .submit-button {
+    background-color: #6D76ED;
+    border-color: #6D76ED;
+    color: #fff;
+  }
+  
+  .submit-button:hover {
+    background-color: #5748b4;
+    border-color: #5748b4;
+  }
+  
+
 /* 
 .summary-container {
     padding: 16px 16px;

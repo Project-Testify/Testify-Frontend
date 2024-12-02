@@ -5,3 +5,6 @@ export {Proctoring} from './Proctoring.tsx';
 export {GradingSection} from './Grading.tsx';
 export {Moderating} from './Moderating.tsx';
 export {ModeratingExam} from './ModeratingExam.tsx';
+
+export {ExamSetterGrade} from './Grade.tsx';
+

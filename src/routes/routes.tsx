@@ -5,6 +5,7 @@ import {
   HomePage,
   OrgAdminDashBoard as OrgAdminPage,
   ExamSetterDashBoardPage,
+  ExamSetterGrade,
   UserProfileDetailsPage,
   UserProfileActionsPage,
   UserProfileActivityPage,
@@ -38,11 +39,12 @@ import {
   // examSetter
   OrganizationDashBoard,
   CandidateExpiredExams,
-  Proctoring,
+  ExamMcqResults,
   Moderating,
   ModeratingExam,
   OrgAdminCompleteExamPage,
   OrgAdminViewCompleteExamPage,
+  Proctoring
 } from '../pages';
 
 import {
@@ -277,6 +279,10 @@ const router = createBrowserRouter([
           },
         ], 
       }, 
+      {
+        path: 'exam/grading',
+        element: <ExamSetterGrade />,
+      }
     ],
   },
   {
@@ -290,7 +296,7 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage />,
       },
       {
-        path: 'exam',
+        path: 'exam-summary',
         element: <ExamSummaryPage />,
         errorElement: <ErrorPage />,
       },
@@ -357,6 +363,11 @@ const router = createBrowserRouter([
       {
         path: 'exam/feedback',
         element: <ExamFeedback />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: 'exam/mcq-results',
+        element: <ExamMcqResults />,
         errorElement: <ErrorPage />,
       },
     ],

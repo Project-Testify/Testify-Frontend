@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Row, Col, Button, Spin, message } from 'antd';
 import ExamDetailCard from '../../components/Card/ExamDetailCard';
 import ExamStatusCard from '../../components/Card/ExamStatusCard';
@@ -12,13 +12,13 @@ import { HomeOutlined, ContainerOutlined, FileTextOutlined, ClockCircleOutlined,
 export const ExamSummaryPage = () => {
     const navigate = useNavigate();
 
-    // Extract id from query parameters
-    const urlParams = new URLSearchParams(window.location.search);
-    const id = urlParams.get('id');  // Get the 'id' parameter from the query string
+    const location = useLocation();
+    const { id } = location.state || {};
 
     const [examData, setExamData] = useState<{
         title: string;
         description: string;
+        examType: string;
         duration: number;
         topics: string;
         instructions: string;
@@ -26,8 +26,9 @@ export const ExamSummaryPage = () => {
         endTime: string;
         status: string;
     } | null>(null);
-    
+
     const [loading, setLoading] = useState(true);
+    const [sessionExists, setSessionExists] = useState(false);
 
     useEffect(() => {
         const fetchExamDetails = async () => {
@@ -38,41 +39,77 @@ export const ExamSummaryPage = () => {
             }
 
             try {
-                // Get the JWT token from sessionStorage
                 const token = sessionStorage.getItem('accessToken');
-        
-                // Ensure the token is available
                 if (!token) {
                     console.error('No JWT token found. Please log in.');
                     message.error('You need to log in to view the exam details.');
                     return;
                 }
-        
-                // Construct the full URL for the exam details endpoint
+
                 const url = `http://localhost:8080/api/v1/candidate/exams/${id}`;
-        
-                // Make the GET request using axios with the Authorization header
                 const response = await axios.get(url, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
-                    },
+                    headers: { 'Authorization': `Bearer ${token}` },
                 });
-        
-                // Set the fetched exam data in the state
+
                 setExamData(response.data);
             } catch (error) {
                 console.error('Error fetching exam details:', error);
                 message.error('Failed to load exam details. Please try again.');
             } finally {
-                setLoading(false); // Set loading state to false after the request completes
+                setLoading(false);
+            }
+        };
+
+        const checkActiveSession = async () => {
+            try {
+                // Mock the response for active session check
+                const response = { data: { active: false } }; // Mocking as no API exists
+                setSessionExists(response.data.active);
+            } catch (error) {
+                console.error('Error checking active session:', error);
+                setSessionExists(false);
             }
         };
 
         fetchExamDetails();
+        checkActiveSession();
     }, [id]);
 
-    const handleStartExam = () => {
-        navigate(`/candidate/exam/start/${id}`);
+    const handleStartOrContinueExam = async (examName: string) => {
+        const token = sessionStorage.getItem('accessToken');
+        if (!token) {
+            message.error('You need to log in to start or continue the exam.');
+            return;
+        }
+
+        if (sessionExists) {
+            // Navigate to continue exam
+            navigate(`/candidate/exam/view`, {
+                state: { id, name: examName },
+            });
+        } else {
+            // Create a new session
+            try {
+                const response = await axios.post(
+                    'http://localhost:8080/api/v1/exam/start',
+                    { examId: id },
+                    { headers: { 'Authorization': `Bearer ${token}` } }
+                );
+
+                if (response.status === 200 || response.status === 201) {
+                    message.success('Session started successfully.');
+                    setSessionExists(true);
+                    navigate(`/candidate/exam/view`, {
+                        state: { id, name: examName },
+                    });
+                } else {
+                    throw new Error('Failed to start session');
+                }
+            } catch (error) {
+                console.error('Error starting session:', error);
+                message.error('Could not start the exam. Please try again.');
+            }
+        }
     };
 
     if (loading) {
@@ -86,6 +123,7 @@ export const ExamSummaryPage = () => {
     const {
         title,
         description,
+        examType,
         duration,
         topics,
         instructions,
@@ -100,13 +138,11 @@ export const ExamSummaryPage = () => {
 
     const formatDateTime = (dateTime: any) => {
         const date = new Date(dateTime);
-        
         const year = date.getFullYear();
         const month = String(date.getMonth() + 1).padStart(2, '0');
         const day = String(date.getDate()).padStart(2, '0');
         const hours = String(date.getHours()).padStart(2, '0');
         const minutes = String(date.getMinutes()).padStart(2, '0');
-        
         return `${year}-${month}-${day}  ${hours}:${minutes}`;
     };
 
@@ -145,7 +181,12 @@ export const ExamSummaryPage = () => {
                             <ExamDetailCard
                                 icon={<FileTextOutlined />}
                                 title="Type"
-                                content="Multiple Choice"
+                                content={
+                                    examType === 'MCQ' ? 'Multiple Choice' :
+                                    examType === 'ESSAY' ? 'Essay' :
+                                    examType === 'MIXED' ? 'Mixed' :
+                                    examType
+                                }
                             />
                         </Col>
                         <Col span={11}>
@@ -178,8 +219,14 @@ export const ExamSummaryPage = () => {
                         </Col>
                         <Col span={24}>
                             <div style={{ marginTop: '8px', textAlign: 'center' }}>
-                                <Button type="primary" size="large" style={{ width: '150px' }} disabled={isButtonDisabled} onClick={handleStartExam}>
-                                    Start Exam
+                                <Button
+                                    type="primary"
+                                    size="large"
+                                    style={{ width: '150px' }}
+                                    disabled={isButtonDisabled}
+                                    onClick={() => handleStartOrContinueExam(title)}
+                                >
+                                    {sessionExists ? 'Continue Exam' : 'Start Exam'}
                                 </Button>
                             </div>
                         </Col>

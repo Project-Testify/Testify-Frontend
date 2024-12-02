@@ -16,6 +16,7 @@ import { Link, useLocation } from 'react-router-dom';
 import {
   PATH_EXAM,
   PATH_USER_PROFILE,
+  PATH_EXAM_SETTER
 } from '../../../constants';
 import { PATH_HOME, PATH_TUTOR } from '../../../constants/routes.ts';
 
@@ -87,12 +88,18 @@ const examSetterPersonal: MenuProps['items'] = [
       null
     ),
     
-  ]),
+  
 
   getItem(<Link to={PATH_TUTOR.grading}>Grading</Link>,'Grading',<FontAwesomeIcon icon={faClipboard}/>),
   getItem(<Link to={PATH_TUTOR.proctoring}>Proctoring</Link>,'Grading',<FontAwesomeIcon icon={faEye}/>),
   getItem(<Link to={PATH_TUTOR.moderating}>Moderating</Link>,'Moderating',<FontAwesomeIcon icon={faClipboardList}/>),
 
+    getItem(
+      <Link to={'/examSetter/exam/grading'}>Grading</Link>,
+      'grading',
+      null
+    ),
+  ]),
   // getItem('Results', 'results', <BarChartOutlined />, [
   //   getItem(<Link to={PATH_EXAM.exam}>All Exams</Link>, 'all_exams', null),
   //   getItem(<Link to={PATH_EXAM.exam + '/new'}>New Exams</Link>, 'new_exam', null),
@@ -145,20 +152,20 @@ const examSetterPersonal: MenuProps['items'] = [
 //     null
 //   ),
 
-//   getItem('Exams', 'exams', <BankOutlined />, [
-//     getItem(<Link to={PATH_EXAM.exam}>All Exams</Link>, 'all_exams', null),
-//     getItem(
-//       <Link to={PATH_EXAM.exam + '/new'}>New Exams</Link>,
-//       'new_exam',
-//       null
-//     ),
-//     getItem(
-//       <Link to={PATH_EXAM.exam + '/grading'}>Grading</Link>,
-//       'grading',
-//       null
-//     ),
-//   ]),
-// ];
+  getItem('Exams', 'exams', <BankOutlined />, [
+    getItem(<Link to={PATH_EXAM.exam}>All Exams</Link>, 'all_exams', null),
+    getItem(
+      <Link to={PATH_EXAM.exam + '/new'}>New Exams</Link>,
+      'new_exam',
+      null
+    ),
+    getItem(
+      <Link to={PATH_EXAM_SETTER.exam + '/grading'}>Grading</Link>,
+      'grading',
+      null
+    ),
+  ]),
+];
 
 const rootSubmenuKeys = ['dashboards', 'corporate', 'user-profile'];
 

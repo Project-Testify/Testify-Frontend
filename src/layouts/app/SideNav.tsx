@@ -5,6 +5,7 @@ import {
   BankOutlined,
   BarChartOutlined,
   DashboardOutlined,
+  FundOutlined,
 } from '@ant-design/icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -290,12 +291,17 @@ const adminItems: MenuProps['items'] = [
     'Org',
     <BankOutlined />,
   ),
+  getItem(
+    <Link to={PATH_ADMIN.userReports}>Insights</Link>,
+    'insights',
+    <FundOutlined />,
+  ),
   // reports
-  getItem('Reports', 'reports', <BarChartOutlined />, [
-    getItem(<Link to={PATH_ADMIN.examReports}>Exam Reports</Link>, 'examReports', null),
-    getItem(<Link to={PATH_ADMIN.userReports}>User Reports</Link>, 'userReports', null),
-    getItem(<Link to={PATH_ADMIN.organizationReports}>Exam Setter Reports</Link>, 'organizationReports', null),
-  ]),
+  // getItem('Reports', 'reports', <BarChartOutlined />, [
+  //   getItem(<Link to={PATH_ADMIN.examReports}>Exam Reports</Link>, 'examReports', null),
+  //   getItem(<Link to={PATH_ADMIN.userReports}>User Reports</Link>, 'userReports', null),
+  //   getItem(<Link to={PATH_ADMIN.organizationReports}>Exam Setter Reports</Link>, 'organizationReports', null),
+  // ]),
 ];
 
 const rootSubmenuKeys = ['dashboards', 'corporate', 'user-profile'];
