@@ -5,6 +5,7 @@ import {
   HomePage,
   OrgAdminDashBoard as OrgAdminPage,
   ExamSetterDashBoardPage,
+  ExamSetterGrade,
   UserProfileDetailsPage,
   UserProfileActionsPage,
   UserProfileActivityPage,
@@ -278,6 +279,10 @@ const router = createBrowserRouter([
           },
         ], 
       }, 
+      {
+        path: 'exam/grading',
+        element: <ExamSetterGrade />,
+      }
     ],
   },
   {

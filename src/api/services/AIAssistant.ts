@@ -27,6 +27,18 @@ export interface MCQQuestionResponse {
     correct_answer: string;
 }
 
+export interface GradeQuestionRequest {
+    question: string;
+    answer: string;
+    valid_points: string[];
+}
+
+export interface GradeQuestionResponse {
+    correct_points: string[];
+    incorrect_points: string[];
+}
+
+
 // upload file to AI assistant
 export const uploadFiles = (files: File[], examId: string): Promise<AxiosResponse<Response>> => {
     const formData = new FormData();
@@ -52,3 +64,7 @@ export const generateEssayQuestion = (data: GenerateEssayQuestionRequest): Promi
 export const generateMCQQuestion = (data: GenerateMCQQuestionRequest): Promise<AxiosResponse<MCQQuestionResponse>> => {
     return assistantApi.post<MCQQuestionResponse>('/generate-question/mcq/', data);
 };
+
+export const gradeQuestion = (data: GradeQuestionRequest): Promise<AxiosResponse<GradeQuestionResponse>> => {
+    return assistantApi.post<GradeQuestionResponse>('/grade/', data);  // Send the data to the backend
+}
