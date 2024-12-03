@@ -343,7 +343,7 @@ export const ExamMcqResults = () => {
               const userAnswer = examResults.find(
                 (answer) => Number(answer.questionId) === question.questionId
               );
-              const userSelectedOptionId = userAnswer ? userAnswer.optionId : null;
+              const userSelectedOptionId = userAnswer ? Number(userAnswer.optionId) : null;
 
               return (
                 <Card
@@ -376,7 +376,7 @@ export const ExamMcqResults = () => {
                   <ul className="option-list">
                     {question.options.map((option, optIndex) => {
                       const isCorrect = option.correct;
-                      const isSelected = option.optionId === userSelectedOptionId;
+                      const isSelected = Number(option.optionId) === userSelectedOptionId;
 
                       let optionClass = '';
                       if (isCorrect) {

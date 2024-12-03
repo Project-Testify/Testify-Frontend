@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { QuestionIndexes } from './QuestionIndexes';
 import { CountdownTimer } from './CountdownTimer';
 import axios from 'axios';
+import { useEffect } from 'react';
 import './styles.css';
 
 interface TimeContainerProps {
@@ -24,9 +25,8 @@ export const TimeContainer = ({
 
   // Calculate remaining time
   const endTime = sessionStorage.getItem('endTime');
-  console.log('endTime:', endTime);
-  const remainingTimeInMilliseconds = 
-  endTime ? new Date(endTime).getTime() - new Date().getTime() : 0;
+  const remainingTimeInMilliseconds =
+    endTime ? new Date(endTime).getTime() - new Date().getTime() : 0;
 
   const remainingTimeInSeconds = Math.max(0, Math.floor(remainingTimeInMilliseconds / 1000));
   const remainingMinutes = Math.floor(remainingTimeInSeconds / 60);
@@ -63,6 +63,13 @@ export const TimeContainer = ({
       message.error('Could not submit the exam. Please try again.');
     }
   };
+
+  // Use effect to automatically submit the exam when time expires
+  useEffect(() => {
+    if (remainingTimeInSeconds <= 0) {
+      handleSubmitExam();
+    }
+  }, [remainingTimeInSeconds]);
 
   return (
     <Col span={6} push={18} className="time-container">
