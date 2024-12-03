@@ -107,6 +107,7 @@ export const ExamSummaryPage = () => {
                     sessionStorage.setItem('endTime', response.data.endTime);
                     sessionStorage.setItem('examType', examData?.examType || '');
                     sessionStorage.setItem('examId', id);
+                    sessionStorage.setItem('examName', examName);
     
                     // Navigate to the exam view page
                     navigate(`/candidate/exam/view`, {
