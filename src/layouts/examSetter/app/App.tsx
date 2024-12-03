@@ -65,13 +65,13 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
 
   // const organization = getOrganaization();
   const organization = undefined;
-  // const loggedInUser = getLoggedInUser();
-  // if (!loggedInUser) {
-  //   message.error("You must be logged in to perform this action.");
-  //   return;
-  // }
-  // const setterId = loggedInUser.id;
-  const setterId = 1;
+  const loggedInUser = getLoggedInUser();
+  if (!loggedInUser) {
+    message.error("You must be logged in to perform this action.");
+    return;
+  }
+  const setterId = loggedInUser.id;
+  // const setterId = 1;
 
   const [selectedOrganization, setSelectedOrganization] = useState<OrganizationResponse | null>(null);
   const [setterOrganizations, setSetterOrganizations] = useState<OrganizationResponse[]>([]);
