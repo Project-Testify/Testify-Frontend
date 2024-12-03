@@ -151,7 +151,32 @@ export const ExamViewPage = () => {
     };
 
     fetchQuestions();
-  }, [id]);
+
+    // Request fullscreen on load
+    const requestFullscreen = () => {
+      const elem = document.documentElement;
+      if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+      }
+    };
+
+    // Handle fullscreen change
+    const onFullscreenChange = () => {
+      if (!document.fullscreenElement) {
+        console.log('Exited fullscreen');
+      }
+    };
+
+    document.addEventListener('fullscreenchange', onFullscreenChange);
+    document.addEventListener('webkitfullscreenchange', onFullscreenChange);
+
+    requestFullscreen();
+
+    return () => {
+      document.removeEventListener('fullscreenchange', onFullscreenChange);
+      document.removeEventListener('webkitfullscreenchange', onFullscreenChange);
+    };
+  }, [id, token]);
 
   if (loading) {
     return (
@@ -166,6 +191,7 @@ export const ExamViewPage = () => {
   const isUnanswered = !answeredIndexes.includes(currentQuestionIndex + 1);
 
   return (
+    
     <div style={{ padding: '20px' }}>
       <Helmet>
         <title>Testify | Exam</title>
