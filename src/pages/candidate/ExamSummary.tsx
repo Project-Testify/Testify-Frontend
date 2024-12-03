@@ -84,9 +84,9 @@ export const ExamSummaryPage = () => {
     
         if (sessionExists) {
             // Navigate to continue exam
-            navigate(`/candidate/exam/view`, {
-                state: { id, name: examName },
-            });
+            navigate('/candidate/exam/view', {
+                state: { id, name: examName, examType: examData?.examType },
+              });
         } else {
             // Create a new session
             try {
@@ -103,6 +103,8 @@ export const ExamSummaryPage = () => {
                     // Store the sessionId in sessionStorage
                     const sessionId = response.data.sessionId;  // Assuming the response structure contains the sessionId
                     sessionStorage.setItem('sessionId', sessionId);
+                    sessionStorage.setItem('examType', examData?.examType || '');
+                    sessionStorage.setItem('examId', id);
     
                     // Navigate to the exam view page
                     navigate(`/candidate/exam/view`, {

@@ -24,22 +24,30 @@ export const TimeContainer = ({
 
   const handleSubmitExam = async () => {
     const token = sessionStorage.getItem('accessToken');
-    const sessionId = sessionStorage.getItem('sessionId'); // Retrieve sessionId from sessionStorage
+    const sessionId = sessionStorage.getItem('sessionId');
+    const examType = sessionStorage.getItem('examType');
     if (!token || !sessionId) {
       message.error('Failed to submit exam. Please try again.');
       return;
     }
-  
+    
+
     try {
       const response = await axios.put(
         `http://localhost:8080/api/v1/exam/${sessionId}/submit`,
         {},
         { headers: { Authorization: `Bearer ${token}` } }
       );
-  
+
       if (response.status === 200) {
         message.success('Exam submitted successfully.');
-        navigate('/candidate/exam/feedback');
+
+        // Navigate based on exam type from state
+        if (examType === 'MCQ') {
+          navigate('/candidate/exam/mcq-results');
+        } else {
+          navigate('/candidate/exam/feedback');
+        }
       }
     } catch (error) {
       console.error('Error submitting exam:', error);

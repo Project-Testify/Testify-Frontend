@@ -222,7 +222,7 @@ export const ExamViewPage = () => {
             length={500}
             onNext={handleNext}
             onPrevious={handlePrevious}
-            onAnswer={(answer: string) => handleAnswered(answer, currentQuestion.questionId)} // Pass both answer and questionId
+            onAnswer={(answer: string) => handleAnswered(answer, currentQuestion.questionId)} 
             onClearSelection={handleClearSelection}
             selectedAnswer={selectedAnswer}
             disableNext={isLastQuestion}
