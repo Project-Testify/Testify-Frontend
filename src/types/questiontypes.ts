@@ -8,14 +8,16 @@ interface McqOption {
   }
 
   export interface McqQuestion {
+    questionId: number;
     questionText: string;
-    questionType: string;
+    questionType: "MCQ";
     options: McqOption[];
   }
 
 export interface EssayQuestion {
+    questionId: number;
     questionText: string;
-    questionType: string;
+    questionType: "Essay";
     coverPoints: Array<string>;
 }
 
