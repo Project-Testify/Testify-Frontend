@@ -53,7 +53,7 @@ const initialData: GradingQuestion[] = [
     //   correct_points: ["Germany's invasion of Poland"],
     //   incorrect_points: ["The United States' attack on Japan"],
     // },
-    marks: 5,
+    marks: 0,
     maxMarks: 10,
   },
   {
@@ -67,7 +67,7 @@ const initialData: GradingQuestion[] = [
     //   correct_points: ["The issue of slavery"],
     //   incorrect_points: ["The Southern states' belief in the necessity of a strong central government"],
     // },
-    marks: 5,
+    marks: 0,
     maxMarks: 10,
   },
   {
@@ -81,7 +81,7 @@ const initialData: GradingQuestion[] = [
     //   correct_points: ["The establishment of the Napoleonic Code"],
     //   incorrect_points: ["His successful invasion and permanent conquest of Russia"],
     // },
-    marks: 5,
+    marks: 0,
     maxMarks: 10,
   },
   {
@@ -98,7 +98,7 @@ const initialData: GradingQuestion[] = [
     //     "Foreign countries invading France and causing rebellion",
     //   ],
     // },
-    marks: 5,
+    marks: 0,
     maxMarks: 10,
   },
   {
@@ -196,7 +196,7 @@ const highlightTextWithFeedback = (
 
 
 const ExamSetterGrade = () => {
-  const [data, setData] = useState<GradingQuestion[]>(initialData);
+  const [data, setData] = useState<GradingQuestion[]>([]);
 
   const [error, setError] = useState<string | null>(null);
 
@@ -209,33 +209,38 @@ const ExamSetterGrade = () => {
 // 
 useEffect(() => {
   const fetchEssayDetails = async () => {
-      setLoading(true);
-      setError(null);
-      
-      getEssayDetails(examID, userID).then((response) =>{
-        const essayDetails = response.data.map((question) => ({
-          // id: question.id,
-          id:1,
-          questionText: question.questionText,
-          userAnswer: question.userAnswer,
-          coverPoints: question.coverPoints.map((point) => ({
-            coverPointText: point.coverPointText,
-            marks: point.marks,
-          })),
-          marks: 0,
-          maxMarks: question.coverPoints.reduce((total, point) => total + point.marks, 0),
-        }));
-        setData(essayDetails);
-        setLoading(false);
-      })
+    setLoading(true);
+    setError(null);
 
-      fetchEssayDetails();
-
-
-    
-
+    try {
+      const response = await getEssayDetails(examID, userID);
+      const essayDetails = response.data.map(question => ({
+        id: question.id, // use actual question ID if available
+        questionText: question.questionText,
+        userAnswer: question.userAnswer,
+        coverPoints: question.coverPoints.map(point => ({
+          coverPointText: point.coverPointText,
+          marks: point.marks,
+        })),
+        marks: 0, // Initialize marks to 0
+        maxMarks: question.coverPoints.reduce((total, point) => total + point.marks, 0),
+      }));
+      setData(essayDetails);
+    } catch (error) {
+      console.error("Failed to fetch essay details:", error);
+      setError("Failed to load essay details.");
+      // Load default data or maintain the existing state
+      // setData(initialData); // Assuming 'initialData' is your predefined fallback dataset
+      setTimeout(
+        () => setData(initialData), // Load default data after 3 seconds
+        1000
+      );
+    }
+    setLoading(false);
   };
-}, [examID, userID]);
+
+  fetchEssayDetails();
+}, [examID, userID]); // Dependency array ensures this effect runs only when examID or userID changes
 
 
 
