@@ -1,4 +1,4 @@
-import { HomeOutlined, BankOutlined, PlusOutlined } from "@ant-design/icons";
+import { HomeOutlined, BankOutlined, PlusOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 import { Button, Card, Col, Input, message, Modal, Space, Table, Tabs } from "antd";
 import { Helmet } from "react-helmet-async";
 import { PageHeader } from "../../components";
@@ -7,13 +7,24 @@ import { addExamSetterService, getExamSetters, getInvitations } from "../../api/
 import { getLoggedInUser } from "../../utils/authUtils";
 import TabPane from "antd/es/tabs/TabPane";
 import { AxiosResponse } from "axios";
+import HomeNav from '../../components/HomeNav';
+import { removeExamSetterFromOrganization } from "../../api/services/ExamSetter";
 
 export const OrgAdminExamSetters = () => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [examSetterEmail, setExamSetterEmail] = useState("");
-  const [invitations, setInvitations] = useState([]);
+  interface Invitation {
+    email: string;
+    invitationLink: string;
+    isAccepted: boolean;
+  }
+
+  const [invitations, setInvitations] = useState<Invitation[]>([]);
   const [examSetters, setExamSetters] = useState([]);
+
+  const { confirm } = Modal;
+
 
   const loggedInUser = getLoggedInUser();
   if (!loggedInUser) {
@@ -32,6 +43,8 @@ export const OrgAdminExamSetters = () => {
         message.success(response.data.message || "Exam setter invited successfully!");
         setOpen(false);
         setExamSetterEmail("");
+
+        fetchInvitations();
       } else {
         message.error(response.data.message || "Failed to invite exam setter. Please try again.");
       }
@@ -54,6 +67,7 @@ export const OrgAdminExamSetters = () => {
   const fetchInvitations = async () =>{
     try{
       const response : AxiosResponse = await getInvitations(organizationId);
+      console.log(response.data);
       setInvitations(response.data);
     }catch{
       console.log("Error fetching Exam setter invitations");
@@ -79,15 +93,43 @@ export const OrgAdminExamSetters = () => {
   //   ]);
   // }, []);
 
+const handleRemoveExamSetter = (record: any) => async () => {
+  confirm({
+    title: "Are you sure you want to remove this exam setter?",
+    icon: <ExclamationCircleOutlined />,
+    content: `${record.firstName} ${record.lastName} (${record.email}) will be removed from the organization.`,
+    okText: "Yes, Remove",
+    okType: "danger",
+    cancelText: "Cancel",
+    onOk: async () => {
+      try {
+        const response = await removeExamSetterFromOrganization(record.id, organizationId);
+        if (response.data.success) {
+          message.success(response.data.message || "Exam setter removed successfully!");
+          fetchExamSetters();
+        } else {
+          message.error(response.data.message || "Failed to remove exam setter. Please try again.");
+        }
+      } catch (error) {
+        message.error("An error occurred while removing the exam setter. Please try again.");
+      }
+    },
+    onCancel: () => {
+      console.log("Remove action canceled.");
+    },
+  });
+};
+
   const columnsInvitations = [
     { title: 'Email', dataIndex: 'email', key: 'email' },
     { title: 'Invitation Link', dataIndex: 'invitationLink', key: 'invitationLink', render: (text: string ) => <a href={text}>{text}</a> },
-    { title: 'Accepted', dataIndex: 'isAccepted', key: 'isAccepted', render: (accepted: any) => (accepted ? "Yes" : "No") },
+    { title: 'Accepted', dataIndex: 'accepted', key: 'accepted', render: (accepted: any) => (accepted ? "Yes" : "No") },
   ];
 
   const columnsExamSetters = [
     { title: 'Name', render: (record: any) => `${record.firstName} ${record.lastName}`, key: 'name' },
     { title: 'Email', dataIndex: 'email', key: 'email' },
+    { title: 'Actions', key: 'actions', render: (_text:any ,record: any) => <Button danger type="primary" onClick={handleRemoveExamSetter(record)}>Remove</Button> },
   ];
 
   return (
