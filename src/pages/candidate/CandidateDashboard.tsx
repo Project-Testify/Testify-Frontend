@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react';
+import { Modal, Button } from 'antd';
 import { Helmet } from 'react-helmet-async';
 import { assets } from '../../assets';
 import { ExamStatCard } from '../../components';
@@ -13,9 +15,8 @@ import {
   Image,
   Tooltip,
 } from 'antd';
-
 import { getLoggedInUser } from '../../utils/authUtils';
-import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { getCandidateExams } from '../../api/services/candidate';
 import { Exam } from '../../types';
 import moment from 'moment';
@@ -23,38 +24,32 @@ import { render } from 'react-dom';
 import { toLower } from 'lodash';
 
 export const CandidateDashboard = () => {
-  const [exams, setExams] = useState<any>([]);
+  const [isModalVisible, setIsModalVisible] = useState(false);const [exams, setExams] = useState<any>([]);
   const [data, setData] = useState<any>([]);
   const user = getLoggedInUser();
   const candidateName = user?.firstName;
+  const navigate = useNavigate();
 
-
-
-  // Fetch candidate exams
+  // Example API call simulation
   useEffect(() => {
-    const fetchCandidateExams = async () => {
-      const response = await getCandidateExams();
-      if (response.status === 200) {
-        setExams(response.data);
+    // Simulate checking for an ongoing exam
+    const checkOngoingExam = async () => {
+      const ongoingExam = true; // Replace this with actual API call
+      if (ongoingExam) {
+        setIsModalVisible(false);
       }
     };
-    fetchCandidateExams();
+    checkOngoingExam();
   }, []);
 
-  // Transform exams into table data
-  useEffect(() => {
-    const datatable = exams.map((exam: any) => ({
-      key: exam.id,
-      title: exam.title,
-      orgName: exam.organization.name,
-      startDate: moment(exam.startTime).format('YYYY-MM-DD'),
-      status: exam.status, // Uncomment or update logic as needed
-    }));
-    setData(datatable);
-  }, [exams]);
+  const handleOk = () => {
+    navigate('/exam/view'); // Navigate to the exam view page
+  };
 
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
 
-  // get the data for the exam stat card
   const examData = [
     { type: 'Ongoing', value: exams.filter((exam: any) => toLower(exam.status) === 'ongoing').length },
     { type: 'Upcoming', value: exams.filter((exam: any) => toLower(exam.status) === 'upcoming').length },
@@ -148,6 +143,35 @@ export const CandidateDashboard = () => {
       <Helmet>
         <title>Candidate Dashboard</title>
       </Helmet>
+
+      <Modal
+        title="Ongoing Exam"
+        visible={isModalVisible}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        footer={[
+          <Button key="cancel" onClick={handleCancel} style={{ width: '100px' }}>
+            Cancel
+          </Button>,
+          <Button key="proceed" type="primary" onClick={handleOk} style={{ width: '100px' }}>
+            Go to Exam
+          </Button>,
+        ]}
+        centered
+        width={600}
+        style={{
+          fontFamily: 'Arial, sans-serif',
+        }}
+        bodyStyle={{
+          padding: '20px',
+          fontSize: '20px',
+          color: '#333',
+        }}
+      >
+        <Typography.Text>
+          You have an ongoing exam. Would you like to continue and view the exam details?
+        </Typography.Text>
+      </Modal>
 
       <Row
         gutter={[
