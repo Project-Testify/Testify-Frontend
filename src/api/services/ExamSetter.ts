@@ -21,3 +21,7 @@ export const getProctoringExams = (proctorId:number, organizationId:number): Pro
 export const getProctoringCandidates = (examId:number): Promise<AxiosResponse<CandidateResponse[]>> => {
     return api.get<CandidateResponse[]>(`/exam-setter/${examId}/candidates`);
 }
+
+export const addProctorComment = (candidateId:number, examId:number, content:string): Promise<AxiosResponse<any>> => {
+    return api.post<any>(`/exam-setter/${candidateId}/${examId}/proctorComments`, content);
+}

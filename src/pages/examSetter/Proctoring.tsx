@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import { Table, Button, List, Avatar, Modal, Tooltip, message } from "antd";
-import { VideoCameraOutlined, EyeOutlined, WarningOutlined } from "@ant-design/icons";
+import { Table, Button, List, Avatar, Modal, Tooltip, message, Input } from "antd";
+import { VideoCameraOutlined, EyeOutlined, WarningOutlined, CommentOutlined } from "@ant-design/icons";
 import { CandidateResponse, ExamResponse } from "../../api/types";
-import { getProctoringCandidates, getProctoringExams } from "../../api/services/ExamSetter";
+import { getProctoringCandidates, getProctoringExams, addProctorComment } from "../../api/services/ExamSetter";
 import { getLoggedInUser } from "../../utils/authUtils";
 
 export const Proctoring = () => {
@@ -11,44 +11,41 @@ export const Proctoring = () => {
   const [candidates, setCandidates] = useState<CandidateResponse[]>([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [loading, setLoading] = useState(true);
-  
+  const [commentModalVisible, setCommentModalVisible] = useState(false);
+  const [currentCandidate, setCurrentCandidate] = useState<CandidateResponse | null>(null);
+  const [comment, setComment] = useState("");
+  const [isCandidateModalVisible, setIsCandidateModalVisible] = useState(false);
+  const [candidateLoading, setCandidateLoading] = useState(false);
+  const [candidateDetails, setCandidateDetails] = useState<CandidateResponse | null>(null);
+
   const loggedInUser = getLoggedInUser();
   if (!loggedInUser) {
     message.error("You must be logged in to perform this action.");
-    return;
+    return null;
   }
-  
+
   const proctorId = loggedInUser.id; 
   const organizationId = Number(sessionStorage.getItem("orgId")); 
 
   const fetchExams = async () => {
     try {
       const response = await getProctoringExams(proctorId, organizationId);
-      console.log('Fetched exams:', response.data);
       setExams(response.data);
-      console.log('exams',exams);
-      
     } catch (error) {
       console.error("Error fetching exams:", error);
     } finally {
       setLoading(false);
     }
   };
-  
+
   useEffect(() => {
     fetchExams();
   }, []);
-  
 
   const handleExamClick = async (exam: ExamResponse) => {
     setSelectedExam(exam);
-    try {
-      const response = await getProctoringCandidates(exam.id);
-      setCandidates(response.data);
-      setIsModalVisible(true);
-    } catch (error) {
-      console.error("Error fetching candidates:", error);
-    }
+    setCandidates(exam.candidates);
+    setIsModalVisible(true);
   };
 
   const handleSendWarning = (candidate: CandidateResponse) => {
@@ -58,11 +55,39 @@ export const Proctoring = () => {
     });
   };
 
+  const openCommentModal = (candidate: CandidateResponse) => {
+    setCurrentCandidate(candidate);
+    setComment("");
+    setCommentModalVisible(true);
+  };
+
+  const handleSubmitComment = async () => {
+    if (!currentCandidate || !selectedExam) {
+      message.error("Candidate or Exam data is missing.");
+      return;
+    }
+
+    try {
+      await addProctorComment(currentCandidate.id, selectedExam.id, comment);
+      message.success(`Comment added for ${currentCandidate.firstName}.`);
+    } catch (error) {
+      console.error("Error submitting comment:", error);
+      message.error("Failed to submit comment.");
+    } finally {
+      setCommentModalVisible(false);
+    }
+  };
+
+  const handleViewCandidate = (candidate: CandidateResponse) => {
+    //setCandidateLoading(true);
+    setCandidateDetails(candidate);
+    setIsCandidateModalVisible(true);
+  }
   const columns = [
     {
       title: "Exam Name",
-      dataIndex: "name",
-      key: "name",
+      dataIndex: "title",
+      key: "title",
       render: (text: string, record: ExamResponse) => (
         <Button type="link" onClick={() => handleExamClick(record)}>
           {text}
@@ -86,8 +111,8 @@ export const Proctoring = () => {
     },
     {
       title: "Time",
-      dataIndex: "time",
-      key: "time",
+      dataIndex: "startDatetime",
+      key: "startDatetime",
     },
   ];
 
@@ -99,6 +124,7 @@ export const Proctoring = () => {
         dataSource={exams}
         rowKey="id"
         pagination={false}
+        loading={loading}
       />
 
       <Modal
@@ -116,27 +142,66 @@ export const Proctoring = () => {
                 <Tooltip title="View Candidate" key="view">
                   <Button
                     icon={<EyeOutlined />}
-                    onClick={() => console.log("Viewing candidate:", candidate)}
+                    onClick={() => handleViewCandidate(candidate)}
                   />
                 </Tooltip>,
-                <Tooltip title="Send Warning" key="warning">
+                // <Tooltip title="Send Warning" key="warning">
+                //   <Button
+                //     icon={<WarningOutlined />}
+                //     danger
+                //     onClick={() => handleSendWarning(candidate)}
+                //   />
+                // </Tooltip>,
+                <Tooltip title="Add Comment" key="comment">
                   <Button
-                    icon={<WarningOutlined />}
-                    danger
-                    onClick={() => handleSendWarning(candidate)}
+                    icon={<CommentOutlined />}
+                    onClick={() => openCommentModal(candidate)}
                   />
                 </Tooltip>,
               ]}
             >
               <List.Item.Meta
-                // avatar={<Avatar src={candidate.avatar} />}
                 title={candidate.firstName}
-                // description={`Status: ${candidate.status}`}
               />
             </List.Item>
           )}
         />
       </Modal>
+
+      <Modal
+        title={`Add Comment for ${currentCandidate?.firstName}`}
+        visible={commentModalVisible}
+        onCancel={() => setCommentModalVisible(false)}
+        onOk={handleSubmitComment}
+      >
+        <Input.TextArea
+          rows={4}
+          value={comment}
+          onChange={(e) => setComment(e.target.value)}
+          placeholder="Enter your comment here..."
+        />
+      </Modal>
+
+      <Modal
+        title={`Details for ${candidateDetails?.firstName || "Candidate"}`}
+        visible={isCandidateModalVisible}
+        onCancel={() => setIsCandidateModalVisible(false)}
+        footer={null}
+      >
+        {candidateLoading ? (
+          <p>Loading candidate details...</p>
+        ) : candidateDetails ? (
+          <div>
+            <p><strong>Name:</strong> {candidateDetails.firstName} {candidateDetails.lastName}</p>
+            <p><strong>Email:</strong> {candidateDetails.email}</p>
+            
+            {/* Add more fields as needed */}
+          </div>
+        ) : (
+          <p>No details available.</p>
+        )}
+      </Modal>
+
     </div>
   );
 };
