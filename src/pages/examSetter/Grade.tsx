@@ -1,15 +1,12 @@
-import { Card, Table, Select, Button, message } from 'antd';
-import { useState } from 'react';
+import { Card, Table, Select, Button, message, Space } from 'antd';
+import { useEffect, useState } from 'react';
 
-import { gradeQuestion,
-  
-  
-
-
- } from '../../api/services/AIAssistant';
+import { gradeQuestion, GradeQuestionResponse } from '../../api/services/AIAssistant';
 
 
  import { getEssayDetails } from '../../api/services/grade';
+import { AxiosResponse } from 'axios';
+import { get } from 'lodash';
 
 interface CoverPoint {
   coverPointText: string; // Description of the point to cover
@@ -193,7 +190,41 @@ const highlightTextWithFeedback = (
 const ExamSetterGrade = () => {
   const [data, setData] = useState<GradingQuestion[]>(initialData);
 
+  const [error, setError] = useState<string | null>(null);
+
+  const examID = 1;
+  const userID = 1;
+
 // 
+useEffect(() => {
+  const fetchEssayDetails = async () => {
+      setLoading(true);
+      setError(null);
+      
+      getEssayDetails(examID, userID).then((response) =>{
+        const essayDetails = response.data.map((question) => ({
+          // id: question.id,
+          id:1,
+          questionText: question.questionText,
+          userAnswer: question.userAnswer,
+          coverPoints: question.coverPoints.map((point) => ({
+            coverPointText: point.coverPointText,
+            marks: point.marks,
+          })),
+          marks: 0,
+          maxMarks: question.coverPoints.reduce((total, point) => total + point.marks, 0),
+        }));
+        setData(essayDetails);
+        setLoading(false);
+      })
+
+      fetchEssayDetails();
+
+
+    
+
+  };
+}, [examID, userID]);
 
 
 
@@ -205,38 +236,49 @@ const ExamSetterGrade = () => {
   };
 
 
+  const [loading, setLoading] = useState(false);
 
 
-  const AIGrade = () => {
-    // Send initial data to the backend for grading one by one
-    data.forEach((question) => {
+
+
+  const AIGrade = async () => {
+    setLoading(true); // Start loading
+  
+    const gradingPromises = data.map((question) => {
       const requestData = {
         question: question.questionText,
         answer: question.userAnswer,
-        // valid_points: question.coverPoints,
         valid_points: question.coverPoints.map((point) => point.coverPointText),
       };
   
-      gradeQuestion(requestData)
+      return gradeQuestion(requestData)
         .then((response) => {
           const { correct_points, incorrect_points } = response.data;
-          // Use a functional update to ensure you're working with the most recent state
-          setData((currentData) => {
-            return currentData.map((item) =>
+          setData((currentData) =>
+            currentData.map((item) =>
               item.id === question.id
                 ? {
                     ...item,
                     feedback: { correct_points, incorrect_points },
                   }
                 : item
-            );
-          });
+            )
+          );
         })
         .catch((error) => {
           console.error("Failed to grade question", question.id, error);
         });
     });
+  
+    try {
+      await Promise.all(gradingPromises); // Wait for all grading to complete
+    } catch (error) {
+      console.error("An error occurred while grading all questions", error);
+    } finally {
+      setLoading(false); // Stop loading after all promises are resolved
+    }
   };
+  
   
 
 
@@ -281,19 +323,23 @@ const ExamSetterGrade = () => {
     },
   ];
 
+
+
   return (
     <Card
       style={{ width: "100%", marginTop: 16 }}
       title="Grading Exam"
       extra={
         <>
-        <Button type="primary" onClick={AIGrade}>
+        <Space>
+        <Button type="primary" onClick={AIGrade} loading={loading}>
           Grade with AI
           </Button>
 
         <Button type="primary" onClick={handleSubmit}>
           Submit Grades
         </Button>
+        </Space>
         </>
 
       }
