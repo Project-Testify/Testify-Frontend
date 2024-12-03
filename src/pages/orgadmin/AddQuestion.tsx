@@ -72,14 +72,17 @@ const McqForm = ({ form, loadQuestions }: { form: FormInstance, loadQuestions: (
 
       const response = await generateMCQQuestionList({
         text: values.generatePrompt,
-        examid:'ct',
+        examid: examId || 'ct',
         choices: values.numOptions,
         num_questions: values.numQuestionsToGenerate,
       });
-
+      
       if (response.data.success) {
-        const generatedQuestions = response.data.questions;
-
+        let generatedQuestions = response.data.questions;
+      
+        // Limit the number of generated questions to the requested amount
+        generatedQuestions = generatedQuestions.slice(0, values.numQuestionsToGenerate);
+      
         for (const question of generatedQuestions) {
           const mcqRequest: MCQRequest = {
             examId: Number(sessionStorage.getItem('examId')), // Ensure examId is a number
@@ -92,15 +95,15 @@ const McqForm = ({ form, loadQuestions }: { form: FormInstance, loadQuestions: (
             })),
             questionType: 'MCQ',
           };
-
+      
           await handleAddQuestionWithParameters({ ...mcqRequest, questionType: 'MCQ' });
-
         }
-
+      
         message.success('Questions generated and added successfully!');
       } else {
-        message.error('Failed to generate questions: ');
+        message.error('Failed to generate questions');
       }
+      
     } catch (error) {
       message.error('Failed to generate questions. Please try again.');
     } finally {
@@ -369,14 +372,16 @@ const EssayForm = ({ form, loadQuestions }: { form: FormInstance, loadQuestions:
 
       const response = await generateEssayQuestionList({
         text: values.generatePrompt,
-        examid: 'ct',
+        examid: examId || 'ct',
         num_questions: values.numQuestionsToGenerate,
       });
-
-
+      
       if (response.data.success) {
-        const generatedQuestions = response.data.questions;
-
+        let generatedQuestions = response.data.questions;
+      
+        // Limit the number of generated questions to the requested amount
+        generatedQuestions = generatedQuestions.slice(0, values.numQuestionsToGenerate);
+      
         for (const question of generatedQuestions) {
           const essayRequest: EssayRequest = {
             examId: Number(sessionStorage.getItem('examId')), // Ensure examId is a number
@@ -384,18 +389,18 @@ const EssayForm = ({ form, loadQuestions }: { form: FormInstance, loadQuestions:
             difficultyLevel: 'MEDIUM', // Or handle difficulty dynamically if required
             coveringPoints: question.coveringPoints.map((coverPoint: any) => ({
               coverPointText: coverPoint.coveringPointText,
-              marks: coverPoint.marks
+              marks: coverPoint.marks,
             })),
           };
-
+      
           await handleAddEssayWithParameters(essayRequest);
-
         }
-
+      
         message.success('Questions generated and added successfully!');
       } else {
-        message.error('Failed to generate questions: ');
+        message.error('Failed to generate questions');
       }
+      
     } catch (error) {
       message.error('Failed to generate questions. Please try again.');
     } finally {
