@@ -2,17 +2,25 @@ import { Card, Table, Select, Button, message } from 'antd';
 import { useState } from 'react';
 
 import { gradeQuestion,
-  GradeQuestionRequest,
+  
   
 
 
  } from '../../api/services/AIAssistant';
 
+
+ import { getEssayDetails } from '../../api/services/grade';
+
+interface CoverPoint {
+  coverPointText: string; // Description of the point to cover
+  marks: number;         // Marks allocated to the point
+}
+
 interface GradingQuestion {
   id: number;
   questionText: string;
   userAnswer: string;
-  valid_points: string[];
+  coverPoints: CoverPoint[];
   feedback?: {
     correct_points: string[];
     incorrect_points: string[];
@@ -22,110 +30,91 @@ interface GradingQuestion {
 }
 
 
+
+
 const { Option } = Select;
 
 
 
-
-
 const initialData: GradingQuestion[] = [
-  // {
-  //   id: 1,
-  //   questionText: "List five Linux distributions?",
-  //   userAnswer: "Ubuntu , Fedora, macOS, Arch Linux ",
-  //   feedback: {
-  //     correct_points: [ "Ubuntu",
-  //       "Fedora",
-  //       "Arch Linux"],
-  //     incorrect_points: [ "macOS"],
-  //   },
-  //   marks: 0,
-  //   maxMarks: 5,
-  // },
   {
     id: 2,
     questionText: "What were main reasons for the start of World War II?",
     userAnswer: "Germany's invasion of Poland, The United States' attack on Japan",
-    valid_points: ["Germany's invasion of Poland"],
+    coverPoints: [
+      { coverPointText: "Germany's invasion of Poland", marks: 5 },
+    ],
     // feedback: {
-    //   correct_points: [
-    //     "Germany's invasion of Poland",
-    //   ],
-    //   incorrect_points: [
-    //     "The United States' attack on Japan",
-    //   ],
+    //   correct_points: ["Germany's invasion of Poland"],
+    //   incorrect_points: ["The United States' attack on Japan"],
     // },
-    marks: 0,
+    marks: 5,
     maxMarks: 10,
   },
   {
-    "id": 4,
-    "questionText": "What were two causes of the American Civil War?",
-    "userAnswer": "The issue of slavery, The Southern states' belief in the necessity of a strong central government",
-    "valid_points": ["salvery"],
-    // "feedback": {
-    //   "correct_points": [
-    //     "The issue of slavery"
-    //   ],
-    //   "incorrect_points": [
-    //     "The Southern states' belief in the necessity of a strong central government"
-    //   ]
+    id: 4,
+    questionText: "What were two causes of the American Civil War?",
+    userAnswer: "The issue of slavery, The Southern states' belief in the necessity of a strong central government",
+    coverPoints: [
+      { coverPointText: "The issue of slavery", marks: 5 },
+    ],
+    // feedback: {
+    //   correct_points: ["The issue of slavery"],
+    //   incorrect_points: ["The Southern states' belief in the necessity of a strong central government"],
     // },
-    "marks": 5,
-    "maxMarks": 10
+    marks: 5,
+    maxMarks: 10,
   },
   {
-    "id": 5,
-    "questionText": "What were two significant achievements of Napoleon Bonaparte during his rule?",
-    "userAnswer": "The establishment of the Napoleonic Code, His successful invasion and permanent conquest of Russia",
-    "valid_points": ["The establishment of the Napoleonic Code"],
-    // "feedback": {
-    //   "correct_points": [
-    //     "The establishment of the Napoleonic Code"
-    //   ],
-    //   "incorrect_points": [
-    //     "His successful invasion and permanent conquest of Russia"
-    //   ]
+    id: 5,
+    questionText: "What were two significant achievements of Napoleon Bonaparte during his rule?",
+    userAnswer: "The establishment of the Napoleonic Code, His successful invasion and permanent conquest of Russia",
+    coverPoints: [
+      { coverPointText: "The establishment of the Napoleonic Code", marks: 5 },
+    ],
+    // feedback: {
+    //   correct_points: ["The establishment of the Napoleonic Code"],
+    //   incorrect_points: ["His successful invasion and permanent conquest of Russia"],
     // },
-    "marks": 5,
-    "maxMarks": 10
+    marks: 5,
+    maxMarks: 10,
   },
   {
-    "id": 6,
-    "questionText": "Which of the following was a primary cause of the French Revolution?",
-    "userAnswer": "The effects of the industrial revolution on French factories, The severe hunger and economic problems faced by ordinary French citizens, Foreign countries invading France and causing rebellion.",
-    "valid_points": ["severe hunger and economic problems faced by ordinary French citizens"],
-    // "feedback": {
-    //   "correct_points": ["The severe hunger and economic problems faced by ordinary French citizens"],
-    //   "incorrect_points": [
-    //     "The effects of the industrial revolution on French factories",
-    //     "Foreign countries invading France and causing rebellion"
-    //   ]
-    // },
-    "marks": 0,
-    "maxMarks": 10
+    id: 6,
+    questionText: "Which of the following was a primary cause of the French Revolution?",
+    userAnswer: "The effects of the industrial revolution on French factories, The severe hunger and economic problems faced by ordinary French citizens, Foreign countries invading France and causing rebellion.",
+    coverPoints: [
+      { coverPointText: "The severe hunger and economic problems faced by ordinary French citizens", marks: 5 },
+    ],
+    feedback: {
+      correct_points: ["The severe hunger and economic problems faced by ordinary French citizens"],
+      incorrect_points: [
+        "The effects of the industrial revolution on French factories",
+        "Foreign countries invading France and causing rebellion",
+      ],
+    },
+    marks: 5,
+    maxMarks: 10,
   },
   {
-    "id": 7,
-    "questionText": "Which of the following was a major reason for the Revolt of 1857 in India?",
-    "userAnswer": "The introduction of Western-style education, The discontent among Indian soldiers due to cultural insensitivity, The establishment of the Indian National Congress.",
-    "valid_points": ["Indian soldiers due to cultural insensitivity"],
-    // "feedback": {
-    //   "correct_points": ["The discontent among Indian soldiers due to cultural insensitivity"],
-    //   "incorrect_points": [
-    //     "The introduction of Western-style education",
-    //     "The establishment of the Indian National Congress"
-    //   ]
-    // },
-    "marks": 0,
-    "maxMarks": 10
-  }
-  
-  
-  
-  
-  
+    id: 7,
+    questionText: "Which of the following was a major reason for the Revolt of 1857 in India?",
+    userAnswer: "The introduction of Western-style education, The discontent among Indian soldiers due to cultural insensitivity, The establishment of the Indian National Congress.",
+    coverPoints: [
+      { coverPointText: "The discontent among Indian soldiers due to cultural insensitivity", marks: 5 },
+    ],
+    feedback: {
+      correct_points: ["The discontent among Indian soldiers due to cultural insensitivity"],
+      incorrect_points: [
+        "The introduction of Western-style education",
+        "The establishment of the Indian National Congress",
+      ],
+    },
+    marks: 5,
+    maxMarks: 10,
+  },
 ];
+
 
 
 const highlightTextWithFeedback = (
@@ -204,6 +193,10 @@ const highlightTextWithFeedback = (
 const ExamSetterGrade = () => {
   const [data, setData] = useState<GradingQuestion[]>(initialData);
 
+// 
+
+
+
   const handleMarksChange = (questionId: number, value: number) => {
     const updatedData = data.map((item) =>
       item.id === questionId ? { ...item, marks: value } : item
@@ -220,7 +213,8 @@ const ExamSetterGrade = () => {
       const requestData = {
         question: question.questionText,
         answer: question.userAnswer,
-        valid_points: question.valid_points,
+        // valid_points: question.coverPoints,
+        valid_points: question.coverPoints.map((point) => point.coverPointText),
       };
   
       gradeQuestion(requestData)
