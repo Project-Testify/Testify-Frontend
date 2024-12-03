@@ -31,6 +31,13 @@ const OngoingStatus = () => (
   </div>
 );
 
+const AvailableStatus = () => (
+  <div style={{ color: 'blue', display: 'flex', alignItems: 'center' }}>
+    <FontAwesomeIcon icon={faCheckCircle} style={{ marginRight: '8px' }} />
+    <Title level={5} style={{ margin: 0 }}>Available</Title>
+  </div>
+);
+
 const UpcomingStatus = () => (
   <div style={{ color: 'orange', display: 'flex', alignItems: 'center' }}>
     <FontAwesomeIcon icon={faClock} style={{ marginRight: '8px' }} />
@@ -60,6 +67,8 @@ const StatusComponent = ({ status }: { status: string }) => {
       return <OngoingStatus />;
     case "UPCOMING":
       return <UpcomingStatus />;
+    case "AVAILABLE":
+      return <AvailableStatus />;
     default:
       return null;
   }
@@ -69,6 +78,7 @@ type Exam = {
   id: number;
   title: string;
   status: string;
+  examType: string;
   organization: { name: string };
   totalMarks: number;
   startTime: string;
@@ -176,7 +186,7 @@ export const CandidateAllExams = () => {
                         <StatusComponent status={exam.status} />
                       </Col>
                       <Col>
-                        <Title level={5} style={{ margin: 0 }}>{exam.totalMarks} Marks</Title>
+                        <Title level={5} style={{ margin: 0 }}>{exam.examType}</Title>
                       </Col>
                     </Row>
                     <Row>
