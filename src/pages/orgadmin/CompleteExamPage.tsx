@@ -19,12 +19,12 @@ import { ExamResponse } from '../../api/types';
 import { getLoggedInUser } from '../../utils/authUtils';
 import { format } from 'date-fns';
 import { useHistory, useNavigate } from 'react-router-dom';
+import { getExamCandidateGradeData } from '../../api/services/organization';
 
 interface ExamStats {
   totalCandidates: number;
   totalPassed: number;
   totalFailed: number;
-  averageScore: number;
   highestScore: number;
   lowestScore: number;
 }
@@ -43,138 +43,43 @@ export const CompleteExamPage = () => {
 
   const fetchExams = async () => {
     try {
-      // const response  = await getExams(organizationId);
-      const response = {
-        data: [
-            {
-              id: 1,
-              name: 'Graphics Exam',
-              startDatetime: '2021-09-23T10:00:00Z',
-              endDatetime: '2021-09-23T12:00:00Z',
-              duration: 120,
-              totalMarks: 100,
-              passingMarks: 50,
-              organizationId: 1,
-              organization: {
-                id: 1,
-                name: 'UCSC',
-                address: 'Address 1',
-                phone: '1234567890',
-                email: 'ucsc@gm.com',
-                website: 'www.ucsc.cmb.ac.lk',
-              },
-              examSetters: [
-                {
-                  id: 1,
-                  name: 'Tom Doe',
-                  email: 'tom@gm.com',
-                  phone: '1234567890',
-                  organizationId: 1,
-                },
-              ],
-              examStats: [
-                {
-                  totalCandidates: 10,
-                  totalPassed: 4,
-                  totalFailed: 6,
-                  averageScore: 60,
-                  highestScore: 80,
-                  lowestScore: 40,
-                },
-              ],
-            },
-            {
-              id: 2,
-              name: 'Algorithms Exam',
-              startDatetime: '2021-10-05T14:00:00Z',
-              endDatetime: '2021-10-05T16:00:00Z',
-              duration: 120,
-              totalMarks: 150,
-              passingMarks: 75,
-              organizationId: 2,
-              organization: {
-                id: 2,
-                name: 'MIT',
-                address: '77 Massachusetts Ave, Cambridge, MA',
-                phone: '6172531000',
-                email: 'info@mit.edu',
-                website: 'www.mit.edu',
-              },
-              examSetters: [
-                {
-                  id: 2,
-                  name: 'Alice Smith',
-                  email: 'alice@mit.edu',
-                  phone: '6171234567',
-                  organizationId: 2,
-                },
-              ],
-              examStats: [
-                {
-                  totalCandidates: 15,
-                  totalPassed: 10,
-                  totalFailed: 5,
-                  averageScore: 85,
-                  highestScore: 100,
-                  lowestScore: 70,
-                },
-              ],
-            },
-            {
-              id: 3,
-              name: 'Database Management Exam',
-              startDatetime: '2021-11-10T09:00:00Z',
-              endDatetime: '2021-11-10T11:00:00Z',
-              duration: 120,
-              totalMarks: 120,
-              passingMarks: 60,
-              organizationId: 3,
-              organization: {
-                id: 3,
-                name: 'Stanford University',
-                address: '450 Serra Mall, Stanford, CA',
-                phone: '6507232300',
-                email: 'contact@stanford.edu',
-                website: 'www.stanford.edu',
-              },
-              examSetters: [
-                {
-                  id: 3,
-                  name: 'John Lee',
-                  email: 'john@stanford.edu',
-                  phone: '6501234567',
-                  organizationId: 3,
-                },
-              ],
-              examStats: [
-                {
-                  totalCandidates: 20,
-                  totalPassed: 12,
-                  totalFailed: 8,
-                  averageScore: 75,
-                  highestScore: 95,
-                  lowestScore: 50,
-                },
-              ],
-            },
-            {
-              id: 4,
-              name: 'Software Engineering Exam',
-              examStats: [
-                {
-                  totalCandidates: 25,
-                  totalPassed: 18,
-                  totalFailed: 7,
-                },
-              ],
-            },         
-        ],
-      };
+      const examCandidateData = await getExamCandidateGradeData();
+      const examsCandidateGrades = examCandidateData.data;
 
-      const exams = response.data;
-      console.log(response.data);
+      const examsMap: { [key: string]: ExamStats & { name: string } } = {};
+
+      examsCandidateGrades.forEach((examGradeData: any) => {
+        const { examID, examTitle, status, score } = examGradeData;
+
+        if (!examsMap[examID]) {
+          examsMap[examID] = {
+            name: examTitle,
+            totalCandidates: 0,
+            totalPassed: 0,
+            totalFailed: 0,
+            highestScore: 0,
+            lowestScore: 100,
+          };
+        }
+
+        const examStats = examsMap[examID];
+        examStats.totalCandidates += 1;
+        if (status === 'PASS') {
+          examStats.totalPassed += 1;
+        } else {
+          examStats.totalFailed += 1;
+        }
+        examStats.highestScore = Math.max(examStats.highestScore, score);
+        examStats.lowestScore = Math.min(examStats.lowestScore, score);
+      });
+
+      const exams = Object.keys(examsMap).map((examID) => ({
+        id: examID,
+        name: examsMap[examID].name,
+        examStats: [examsMap[examID]],
+      }));
+
       setExams(exams);
-      console.log('exams', exams);
     } catch (error) {
       message.error('Error fetching exams');
       console.log(error);
