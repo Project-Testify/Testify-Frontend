@@ -5,13 +5,16 @@ import { getLoggedInUser } from '../../utils/authUtils';
 
 import { PageHeader } from '../../components';
 import { HomeOutlined, PieChartOutlined } from '@ant-design/icons';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { ExamResponse, ModerateExamResponse } from '../../api/types';
+import { getExams } from '../../api/services/organization';
+import { getModeratingExams } from '../../api/services/ExamSetter';
 
 // Mock Data
 const mockExams = [
   {
     id: 1,
-    title: 'Exam 1',
+    title: 'General Knowledge',
     duration: 60,
     startDatetime: '2024-12-04T10:00:00Z',
     endDatetime: '2024-12-04T12:00:00Z',
@@ -19,7 +22,7 @@ const mockExams = [
   },
   {
     id: 2,
-    title: 'Exam 2',
+    title: 'Basic Mathematics',
     duration: 45,
     startDatetime: '2024-12-05T09:00:00Z',
     endDatetime: '2024-12-05T09:45:00Z',
@@ -27,7 +30,7 @@ const mockExams = [
   },
   {
     id: 3,
-    title: 'Exam 3',
+    title: 'Data Structures and Algorithms',
     duration: 90,
     startDatetime: '2024-12-06T11:00:00Z',
     endDatetime: '2024-12-06T12:30:00Z',
@@ -47,10 +50,39 @@ export const ExamSetterDashBoardPage = () => {
     message.error('You must be logged in to perform this action.');
     return null;
   }
+  
+  const organizationId = Number(sessionStorage.getItem('orgId'));
+  const [examsData, setExams] = useState<ExamResponse[]>([]);
+  const [proctoringExams, setProctoringExams] = useState<ExamResponse[]>([]);
+  const [moderatingExams, setModeratingExams] = useState<ModerateExamResponse[]>([]);
+
+  const fetchExams = async () => {
+    try {
+      const response = await getExams(organizationId);
+      const allExams = response.data;
+  
+      const createdById = loggedInUser.id;
+      const filteredExams = allExams.filter((exam) => exam.createdBy.id === createdById);
+  
+      console.log("Filtered Exams:", filteredExams);
+      setExams(filteredExams);
+
+      const response1 = await getModeratingExams(createdById);
+      //setModeratingExams(response1.data)
+    } catch (error) {
+      message.error("Error fetching exams");
+      console.log(error);
+    }
+  };
+  
+
+  useEffect(()=>{
+    fetchExams();
+  },[organizationId]);
 
   const renderRecentlyAddedExams = () => (
     <Row gutter={[16, 16]}>
-      {mockExams.map((exam) => (
+      {examsData.map((exam) => (
         <Col span={8} key={exam.id}>
           <Card
             bordered={false}

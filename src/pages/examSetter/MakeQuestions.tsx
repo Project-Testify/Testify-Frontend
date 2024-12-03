@@ -16,9 +16,10 @@ const MakeQuestions = () => {
   const [open, setOpen] = useState(false);
   const [contentModalOpen, setContentModalOpen] = useState(false);
   const [fileList, setFileList] = useState<UploadFile[]>([]);
-  const { getOrganization } = useAuth();
+  //const { getOrganization } = useAuth();
   const [questions, setQuestions] = useState<Question[]>([]);
   const examId = sessionStorage.getItem('examId');
+  const orgId = sessionStorage.getItem('orgId');
 
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [editingQuestion, setEditingQuestion] = useState<Question | null>(null);
@@ -101,7 +102,7 @@ const MakeQuestions = () => {
   // Call loadQuestions on component mount
   useEffect(() => {
     loadQuestions();
-  }, [examId, getOrganization]);
+  }, [examId, orgId]);
 
 
   const handleDelete = (questionId: number) => {
