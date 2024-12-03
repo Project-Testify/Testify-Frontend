@@ -4,9 +4,15 @@ import { useEffect, useState } from 'react';
 import { gradeQuestion, GradeQuestionResponse } from '../../api/services/AIAssistant';
 
 
- import { getEssayDetails } from '../../api/services/grade';
+import { getEssayDetails } from '../../api/services/grade';
 import { AxiosResponse } from 'axios';
 import { get } from 'lodash';
+
+import { useNavigate } from 'react-router-dom';
+
+// redirect
+
+
 
 interface CoverPoint {
   coverPointText: string; // Description of the point to cover
@@ -83,13 +89,13 @@ const initialData: GradingQuestion[] = [
     coverPoints: [
       { coverPointText: "The severe hunger and economic problems faced by ordinary French citizens", marks: 5 },
     ],
-    feedback: {
-      correct_points: ["The severe hunger and economic problems faced by ordinary French citizens"],
-      incorrect_points: [
-        "The effects of the industrial revolution on French factories",
-        "Foreign countries invading France and causing rebellion",
-      ],
-    },
+    // feedback: {
+    //   correct_points: ["The severe hunger and economic problems faced by ordinary French citizens"],
+    //   incorrect_points: [
+    //     "The effects of the industrial revolution on French factories",
+    //     "Foreign countries invading France and causing rebellion",
+    //   ],
+    // },
     marks: 5,
     maxMarks: 10,
   },
@@ -100,13 +106,13 @@ const initialData: GradingQuestion[] = [
     coverPoints: [
       { coverPointText: "The discontent among Indian soldiers due to cultural insensitivity", marks: 5 },
     ],
-    feedback: {
-      correct_points: ["The discontent among Indian soldiers due to cultural insensitivity"],
-      incorrect_points: [
-        "The introduction of Western-style education",
-        "The establishment of the Indian National Congress",
-      ],
-    },
+    // feedback: {
+    //   correct_points: ["The discontent among Indian soldiers due to cultural insensitivity"],
+    //   incorrect_points: [
+    //     "The introduction of Western-style education",
+    //     "The establishment of the Indian National Congress",
+    //   ],
+    // },
     marks: 5,
     maxMarks: 10,
   },
@@ -194,6 +200,9 @@ const ExamSetterGrade = () => {
 
   const examID = 1;
   const userID = 1;
+
+  const navigate = useNavigate();
+
 
 // 
 useEffect(() => {
@@ -285,6 +294,9 @@ useEffect(() => {
   const handleSubmit = () => {
     console.log("Graded Data Submitted: ", data);
     message.success("Grading submitted successfully!");
+
+    navigate('/examsetter/grading'); 
+
   };
 
   const columns = [
