@@ -22,6 +22,16 @@ export const TimeContainer = ({
 }: TimeContainerProps) => {
   const navigate = useNavigate();
 
+  // Calculate remaining time
+  const endTime = sessionStorage.getItem('endTime');
+  console.log('endTime:', endTime);
+  const remainingTimeInMilliseconds = 
+  endTime ? new Date(endTime).getTime() - new Date().getTime() : 0;
+
+  const remainingTimeInSeconds = Math.max(0, Math.floor(remainingTimeInMilliseconds / 1000));
+  const remainingMinutes = Math.floor(remainingTimeInSeconds / 60);
+  const remainingSeconds = remainingTimeInSeconds % 60;
+
   const handleSubmitExam = async () => {
     const token = sessionStorage.getItem('accessToken');
     const sessionId = sessionStorage.getItem('sessionId');
@@ -30,7 +40,6 @@ export const TimeContainer = ({
       message.error('Failed to submit exam. Please try again.');
       return;
     }
-    
 
     try {
       const response = await axios.put(
@@ -61,7 +70,15 @@ export const TimeContainer = ({
         <div className="time-content">
           <div className="countdown-timer">
             <span className="topic">Time Remaining</span>
-            <CountdownTimer initialHours={0} initialMinutes={60} initialSeconds={0} />
+            {remainingTimeInSeconds > 0 ? (
+              <CountdownTimer
+                initialHours={0}
+                initialMinutes={remainingMinutes}
+                initialSeconds={remainingSeconds}
+              />
+            ) : (
+              <span className="expired">Time's up!</span>
+            )}
           </div>
           <Divider />
           <QuestionIndexes
@@ -78,6 +95,7 @@ export const TimeContainer = ({
               size={'large'}
               className="submit-button"
               onClick={handleSubmitExam}
+              disabled={remainingTimeInSeconds <= 0}
             >
               Submit Exam
             </Button>

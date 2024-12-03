@@ -16,6 +16,7 @@ import {
 } from 'antd';
 import { getLoggedInUser } from '../../utils/authUtils';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 export const CandidateDashboard = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -25,18 +26,57 @@ export const CandidateDashboard = () => {
 
   // Example API call simulation
   useEffect(() => {
-    // Simulate checking for an ongoing exam
     const checkOngoingExam = async () => {
-      const ongoingExam = true; // Replace this with actual API call
-      if (ongoingExam) {
-        setIsModalVisible(false);
+      const userString = sessionStorage.getItem('user'); // Retrieve the user string
+      const token = sessionStorage.getItem('accessToken'); // Retrieve the access token
+  
+      if (!userString || !token) {
+        console.error("User information or token not found in session storage.");
+        return;
+      }
+  
+      const user = JSON.parse(userString); // Parse the user object
+      const candidateId = user?.id; // Extract the candidateId
+  
+      if (!candidateId) {
+        console.error("Candidate ID not found in user object.");
+        return;
+      }
+  
+      try {
+        const response = await axios.post(
+          'http://localhost:8080/api/v1/candidate/check-active-session',
+          { candidateId },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+  
+        const data = response.data;
+        if (data.examId && data.examName && data.examType) {
+          // If an active exam session exists, show the modal
+          setIsModalVisible(true);
+          // Store the exam data for navigation
+          sessionStorage.setItem('ongoingExam', JSON.stringify(data));
+          sessionStorage.setItem('sessionId', data.sessionId);
+          sessionStorage.setItem('endTime', data.endTime);
+        }
+      } catch (error) {
+        console.error('Error checking active session:', error);
       }
     };
+  
     checkOngoingExam();
   }, []);
-
+  
   const handleOk = () => {
-    navigate('/exam/view'); // Navigate to the exam view page
+    const ongoingExam = sessionStorage.getItem('ongoingExam');
+    if (ongoingExam) {
+      const { examId, examName, examType } = JSON.parse(ongoingExam);
+      navigate('/candidate/exam/view', { state: { id: examId, name: examName, type: examType } });
+    }
   };
 
   const handleCancel = () => {
