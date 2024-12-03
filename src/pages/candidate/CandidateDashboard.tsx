@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react';
+import { Modal, Button } from 'antd';
 import { Helmet } from 'react-helmet-async';
 import { assets } from '../../assets';
 import { ExamStatCard } from '../../components';
@@ -12,14 +14,35 @@ import {
   Flex,
   Image,
 } from 'antd';
-
 import { getLoggedInUser } from '../../utils/authUtils';
+import { useNavigate } from 'react-router-dom';
 
 export const CandidateDashboard = () => {
-  
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const user = getLoggedInUser();
   const candidateName = user?.firstName;
-  
+  const navigate = useNavigate();
+
+  // Example API call simulation
+  useEffect(() => {
+    // Simulate checking for an ongoing exam
+    const checkOngoingExam = async () => {
+      const ongoingExam = true; // Replace this with actual API call
+      if (ongoingExam) {
+        setIsModalVisible(false);
+      }
+    };
+    checkOngoingExam();
+  }, []);
+
+  const handleOk = () => {
+    navigate('/exam/view'); // Navigate to the exam view page
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
   const examData = [
     { type: 'Ongoing', value: 5 },
     { type: 'Upcoming', value: 3 },
@@ -36,7 +59,7 @@ export const CandidateDashboard = () => {
     { date: '2023-07-07', count: 9 },
   ];
 
-  //exam table
+  // Exam table
   const columns = [
     {
       title: 'Exam Name',
@@ -109,6 +132,35 @@ export const CandidateDashboard = () => {
       <Helmet>
         <title>Candidate Dashboard</title>
       </Helmet>
+
+      <Modal
+        title="Ongoing Exam"
+        visible={isModalVisible}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        footer={[
+          <Button key="cancel" onClick={handleCancel} style={{ width: '100px' }}>
+            Cancel
+          </Button>,
+          <Button key="proceed" type="primary" onClick={handleOk} style={{ width: '100px' }}>
+            Go to Exam
+          </Button>,
+        ]}
+        centered
+        width={600}
+        style={{
+          fontFamily: 'Arial, sans-serif',
+        }}
+        bodyStyle={{
+          padding: '20px',
+          fontSize: '20px',
+          color: '#333',
+        }}
+      >
+        <Typography.Text>
+          You have an ongoing exam. Would you like to continue and view the exam details?
+        </Typography.Text>
+      </Modal>
 
       <Row
         gutter={[
