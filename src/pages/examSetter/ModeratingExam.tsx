@@ -1,121 +1,181 @@
-import React from 'react';
-import { Card, Button, Space, Input } from 'antd';
-import { CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
+import React, { useEffect, useState } from "react";
+import { Card, Input, Button, Space, Divider, Badge, message } from "antd";
+import { CheckCircleOutlined, CloseCircleOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import { fetchQuestions, updateQuestionComment } from "../../api/services/ExamServices";
+import { Question } from "../../api/types";
 
-type Option = {
-  optionId: string;
-  optionText: string;
-  correct: boolean;
-  marks: number;
-};
+export const ModeratingExam: React.FC = () => {
+  const [questions, setQuestions] = useState<Question[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
-type CoverPoint = {
-  coverPointId: string;
-  coverPointText: string;
-  marks: number;
-};
+  // Fetch exam ID from session storage
+  const examId = sessionStorage.getItem("moderateExam");
 
-type Question = {
-  questionId: string;
-  questionText: string;
-  options?: Option[];
-  coverPoints?: CoverPoint[];
-};
+  useEffect(() => {
+    const loadQuestions = async () => {
+      try {
+        setLoading(true);
+        if (examId) {
+          const response = await fetchQuestions(Number(examId));
+          setQuestions(response.data.questions);
+        } else {
+          message.error("Exam ID not found in session storage");
+        }
+      } catch (error) {
+        message.error("Failed to load questions");
+      } finally {
+        setLoading(false);
+      }
+    };
 
-const QuestionCard = ({ question, index }: { question: Question; index: number }) => {
-  return (
-    <Card
-      style={{
-        background: 'rgba(200, 200, 200, 0.2)', // Neutral glass effect
-        backdropFilter: 'blur(10px)',
-        marginBottom: '24px',
-      }}
-      title={`Question ${index + 1}: ${question.questionText}`}
-    >
-      <ul>
-        {question.options &&
-          question.options.map(option => (
-            <li key={option.optionId} style={{ marginBottom: '8px' }}>
+    loadQuestions();
+  }, [examId]);
+
+  // MCQ Question Component
+  const MCQQuestion = ({ question }: { question: Question }) => {
+    const [comment, setComment] = useState<string>(question.comment || ""); // Initialize with existing comment or empty
+    const [loading, setLoading] = useState<boolean>(false); // Loading state for API call
+
+    const handleCommentUpdate = async () => {
+      try {
+        setLoading(true);
+        const response = await updateQuestionComment({
+          questionId: question.questionId,
+          comment,
+        });
+        message.success(response.data.message);
+      } catch (error) {
+        message.error(
+          "Failed to update the comment"
+        );
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    const handleClearComment = () => {
+      setComment(""); 
+      handleCommentUpdate(); 
+    };
+
+
+    return (
+      <Card
+        style={{
+          background: "rgba(39, 174, 96, 0.2)", // Light blue glass effect
+          backdropFilter: "blur(10px)",
+          marginBottom: "16px",
+        }}
+        title={question.questionText}
+        
+      >
+        <ul>
+          {question.options?.map((option) => (
+            <li key={option.optionId} style={{ marginBottom: "8px" }}>
               {option.optionText}
-              <Space style={{ marginLeft: '8px' }}>
+              <Space style={{ marginLeft: "8px" }}>
                 {option.correct ? (
-                  <CheckCircleOutlined style={{ color: 'green' }} />
+                  <CheckCircleOutlined style={{ color: "green" }} />
                 ) : (
-                  <CloseCircleOutlined style={{ color: 'red' }} />
+                  <CloseCircleOutlined style={{ color: "red" }} />
                 )}
                 <span>Marks: {option.marks}</span>
               </Space>
             </li>
           ))}
+        </ul>
 
-        {question.coverPoints &&
-          question.coverPoints.map(point => (
+        {/* Comment Input Section */}
+        <Space style={{ marginTop: "16px" }}>
+          <Input
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+            placeholder="Add a comment"
+            style={{ width: "300px" }}
+          />
+          <Button
+            type="primary"
+            onClick={handleCommentUpdate}
+            loading={loading}
+          >
+            Add Comment
+          </Button>
+
+          <Button
+            onClick={handleClearComment}  // Call with null to clear the comment
+            loading={loading}
+            danger
+          >
+            Clear Comment
+          </Button>
+        </Space>
+      </Card>
+    );
+  };
+
+  // Essay Question Component
+  const EssayQuestion = ({ question }: { question: Question }) => {
+    const [comment, setComment] = useState<string>(question.comment || "");
+    const [commentLoading, setCommentLoading] = useState<boolean>(false);
+
+    const handleCommentUpdate = async () => {
+      try {
+        setCommentLoading(true);
+        const response = await updateQuestionComment({
+          questionId: question.questionId,
+          comment,
+        });
+        message.success(response.data.message);
+      } catch {
+        message.error("Failed to update comment");
+      } finally {
+        setCommentLoading(false);
+      }
+    };
+
+    return (
+      <Card title={question.questionText} style={{ marginBottom: 16 }}>
+        <ul>
+          {question.coverPoints?.map((point) => (
             <li key={point.coverPointId}>
               {point.coverPointText} - <span>Marks: {point.marks}</span>
             </li>
           ))}
-      </ul>
-      <div style={{ marginTop: '16px' }}>
-        <Input.TextArea 
-          placeholder="Add your comment here..." 
-          rows={2} 
-          style={{ width: '100%' }} 
-        />
-        <div style={{ marginTop: '8px', textAlign: 'right' }}>
-          <Button type="primary">Add Comment</Button>
-        </div>
-      </div>
-    </Card>
-  );
-};
-
-export const ModeratingExam: React.FC = () => {
-  const questions: Question[] = [
-    {
-      questionId: '1',
-      questionText: 'What is the time complexity of binary search?',
-      options: [
-        { optionId: '1', optionText: 'O(n)', correct: false, marks: 0 },
-        { optionId: '2', optionText: 'O(log n)', correct: true, marks: 1 },
-        { optionId: '3', optionText: 'O(n^2)', correct: false, marks: 0 },
-        { optionId: '4', optionText: 'O(1)', correct: false, marks: 0 },
-      ],
-    },
-    {
-      questionId: '2',
-      questionText: 'Which data structure is used in a stack?',
-      options: [
-        { optionId: '1', optionText: 'Queue', correct: false, marks: 0 },
-        { optionId: '2', optionText: 'Array', correct: true, marks: 1 },
-        { optionId: '3', optionText: 'Tree', correct: false, marks: 0 },
-        { optionId: '4', optionText: 'Graph', correct: false, marks: 0 },
-      ],
-    },
-    {
-      questionId: '3',
-      questionText: 'Explain the differences between arrays and linked lists.',
-      coverPoints: [
-        { coverPointId: '1', coverPointText: 'Static vs Dynamic Memory Allocation', marks: 2 },
-        { coverPointId: '2', coverPointText: 'Access time and traversal', marks: 3 },
-      ],
-    },
-    {
-      questionId: '4',
-      questionText: 'Describe the divide-and-conquer algorithm with examples.',
-      coverPoints: [
-        { coverPointId: '1', coverPointText: 'Divide, conquer, and combine steps', marks: 3 },
-        { coverPointId: '2', coverPointText: 'Examples like merge sort and quick sort', marks: 2 },
-      ],
-    },
-  ];
+        </ul>
+        <Space>
+          <Input
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+            placeholder="Add a comment"
+            style={{ width: 300 }}
+          />
+          <Button type="primary" onClick={handleCommentUpdate} loading={commentLoading}>
+            Add Comment
+          </Button>
+        </Space>
+      </Card>
+    );
+  };
 
   return (
-    <div style={{ padding: '20px' }}>
-      <h1>DSA 1201: Inclass 01</h1>
-      {questions.map((question, index) => (
-        <QuestionCard key={question.questionId} question={question} index={index} />
-      ))}
+    <div>
+      <Space style={{ marginBottom: 16 }}>
+        <Badge count={questions.length} showZero>
+          <span>Total Questions</span>
+        </Badge>
+      </Space>
+      <Divider />
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        questions.map((question) =>
+          question.questionType === "MCQ" ? (
+            <MCQQuestion key={question.questionId} question={question} />
+          ) : question.questionType === "Essay" ? (
+            <EssayQuestion key={question.questionId} question={question} />
+          ) : null
+        )
+      )}
     </div>
   );
 };
-

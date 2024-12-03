@@ -1,5 +1,6 @@
 import { AxiosResponse } from "axios";
 import api from "../config";
+import {  ModerateExamResponse } from "../types";
 import { CandidateResponse, ExamResponse, GenericAddOrUpdateResponse, OrganizationResponse } from "../types";
 
 export const getExamSetterOrganizations = (setterId:number):Promise<AxiosResponse<OrganizationResponse[]>> => {
@@ -14,6 +15,11 @@ export const addExamSetter = (token: string): Promise<AxiosResponse<GenericAddOr
     return api.post<GenericAddOrUpdateResponse>(`/exam-setter/${token}/addSetterToOrganization`);
 };
 
+export const getModeratingExams = (
+    examSetterId: number
+): Promise<AxiosResponse<ModerateExamResponse[] | null>> => {
+    return api.get<ModerateExamResponse[] | null>(`/exam-setter/${examSetterId}/moderating-exams`);
+};
 export const getProctoringExams = (proctorId:number, organizationId:number): Promise<AxiosResponse<ExamResponse[]>> => {
     return api.get<ExamResponse[]>(`/exam-setter/proctor/${proctorId}/${organizationId}`);
 }

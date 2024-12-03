@@ -1,10 +1,11 @@
 import { CheckCircleOutlined, CloseCircleOutlined, DeleteOutlined, EditOutlined, UploadOutlined } from "@ant-design/icons";
-import { UploadFile, UploadProps, message, Space, Button, Modal, Upload, Divider, List, Card, Badge } from "antd";
+import { UploadFile, UploadProps, message, Space, Button, Modal, Upload, Divider, List, Card, Badge, Input } from "antd";
 import { useEffect, useState } from "react";
 import { Form } from "antd";
 import { uploadFiles } from "../../api/services/AIAssistant";
 import { AddQuestion } from "./AddQuestion";
-import { fetchQuestions, deleteQuestion, getQuestionSequence, updateQuestionSequence } from "../../api/services/ExamServices";
+import { useAuth } from "../../hooks/useAuth";
+import { fetchQuestions, deleteQuestion, getQuestionSequence, updateQuestionSequence, updateQuestionComment } from "../../api/services/ExamServices";
 import { Question } from "../../api/types";
 import MCQUpdate from "./MCQUpdate";
 import EssayUpdate from "./EssayUpdate";
@@ -15,8 +16,7 @@ const MakeQuestions = () => {
   const [open, setOpen] = useState(false);
   const [contentModalOpen, setContentModalOpen] = useState(false);
   const [fileList, setFileList] = useState<UploadFile[]>([]);
-  // const { getOrganization } = useAuth();
-  const organizationId = sessionStorage.getItem('orgId');
+  const { getOrganization } = useAuth();
   const [questions, setQuestions] = useState<Question[]>([]);
   const examId = sessionStorage.getItem('examId');
 
@@ -72,6 +72,7 @@ const MakeQuestions = () => {
     try {
       // Fetch the questions for the exam
       const response = await fetchQuestions(Number(examId));
+      console.log('Fetched questions:', response);
       const fetchedQuestions = response.data.questions || [];
 
       // If no questions are fetched, set questions to an empty array
@@ -100,7 +101,7 @@ const MakeQuestions = () => {
   // Call loadQuestions on component mount
   useEffect(() => {
     loadQuestions();
-  }, [examId, organizationId]);
+  }, [examId, getOrganization]);
 
 
   const handleDelete = (questionId: number) => {
@@ -150,43 +151,123 @@ const MakeQuestions = () => {
 
   // MCQQuestion Component
   const MCQQuestion = ({ question }: { question: Question }) => {
+    const [comment, setComment] = useState<string>(question.comment || ""); // Initialize with existing comment or empty
+    const [loading, setLoading] = useState<boolean>(false); // Loading state for API call
+
+    const handleCommentUpdate = async () => {
+      try {
+        setLoading(true);
+        const response = await updateQuestionComment({
+          questionId: question.questionId,
+          comment,
+        });
+        message.success(response.data.message);
+      } catch (error) {
+        message.error(
+          "Failed to update the comment"
+        );
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    const handleClearComment = () => {
+      setComment(""); 
+      handleCommentUpdate(); 
+    };
+
+
     return (
       <Card
         style={{
-          background: 'rgba(39, 174, 96, 0.2)', // Light blue glass effect
-          backdropFilter: 'blur(10px)',
-          marginBottom: '16px',
+          background: "rgba(39, 174, 96, 0.2)", // Light blue glass effect
+          backdropFilter: "blur(10px)",
+          marginBottom: "16px",
         }}
-
         title={question.questionText}
         extra={
           <Space>
-            <Button icon={<EditOutlined  />} onClick={() => handleEdit(question)} />
-            <Button icon={<DeleteOutlined  />} onClick={() => handleDelete(question.questionId)} danger />
+            <Button icon={<EditOutlined />} onClick={() => handleEdit(question)} />
+            <Button
+              icon={<DeleteOutlined />}
+              onClick={() => handleDelete(question.questionId)}
+              danger
+            />
           </Space>
+          
         }
       >
         <ul>
-          {question.options?.map(option => (
-            <li key={option.optionId} style={{ marginBottom: '8px' }}>
+          {question.options?.map((option) => (
+            <li key={option.optionId} style={{ marginBottom: "8px" }}>
               {option.optionText}
-              <Space style={{ marginLeft: '8px' }}>
+              <Space style={{ marginLeft: "8px" }}>
                 {option.correct ? (
-                  <CheckCircleOutlined style={{ color: 'green' }}/>
+                  <CheckCircleOutlined style={{ color: "green" }} />
                 ) : (
-                  <CloseCircleOutlined style={{ color: 'red' }}  />
+                  <CloseCircleOutlined style={{ color: "red" }} />
                 )}
                 <span>Marks: {option.marks}</span>
               </Space>
             </li>
           ))}
         </ul>
+
+        {/* Comment Input Section */}
+        <Space style={{ marginTop: "16px" }}>
+          <Input
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+            placeholder="Add a comment"
+            style={{ width: "300px" }}
+          />
+          <Button
+            type="primary"
+            onClick={handleCommentUpdate}
+            loading={loading}
+          >
+            Add Comment
+          </Button>
+
+          <Button
+            onClick={handleClearComment}  // Call with null to clear the comment
+            loading={loading}
+            danger
+          >
+            Clear Comment
+          </Button>
+        </Space>
       </Card>
     );
   };
 
   // EssayQuestion Component
   const EssayQuestion = ({ question }: { question: Question }) => {
+    const [comment, setComment] = useState<string>(question.comment || ""); // Initialize with existing comment or empty
+    const [loading, setLoading] = useState<boolean>(false); // Loading state for API call
+
+    const handleCommentUpdate = async () => {
+      try {
+        setLoading(true);
+        const response = await updateQuestionComment({
+          questionId: question.questionId,
+          comment,
+        });
+        message.success(response.data.message);
+      } catch (error) {
+        message.error(
+          "Failed to update the comment"
+        );
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    const handleClearComment = () => {
+      setComment(""); 
+      handleCommentUpdate(); 
+    };
+
     return (
       <Card
         style={{
@@ -197,7 +278,7 @@ const MakeQuestions = () => {
         title={question.questionText}
         extra={
           <Space>
-            <Button icon={<EditOutlined  />} onClick={() => handleEdit(question)} />
+            <Button icon={<EditOutlined />} onClick={() => handleEdit(question)} />
             <Button icon={<DeleteOutlined />} onClick={() => handleDelete(question.questionId)} danger />
           </Space>
         }
@@ -209,6 +290,31 @@ const MakeQuestions = () => {
             </li>
           ))}
         </ul>
+
+        {/* Comment Input Section */}
+        <Space style={{ marginTop: "16px" }}>
+          <Input
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+            placeholder="Add a comment"
+            style={{ width: "300px" }}
+          />
+          <Button
+            type="primary"
+            onClick={handleCommentUpdate}
+            loading={loading}
+          >
+            Add Comment
+          </Button>
+
+          <Button
+            onClick={handleClearComment}  // Call with null to clear the comment
+            loading={loading}
+            danger
+          >
+            Clear Comment
+          </Button>
+        </Space>
       </Card>
     );
   };
@@ -237,8 +343,15 @@ const MakeQuestions = () => {
           title="Upload Content"
           onOk={handleUpload}
           onCancel={handleCancel}
-          footer={null}
-        >
+          footer={[
+            <Button key="cancel" onClick={handleCancel}>
+              Cancel
+            </Button>,
+            <Button key="submit" type="primary" onClick={handleUpload}>
+              Submit
+            </Button>,
+          ]}
+                  >
           <Form form={form}>
             <Form.Item name="upload" label="Upload">
               <Upload
@@ -249,7 +362,9 @@ const MakeQuestions = () => {
               >
                 <Button icon={<UploadOutlined />}>Click to Upload</Button>
               </Upload>
+              
             </Form.Item>
+            
           </Form>
         </Modal>
 

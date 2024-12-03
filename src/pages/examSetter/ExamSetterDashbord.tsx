@@ -1,194 +1,161 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-import { Alert, Button, Col, message, Row, Segmented, Space } from 'antd';
-import {
-  Card,
-  Loader,
-  PageHeader,
-  // LearningStatsCard,
-  ExamsCard as ExamCards,
-} from '../../components';
-
-import { ExamsCard } from '../../components/dashboard/shared/ExamsCard/ExamsCard';
-import { Column } from '@ant-design/charts';
-import { Exams } from '../../types';
-import { useState } from 'react';
-import {
-  HomeOutlined,
-  PieChartOutlined,
-  PlusOutlined,
-} from '@ant-design/icons';
+import { Button, Card, Col, message, Row } from 'antd';
+import { Pie } from '@ant-design/charts';
 import { Helmet } from 'react-helmet-async';
-import { useFetchData } from '../../hooks';
 import { getLoggedInUser } from '../../utils/authUtils';
-// import { or } from 'firebase/firestore';
 
-const RevenueColumnChart = () => {
-  const data = [
-    {
-      name: 'Present',
-      period: 'Mon',
-      value: 18.9,
-    },
-    {
-      name: 'Present',
-      period: 'Tue',
-      value: 28.8,
-    },
-    {
-      name: 'Present',
-      period: 'Wed',
-      value: 39.3,
-    },
-    {
-      name: 'Present',
-      period: 'Thur',
-      value: 81.4,
-    },
-    {
-      name: 'Present',
-      period: 'Fri',
-      value: 47,
-    },
-    {
-      name: 'Present',
-      period: 'Sat',
-      value: 20.3,
-    },
-    {
-      name: 'Present',
-      period: 'Sun',
-      value: 24,
-    },
-    {
-      name: 'Absent',
-      period: 'Mon',
-      value: 12.4,
-    },
-    {
-      name: 'Absent',
-      period: 'Tue',
-      value: 23.2,
-    },
-    {
-      name: 'Absent',
-      period: 'Wed',
-      value: 34.5,
-    },
-    {
-      name: 'Absent',
-      period: 'Thur',
-      value: 99.7,
-    },
-    {
-      name: 'Absent',
-      period: 'Fri',
-      value: 52.6,
-    },
-    {
-      name: 'Absent',
-      period: 'Sat',
-      value: 35.5,
-    },
-    {
-      name: 'Absent',
-      period: 'Sun',
-      value: 37.4,
-    },
-  ];
-  const config = {
-    data,
-    isGroup: true,
-    xField: 'period',
-    yField: 'value',
-    seriesField: 'name',
+import { PageHeader } from '../../components';
+import { HomeOutlined, PieChartOutlined } from '@ant-design/icons';
+import { useState } from 'react';
 
-    /** set color */
-    // color: ['#1ca9e6', '#f88c24'],
-
-    /** Set spacing */
-    // marginRatio: 0.1,
-    label: {
-      // Label data label position can be manually configured
-      position: 'middle',
-      // 'top', 'middle', 'bottom'
-      // Configurable additional layout method
-      layout: [
-        // Column chart data label position automatically adjusted
-        {
-          type: 'interval-adjust-position',
-        }, // Data label anti-obstruction
-        {
-          type: 'interval-hide-overlap',
-        }, // Data label text color automatically adjusted
-        {
-          type: 'adjust-color',
-        },
-      ],
-    },
-  };
-  // @ts-ignore
-  return <Column {...config} />;
-};
-
-const EXAM_TABS = [
+// Mock Data
+const mockExams = [
   {
-    key: 'all',
-    label: 'All exams',
+    id: 1,
+    title: 'Exam 1',
+    duration: 60,
+    startDatetime: '2024-12-04T10:00:00Z',
+    endDatetime: '2024-12-04T12:00:00Z',
+    hosted: true,
   },
   {
-    key: 'inProgress',
-    label: 'Active',
+    id: 2,
+    title: 'Exam 2',
+    duration: 45,
+    startDatetime: '2024-12-05T09:00:00Z',
+    endDatetime: '2024-12-05T09:45:00Z',
+    hosted: false,
   },
   {
-    key: 'upcoming',
-    label: 'Upcoming',
+    id: 3,
+    title: 'Exam 3',
+    duration: 90,
+    startDatetime: '2024-12-06T11:00:00Z',
+    endDatetime: '2024-12-06T12:30:00Z',
+    hosted: true,
   },
 ];
 
+const mockPieData = [
+  { type: 'Proctoring', value: 12 },
+  { type: 'Moderating', value: 8 },
+  { type: 'Grading', value: 5 },
+];
+
 export const ExamSetterDashBoardPage = () => {
-  const {
-    data: examsData,
-    error: examsDataError,
-    loading: examsDataLoading,
-  } = useFetchData('../mocks/ExamsMock.json');
-
-  const {
-    data: examCardData,
-    error: examCardDataError,
-    loading: examCardDataLoading,
-  } = useFetchData('../mocks/Exams.json');
-
-  const [examTabsKey, setExamTabKey] = useState<string>('all');
   const loggedInUser = getLoggedInUser();
   if (!loggedInUser) {
-    message.error("You must be logged in to perform this action.");
-    return;
+    message.error('You must be logged in to perform this action.');
+    return null;
   }
 
-  // const EXAM_TABS_CONTENT: Record<string, React.ReactNode> = {
-  //   all: <ExamsTable key="all-projects-table" data={examsData} />,
-  //   inProgress: (
-  //     <ExamsTable
-  //       key="in-progress-projects-table"
-  //       data={examsData.filter((_: Exams) => _.exam_status === 'Active')}
-  //     />
-  //   ),
-  //   upcoming: (
-  //     <ExamsTable
-  //       key="on-hold-projects-table"
-  //       data={examsData.filter((_: Exams) => _.exam_status === 'Upcoming')}
-  //     />
-  //   ),
-  // };
+  const renderRecentlyAddedExams = () => (
+    <Row gutter={[16, 16]}>
+      {mockExams.map((exam) => (
+        <Col span={8} key={exam.id}>
+          <Card
+            bordered={false}
+            hoverable
+            style={{
+              width: '100%',
+              height: '230px', // Smaller card height
+              background: 'rgba(230, 230, 255, 0.8)', // Light purple with transparency
+              boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+              borderRadius: '8px',
+              overflow: 'hidden',
+              backdropFilter: 'blur(10px)', // Glass effect
+            }}
+          >
+            <h4 style={{ fontSize: '16px', marginBottom: '8px' }}>{exam.title}</h4>
+            <p style={{ fontSize: '14px', marginBottom: '4px' }}>
+              Duration: {exam.duration} mins
+            </p>
+            <p style={{ fontSize: '12px', marginBottom: '4px' }}>
+              Start: {new Date(exam.startDatetime).toLocaleString()}
+            </p>
+            <p style={{ fontSize: '12px', marginBottom: '4px' }}>
+              End: {new Date(exam.endDatetime).toLocaleString()}
+            </p>
+            <p>
+              {exam.hosted ? (
+                <span style={{ color: 'green', fontSize: '14px' }}>Hosted</span>
+              ) : (
+                <span style={{ color: 'red', fontSize: '14px' }}>Not Hosted</span>
+              )}
+            </p>
+          </Card>
+        </Col>
+      ))}
+    </Row>
+  );
 
-  const onProjectsTabChange = (key: string) => {
-    setExamTabKey(key);
+  const [currentPage, setCurrentPage] = useState(0);
+  const examsPerPage = 2;
+
+  const renderUpcomingExams = () => {
+    const examsToShow = mockExams.slice(currentPage * examsPerPage, (currentPage + 1) * examsPerPage);
+
+    return (
+      <div>
+        <Row gutter={[16, 16]}>
+          {examsToShow.map((exam) => (
+            <Col span={24} key={exam.id}>
+              <Card
+                bordered={false}
+                hoverable
+                style={{
+                  width: '100%',
+                  background: 'rgba(144, 238, 144, 0.2)', // Light purple with transparency
+                  boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+                  borderRadius: '8px',
+                  overflow: 'hidden',
+                  backdropFilter: 'blur(10px)', // Glass effect
+                }}
+              >
+                <h4 style={{ fontSize: '16px', marginBottom: '8px' }}>{exam.title}</h4>
+                <p style={{ fontSize: '14px', marginBottom: '4px' }}>
+                  Start: {new Date(exam.startDatetime).toLocaleString()}
+                </p>
+                <p style={{ fontSize: '14px', marginBottom: '4px' }}>
+                  Duration: {exam.duration} mins
+                </p>
+              </Card>
+            </Col>
+          ))}
+        </Row>
+        <div style={{ textAlign: 'center', marginTop: '20px' }}>
+          <Button
+            type="primary"
+            style={{ marginRight: '8px' }}
+            disabled={currentPage === 0}
+            onClick={() => setCurrentPage(currentPage - 1)}
+          >
+            Previous
+          </Button>
+          <Button
+            type="primary"
+            disabled={(currentPage + 1) * examsPerPage >= mockExams.length}
+            onClick={() => setCurrentPage(currentPage + 1)}
+          >
+            Next
+          </Button>
+        </div>
+      </div>
+    );
   };
 
-  // const [ExamSetterName, SetExamSetterName] = useState('ExamSetter Name');
-  
+  const pieChartConfig = {
+    data: mockPieData,
+    angleField: 'value',
+    colorField: 'type',
+    radius: 0.9,
+    label: {
+      type: 'spider',
+      labelHeight: 28,
+      content: '{name}\n{percentage}',
+    },
+  };
+
   const ExamSetterName = loggedInUser.firstName;
-  const selectedOrgId = sessionStorage.getItem('orgId');
 
   return (
     <div>
@@ -217,79 +184,20 @@ export const ExamSetterDashBoardPage = () => {
           },
         ]}
       />
-      <Row
-        gutter={[
-          { xs: 8, sm: 16, md: 24, lg: 32 },
-          { xs: 8, sm: 16, md: 24, lg: 32 },
-        ]}
-      >
+      <Helmet>
+        <title>Exam Setter Dashboard</title>
+      </Helmet>
+      <Row gutter={[16, 16]}>
         <Col span={24}>
-          <Card
-            title="Recently added Exams"
-            extra={<Button>View all Exam</Button>}
-          >
-            {examsDataError ? (
-              <Alert
-                message="Error"
-                description={examsDataError.toString()}
-                type="error"
-                showIcon
-              />
-            ) : examsDataLoading ? (
-              <Loader />
-            ) : (
-              <Row gutter={[16, 16]}>
-                {examsData.slice(0, 4).map((o: Exams) => {
-                  return (
-                    <Col xs={24} sm={12} xl={6} key={o.exam_id}>
-                      <ExamsCard
-                        exams={o}
-                        type="inner"
-                        style={{ height: '100%' }}
-                      />
-                    </Col>
-                  );
-                })}
-              </Row>
-            )}
+          <Card title="Recently Added Exams">{renderRecentlyAddedExams()}</Card>
+        </Col>
+        <Col span={16}>
+          <Card title="Exam Statistics">
+            <Pie {...pieChartConfig} />
           </Card>
         </Col>
-        <Col xs={24} sm={12} xl={16}>
-          <Card
-            title="Exam stats"
-            extra={
-              <Segmented
-                options={['Daily', 'Weekly', 'Monthly', 'Quarterly', 'Yearly']}
-              />
-            }
-          >
-            <RevenueColumnChart />
-          </Card>
-        </Col>
-        <Col xs={24} sm={12} xl={8}>
-          <Card>
-            <ExamCards
-              data={examCardData}
-              loading={examCardDataLoading}
-              error={examCardDataError}
-            />
-          </Card>
-        </Col>
-        <Col span={24}>
-          <Card
-            title="Exams"
-            extra={
-              <Space>
-                <Button icon={<PlusOutlined />}>New Exam</Button>
-              </Space>
-            }
-            tabList={EXAM_TABS}
-            activeTabKey={examTabsKey}
-            onTabChange={onProjectsTabChange}
-          >
-            {/* {EXAM_TABS_CONTENT[examTabsKey]} */}
-            <h1>hi</h1>
-          </Card>
+        <Col span={8}>
+          <Card title="Upcoming Exams">{renderUpcomingExams()}</Card>
         </Col>
       </Row>
     </div>

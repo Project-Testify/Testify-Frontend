@@ -242,4 +242,11 @@ export interface FetchQuestionsResponse {
     errorMessage: string | null;
 }
 
+export interface ModerateExamResponse{
+    id: number;
+    title: string;
+    startDatetime: string; 
+    endDatetime: string;
+}
+
 
