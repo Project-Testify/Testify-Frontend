@@ -13,10 +13,10 @@ const badges = [
 
 export const CandidateBadges = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [selectedBadge, setSelectedBadge] = useState(null);
+  const [selectedBadge, setSelectedBadge] = useState<{ id: number; name: string; image: string; description: string } | null>(null);
   const [confettiRunning, setConfettiRunning] = useState(false);
 
-  const showModal = (badge) => {
+  const showModal = (badge: { id: number; name: string; image: string; description: string }) => {
     setSelectedBadge(badge);
     setIsModalVisible(true);
     setConfettiRunning(true);  // Start confetti when the modal is opened
