@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Table, Button, Tag, Modal, List, Avatar, Tooltip } from "antd";
 import { CheckOutlined, EditOutlined } from "@ant-design/icons";
 
+import { useNavigate } from "react-router-dom";
 // Define interfaces for data types
 interface Candidate {
   id: number;
@@ -22,12 +23,14 @@ export const GradingSection: React.FC = () => {
   const [candidates, setCandidates] = useState<Candidate[]>([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     // Fetch exams assigned to the setter
     const fetchExams = async () => {
       const data: Exam[] = [
-        { id: 1, name: "Math Exam", status: "partially graded" },
-        { id: 2, name: "Physics Exam", status: "not graded" },
+        { id: 1, name: "Math Exam", status: "fully graded" },
+        { id: 2, name: "History Exam", status: "not graded" },
         { id: 3, name: "Chemistry Exam", status: "fully graded" },
       ];
       setExams(data);
@@ -48,10 +51,14 @@ export const GradingSection: React.FC = () => {
 
   const handleGradeCandidate = (candidate: Candidate) => {
     // Placeholder for grading logic
-    Modal.success({
-      title: "Grading Complete",
-      content: `You have graded ${candidate.name}.`,
-    });
+
+    // Modal.success({
+    //   title: "Grading Complete",
+    //   content: `You have graded ${candidate.name}.`,
+    // });
+
+
+    navigate('/examSetter/exam/grading');
 
     // Update candidate graded status in UI
     setCandidates((prevCandidates) =>
