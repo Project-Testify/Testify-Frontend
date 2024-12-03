@@ -21,3 +21,7 @@ export const getExams = (organizationId: number): Promise<AxiosResponse<ExamResp
     return api.get<ExamResponse[]>(`/organization/${organizationId}/exams`);
 }
 
+export const getExamCandidateGradeData =() : Promise<AxiosResponse<any>> => {
+    return api.get<any>(`/grade/getExamCandidateGrade`);
+}
+
