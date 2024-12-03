@@ -3,6 +3,7 @@ import { Table, Button, Tag, Modal, List, Avatar, Tooltip } from "antd";
 import { CheckOutlined, EditOutlined } from "@ant-design/icons";
 
 import { useNavigate } from "react-router-dom";
+
 // Define interfaces for data types
 interface Candidate {
   id: number;
@@ -26,7 +27,6 @@ export const GradingSection: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Fetch exams assigned to the setter
     const fetchExams = async () => {
       const data: Exam[] = [
         { id: 1, name: "Math Exam", status: "fully graded" },
@@ -40,24 +40,33 @@ export const GradingSection: React.FC = () => {
 
   const handleExamClick = async (exam: Exam) => {
     setSelectedExam(exam);
+
+    // Assuming an API response where candidate data is based on exam id
+    const examCandidates: { [key: number]: Candidate[] } = {
+      1: [
+        { id: 1, name: "Tharindra Fernando", avatar: "https://randomuser.me/api/portraits/men/1.jpg", graded: true },
+        { id: 2, name: "Kaumadi Pahalage", avatar: "https://randomuser.me/api/portraits/women/2.jpg", graded: true },
+        { id: 3, name: "Roshan Silva", avatar: "https://randomuser.me/api/portraits/men/3.jpg", graded: true },
+      ],
+      2: [
+        { id: 3, name: "Roshan Silva", avatar: "https://randomuser.me/api/portraits/men/3.jpg", graded: true },
+        { id: 4, name: "Methsala Kodithuwakku", avatar: "https://randomuser.me/api/portraits/women/4.jpg", graded: false },
+        { id: 1, name: "Tharindra Fernando", avatar: "https://randomuser.me/api/portraits/men/1.jpg", graded: false },
+
+      ],
+      3: [
+        { id: 5, name: "Dinuka Samarasekara", avatar: "https://randomuser.me/api/portraits/men/5.jpg", graded: true },
+        { id: 6, name: "Sandani Fernando", avatar: "https://randomuser.me/api/portraits/women/6.jpg", graded: true },
+      ],
+    };
+
     // Fetch candidates who completed the selected exam
-    const data: Candidate[] = [
-      { id: 1, name: "Tharindra Fernando ", avatar: "https://randomuser.me/api/portraits/men/1.jpg", graded: false },
-      { id: 2, name: "Kaumadi Pahalage", avatar: "https://randomuser.me/api/portraits/women/2.jpg", graded: true },
-    ];
+    const data = examCandidates[exam.id] || [];
     setCandidates(data);
     setIsModalVisible(true);
   };
 
   const handleGradeCandidate = (candidate: Candidate) => {
-    // Placeholder for grading logic
-
-    // Modal.success({
-    //   title: "Grading Complete",
-    //   content: `You have graded ${candidate.name}.`,
-    // });
-
-
     navigate('/examSetter/exam/grading');
 
     // Update candidate graded status in UI
@@ -82,12 +91,7 @@ export const GradingSection: React.FC = () => {
       dataIndex: "status",
       key: "status",
       render: (status: string) => {
-        const color =
-          status === "fully graded"
-            ? "green"
-            : status === "partially graded"
-            ? "orange"
-            : "red";
+        const color = status === "fully graded" ? "green" : status === "partially graded" ? "orange" : "red";
         return <Tag color={color}>{status.toUpperCase()}</Tag>;
       },
     },
