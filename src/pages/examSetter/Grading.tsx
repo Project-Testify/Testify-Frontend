@@ -42,8 +42,8 @@ export const GradingSection: React.FC = () => {
     setSelectedExam(exam);
     // Fetch candidates who completed the selected exam
     const data: Candidate[] = [
-      { id: 1, name: "John Doe", avatar: "https://randomuser.me/api/portraits/men/1.jpg", graded: false },
-      { id: 2, name: "Jane Smith", avatar: "https://randomuser.me/api/portraits/women/2.jpg", graded: true },
+      { id: 1, name: "Tharindra Fernando ", avatar: "https://randomuser.me/api/portraits/men/1.jpg", graded: false },
+      { id: 2, name: "Kaumadi Pahalage", avatar: "https://randomuser.me/api/portraits/women/2.jpg", graded: true },
     ];
     setCandidates(data);
     setIsModalVisible(true);
