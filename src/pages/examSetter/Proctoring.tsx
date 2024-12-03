@@ -1,54 +1,60 @@
 import { useState, useEffect } from "react";
-import { Table, Button, List, Avatar, Modal, Tooltip } from "antd";
+import { Table, Button, List, Avatar, Modal, Tooltip, message } from "antd";
 import { VideoCameraOutlined, EyeOutlined, WarningOutlined } from "@ant-design/icons";
-
-interface Candidate {
-  id: number;
-  name: string;
-  avatar: string;
-  status: string;
-}
-
-interface Exam {
-  id: number;
-  name: string;
-  zoomLink: string;
-  time: string;
-}
+import { CandidateResponse, ExamResponse } from "../../api/types";
+import { getProctoringCandidates, getProctoringExams } from "../../api/services/ExamSetter";
+import { getLoggedInUser } from "../../utils/authUtils";
 
 export const Proctoring = () => {
-  const [exams, setExams] = useState<Exam[]>([]);
-  const [selectedExam, setSelectedExam] = useState<Exam | null>(null);
-  const [candidates, setCandidates] = useState<Candidate[]>([]);
+  const [exams, setExams] = useState<ExamResponse[]>([]);
+  const [selectedExam, setSelectedExam] = useState<ExamResponse | null>(null);
+  const [candidates, setCandidates] = useState<CandidateResponse[]>([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [loading, setLoading] = useState(true);
+  
+  const loggedInUser = getLoggedInUser();
+  if (!loggedInUser) {
+    message.error("You must be logged in to perform this action.");
+    return;
+  }
+  
+  const proctorId = loggedInUser.id; 
+  const organizationId = Number(sessionStorage.getItem("orgId")); 
 
+  const fetchExams = async () => {
+    try {
+      const response = await getProctoringExams(proctorId, organizationId);
+      console.log('Fetched exams:', response.data);
+      setExams(response.data);
+      console.log('exams',exams);
+      
+    } catch (error) {
+      console.error("Error fetching exams:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  
   useEffect(() => {
-    // Fetch exams assigned to the proctor
-    const fetchExams = async () => {
-      const data: Exam[] = [
-        { id: 1, name: "Math Exam", zoomLink: "https://zoom.us/j/123456789", time: "10:00 AM" },
-        { id: 2, name: "Physics Exam", zoomLink: "https://zoom.us/j/987654321", time: "1:00 PM" },
-      ];
-      setExams(data);
-    };
     fetchExams();
   }, []);
+  
 
-  const handleExamClick = async (exam: Exam) => {
+  const handleExamClick = async (exam: ExamResponse) => {
     setSelectedExam(exam);
-    // Fetch candidates assigned to the selected exam
-    const data: Candidate[] = [
-      { id: 1, name: "John Doe", avatar: "https://randomuser.me/api/portraits/men/1.jpg", status: "active" },
-      { id: 2, name: "Jane Smith", avatar: "https://randomuser.me/api/portraits/women/2.jpg", status: "suspicious" },
-    ];
-    setCandidates(data);
-    setIsModalVisible(true);
+    try {
+      const response = await getProctoringCandidates(exam.id);
+      setCandidates(response.data);
+      setIsModalVisible(true);
+    } catch (error) {
+      console.error("Error fetching candidates:", error);
+    }
   };
 
-  const handleSendWarning = (candidate: Candidate) => {
+  const handleSendWarning = (candidate: CandidateResponse) => {
     Modal.success({
       title: "Warning Sent",
-      content: `A warning has been sent to ${candidate.name}.`,
+      content: `A warning has been sent to ${candidate.firstName}.`,
     });
   };
 
@@ -57,7 +63,7 @@ export const Proctoring = () => {
       title: "Exam Name",
       dataIndex: "name",
       key: "name",
-      render: (text: string, record: Exam) => (
+      render: (text: string, record: ExamResponse) => (
         <Button type="link" onClick={() => handleExamClick(record)}>
           {text}
         </Button>
@@ -96,7 +102,7 @@ export const Proctoring = () => {
       />
 
       <Modal
-        title={`Candidates for ${selectedExam?.name}`}
+        title={`Candidates for ${selectedExam?.title}`}
         visible={isModalVisible}
         onCancel={() => setIsModalVisible(false)}
         footer={null}
@@ -104,16 +110,16 @@ export const Proctoring = () => {
         <List
           itemLayout="horizontal"
           dataSource={candidates}
-          renderItem={(candidate: Candidate) => (
+          renderItem={(candidate: CandidateResponse) => (
             <List.Item
               actions={[
-                <Tooltip title="View Candidate">
+                <Tooltip title="View Candidate" key="view">
                   <Button
                     icon={<EyeOutlined />}
                     onClick={() => console.log("Viewing candidate:", candidate)}
                   />
                 </Tooltip>,
-                <Tooltip title="Send Warning">
+                <Tooltip title="Send Warning" key="warning">
                   <Button
                     icon={<WarningOutlined />}
                     danger
@@ -123,9 +129,9 @@ export const Proctoring = () => {
               ]}
             >
               <List.Item.Meta
-                avatar={<Avatar src={candidate.avatar} />}
-                title={candidate.name}
-                description={`Status: ${candidate.status}`}
+                // avatar={<Avatar src={candidate.avatar} />}
+                title={candidate.firstName}
+                // description={`Status: ${candidate.status}`}
               />
             </List.Item>
           )}

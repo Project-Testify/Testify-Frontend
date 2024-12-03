@@ -4,7 +4,6 @@ import {
   Card,
   Loader,
   PageHeader,
-  LogisticsStatsCard,
   // LearningStatsCard,
   ExamsCard as ExamCards,
 } from '../../components';
@@ -17,7 +16,6 @@ import {
   HomeOutlined,
   PieChartOutlined,
   PlusOutlined,
-  FileTextOutlined,
 } from '@ant-design/icons';
 import { Helmet } from 'react-helmet-async';
 import { useFetchData } from '../../hooks';
