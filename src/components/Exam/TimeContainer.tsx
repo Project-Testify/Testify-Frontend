@@ -1,7 +1,8 @@
-import { Col, Divider, Button } from 'antd';
+import { Col, Divider, Button, message } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { QuestionIndexes } from './QuestionIndexes';
 import { CountdownTimer } from './CountdownTimer';
+import axios from 'axios';
 import './styles.css';
 
 interface TimeContainerProps {
@@ -21,8 +22,37 @@ export const TimeContainer = ({
 }: TimeContainerProps) => {
   const navigate = useNavigate();
 
-  const handleSubmitExam = () => {
-    navigate('/candidate/exam/feedback');
+  const handleSubmitExam = async () => {
+    const token = sessionStorage.getItem('accessToken');
+    const sessionId = sessionStorage.getItem('sessionId');
+    const examType = sessionStorage.getItem('examType');
+    if (!token || !sessionId) {
+      message.error('Failed to submit exam. Please try again.');
+      return;
+    }
+    
+
+    try {
+      const response = await axios.put(
+        `http://localhost:8080/api/v1/exam/${sessionId}/submit`,
+        {},
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      if (response.status === 200) {
+        message.success('Exam submitted successfully.');
+
+        // Navigate based on exam type from state
+        if (examType === 'MCQ') {
+          navigate('/candidate/exam/mcq-results');
+        } else {
+          navigate('/candidate/exam/feedback');
+        }
+      }
+    } catch (error) {
+      console.error('Error submitting exam:', error);
+      message.error('Could not submit the exam. Please try again.');
+    }
   };
 
   return (

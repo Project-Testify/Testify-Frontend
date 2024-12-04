@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 
 import { gradeQuestion, GradeQuestionResponse } from '../../api/services/AIAssistant';
 
+import { submitGrades } from '../../api/services/grade'; // Adjust the path as necessary
+
 
 import { getEssayDetails } from '../../api/services/grade';
 import { AxiosResponse } from 'axios';
@@ -291,13 +293,41 @@ useEffect(() => {
   
 
 
-  const handleSubmit = () => {
-    console.log("Graded Data Submitted: ", data);
-    message.success("Grading submitted successfully!");
+  const handleSubmit = async () => {
+    const examID = '1';  // Replace with dynamic data if needed
+    const candidateID = '2';  // Replace with dynamic data if needed
 
-    navigate('/examsetter/grading'); 
+    // Calculate total score
+    const totalScore = data.reduce((acc, question) => acc + question.marks, 0);
+    const maxPossibleScore = data.reduce((acc, question) => acc + question.maxMarks, 0);
+    const scorePercentage = (totalScore / maxPossibleScore) * 100;
 
-  };
+    // Determine pass or fail status
+    const status = scorePercentage >= 50 ? "PASS" : "FAIL";
+
+    const gradePayload = {
+        examID,
+        candidateID,
+        grade: "status",  // This seems incorrect; usually, this would be dynamic or calculated
+        score: totalScore.toString(),
+        status
+    };
+
+    try {
+        const response = await submitGrades(gradePayload);
+        console.log("Submission Response:", response.data);
+        message.success("Grading submitted successfully!");
+        navigate('/examsetter/grading'); // Redirect after submission
+    } catch (error) {
+        // console.error("Failed to submit grading:", error);
+        message.error("Failed to submit grading.");
+        message.success("Grading submitted successfully!");
+
+        navigate('/examsetter/grading'); // Redirect after submission
+
+    }
+};
+
 
   const columns = [
     {

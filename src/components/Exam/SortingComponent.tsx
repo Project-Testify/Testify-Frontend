@@ -6,6 +6,7 @@ type Exam = {
   id: number;
   title: string;
   status: string;
+  examType: string;
   organization: { name: string };
   totalMarks: number;
   startTime: string;
@@ -18,7 +19,7 @@ type SortingComponentProps = {
   onSortedExamsChange: (sortedExams: Exam[]) => void;
 };
 
-const sortByStatusOrder = ["ONGOING", "UPCOMING", "COMPLETED", "EXPIRED"];
+const sortByStatusOrder = ["ONGOING", "AVAILABLE", "UPCOMING", "COMPLETED", "EXPIRED"];
 
 export const SortingComponent: React.FC<SortingComponentProps> = ({ exams, onSortedExamsChange }) => {
   // const [sortedExams, setSortedExams] = useState<Exam[]>([]);

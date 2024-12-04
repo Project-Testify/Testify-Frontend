@@ -20,3 +20,21 @@ export const getEssayDetails = (examID: number, userID: number): Promise<AxiosRe
     return api.get(`/grade/${examID}/users/${userID}/essay-details`);
 };
 
+
+interface GradeSubmission {
+  examID: string;
+  candidateID: string;
+  grade: string;
+  score: string;
+  status: string;
+}
+
+// Interface for the POST response, adjust according to actual API response
+interface GradeSubmissionResponse {
+  message: string;
+}
+
+// POST /grade/setExamCandidateGrade
+export const submitGrades = (data: GradeSubmission): Promise<AxiosResponse> => {
+  return api.post(`/grade/setExamCandidateGrade`, data);
+};

@@ -67,7 +67,7 @@ export const ExamSetterDashBoardPage = () => {
       console.log("Filtered Exams:", filteredExams);
       setExams(filteredExams);
 
-      const response1 = await getModeratingExams(createdById);
+      //const response1 = await getModeratingExams(createdById);
       //setModeratingExams(response1.data)
     } catch (error) {
       message.error("Error fetching exams");

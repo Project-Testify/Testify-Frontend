@@ -140,6 +140,21 @@ const ExamControlPanel = () => {
         </Form.Item>
       </Card>
 
+      {/* Set Moderator */}
+      <Card style={{ marginBottom: '20px', borderRadius: '8px' }}>
+        <h3>Set Moderator</h3>
+        <p>Current Moderator: {currentModerator}</p>
+        <Input
+          placeholder="Enter Moderator Email"
+          value={moderatorEmail}
+          onChange={(e) => setModeratorEmail(e.target.value)}
+          style={{ marginBottom: '10px' }}
+        />
+        <Button type="primary" onClick={handleSetModerator}>
+          Assign Moderator
+        </Button>
+      </Card>
+
       {/* Host the Exam */}
       <Card style={{ marginBottom: '20px', borderRadius: '8px' }}>
         <h3>Host the Exam</h3>
@@ -159,20 +174,7 @@ const ExamControlPanel = () => {
         </Button>
       </Card>
 
-      {/* Set Moderator */}
-      <Card style={{ marginBottom: '20px', borderRadius: '8px' }}>
-        <h3>Set Moderator</h3>
-        <p>Current Moderator: {currentModerator}</p>
-        <Input
-          placeholder="Enter Moderator Email"
-          value={moderatorEmail}
-          onChange={(e) => setModeratorEmail(e.target.value)}
-          style={{ marginBottom: '10px' }}
-        />
-        <Button type="primary" onClick={handleSetModerator}>
-          Assign Moderator
-        </Button>
-      </Card>
+      
     </div>
   );
 };
