@@ -101,10 +101,13 @@ export const ExamSummaryPage = () => {
                     setSessionExists(true);
     
                     // Store the sessionId in sessionStorage
-                    const sessionId = response.data.sessionId;  // Assuming the response structure contains the sessionId
+                    const sessionId = response.data.sessionId;
+                    console.log('sessionId:',  response.data.endTime); 
                     sessionStorage.setItem('sessionId', sessionId);
+                    sessionStorage.setItem('endTime', response.data.endTime);
                     sessionStorage.setItem('examType', examData?.examType || '');
                     sessionStorage.setItem('examId', id);
+                    sessionStorage.setItem('examName', examName);
     
                     // Navigate to the exam view page
                     navigate(`/candidate/exam/view`, {

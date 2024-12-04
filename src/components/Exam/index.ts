@@ -5,3 +5,4 @@ export {QuestionIndexes} from './QuestionIndexes.tsx';
 export {EssayQuestionView} from './EssayQuestionView.tsx';
 export {McqQuestionView} from './McqQuestionView.tsx';
 export {SortingComponent} from './SortingComponent.tsx';
+export {PreventBackButton} from './PreventBackButton.tsx';

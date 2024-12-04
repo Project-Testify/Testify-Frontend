@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { QuestionIndexes } from './QuestionIndexes';
 import { CountdownTimer } from './CountdownTimer';
 import axios from 'axios';
+import { useEffect } from 'react';
 import './styles.css';
 
 interface TimeContainerProps {
@@ -22,6 +23,15 @@ export const TimeContainer = ({
 }: TimeContainerProps) => {
   const navigate = useNavigate();
 
+  // Calculate remaining time
+  const endTime = sessionStorage.getItem('endTime');
+  const remainingTimeInMilliseconds =
+    endTime ? new Date(endTime).getTime() - new Date().getTime() : 0;
+
+  const remainingTimeInSeconds = Math.max(0, Math.floor(remainingTimeInMilliseconds / 1000));
+  const remainingMinutes = Math.floor(remainingTimeInSeconds / 60);
+  const remainingSeconds = remainingTimeInSeconds % 60;
+
   const handleSubmitExam = async () => {
     const token = sessionStorage.getItem('accessToken');
     const sessionId = sessionStorage.getItem('sessionId');
@@ -30,7 +40,6 @@ export const TimeContainer = ({
       message.error('Failed to submit exam. Please try again.');
       return;
     }
-    
 
     try {
       const response = await axios.put(
@@ -55,13 +64,28 @@ export const TimeContainer = ({
     }
   };
 
+  // Use effect to automatically submit the exam when time expires
+  useEffect(() => {
+    if (remainingTimeInSeconds <= 0) {
+      handleSubmitExam();
+    }
+  }, [remainingTimeInSeconds]);
+
   return (
     <Col span={6} push={18} className="time-container">
       <Col span={24}>
         <div className="time-content">
           <div className="countdown-timer">
             <span className="topic">Time Remaining</span>
-            <CountdownTimer initialHours={0} initialMinutes={60} initialSeconds={0} />
+            {remainingTimeInSeconds > 0 ? (
+              <CountdownTimer
+                initialHours={0}
+                initialMinutes={remainingMinutes}
+                initialSeconds={remainingSeconds}
+              />
+            ) : (
+              <span className="expired">Time's up!</span>
+            )}
           </div>
           <Divider />
           <QuestionIndexes
@@ -78,6 +102,7 @@ export const TimeContainer = ({
               size={'large'}
               className="submit-button"
               onClick={handleSubmitExam}
+              disabled={remainingTimeInSeconds <= 0}
             >
               Submit Exam
             </Button>
