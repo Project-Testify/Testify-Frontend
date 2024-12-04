@@ -9,10 +9,8 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faFilePen,
-  faBuildingUser,
   faMedal,
   faRankingStar,
-  faClockRotateLeft,
   faChartColumn,
   faChalkboardUser,
   faGraduationCap,
@@ -78,11 +76,11 @@ const candidateItems: MenuProps['items'] = [
       null
     ),
   ]),
-  getItem(
-    <Link to={PATH_CANDIDATE.organizations}>Organizations </Link>,
-    'organizations',
-    <FontAwesomeIcon icon={faBuildingUser} />
-  ),
+  // getItem(
+  //   <Link to={PATH_CANDIDATE.organizations}>Organizations </Link>,
+  //   'organizations',
+  //   <FontAwesomeIcon icon={faBuildingUser} />
+  // ),
   getItem(
     <Link to={PATH_CANDIDATE.badges}>Badges </Link>,
     'badges',
@@ -93,11 +91,11 @@ const candidateItems: MenuProps['items'] = [
     'grading',
     <FontAwesomeIcon icon={faRankingStar} />
   ),
-  getItem(
-    <Link to={PATH_CANDIDATE.activity_history}>Activity History </Link>,
-    'activity_history',
-    <FontAwesomeIcon icon={faClockRotateLeft} />
-  ),
+  // getItem(
+  //   <Link to={PATH_CANDIDATE.activity_history}>Activity History </Link>,
+  //   'activity_history',
+  //   <FontAwesomeIcon icon={faClockRotateLeft} />
+  // ),
 ];
 
 // org admin items
