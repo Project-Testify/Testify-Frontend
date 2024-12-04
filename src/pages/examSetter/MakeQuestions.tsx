@@ -52,7 +52,7 @@ const MakeQuestions = () => {
 
   const handleUpload = async () => {
     const files = fileList.map(file => file.originFileObj as File);
-    const examId =  sessionStorage.getItem('examId') || 'ct'
+    const examId = 'example-exam-id'; // This should be dynamically fetched or set
     if (files.length > 0) {
       try {
         await uploadFiles(files, examId);

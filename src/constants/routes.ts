@@ -28,6 +28,7 @@ const ROOTS_ORG_ADMIN = '/org-admin';
 const ROOTS_CANDIDATE = '/candidate';
 const ROOTS_TUTOR = '/examSetter';
 const ROOTS_ADMIN = '/admin'
+const ROOTS_EXAM_SETTER = '/examSetter';
 
 export const PATH_LANDING = {
   root: ROOTS_LANDING,
@@ -44,6 +45,7 @@ export const PATH_HOME = {
 export const PATH_DASHBOARD = {
   root: ROOTS_DASHBOARD,
   org_admin: path(ROOTS_DASHBOARD, '/orgadmin'),
+  exam_setter: path(ROOTS_DASHBOARD, '/examSetter'),
   default: path(ROOTS_DASHBOARD, '/default'),
   //   projects: path(ROOTS_DASHBOARD, '/projects'),
   //   ecommerce: path(ROOTS_DASHBOARD, '/ecommerce'),
@@ -52,6 +54,12 @@ export const PATH_DASHBOARD = {
   //   bidding: path(ROOTS_DASHBOARD, '/bidding'),
   //   learning: path(ROOTS_DASHBOARD, '/learning'),
   //   logistics: path(ROOTS_DASHBOARD, '/logistics'),
+};
+
+export const PATH_EXAM_SETTER = {
+  root: ROOTS_EXAM_SETTER,
+  exam: path(ROOTS_DASHBOARD, '/exam'),
+  
 };
 
 export const PATH_EXAM = {
@@ -271,7 +279,10 @@ export const PATH_TUTOR = {
   root: ROOTS_TUTOR,
   dashboard: path(ROOTS_TUTOR, '/dashboard'),
   proctoring: path(ROOTS_TUTOR, '/proctoring'),
-  grading: path(ROOTS_TUTOR, '/grading')
+  grading: path(ROOTS_TUTOR, '/grading'),
+  new_exam: path(ROOTS_TUTOR, '/new_exam'),
+  all_exams: path(ROOTS_TUTOR, '/all_exams'),
+  moderating: path(ROOTS_TUTOR, '/moderating'),
 }
 
 export const PATH_ADMIN = {

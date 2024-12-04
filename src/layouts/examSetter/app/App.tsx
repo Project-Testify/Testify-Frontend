@@ -71,6 +71,7 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
     return;
   }
   const setterId = loggedInUser.id;
+  // const setterId = 1;
 
   const [selectedOrganization, setSelectedOrganization] = useState<OrganizationResponse | null>(null);
   const [setterOrganizations, setSetterOrganizations] = useState<OrganizationResponse[]>([]);
@@ -132,6 +133,7 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
   const handleOrganizationClick = (org: OrganizationResponse) => {
     // setOrganization(org);
     setSelectedOrganization(org);
+    sessionStorage.setItem('orgId',org.id.toString());
     
     setIsModalOpen(false);
   };

@@ -2,6 +2,7 @@ import { Badge, BadgeProps, Button, Table, TableProps, Typography } from 'antd';
 import { ExamResponse } from '../../../../api/types';
 import { format } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
+import { getLoggedInUser } from '../../../../utils/authUtils';
 
 type Props = {
   data: ExamResponse[];
@@ -11,7 +12,10 @@ export const ExamsTable = ({ data}: Props) => {
   const navigate = useNavigate();
   const handleClick = (examId:any)=>{
     sessionStorage.setItem('examId',examId);
-    navigate('/org-admin/new_exam');
+    const loggedInUser = getLoggedInUser();
+    console.log('user',loggedInUser);
+    if(loggedInUser?.role == 'EXAMSETTER') navigate('/examSetter/new_exam');
+    else navigate('/org-admin/new_exam');
   }
   
   const COLUMNS = [

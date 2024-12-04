@@ -14,17 +14,19 @@ import {
 import { Logo } from '../../../components';
 import { Link, useLocation } from 'react-router-dom';
 import {
-  PATH_EXAM,
   PATH_USER_PROFILE,
+  PATH_EXAM_SETTER
 } from '../../../constants';
-import { PATH_HOME, PATH_TUTOR } from '../../../constants/routes.ts';
+import { PATH_EXAM, PATH_HOME, PATH_TUTOR } from '../../../constants/routes.ts';
 
 const { Sider } = Layout;
 
 import { GlobalStateContext } from '../../../context/GlobalContext.tsx';
 import { OrganizationResponse } from '../../../api/types.ts';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBook, faChartSimple, faClipboard, faEye, faUserLarge } from '@fortawesome/free-solid-svg-icons';
+
+import { faBook, faChartSimple, faClipboard, faEye, faUserLarge, faClipboardList } from '@fortawesome/free-solid-svg-icons';
+import { BankOutlined } from '@ant-design/icons';
 // import { or } from 'firebase/firestore';
 // interface MenuItemType {
 //   key: number;
@@ -73,29 +75,38 @@ const getItem = (
 const examSetterPersonal: MenuProps['items'] = [
   getItem(
     <Link to={PATH_TUTOR.dashboard}>DashBoard</Link>,
-    'projects', <FontAwesomeIcon icon={faChartSimple}/>
+    'projects', <FontAwesomeIcon icon={faChartSimple} />
   ),
   // getItem('Organizations', 'organizations', <BankOutlined />, [
   //   getItem(<Link to={'organization'}>Organization 1</Link>, 'Org', null),
   // ]),
   getItem('Exams', 'exams', <FontAwesomeIcon icon={faBook}></FontAwesomeIcon>, [
-    getItem(<Link to={PATH_EXAM.exam}>All Exams</Link>, 'all_exams', null),
+    getItem(<Link to={PATH_TUTOR.all_exams}>All Exams</Link>, 'all_exams', null),
     getItem(
-      <Link to={PATH_EXAM.exam + '/new'}>New Exams</Link>,
+      <Link to={PATH_TUTOR.new_exam}>New Exams</Link>,
       'new_exam',
       null
     ),
-    
   ]),
 
-  getItem(<Link to={PATH_TUTOR.grading}>Grading</Link>,'Grading',<FontAwesomeIcon icon={faClipboard}/>),
-  getItem(<Link to={PATH_TUTOR.proctoring}>Proctoring</Link>,'Grading',<FontAwesomeIcon icon={faEye}/>),
+
+
+
+  getItem(<Link to={PATH_TUTOR.grading}>Grading</Link>, 'Grading', <FontAwesomeIcon icon={faClipboard} />),
+  getItem(<Link to={PATH_TUTOR.proctoring}>Proctoring</Link>, 'Grading', <FontAwesomeIcon icon={faEye} />),
+  getItem(<Link to={PATH_TUTOR.moderating}>Moderating</Link>, 'Moderating', <FontAwesomeIcon icon={faClipboardList} />),
+
+  getItem(
+    <Link to={'/examSetter/exam/grading'}>Grading</Link>,
+    'grading',
+    null
+  ),
   // getItem('Results', 'results', <BarChartOutlined />, [
   //   getItem(<Link to={PATH_EXAM.exam}>All Exams</Link>, 'all_exams', null),
   //   getItem(<Link to={PATH_EXAM.exam + '/new'}>New Exams</Link>, 'new_exam', null),
   //   getItem(<Link to={PATH_EXAM.exam + '/grading'}>Grading</Link>, 'grading', null),
   // ]),
-  getItem('User profile', 'user-profile', <FontAwesomeIcon icon={faUserLarge}/>, [
+  getItem('User profile', 'user-profile', <FontAwesomeIcon icon={faUserLarge} />, [
     getItem(
       <Link to={PATH_USER_PROFILE.details}>Details</Link>,
       'details',
@@ -142,20 +153,20 @@ const examSetterPersonal: MenuProps['items'] = [
 //     null
 //   ),
 
-//   getItem('Exams', 'exams', <BankOutlined />, [
-//     getItem(<Link to={PATH_EXAM.exam}>All Exams</Link>, 'all_exams', null),
-//     getItem(
-//       <Link to={PATH_EXAM.exam + '/new'}>New Exams</Link>,
-//       'new_exam',
-//       null
-//     ),
-//     getItem(
-//       <Link to={PATH_EXAM.exam + '/grading'}>Grading</Link>,
-//       'grading',
-//       null
-//     ),
-//   ]),
-// ];
+getItem('Exams', 'exams', <BankOutlined />, [
+  getItem(<Link to={PATH_EXAM.exam}>All Exams</Link>, 'all_exams', null),
+  getItem(
+    <Link to={PATH_EXAM.exam + '/new'}>New Exams</Link>,
+    'new_exam',
+    null
+  ),
+  getItem(
+    <Link to={PATH_EXAM_SETTER.exam + '/grading'}>Grading</Link>,
+    'grading',
+    null
+  ),
+])
+
 
 const rootSubmenuKeys = ['dashboards', 'corporate', 'user-profile'];
 
@@ -207,9 +218,10 @@ const SideNav = ({ organization, organizations, ...others }: SideNavProps | any)
   };
 
   const handleMenuClick = (e: any) => {
-    const selectedItem = organizations.find((item:OrganizationResponse) => item.id === parseInt(e.key));
+    const selectedItem = organizations.find((item: OrganizationResponse) => item.id === parseInt(e.key));
     if (selectedItem) {
       let orgName = selectedItem.firstName;
+      sessionStorage.setItem('orgId', selectedItem.id);
       if (orgName.length > 15) {
         orgName = orgName.substring(0, 15) + '...';
       }
@@ -218,20 +230,20 @@ const SideNav = ({ organization, organizations, ...others }: SideNavProps | any)
     console.log('selectedItem', selectedItem);
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     console.log('organizations:', organizations)
-  },[organizations])
+  }, [organizations])
 
   const menu = (
     <Menu onClick={handleMenuClick}>
-      {organizations.map((org:OrganizationResponse) => (
+      {organizations.map((org: OrganizationResponse) => (
         <Menu.Item key={org.id}>
           {org.firstName.length > 15 ? org.firstName.substring(0, 15) + '...' : org.firstName}
         </Menu.Item>
       ))}
     </Menu>
   );
-  
+
 
   useEffect(() => {
     const paths = pathname.split('/');
@@ -269,15 +281,15 @@ const SideNav = ({ organization, organizations, ...others }: SideNavProps | any)
         </Flex>
 
         {/* {isRole === 'examSetter' && state.loginAs === 'Personal' && ( */}
-          <Menu
-            mode="inline"
-            items={examSetterPersonal}
-            onClick={onClick}
-            openKeys={openKeys}
-            onOpenChange={onOpenChange}
-            selectedKeys={[current]}
-            style={{ border: 'none' }}
-          />
+        <Menu
+          mode="inline"
+          items={examSetterPersonal}
+          onClick={onClick}
+          openKeys={openKeys}
+          onOpenChange={onOpenChange}
+          selectedKeys={[current]}
+          style={{ border: 'none' }}
+        />
         {/* )} */}
         {/* {isRole === 'examSetter' && state.loginAs === 'Organization' && (
           <Menu

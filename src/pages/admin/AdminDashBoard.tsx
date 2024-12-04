@@ -17,16 +17,19 @@ import {
 import { Helmet } from 'react-helmet-async';
 // import { useFetchData } from '../../hooks';
 import { getLoggedInUser } from '../../utils/authUtils';
+import { AdminStatsCard } from '../../components/dashboard/learning/StatsCard/AdminStatsCard';
+import { getUserRegistarationStats, getUserRoleStats } from '../../api/services/Reports';
+import { useEffect, useState } from 'react';
+import { getOrganizationRequestService } from '../../api/services/Admin';
 
 
 
 export const AdminDashBoard = () => {
 
-  // const {
-  //   data: tasksListData = [],
-  //   error: tasksListError,
-  //   loading: tasksListLoading,
-  // } = useFetchData('../mocks/ExamsMock.json');
+  const [totalUsers, setTotalUsers] = useState(0);
+  const [totalOrg, setTotalOrg] = useState(0);
+  const [roleData, setRoleData] = useState<any[]>([]);
+  const [verificationRequests, setVerificationRequests] = useState(0);
 
   const chartData = [
     { type: 'Active', value: 274 },
@@ -34,13 +37,58 @@ export const AdminDashBoard = () => {
     { type: 'Completed', value: 81 },
     { type: 'Other', value: 497 }
   ];
-  
 
-  // const {
-  //   data: examCardData,
-  //   error: examCardDataError,
-  //   loading: examCardDataLoading,
-  // } = useFetchData('../mocks/Exams.json');
+  // get all users data
+  const getUserData = async () => {
+    try {
+      const response = await getUserRoleStats();
+      console.log(response.data);
+      //get total count of users except organization
+      let total = 0;
+      let orgCount = 0;
+      response.data.forEach((role: any) => {
+        if (role.role !== 'ORGANIZATION') {
+          total += role.count;
+        }
+        else if (role.role === 'ORGANIZATION') {
+          orgCount = role.count;
+        }
+      });
+      setTotalUsers(total);
+      setTotalOrg(orgCount);
+
+      //set role data
+      // convert role data to chart data
+      response.data.forEach((role: any) => {
+        role.type = role.role;
+        role.value = role.count
+      }
+      );
+      setRoleData(response.data);
+
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  // get verification requests
+  const getVerificationRequests = async () => {
+    try {
+      const response = await getOrganizationRequestService();
+      console.log(response.data);
+      setVerificationRequests(response.data.length);
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    getUserData();
+    getVerificationRequests();
+  }, []);
+
 
   //get user from getLoggedInUser
   const user = getLoggedInUser();
@@ -79,10 +127,10 @@ export const AdminDashBoard = () => {
         ]}
       >
         <Col xs={24} sm={12} lg={8}>
-          <LearningStatsCard
-            title="Total Exams"
-            value1= {6}
-            value2={7}
+          <AdminStatsCard
+            title="Total Users"
+            value1= {totalUsers}
+            value2={totalOrg}
             icon={FileTextOutlined}
             color="#6f7ae8"
             progress={30}
@@ -91,16 +139,16 @@ export const AdminDashBoard = () => {
         </Col>
         <Col xs={24} sm={12} lg={8}>
           <MarketingStatsCard
-            data={chartData}
-            title="Exam Status"
+            data={roleData}
+            title="Role Distribution"
             style={{ height: '100%' }}
           />
         </Col>
         <Col xs={24} sm={12} lg={8}>
           <LogisticsStatsCard
             icon={FileTextOutlined}
-            value={234}
-            title="Exams Completed"
+            value={verificationRequests}
+            title="Verification Requests"
             diff={12.5}
           />
         </Col>

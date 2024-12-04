@@ -12,14 +12,11 @@ import {
   Steps,
   Divider,
   message,
-  Row,
-  Col,
 } from 'antd';
 import { useState } from 'react';
 
 import { saveExamInformation } from '../../api/services/ExamServices';
 import { ExamRequestForm, ExamRequest } from '../../api/types';
-import { useAuth } from '../../hooks/useAuth';
 import MakeQuestions from './MakeQuestions';
 import ExamInformation from './ExamInformation';
 import AddGrading from './AddGrading';
@@ -33,31 +30,35 @@ const { Step } = Steps;
 
 export const NewExamPage = () => {
 
-  const { getOrganization } = useAuth();
+  // const { getOrganization } = useAuth(); // Use the hook here
+  const organizationId = sessionStorage.getItem('orgId');
   const [current, setCurrent] = useState(0);
   const loggedInUser = getLoggedInUser();
 
   const onFinishExamInformation = async (values: ExamRequestForm) => {
     try {
+      // Create examRequest object
       const examRequest: ExamRequest = {
         title: values.title,
         description: values.description,
         duration: values.duration,
-        startDatetime: values.date[0].format('YYYY-MM-DDTHH:mm:ss'),
-        endDatetime: values.date[1].format('YYYY-MM-DDTHH:mm:ss'),
+        startDatetime: values.date[0].format('YYYY-MM-DDTHH:mm:ss'), // Updated format
+        endDatetime: values.date[1].format('YYYY-MM-DDTHH:mm:ss'), // Updated format
         instructions: values.instructions,
-        organizationId: getOrganization() ?? 0,
+        organizationId: Number(organizationId),
         createdById: loggedInUser?.id ?? 0,
         isPrivate: false,
         orderType: 'FIXED'
       };
 
+      console.log('Exam Request:', examRequest);
+
       const response = await saveExamInformation(examRequest);
 
-      if (response.data.success) {
+      if (response.data.success) { // Adjust this based on your actual API response structure
         const examId = response.data.id;
         sessionStorage.setItem('examId', examId);
-        setCurrent(1);
+        setCurrent(1); // Move to the next step
         message.success('Exam information saved successfully!');
       } else {
         message.error('Failed to save exam information');
@@ -101,37 +102,33 @@ export const NewExamPage = () => {
       />
 
       <Card>
-        <Row gutter={16}>
-          {/* Left Column: Steps List */}
-          <Col span={6}>
-            <Steps
-              direction="vertical"
-              onChange={onStepChange}
-              current={current}
-            >
-              <Step title="Exam Information" />
-              <Step title="Make Questions" />
-              <Step title="Question Sequence" />
-              <Step title="Grading" />
-              <Step title="Proctors" />
-              <Step title="Select Candidates" />
-              <Step title="Additional Features" />
-            </Steps>
-          </Col>
+        <Steps
+          onChange={onStepChange} // Handle step change with validation
+          current={current}
+          labelPlacement="vertical"
+          type="default"
+        >
+          <Step title="Exam Information"></Step>
+          <Step title="Make Questions"></Step>
+          <Step title="Question Sequence"></Step>
+          <Step title="Grading"></Step>
+          <Step title="Proctors"></Step>
+          <Step title="Select Candidates"></Step>
+          <Step title="Additional Features"></Step>
+        </Steps>
 
-          {/* Right Column: Content */}
-          <Col span={18}>
-            {current === 0 && (
-              <ExamInformation onFinishFun={onFinishExamInformation} />
-            )}
-            {current === 1 && <MakeQuestions />}
-            {current === 2 && <SequenceHandling />}
-            {current === 3 && <AddGrading />}
-            {current === 4 && <AddProctors />}
-            {current === 5 && <AddCandidate />}
-            {current === 6 && <AdditionalFeatures />}
-          </Col>
-        </Row>
+        <Divider />
+
+        {current === 0 && (
+          <ExamInformation onFinishFun={onFinishExamInformation} />
+        )}
+        {current === 1 && <MakeQuestions />}
+        {current === 2 && <SequenceHandling />}
+        {current === 3 && <AddGrading />}
+        {current === 4 && <AddProctors />}
+        {current === 5 && <AddCandidate />}
+        {current === 6 && <AdditionalFeatures />}
+
         <Divider />
       </Card>
     </div>

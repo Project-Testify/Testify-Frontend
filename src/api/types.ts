@@ -99,6 +99,11 @@ export interface GenericDeleteResponse{
     message: string;
 }
 
+export interface GenericResponse{
+    success: boolean;
+    message: string;
+}
+
 export interface InviteExamSetterRequest{
     email: string;
 }
@@ -169,6 +174,10 @@ export interface ExamResponse {
     proctors: ExamSetterResponse[]; // Empty array if none
     candidates: CandidateResponse[]; // Empty array if none
     questionSequence: number[]; // List of question IDs
+    browserLockdown: boolean;
+    realTimeMonitoring: boolean;
+    zoomLink: string;
+    hosted: boolean;
 }
 
 // Response object for the user who created the exam
@@ -217,6 +226,7 @@ export interface CoverPoint {
 
 // Define the interface for questions
 export interface Question {
+    comment: string;
     questionId: number;
     questionText: string;
     questionType: "MCQ" | "Essay"; // You can extend this if you have more question types
@@ -230,6 +240,13 @@ export interface FetchQuestionsResponse {
     examId: number;
     questions: Question[];
     errorMessage: string | null;
+}
+
+export interface ModerateExamResponse{
+    id: number;
+    title: string;
+    startDatetime: string; 
+    endDatetime: string;
 }
 
 

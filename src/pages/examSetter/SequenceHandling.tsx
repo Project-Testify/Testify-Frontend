@@ -27,7 +27,6 @@ const SequenceHandling = () => {
     getExamOrder(Number(examId))
       .then((response: AxiosResponse<OrderResponse>) => {
         const { orderType, value } = response.data;
-        console.log('Existing order:', response.data);
         if (orderType) {
           setSequenceType(orderType.toLowerCase());
           if (orderType === 'FIXED') {
@@ -46,31 +45,10 @@ const SequenceHandling = () => {
   }, [examId, form]);
 
   const handleSequenceChange = (value: string) => {
-    setSequenceType(value); // Update the selected sequence type
-    form.resetFields(['fixedQuestions', 'randomQuestions']); // Reset related fields first
-
-    // Fetch the existing order again to get the last saved value
-    getExamOrder(Number(examId))
-      .then((response: AxiosResponse<OrderResponse>) => {
-        const { orderType, value: fetchedValue } = response.data;
-
-        // If the fetched order type matches the selected type, update the corresponding state
-        if (value === 'fixed' && orderType === 'FIXED') {
-          setFixedQuestions(fetchedValue);
-          form.setFieldsValue({ fixedQuestions: fetchedValue });
-        } else if (value === 'random' && orderType === 'RANDOM') {
-          setRandomQuestions(fetchedValue);
-          form.setFieldsValue({ randomQuestions: fetchedValue });
-        } else {
-          // Reset fields if there's no match
-          setFixedQuestions(null);
-          setRandomQuestions(null);
-        }
-      })
-      .catch((error) => {
-        console.error('Failed to fetch existing order:', error);
-        message.error('Failed to fetch existing order.');
-      });
+    setSequenceType(value);
+    setFixedQuestions(null);
+    setRandomQuestions(null);
+    form.resetFields(['fixedQuestions', 'randomQuestions']); // Reset fields when switching between options
   };
 
   const handleSubmit = () => {
