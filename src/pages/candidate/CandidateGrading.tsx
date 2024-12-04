@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Button, Flex, Table, Typography, notification } from "antd";
+import{ useEffect, useState } from "react";
+import {Table, Typography, notification } from "antd";
 import axios from "axios";
 
 export const CandidateGrading = () => {
@@ -84,22 +84,11 @@ export const CandidateGrading = () => {
       dataIndex: "score",
       key: "score",
     },
-    {
-      title: "Action",
-      key: "action",
-      render: () => (
-        <Flex>
-          <Button type="primary">
-            <a href="#">View Exam</a>
-          </Button>
-        </Flex>
-      ),
-    },
   ];
 
   return (
     <div>
-      <Typography.Title level={1}>Grading</Typography.Title>
+      <Typography.Title level={1}>Exam Grades</Typography.Title>
       <Table columns={columns} dataSource={grades} loading={loading} />
     </div>
   );
