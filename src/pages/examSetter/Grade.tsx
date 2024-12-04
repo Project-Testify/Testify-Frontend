@@ -130,8 +130,8 @@ const highlightTextWithFeedback = (
   let incorrectPatterns: RegExp[] = [];
 
   if (feedback) {
-    correctPatterns = feedback.correct_points?.map((point) => new RegExp(`\\b${point}\\b`, "gi"));
-    incorrectPatterns = feedback.incorrect_points?.map((point) => new RegExp(`\\b${point}\\b`, "gi"));
+    correctPatterns = (feedback.correct_points ?? []).map((point) => new RegExp(`\\b${point}\\b`, "gi"));
+    incorrectPatterns = (feedback.incorrect_points ?? []).map((point) => new RegExp(`\\b${point}\\b`, "gi"));
   }
 
 
