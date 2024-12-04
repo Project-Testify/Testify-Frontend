@@ -61,7 +61,7 @@ const initialData: GradingQuestion[] = [
     questionText: "What were two causes of the American Civil War?",
     userAnswer: "The issue of slavery, The Southern states' belief in the necessity of a strong central government",
     coverPoints: [
-      { coverPointText: "The issue of slavery", marks: 5 },
+      { coverPointText: "slavery", marks: 5 },
     ],
     // feedback: {
     //   correct_points: ["The issue of slavery"],
@@ -75,7 +75,7 @@ const initialData: GradingQuestion[] = [
     questionText: "What were two significant achievements of Napoleon Bonaparte during his rule?",
     userAnswer: "The establishment of the Napoleonic Code, His successful invasion and permanent conquest of Russia",
     coverPoints: [
-      { coverPointText: "The establishment of the Napoleonic Code", marks: 5 },
+      { coverPointText: "Napoleonic Code", marks: 5 },
     ],
     // feedback: {
     //   correct_points: ["The establishment of the Napoleonic Code"],
@@ -89,7 +89,7 @@ const initialData: GradingQuestion[] = [
     questionText: "Which of the following was a primary cause of the French Revolution?",
     userAnswer: "The effects of the industrial revolution on French factories, The severe hunger and economic problems faced by ordinary French citizens, Foreign countries invading France and causing rebellion.",
     coverPoints: [
-      { coverPointText: "The severe hunger and economic problems faced by ordinary French citizens", marks: 5 },
+      { coverPointText: "hunger and economic problems faced by ordinary French citizens", marks: 5 },
     ],
     // feedback: {
     //   correct_points: ["The severe hunger and economic problems faced by ordinary French citizens"],
@@ -106,7 +106,7 @@ const initialData: GradingQuestion[] = [
     questionText: "Which of the following was a major reason for the Revolt of 1857 in India?",
     userAnswer: "The introduction of Western-style education, The discontent among Indian soldiers due to cultural insensitivity, The establishment of the Indian National Congress.",
     coverPoints: [
-      { coverPointText: "The discontent among Indian soldiers due to cultural insensitivity", marks: 5 },
+      { coverPointText: "The discontent among Indian soldiers ", marks: 5 },
     ],
     // feedback: {
     //   correct_points: ["The discontent among Indian soldiers due to cultural insensitivity"],
@@ -138,7 +138,7 @@ const highlightTextWithFeedback = (
   // Avoid overlapping matches by tracking used ranges
   const matchedRanges: { start: number; end: number; style: "correct" | "incorrect" }[] = [];
 
-  correctPatterns.forEach((pattern) => {
+  correctPatterns?.forEach((pattern) => {
     let match;
     while ((match = pattern.exec(text)) !== null) {
       matchedRanges.push({
@@ -149,7 +149,7 @@ const highlightTextWithFeedback = (
     }
   });
 
-  incorrectPatterns.forEach((pattern) => {
+  incorrectPatterns?.forEach((pattern) => {
     let match;
     while ((match = pattern.exec(text)) !== null) {
       matchedRanges.push({
